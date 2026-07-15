@@ -169,9 +169,95 @@ class Gate2PretrainedNet(nn.Module):
         return anchor + self.delta(h)
 
 
+class Gate2GenLLMNet(nn.Module):
+    """The FAITHFUL A1 gate-2 predictor (2026-07-14): a pretrained decoder-only
+    GENERATIVE LLM as the predictor over frozen ModernBERT features — the load-
+    bearing VL-JEPA ingredient that round 4's encoder-layer predictor was NOT
+    (VL-JEPA uses Llama-3.2-1B layers; default here is the ungated SmolLM2-360M).
+    Frozen features (768-d) are projected to the LLM width, the action is prepended
+    as the first token, the LLM's own layers run with their native CAUSAL attention
+    (how a generative LLM operates and how VL-JEPA's predictor is used), and a
+    zero-init delta head maps back to 768-d. Identity-at-init preserved (anchor +
+    zero delta), so the finding-9 guard holds regardless of the trunk.
+    init='random' builds the same architecture from config with random weights (the
+    finding-19 attribution control).
+
+    Residual differences from VL-JEPA, stated not hidden: the sequence is a fixed
+    301-slot SET + action token, not a temporal frame sequence (so RoPE positions
+    are slot-index nuisance — slot identity is carried by key_emb, added to inputs),
+    and targets come from the same ModernBERT rather than a separate text encoder.
+    This tests the ingredient (generative-LLM predictor over frozen features), not
+    the full VL-JEPA pipeline."""
+
+    def __init__(self, model_name="HuggingFaceTB/SmolLM2-360M", n_layers=None,
+                 presence_norm=1.0, init="pretrained"):
+        super().__init__()
+        from transformers import AutoConfig, AutoModel
+
+        if init == "pretrained":
+            lm = AutoModel.from_pretrained(model_name)
+        else:
+            lm = AutoModel.from_config(AutoConfig.from_pretrained(model_name))
+        # SmolLM2/Llama configs carry torch_dtype=bfloat16, and BOTH from_pretrained
+        # and from_config honor it — so force fp32 on both paths (the feature pipeline
+        # is fp32, and a bf16 trunk both clashes on CPU matmul and silently rounds the
+        # scored checkpoint). train() also asserts fp32 at save time.
+        lm = lm.float()
+        if n_layers is not None:
+            lm.layers = lm.layers[-n_layers:]
+        d = lm.config.hidden_size
+        # inputs_embeds bypasses the token table; stub the (large-vocab) embedding
+        # so it doesn't sit in the optimizer (mirrors Gate2PretrainedNet).
+        lm.embed_tokens = nn.Embedding(1, d)
+        self.trunk_lm = lm
+        self.presence_norm = presence_norm
+        self.in_proj = nn.Linear(FEAT_D, d)
+        self.absent = nn.Parameter(torch.zeros(d))
+        self.key_emb = nn.Embedding(N_SLOTS + 1, d)
+        self.verb_emb = nn.Embedding(len(VERB_INDEX), d)
+        self.special_arg = nn.Embedding(N_SPECIAL_ARGS, d)
+        self.role = nn.Embedding(2, d)
+        for e in (self.key_emb, self.verb_emb, self.special_arg, self.role):
+            nn.init.normal_(e.weight, std=0.02)
+        self.delta = nn.Linear(d, FEAT_D)
+        nn.init.zeros_(self.delta.weight)  # identity at init: output = anchor
+        nn.init.zeros_(self.delta.bias)
+
+    def _arg_vec(self, arg_ids, role):
+        is_slot = (arg_ids >= N_SPECIAL_ARGS).unsqueeze(-1)
+        slot = self.key_emb(torch.clamp(arg_ids - N_SPECIAL_ARGS, min=0))
+        spec = self.special_arg(torch.clamp(arg_ids, max=N_SPECIAL_ARGS - 1))
+        return torch.where(is_slot, slot, spec) + self.role.weight[role]
+
+    def forward(self, feats, act):
+        present = (feats.norm(dim=-1, keepdim=True) > self.presence_norm)
+        proj = self.in_proj(feats)
+        v = torch.where(present, proj, self.absent.expand_as(proj))
+        toks = v + self.key_emb.weight[:N_SLOTS]
+        a = (self.key_emb.weight[N_SLOTS] + self.verb_emb(act[:, 0])
+             + self._arg_vec(act[:, 1], 0) + self._arg_vec(act[:, 2], 1))
+        x = torch.cat([a.unsqueeze(1), toks], dim=1)  # action token first, then slots
+        # FULL (bidirectional) attention over the slot SET (review 2026-07-14): a 4D
+        # all-zeros additive mask makes every token visible to every other. Causal
+        # masking over the fixed slot ordering would blind each slot to all later
+        # slots — including cwd (the last slot) — an arbitrary handicap with no
+        # VL-JEPA analog (VL-JEPA masks over TIME, not over a set), and both baseline
+        # trunks (Gate2Net, Gate2PretrainedNet/ModernBERT) are bidirectional. A JEPA
+        # predictor over a set should be bidirectional too.
+        b, seqlen, _ = x.shape
+        mask = torch.zeros(b, 1, seqlen, seqlen, dtype=x.dtype, device=x.device)
+        h = self.trunk_lm(inputs_embeds=x, attention_mask=mask).last_hidden_state[:, 1:]
+        anchor = feats * present  # absent slots anchor at the fixed zero target
+        return anchor + self.delta(h)
+
+
 def build_net(config):
-    if config.get("trunk", "scratch") == "scratch":
+    trunk = config.get("trunk", "scratch")
+    if trunk == "scratch":
         return Gate2Net(**{k: config[k] for k in ("d", "layers", "nheads", "presence_norm")})
+    if trunk == "genllm":
+        return Gate2GenLLMNet(config["llm_model"], config.get("llm_layers"),
+                              config["presence_norm"], init=config.get("init", "pretrained"))
     return Gate2PretrainedNet(config["model_name"], config["pretrained_layers"],
                               config["presence_norm"], init=config.get("init", "pretrained"))
 
@@ -253,7 +339,10 @@ def copy_ratio_eval(net, cache, trans, device, n=512, seed=1):
     picks = [rng.randrange(len(trans)) for _ in range(n)]
     feats, acts, tgts, _, ttypes = batch_from(cache, trans, picks,
                                               _random.Random("eval-regime"), device)
-    pred = net(feats, acts)
+    # Chunked forward: a single n=512 pass through a 316M genllm trunk spikes MPS
+    # memory ~31GB even under no_grad (review 2026-07-14); 128 keeps it bounded.
+    pred = torch.cat([net(feats[i:i + 128], acts[i:i + 128])
+                      for i in range(0, feats.shape[0], 128)])
     present = (feats.norm(dim=-1, keepdim=True) > net.presence_norm)
     anchor = feats * present
     e_pred = (pred - tgts).norm(dim=-1).mean(dim=-1)     # [B]
@@ -278,7 +367,8 @@ def train(args, device):
 
     config = {"d": 128, "layers": 2, "nheads": 4, "presence_norm": 1.0,
               "trunk": args.trunk, "pretrained_layers": args.pretrained_layers,
-              "model_name": args.model, "init": args.trunk_init}
+              "model_name": args.model, "init": args.trunk_init,
+              "llm_model": args.llm_model, "llm_layers": args.llm_layers}
     net = build_net(config).to(device)
     n_params = sum(p.numel() for p in net.parameters())
 
@@ -337,8 +427,13 @@ def train(args, device):
                    "copy_ratio": {k: round(v["ratio"], 4) for k, v in ratios.items()}}
             log.append(rec)
             print(json.dumps(rec), flush=True)
+            sd = net.state_dict()
+            assert all(v.dtype == torch.float32 for v in sd.values()
+                       if v.is_floating_point()), \
+                "non-fp32 tensor in state_dict — dtype regression would silently " \
+                "round the scored checkpoint (review 2026-07-14)"
             torch.save({"config": config, "model": cache["model"],
-                        "state_dict": net.state_dict(), "train_args": vars(args),
+                        "state_dict": sd, "train_args": vars(args),
                         "step": step}, out / "ckpt.pt")
     (out / "train_log.json").write_text(json.dumps(log, indent=1))
     print(f"saved {out / 'ckpt.pt'}", flush=True)
@@ -527,13 +622,19 @@ def main(argv=None):
     ap.add_argument("--edit-weight", type=float, default=100.0,
                     help="extra loss weight on semantically-changed slots (round 2); "
                          "0 = uniform")
-    ap.add_argument("--trunk", default="scratch", choices=["scratch", "pretrained"])
+    ap.add_argument("--trunk", default="scratch",
+                    choices=["scratch", "pretrained", "genllm"])
     ap.add_argument("--trunk-init", default="pretrained",
                     choices=["pretrained", "random"],
                     help="pretrained trunk weights, or the same architecture "
                          "random-init (the finding-19 attribution control)")
     ap.add_argument("--pretrained-layers", type=int, default=3,
                     help="trunk=pretrained: how many final encoder layers to reuse")
+    ap.add_argument("--llm-model", default="HuggingFaceTB/SmolLM2-360M",
+                    help="trunk=genllm: the decoder-only generative LLM whose layers "
+                         "become the predictor (the faithful VL-JEPA ingredient)")
+    ap.add_argument("--llm-layers", type=int, default=None,
+                    help="trunk=genllm: reuse only the last N LLM layers (None = all)")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--device", default="auto")
     ap.add_argument("--out", default=None, help="required for --mode train")
