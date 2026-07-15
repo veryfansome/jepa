@@ -102,10 +102,20 @@ class Gate2Net(nn.Module):
 
 
 class Gate2PretrainedNet(nn.Module):
-    """Round 4 (the recipe-faithful A1 gate-2 arm, adopted direction 2026-07-13):
-    predictor initialized from the last N layers of the SAME pretrained encoder
-    that produces the features — VL-JEPA's actual recipe ingredient that rounds
-    1-2 omitted (their from-scratch trunk bounds our variant, not the recipe).
+    """Round 4 (A1 gate-2, pretrained-initialized predictor; direction 2026-07-13).
+
+    CORRECTION (2026-07-14, per user): this is NOT a faithful VL-JEPA replication,
+    and the earlier "recipe-faithful / VL-JEPA's actual recipe ingredient" wording
+    was wrong. Here the predictor is initialized from the last N layers of the SAME
+    ModernBERT ENCODER that produces the features — a bidirectional MLM *encoder*
+    reused as a predictor. VL-JEPA's actual predictor is a SEPARATE, decoder-only
+    *generative* LLM (Llama-3.2-1B layers, ~490M) over the frozen features — a
+    different model TYPE (generative decoder vs MLM encoder), IDENTITY (a distinct
+    model vs the encoder's own layers), and SCALE (~1/30th). So this arm bounds a
+    "recycle the encoder's own layers into a small predictor" variant; VL-JEPA's
+    recipe (a generative-LLM predictor over frozen features) is untested here. A
+    faithful arm (`Gate2GenLLMNet`) is scoped separately.
+
     init="random" builds the identical truncated architecture from config with
     random weights: the attribution control finding 19 requires (the same control
     whose absence undermined finding 14's pretraining attribution). Operates
