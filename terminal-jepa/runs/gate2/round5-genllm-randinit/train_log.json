@@ -1,0 +1,152 @@
+[
+ {
+  "step": 200,
+  "loss": 0.34545,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 2.0291,
+   "invalid": 2.0621,
+   "state-changing": 1.3815
+  }
+ },
+ {
+  "step": 400,
+  "loss": 0.24492,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 1.4429,
+   "invalid": 1.5035,
+   "state-changing": 1.1432
+  }
+ },
+ {
+  "step": 600,
+  "loss": 0.27441,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 1.1053,
+   "invalid": 1.1253,
+   "state-changing": 1.0364
+  }
+ },
+ {
+  "step": 800,
+  "loss": 0.25182,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 1.3678,
+   "invalid": 1.403,
+   "state-changing": 1.1089
+  }
+ },
+ {
+  "step": 1000,
+  "loss": 0.26316,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 1.3145,
+   "invalid": 1.322,
+   "state-changing": 1.1139
+  }
+ },
+ {
+  "step": 1200,
+  "loss": 0.26836,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 1.3211,
+   "invalid": 1.3268,
+   "state-changing": 1.1228
+  }
+ },
+ {
+  "step": 1400,
+  "loss": 0.25552,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.9366,
+   "invalid": 0.9575,
+   "state-changing": 0.9573
+  }
+ },
+ {
+  "step": 1600,
+  "loss": 0.21495,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.8291,
+   "invalid": 0.8689,
+   "state-changing": 0.9295
+  }
+ },
+ {
+  "step": 1800,
+  "loss": 0.24156,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.7515,
+   "invalid": 0.7878,
+   "state-changing": 0.8924
+  }
+ },
+ {
+  "step": 2000,
+  "loss": 0.24365,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.7593,
+   "invalid": 0.8045,
+   "state-changing": 0.9
+  }
+ },
+ {
+  "step": 2200,
+  "loss": 0.10592,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.7513,
+   "invalid": 0.796,
+   "state-changing": 0.8939
+  }
+ },
+ {
+  "step": 2400,
+  "loss": 0.23845,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.7035,
+   "invalid": 0.7415,
+   "state-changing": 0.8727
+  }
+ },
+ {
+  "step": 2600,
+  "loss": 0.2198,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.7095,
+   "invalid": 0.7502,
+   "state-changing": 0.8757
+  }
+ },
+ {
+  "step": 2800,
+  "loss": 0.17661,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.6919,
+   "invalid": 0.7326,
+   "state-changing": 0.8664
+  }
+ },
+ {
+  "step": 3000,
+  "loss": 0.19001,
+  "skipped": 0,
+  "copy_ratio": {
+   "valid-no-op": 0.6936,
+   "invalid": 0.7398,
+   "state-changing": 0.8652
+  }
+ }
+]

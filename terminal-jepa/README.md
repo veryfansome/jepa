@@ -25,7 +25,7 @@ Implementation of the plan in [../terminal-jepa.md](../terminal-jepa.md). Curren
 - `probes/target_noise.py` — zero-training gate-2 target-noise measurement over frozen features (noise-line nuisance vs changed-line signal, pre-registered power-ratio criterion → clean-vs-raw target decision). Requires `transformers`.
 - `evals/dynamics.py` — dynamics-gate battery (the shared referee for Track B tiers and Track A gate 2): rollout error by transition type, change-magnitude calibration, violation-of-expectation (copy-resistant alt-action foil primary), goal-distance ranking along `plan_for` plans vs `make_satisfying` exemplars. Adapter interface; ships oracle/oracle and oracle/copy self-test adapters (stdlib only) plus `--adapter tier2 --ckpt ...` for learned predictors (torch).
 - `models/tier2.py` — tier-2 predictor bake-off: slot-transformer trunk over the fixed 301-slot key universe with tied action-arg/slot embeddings; `slotpred` (full re-prediction, identity-at-init copy-margin logits — the bake-off winner) vs `editpred` (structural copy + edit heads — failed calibration); training CLI + battery adapter.
-- `models/gate2.py` — gate 2 over frozen ModernBERT features: `--mode precompute` (dual-regime feature cache), `--mode train` (embedding-space slotpred — failed rounds 1–2, kept as the negative-result artifact), `--mode codebook` (linear-decoder symbol grounding — the passing round-3 configuration), plus battery adapters (`gate2`, `gate2-copy`, `gate2-codebook`).
+- `models/gate2.py` — gate 2 over frozen ModernBERT features: `--mode precompute` (dual-regime feature cache), `--mode train` with `--trunk {scratch|pretrained|genllm}` — `scratch` (embedding-space slotpred, failed rounds 1–2), `pretrained` (predictor = the ModernBERT encoder's own layers; round 4, finding 21 — NOT VL-JEPA's recipe), `genllm` (predictor = a pretrained decoder-only generative LLM, `--llm-model` default SmolLM2-360M; the faithful VL-JEPA ingredient, round 5, finding 23), each with a `--trunk-init {pretrained|random}` attribution control; `--mode codebook` (linear-decoder symbol grounding — the round-3 configuration), plus battery adapters (`gate2`, `gate2-copy`, `gate2-codebook`). No trunk clears the dynamics gate (findings 21, 23).
 - `plan/cem.py` — Planner A: factored discrete CEM + random shooting (matched budget) + scripted `plan_for` ceiling, over the adapter interface (tier-1 oracle now; tier-2/gate-2 checkpoints swap in via `--adapter`/`--ckpt`); unfiltered primary + position-0 validity-filter arms.
 
 ## Commands
@@ -51,10 +51,13 @@ python3 -m evals.dynamics --data data/v1 --adapter oracle-copy --out runs/dynami
 .venv/bin/python -m models.tier2 --data data/v1 --head slotpred --out runs/tier2/slotpred-v2
 .venv/bin/python -m evals.dynamics --data data/v1 --adapter tier2 --ckpt runs/tier2/slotpred-v2/ckpt.pt --out runs/tier2/slotpred-v2/battery.json
 
-# Gate 2 (frozen features; codebook = the passing configuration):
+# Gate 2 (frozen features):
 .venv/bin/python -m models.gate2 --mode precompute --data data/v1 --out runs/gate2
 .venv/bin/python -m models.gate2 --mode codebook --cache runs/gate2 --data data/v1
 .venv/bin/python -m evals.dynamics --data data/v1 --adapter gate2-codebook --ckpt runs/tier2/slotpred-v2/ckpt.pt --input-regime both --out runs/gate2/codebook-battery-dirty.json
+# A1 learned-predictor-over-frozen-features arms (both FAIL the dynamics gate — findings 21, 23):
+.venv/bin/python -m models.gate2 --mode train --cache runs/gate2 --trunk genllm --trunk-init pretrained --batch 8 --out runs/gate2/round5-genllm-pretrained
+.venv/bin/python -m evals.dynamics --data data/v1 --adapter gate2 --ckpt runs/gate2/round5-genllm-pretrained/ckpt.pt --input-regime clean --seeds 0,1,2,3,4 --out runs/gate2/round5-genllm-pretrained/battery-clean-hardened.json
 
 # Track B tier 1 planner validation:
 python3 -m plan.cem --data data/v1 --adapter oracle --episodes 100 --out runs/tier1/cem-oracle.json
