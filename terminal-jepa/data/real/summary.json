@@ -1,0 +1,36 @@
+{
+ "seed": 0,
+ "held_out_tasks": [
+  "git"
+ ],
+ "train_tasks": [
+  "files",
+  "python",
+  "text"
+ ],
+ "val_tasks": [
+  "git"
+ ],
+ "train_task_mix": {
+  "text": 122,
+  "files": 149,
+  "python": 129
+ },
+ "val_task_mix": {
+  "git": 120
+ },
+ "train": {
+  "trajs": 400,
+  "steps": 3240,
+  "success_rate": 0.88,
+  "fail_rate": 0.12,
+  "state_changing_rate": 0.347
+ },
+ "val": {
+  "trajs": 120,
+  "steps": 1080,
+  "success_rate": 1.0,
+  "fail_rate": 0.0,
+  "state_changing_rate": 0.222
+ }
+}
