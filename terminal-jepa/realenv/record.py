@@ -79,13 +79,16 @@ class Session:
         err = err.replace(str(self.workspace), "/work")
         return {"cmd": cmd, "stdout": out, "stderr": err, "exit": code, "cwd_rel": cwd_rel}
 
-    def snapshot(self):
+    def snapshot(self, include_git=True):
         """True fs state of the workspace: {relpath: 'd' | 8-hex content hash}. Used for
-        eval labels (fs diff between steps), never shown to the model. Skips .git internals
-        to keep diffs about user-visible files (git's own outputs are still observed)."""
+        eval labels (fs diff between steps), never shown to the model. include_git=True
+        (default) counts .git mutations so git add/commit register as state-changing —
+        WITHOUT it, state-change on git was a degenerate printf-only label (2026-07-16
+        review). The volatile .git/index.lock/objects churn is real dynamics."""
         state = {}
         for dirpath, dirnames, filenames in os.walk(self.workspace):
-            dirnames[:] = [d for d in dirnames if d != ".git"]
+            if not include_git:
+                dirnames[:] = [d for d in dirnames if d != ".git"]
             for d in dirnames:
                 rel = str((pathlib.Path(dirpath) / d).relative_to(self.workspace))
                 state[rel] = "d"

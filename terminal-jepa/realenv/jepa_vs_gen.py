@@ -1,16 +1,13 @@
-"""R3 decisive comparison: JEPA (latent-prediction) world model vs a compute-matched
-GENERATIVE (token-reconstruction) twin, on held-out git.
+"""R3 decisive comparison (rebuilt 2026-07-16): JEPA (latent-prediction) vs a
+compute-matched GENERATIVE (token-reconstruction) world model, on held-out-tool steps.
 
-Both arms are architecturally identical — same trunk over [z_ctx, z_cmd], same supervised
-outcome heads (success, state-change) — and differ ONLY in the auxiliary world-modeling
-target:
-  - jepa:  predict the next observation's frozen EMBEDDING (latent L2, abstract);
-  - recon: predict the next observation's BAG-OF-TOKENS (BCE over a top-V vocab, surface).
-This is the V-JEPA ablation (latent vs reconstruction) for a shell world model. finding
-24 predicts JEPA should WIN here (real high-nuisance regime), unlike the synthetic
-clean-serialization tie (finding 22). Ranking (planning-relevant command discrimination)
-is scored in each arm's own space: does the arm predict the TRUE command's next-obs
-better than FOIL commands? Copy ignores the command -> 0.5 by construction.
+Fixes the first version's confounds (2026-07-16 review): matched random init on both aux
+heads, and — the clean design — each arm's trunk is trained on its AUXILIARY objective
+ONLY (no outcome supervision), then a COMMON success probe is fit on the frozen trunk
+representation h and evaluated on held-out-tool steps. So the comparison is purely "which
+self-supervised world-modeling objective (predict the next obs's abstract EMBEDDING vs its
+surface TOKENS) yields a representation that better predicts a real outcome and
+discriminates commands on unseen tools." Multi-seed.
 
 Usage: .venv/bin/python -m realenv.jepa_vs_gen --data data/real --out runs/real/r3-vs-gen.json
 """
@@ -20,6 +17,7 @@ import json
 import pathlib
 import random
 import sys
+from collections import defaultdict
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 
@@ -27,168 +25,176 @@ import torch
 import torch.nn as nn
 
 from realenv.collect import render_obs
+from realenv.tasks import HELD_OUT_TOOLS
 from realenv.worldmodel import _auc, cached_encode
-from train.train import pick_device
 
 D = 768
 
 
-def build_vocab(trajs, tok, top_v=2000):
-    from collections import Counter
-    c = Counter()
-    for tr in trajs:
-        # tr carries no texts in the emb cache; rebuild from cmds+... use cmd only? no —
-        # bags need obs text. Caller passes texts separately (see load_texts).
-        pass
-    return c  # unused; see load_texts_and_vocab
-
-
 def load_texts(path):
-    """Per-traj list of observation texts (for bag-of-tokens targets)."""
-    out = []
-    for line in open(path):
-        tr = json.loads(line)
-        out.append([render_obs(s) for s in tr["steps"]])
-    return out
+    return [[render_obs(s) for s in json.loads(l)["steps"]] for l in open(path)]
 
 
-def build_vocab_from_texts(texts_per_traj, tok, top_v=2000):
+def build_vocab(texts_per_traj, tok, top_v=4000):
     from collections import Counter
     c = Counter()
     for traj in texts_per_traj:
         for t in traj:
             c.update(set(tok(t, truncation=True, max_length=512)["input_ids"]))
-    vocab = [tid for tid, _ in c.most_common(top_v)]
-    return {tid: i for i, tid in enumerate(vocab)}
+    return {tid: i for i, (tid, _) in enumerate(c.most_common(top_v))}
 
 
 def bag(text, tok, vmap):
-    ids = set(tok(text, truncation=True, max_length=512)["input_ids"])
     v = torch.zeros(len(vmap))
-    for tid in ids:
+    for tid in set(tok(text, truncation=True, max_length=512)["input_ids"]):
         if tid in vmap:
             v[vmap[tid]] = 1.0
     return v
 
 
-def build_transitions(emb_trajs, texts_per_traj, tok, vmap):
-    """(z_ctx, z_cmd, z_next, next_bag, success, change). ctx = previous obs; first
-    command's ctx is zeros."""
-    ctx, cmd, nxt, bags, suc, chg = [], [], [], [], [], []
-    for tr, texts in zip(emb_trajs, texts_per_traj):
+def build(emb_trajs, texts, tok, vmap):
+    ctx, cmd, nxt, bags, suc, held, verbs = [], [], [], [], [], [], []
+    for tr, txt in zip(emb_trajs, texts):
         n = tr["z_obs"].shape[0]
         for i in range(n):
             ctx.append(tr["z_obs"][i - 1] if i > 0 else torch.zeros(D))
-            cmd.append(tr["z_cmd"][i]); nxt.append(tr["z_obs"][i])
-            bags.append(bag(texts[i], tok, vmap))
-            suc.append(tr["success"][i]); chg.append(tr["change"][i])
+            cmd.append(tr["z_cmd"][i]); nxt.append(tr["z_obs"][i]); bags.append(bag(txt[i], tok, vmap))
+            suc.append(tr["success"][i])
+            v = tr["cmds"][i].split()[0] if tr["cmds"][i].split() else ""
+            held.append(1 if v in HELD_OUT_TOOLS else 0); verbs.append(v)
     return {"ctx": torch.stack(ctx), "cmd": torch.stack(cmd), "next": torch.stack(nxt),
-            "bag": torch.stack(bags), "success": torch.stack(suc), "change": torch.stack(chg)}
+            "bag": torch.stack(bags), "success": torch.stack(suc),
+            "held": torch.tensor(held), "verbs": verbs}
 
 
-class Arm(nn.Module):
-    def __init__(self, aux, vsize, d=D, h=512):
+class Trunk(nn.Module):
+    """Matched architecture; aux head predicts either the next latent (jepa) or the
+    next-obs token bag (recon). Random init for both (no zero-init asymmetry). forward
+    returns (aux_pred, h) where h is the shared representation probed for outcome."""
+
+    def __init__(self, aux, vsize, d=D, hdim=512):
         super().__init__()
         self.aux = aux
-        self.trunk = nn.Sequential(nn.Linear(2 * d, h), nn.GELU(), nn.Linear(h, h), nn.GELU())
-        self.succ = nn.Linear(h, 2)
-        self.chg = nn.Linear(h, 2)
-        if aux == "jepa":
-            self.head = nn.Linear(h, d)
-            nn.init.zeros_(self.head.weight); nn.init.zeros_(self.head.bias)  # copy at init
-        else:
-            self.head = nn.Linear(h, vsize)
+        self.body = nn.Sequential(nn.Linear(2 * d, hdim), nn.GELU(), nn.Linear(hdim, hdim), nn.GELU())
+        self.head = nn.Linear(hdim, d if aux == "jepa" else vsize)
 
-    def forward(self, z_ctx, z_cmd):
-        f = self.trunk(torch.cat([z_ctx, z_cmd], -1))
-        aux_pred = (z_ctx + self.head(f)) if self.aux == "jepa" else self.head(f)
-        return aux_pred, self.succ(f), self.chg(f)
+    def forward(self, zc, za):
+        h = self.body(torch.cat([zc, za], -1))
+        return self.head(h), h
 
 
-def train_arm(aux, tr, device, vsize, steps=3000, bs=256, lr=3e-4, seed=0):
+def train_trunk(aux, tr, device, vsize, steps=3000, bs=256, lr=3e-4, seed=0):
     torch.manual_seed(seed)
-    net = Arm(aux, vsize).to(device)
+    net = Trunk(aux, vsize).to(device)
     opt = torch.optim.AdamW(net.parameters(), lr=lr)
     n = tr["ctx"].shape[0]; g = torch.Generator().manual_seed(seed)
-    ce, bce = nn.functional.cross_entropy, nn.functional.binary_cross_entropy_with_logits
-    for step in range(1, steps + 1):
+    bce = nn.functional.binary_cross_entropy_with_logits
+    for _ in range(steps):
         idx = torch.randint(0, n, (bs,), generator=g)
         zc, za = tr["ctx"][idx].to(device), tr["cmd"][idx].to(device)
-        aux_pred, ls, lg = net(zc, za)
-        if aux == "jepa":
-            aux_loss = ((aux_pred - tr["next"][idx].to(device)) ** 2).mean()
-        else:
-            aux_loss = bce(aux_pred, tr["bag"][idx].to(device))
-        loss = aux_loss + ce(ls, tr["success"][idx].to(device)) + ce(lg, tr["change"][idx].to(device))
+        pred, _ = net(zc, za)
+        loss = (((pred - tr["next"][idx].to(device)) ** 2).mean() if aux == "jepa"
+                else bce(pred, tr["bag"][idx].to(device)))
         opt.zero_grad(set_to_none=True); loss.backward(); opt.step()
-        if step % 1000 == 0:
-            print(f"  [{aux}] step {step} loss {loss.item():.4f}", flush=True)
     return net
 
 
 @torch.no_grad()
-def eval_arm(net, ev, device, seed=0):
-    zc, za = ev["ctx"].to(device), ev["cmd"].to(device)
-    aux_pred, ls, lg = net(zc, za)
-    out = {"aux": net.aux}
-    for name, logit, y in [("success", ls, ev["success"]), ("change", lg, ev["change"])]:
-        out[f"{name}_auc"] = _auc(logit.softmax(-1)[:, 1].cpu(), y)
-    # ranking: true command's aux-prediction closer to truth than foils'
-    rng = random.Random(f"foil:{seed}"); n = zc.shape[0]
-    tgt = ev["next"].to(device) if net.aux == "jepa" else ev["bag"].to(device)
-    def dist(pred):
-        return ((pred - tgt) ** 2).mean(-1) if net.aux == "jepa" else \
-               nn.functional.binary_cross_entropy_with_logits(pred, tgt, reduction="none").mean(-1)
-    d_true = dist(aux_pred)
-    wins = []
+def repr_of(net, tr, device, bs=1024):
+    hs = []
+    for i in range(0, tr["ctx"].shape[0], bs):
+        _, h = net(tr["ctx"][i:i+bs].to(device), tr["cmd"][i:i+bs].to(device))
+        hs.append(h.cpu())
+    return torch.cat(hs)
+
+
+def probe_success(h_tr, y_tr, h_ev, y_ev, idx, device, steps=400, lr=3e-3, seed=0):
+    """Common linear success probe on the frozen trunk representation; eval on subset idx."""
+    torch.manual_seed(seed)
+    head = nn.Linear(h_tr.shape[1], 2).to(device)
+    opt = torch.optim.AdamW(head.parameters(), lr=lr); g = torch.Generator().manual_seed(seed)
+    ce = nn.functional.cross_entropy
+    for _ in range(steps):
+        b = torch.randint(0, h_tr.shape[0], (2048,), generator=g)
+        opt.zero_grad(set_to_none=True); ce(head(h_tr[b].to(device)), y_tr[b].to(device)).backward(); opt.step()
+    with torch.no_grad():
+        p = head(h_ev[idx].to(device)).softmax(-1)[:, 1].cpu()
+    return _auc(p, y_ev[idx])
+
+
+@torch.no_grad()
+def command_rank(net, ev, idx, device, seed=0):
+    """In each arm's own prediction space: true command's next-obs prediction closer than
+    same-verb foils'. Reported with the cross-space caveat."""
+    zc, za = ev["ctx"][idx].to(device), ev["cmd"][idx].to(device)
+    tgt = (ev["next"][idx] if net.aux == "jepa" else ev["bag"][idx]).to(device)
+    pred, _ = net(zc, za)
+    bce = nn.functional.binary_cross_entropy_with_logits
+    d = lambda p: ((p - tgt) ** 2).mean(-1) if net.aux == "jepa" else bce(p, tgt, reduction="none").mean(-1)
+    d_true = d(pred)
+    verbs = [ev["verbs"][i] for i in idx.tolist()]
+    by = defaultdict(list)
+    for j, v in enumerate(verbs):
+        by[v].append(j)
+    rng = random.Random(f"foil:{seed}"); wins = []
     for _ in range(4):
-        perm = torch.tensor([rng.randrange(n) for _ in range(n)])
-        d_foil = dist(net(zc, za[perm])[0])
-        wins.append((d_true < d_foil).float())
-    out["command_rank"] = torch.stack(wins).mean().item()
-    return out
+        foil = torch.tensor([rng.choice(by[v]) for v in verbs], device=za.device)
+        wins.append((d_true < d(net(zc, za[foil])[0])).float().mean().item())
+    return sum(wins) / len(wins)
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/real")
     ap.add_argument("--model", default="answerdotai/ModernBERT-base")
-    ap.add_argument("--top-v", type=int, default=2000)
+    ap.add_argument("--top-v", type=int, default=4000)
     ap.add_argument("--steps", type=int, default=3000)
-    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--seeds", default="0,1,2")
     ap.add_argument("--out", default=None)
     args = ap.parse_args(argv)
-    device = pick_device("auto")
+    device = pick_device_local()
     from transformers import AutoTokenizer
     tok = AutoTokenizer.from_pretrained(args.model)
+    seeds = [int(s) for s in args.seeds.split(",")]
 
-    print("=== encode (cached) + bags ===", flush=True)
-    tr_emb = cached_encode(args.data, "train", args.model, device)
-    git_emb = cached_encode(args.data, "val", args.model, device)
     tr_txt = load_texts(pathlib.Path(args.data) / "train.jsonl")
-    git_txt = load_texts(pathlib.Path(args.data) / "val.jsonl")
-    vmap = build_vocab_from_texts(tr_txt, tok, args.top_v)
-    tr = build_transitions(tr_emb, tr_txt, tok, vmap)
-    ev = build_transitions(git_emb, git_txt, tok, vmap)
+    ev_txt = load_texts(pathlib.Path(args.data) / "val.jsonl")
+    vmap = build_vocab(tr_txt, tok, args.top_v)
+    tr = build(cached_encode(args.data, "train", args.model, device), tr_txt, tok, vmap)
+    ev = build(cached_encode(args.data, "val", args.model, device), ev_txt, tok, vmap)
     mu = tr["next"].mean(0, keepdim=True); sd = tr["next"].std(0, keepdim=True).clamp(min=1e-6)
     for k in ("ctx", "cmd", "next"):
         tr[k] = (tr[k] - mu) / sd; ev[k] = (ev[k] - mu) / sd
-    print(f"train {tr['ctx'].shape[0]} | git {ev['ctx'].shape[0]} | vocab {len(vmap)}", flush=True)
+    held_idx = torch.nonzero(ev["held"] == 1).squeeze(-1)
+    print(f"train {tr['ctx'].shape[0]} | val {ev['ctx'].shape[0]} | held-out-tool {len(held_idx)} | vocab {len(vmap)}", flush=True)
 
-    report = {"data": args.data, "vocab": len(vmap), "arms": {}}
-    for aux in ("jepa", "recon"):
-        print(f"=== train {aux} ===", flush=True)
-        net = train_arm(aux, tr, device, len(vmap), steps=args.steps, seed=args.seed)
-        report["arms"][aux] = eval_arm(net, ev, device, seed=args.seed)
-        print(f"  git: {json.dumps(report['arms'][aux])}", flush=True)
-    j, r = report["arms"]["jepa"], report["arms"]["recon"]
-    report["jepa_minus_recon"] = {k: round(j[k] - r[k], 3)
-                                  for k in ("success_auc", "change_auc", "command_rank")}
-    print("JEPA - recon (held-out git):", json.dumps(report["jepa_minus_recon"]), flush=True)
+    per_seed = {"jepa": [], "recon": []}
+    for s in seeds:
+        for aux in ("jepa", "recon"):
+            net = train_trunk(aux, tr, device, len(vmap), steps=args.steps, seed=s)
+            h_tr, h_ev = repr_of(net, tr, device), repr_of(net, ev, device)
+            su = probe_success(h_tr, tr["success"], h_ev, ev["success"], held_idx, device, seed=s)
+            rk = command_rank(net, ev, held_idx, device, seed=s)
+            per_seed[aux].append({"success_auc": su, "command_rank_sameverb": rk})
+            print(f"  seed {s} {aux}: success_auc {su:.3f} rank {rk:.3f}", flush=True)
+
+    def agg(aux, k):
+        v = [p[k] for p in per_seed[aux]]; m = sum(v) / len(v)
+        return {"mean": round(m, 4), "std": round((sum((x - m) ** 2 for x in v) / len(v)) ** 0.5, 4)}
+    report = {"data": args.data, "seeds": seeds, "held_out_tool_steps": len(held_idx), "vocab": len(vmap),
+              "jepa": {k: agg("jepa", k) for k in ("success_auc", "command_rank_sameverb")},
+              "recon": {k: agg("recon", k) for k in ("success_auc", "command_rank_sameverb")}}
+    report["jepa_minus_recon"] = {k: round(report["jepa"][k]["mean"] - report["recon"][k]["mean"], 3)
+                                  for k in ("success_auc", "command_rank_sameverb")}
+    print("=== held-out-tool JEPA vs recon ===\n" + json.dumps(report["jepa_minus_recon"], indent=1), flush=True)
     if args.out:
         p = pathlib.Path(args.out); p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(json.dumps(report, indent=1))
     return report
+
+
+def pick_device_local():
+    return torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,71 @@
+{
+ "data": "data/real",
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "steps": 3000,
+ "train_transitions": 10533,
+ "val_transitions": 3738,
+ "held_out_tool_steps": {
+  "wm_beats_copy_frac": {
+   "mean": 0.8814,
+   "std": 0.0049
+  },
+  "wm_mse": {
+   "mean": 1.0807,
+   "std": 0.0078
+  },
+  "copy_mse": {
+   "mean": 1.8388,
+   "std": 0.0
+  },
+  "success_auc_wm": {
+   "mean": 0.6816,
+   "std": 0.0265
+  },
+  "success_auc_context_only": {
+   "mean": 0.5403,
+   "std": 0.0042
+  },
+  "command_rank_random_foils": {
+   "mean": 0.8712,
+   "std": 0.0088
+  },
+  "command_rank_sameverb_foils": {
+   "mean": 0.725,
+   "std": 0.0081
+  }
+ },
+ "all": {
+  "wm_beats_copy_frac": {
+   "mean": 0.9621,
+   "std": 0.0007
+  },
+  "wm_mse": {
+   "mean": 0.5042,
+   "std": 0.0028
+  },
+  "copy_mse": {
+   "mean": 2.1224,
+   "std": 0.0
+  },
+  "success_auc_wm": {
+   "mean": 0.9456,
+   "std": 0.0052
+  },
+  "success_auc_context_only": {
+   "mean": 0.5552,
+   "std": 0.0022
+  },
+  "command_rank_random_foils": {
+   "mean": 0.9791,
+   "std": 0.0013
+  },
+  "command_rank_sameverb_foils": {
+   "mean": 0.8839,
+   "std": 0.0031
+  }
+ }
+}

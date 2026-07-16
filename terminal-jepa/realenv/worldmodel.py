@@ -88,17 +88,22 @@ def cached_encode(data_root, split, model_name, device):
 
 
 def build_transitions(trajs):
-    """(z_ctx, z_cmd, z_next, success, change, cmd_str). ctx = previous observation
-    (state before the command); the first command's ctx is zeros (empty terminal)."""
-    ctx, cmd, nxt, suc, chg, strs = [], [], [], [], [], []
+    """(z_ctx, z_cmd, z_next, success, change, held). ctx = previous observation (state
+    before the command); the first command's ctx is zeros. held=1 if the command's verb is
+    a held-out tool (the transfer-to-unseen-tool subset)."""
+    from realenv.tasks import HELD_OUT_TOOLS
+    ctx, cmd, nxt, suc, chg, held, strs = [], [], [], [], [], [], []
     for tr in trajs:
         n = tr["z_obs"].shape[0]
         for i in range(n):
             ctx.append(tr["z_obs"][i - 1] if i > 0 else torch.zeros(D))
             cmd.append(tr["z_cmd"][i]); nxt.append(tr["z_obs"][i])
             suc.append(tr["success"][i]); chg.append(tr["change"][i]); strs.append(tr["cmds"][i])
+            v = tr["cmds"][i].split()[0] if tr["cmds"][i].split() else ""
+            held.append(1 if v in HELD_OUT_TOOLS else 0)
     return {"ctx": torch.stack(ctx), "cmd": torch.stack(cmd), "next": torch.stack(nxt),
-            "success": torch.stack(suc), "change": torch.stack(chg), "cmd_str": strs}
+            "success": torch.stack(suc), "change": torch.stack(chg),
+            "held": torch.tensor(held), "cmd_str": strs}
 
 
 def standardize(a, mu, sd):
@@ -167,66 +172,96 @@ def train_context_only(tr, device, steps=3000, bs=256, lr=3e-4, seed=0):
 
 
 @torch.no_grad()
-def evaluate(net, ctx_net, ev, device, seed=0):
-    zc, za, zn = ev["ctx"].to(device), ev["cmd"].to(device), ev["next"].to(device)
+def _metrics(net, ctx_net, ev, idx, device, seed=0):
+    """All transfer metrics on the transition subset `idx` (a LongTensor of indices)."""
+    zc, za, zn = ev["ctx"][idx].to(device), ev["cmd"][idx].to(device), ev["next"][idx].to(device)
     zhat, ls, lg = net(zc, za)
-    # 1) latent prediction vs copy (predict z_ctx = no change)
-    err_wm = ((zhat - zn) ** 2).mean(-1)
-    err_copy = ((zc - zn) ** 2).mean(-1)
-    lat = {"wm_mse": err_wm.mean().item(), "copy_mse": err_copy.mean().item(),
-           "wm_beats_copy_frac": (err_wm < err_copy).float().mean().item()}
-    # 2) outcome AUC: WM(ctx,cmd) vs context-only vs marginal
+    err_wm = ((zhat - zn) ** 2).mean(-1); err_copy = ((zc - zn) ** 2).mean(-1)
     co = ctx_net(zc)
-    out = {}
-    for name, i0 in [("success", 0), ("change", 2)]:
-        y = ev["success" if name == "success" else "change"]
-        wm_p = (ls if name == "success" else lg).softmax(-1)[:, 1].cpu()
-        co_p = co[:, i0:i0 + 2].softmax(-1)[:, 1].cpu()
-        out[name] = {"wm_auc": _auc(wm_p, y), "context_only_auc": _auc(co_p, y),
-                     "pos_rate": y.float().mean().item()}
-    # 3) command-discrimination ranking: does WM(ctx, true_cmd) predict z_next better
-    #    than WM(ctx, foil_cmd)? Copy ignores the command -> 0.5 by construction.
+    ysu = ev["success"][idx]
+    out = {"n": len(idx),
+           "latent": {"wm_mse": err_wm.mean().item(), "copy_mse": err_copy.mean().item(),
+                      "wm_beats_copy_frac": (err_wm < err_copy).float().mean().item()},
+           "success_auc_wm": _auc(ls.softmax(-1)[:, 1].cpu(), ysu),
+           "success_auc_context_only": _auc(co[:, :2].softmax(-1)[:, 1].cpu(), ysu),
+           "success_pos_rate": ysu.float().mean().item()}
+    # ranking: WM(ctx, true) predicts z_next better than WM(ctx, foil)? copy -> 0.5.
+    # random foils (any command) AND hard foils (same verb, different instance).
     rng = random.Random(f"foil:{seed}")
-    n = zc.shape[0]; wins = []
-    d_true = ((zhat - zn) ** 2).mean(-1)  # true command's prediction error
-    for _ in range(4):  # 4 foils each
-        perm = torch.tensor([rng.randrange(n) for _ in range(n)])
-        za_foil = za[perm]
-        zhat_f, _, _ = net(zc, za_foil)
-        d_foil = ((zhat_f - zn) ** 2).mean(-1)
-        wins.append((d_true < d_foil).float())
-    rank = torch.stack(wins).mean().item()
-    return {"latent": lat, "outcome": out, "command_discrimination_rank": rank}
+    verbs = [ev["cmd_str"][i].split()[0] if ev["cmd_str"][i].split() else "" for i in idx.tolist()]
+    from collections import defaultdict
+    by_verb = defaultdict(list)
+    for j, v in enumerate(verbs):
+        by_verb[v].append(j)
+    d_true = err_wm
+    def rank_with(foil_local):
+        za_f = za[torch.tensor(foil_local, device=za.device)]
+        d_f = ((net(zc, za_f)[0] - zn) ** 2).mean(-1)
+        return (d_true < d_f).float().mean().item()
+    rnd = [rank_with([rng.randrange(len(idx)) for _ in idx]) for _ in range(4)]
+    hard = [rank_with([rng.choice(by_verb[v]) for v in verbs]) for _ in range(4)]
+    out["command_rank_random_foils"] = sum(rnd) / len(rnd)
+    out["command_rank_sameverb_foils"] = sum(hard) / len(hard)
+    return out
+
+
+def evaluate(net, ctx_net, ev, device, seed=0):
+    n = ev["ctx"].shape[0]
+    held_idx = torch.nonzero(ev["held"] == 1).squeeze(-1)
+    return {"all": _metrics(net, ctx_net, ev, torch.arange(n), device, seed),
+            "held_out_tool_steps": _metrics(net, ctx_net, ev, held_idx, device, seed)}
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/real")
     ap.add_argument("--model", default="answerdotai/ModernBERT-base")
-    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--seeds", default="0,1,2")
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--out", default=None)
     args = ap.parse_args(argv)
     device = pick_device("auto")
+    seeds = [int(s) for s in args.seeds.split(",")]
 
     print("=== encode (cached) ===", flush=True)
-    tr_trajs = cached_encode(args.data, "train", args.model, device)
-    git_trajs = cached_encode(args.data, "val", args.model, device)
-    tr, ev = build_transitions(tr_trajs), build_transitions(git_trajs)
-    # standardize on train stats (ctx/cmd/next share the obs embedding space)
+    tr = build_transitions(cached_encode(args.data, "train", args.model, device))
+    ev = build_transitions(cached_encode(args.data, "val", args.model, device))
     mu = tr["next"].mean(0, keepdim=True); sd = tr["next"].std(0, keepdim=True).clamp(min=1e-6)
     for k in ("ctx", "cmd", "next"):
         tr[k] = standardize(tr[k], mu, sd); ev[k] = standardize(ev[k], mu, sd)
-    print(f"train transitions {tr['ctx'].shape[0]} | held-out git {ev['ctx'].shape[0]}", flush=True)
+    print(f"train transitions {tr['ctx'].shape[0]} | val {ev['ctx'].shape[0]} "
+          f"| held-out-tool steps {int((ev['held']==1).sum())}", flush=True)
 
-    print("=== train world model ===", flush=True)
-    net = train_wm(tr, device, steps=args.steps, seed=args.seed)
-    ctx_net = train_context_only(tr, device, steps=args.steps, seed=args.seed)
-    print("=== evaluate on held-out git ===", flush=True)
-    report = {"data": args.data, "seed": args.seed, "steps": args.steps,
-              "train_transitions": tr["ctx"].shape[0], "git_transitions": ev["ctx"].shape[0],
-              "git": evaluate(net, ctx_net, ev, device, seed=args.seed)}
-    print(json.dumps(report["git"], indent=1), flush=True)
+    per_seed = []
+    for s in seeds:
+        print(f"=== seed {s}: train + eval ===", flush=True)
+        net = train_wm(tr, device, steps=args.steps, seed=s)
+        ctx_net = train_context_only(tr, device, steps=args.steps, seed=s)
+        r = evaluate(net, ctx_net, ev, device, seed=s)
+        per_seed.append(r)
+        print(f"  seed {s} held-out-tool: {json.dumps(r['held_out_tool_steps'])}", flush=True)
+
+    def agg(section, key, sub=None):
+        vals = [(p[section][key][sub] if sub else p[section][key]) for p in per_seed]
+        vals = [v for v in vals if isinstance(v, (int, float)) and v == v]
+        m = sum(vals) / len(vals)
+        return {"mean": round(m, 4), "std": round((sum((v - m) ** 2 for v in vals) / len(vals)) ** 0.5, 4)}
+
+    report = {"data": args.data, "seeds": seeds, "steps": args.steps,
+              "train_transitions": tr["ctx"].shape[0], "val_transitions": ev["ctx"].shape[0],
+              "held_out_tool_steps": int((ev["held"] == 1).sum())}
+    for section in ("all", "held_out_tool_steps"):
+        report[section] = {
+            "wm_beats_copy_frac": agg(section, "latent", "wm_beats_copy_frac"),
+            "wm_mse": agg(section, "latent", "wm_mse"),
+            "copy_mse": agg(section, "latent", "copy_mse"),
+            "success_auc_wm": agg(section, "success_auc_wm"),
+            "success_auc_context_only": agg(section, "success_auc_context_only"),
+            "command_rank_random_foils": agg(section, "command_rank_random_foils"),
+            "command_rank_sameverb_foils": agg(section, "command_rank_sameverb_foils"),
+        }
+    print("=== AGGREGATE (held-out-tool steps) ===", flush=True)
+    print(json.dumps(report["held_out_tool_steps"], indent=1), flush=True)
     if args.out:
         p = pathlib.Path(args.out); p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text(json.dumps(report, indent=1))
