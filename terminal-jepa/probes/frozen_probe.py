@@ -50,9 +50,10 @@ from train.train import pick_device
 CONTENT_FIT_CAP = 150_000  # per-path (line vector, class) fit pairs; drawn seeded
 
 
-def load_trajs(jsonl_path, regime, max_trajs):
+def load_trajs(jsonl_path, regime, max_trajs, verbose=False):
     """Mirror of models.data.TrajectoryData, but keeping rendered text instead of
-    custom-vocab token ids (the frozen encoder brings its own tokenizer)."""
+    custom-vocab token ids (the frozen encoder brings its own tokenizer).
+    verbose=True renders the lossy JEPA-regime observations (render_full_verbose)."""
     use_banner, use_noise = REGIMES[regime]
     trajs = []
     with open(jsonl_path) as fh:
@@ -65,10 +66,17 @@ def load_trajs(jsonl_path, regime, max_trajs):
                 states.append(FsState.from_json(s["state_after"]))
             banner = t["banner_id"] if use_banner else None
             noise = t["noise_seed"] if use_noise else None
-            texts = [
-                render.render_full(st, banner, noise, step=i)
-                for i, st in enumerate(states)
-            ]
+            if verbose:
+                texts = [
+                    render.render_full_verbose(st, salt=t["noise_seed"], banner_id=banner,
+                                               noise_seed=noise, step=i)
+                    for i, st in enumerate(states)
+                ]
+            else:
+                texts = [
+                    render.render_full(st, banner, noise, step=i)
+                    for i, st in enumerate(states)
+                ]
             trajs.append({
                 "states": states,
                 "texts": texts,
@@ -78,9 +86,11 @@ def load_trajs(jsonl_path, regime, max_trajs):
     return trajs
 
 
-def key_lines(text):
+def key_lines(text, verbose=False):
     """[(char_start, char_end, kind, index)] per line. kind: cwd|banner|noise|tree|
-    dir|file; index is FILE_PATH_INDEX for files, DIR_PATH_INDEX for dirs, else -1."""
+    dir|file; index is FILE_PATH_INDEX for files, DIR_PATH_INDEX for dirs, else -1.
+    verbose=True parses render_full_verbose lines, where the path is the only "/"-token
+    mid-line (after ls -la-style metadata) and content is the trailing ':: snippet'."""
     spans, pos = [], 0
     for ln in text.split("\n"):
         start, end = pos, pos + len(ln)
@@ -93,6 +103,16 @@ def key_lines(text):
             spans.append((start, end, "noise", -1))
         elif ln == "tree:":
             spans.append((start, end, "tree", -1))
+        elif verbose:
+            # verbose dir/file line: "<meta> /path[/] [:: snippet]"; path is the sole
+            # token starting with "/". Snippet words carry no "/".
+            ptok = next((t for t in ln.split() if t.startswith("/")), None)
+            if ptok is None:
+                spans.append((start, end, "other", -1))
+            elif ptok.endswith("/"):
+                spans.append((start, end, "dir", vocab.DIR_PATH_INDEX[vocab.str_to_path(ptok[:-1])]))
+            else:
+                spans.append((start, end, "file", vocab.FILE_PATH_INDEX[vocab.str_to_path(ptok)]))
         elif ln.endswith("/"):
             spans.append((start, end, "dir", vocab.DIR_PATH_INDEX[vocab.str_to_path(ln[:-1])]))
         else:
@@ -102,10 +122,11 @@ def key_lines(text):
 
 
 @torch.no_grad()
-def encode_batch(model, tok, texts, device):
+def encode_batch(model, tok, texts, device, verbose=False):
     """Returns per-text lists of line-keyed vectors. Each token is assigned to the
     line containing its last character (BPE offsets include leading whitespace, so
-    first/mid-char rules would bleed tokens across the preceding newline)."""
+    first/mid-char rules would bleed tokens across the preceding newline).
+    verbose=True parses render_full_verbose lines (see key_lines)."""
     enc = tok(texts, return_tensors="pt", padding=True, return_offsets_mapping=True)
     offsets = enc.pop("offset_mapping")
     hs = model(**{k: v.to(device) for k, v in enc.items()}).last_hidden_state
@@ -115,7 +136,7 @@ def encode_batch(model, tok, texts, device):
         real = (enc["attention_mask"][b] > 0) & (offsets[b, :, 1] > offsets[b, :, 0])
         h, off = hs[b][real], offsets[b][real]
         pooled = h.mean(0)
-        spans = key_lines(text)
+        spans = key_lines(text, verbose)
         starts = torch.tensor([s[0] for s in spans])
         line_id = torch.searchsorted(starts, off[:, 1] - 1, right=True) - 1
         rec = {"pooled": pooled.half(), "cwd": None, "file_idx": [], "file_vecs": [],
@@ -147,7 +168,7 @@ def encode_batch(model, tok, texts, device):
 
 
 @torch.no_grad()
-def extract(model, tok, trajs, device, batch_size=64, tag=""):
+def extract(model, tok, trajs, device, batch_size=64, tag="", verbose=False):
     """Per-state records + labels + structural-existence verification."""
     items = []
     for tr in trajs:
@@ -156,7 +177,7 @@ def extract(model, tok, trajs, device, batch_size=64, tag=""):
     recs, feats, banners = [], [], []
     for i in range(0, len(items), batch_size):
         batch = items[i : i + batch_size]
-        recs.extend(encode_batch(model, tok, [b[0] for b in batch], device))
+        recs.extend(encode_batch(model, tok, [b[0] for b in batch], device, verbose))
         feats.extend(b[1] for b in batch)
         banners.extend(b[2] for b in batch)
         if (i // batch_size) % 50 == 0:
@@ -284,6 +305,10 @@ def main(argv=None):
     ap.add_argument("--random-init", action="store_true",
                     help="architecture-matched RANDOM-INIT encoder (finding 19: "
                          "the gate-1 rule requires this floor, not the 256-d CLS one)")
+    ap.add_argument("--verbose", action="store_true",
+                    help="render lossy JEPA-regime observations (render_full_verbose): "
+                         "content is a class-conditional snippet, not a [cK] token — "
+                         "the decisive off-regime test (finding 24)")
     ap.add_argument("--regime", default="both")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-train-trajs", type=int, default=800)
@@ -309,16 +334,17 @@ def main(argv=None):
     print(f"model={args.model} params={n_params/1e6:.0f}M device={device}", flush=True)
 
     root = pathlib.Path(args.data)
-    trajs_tr = load_trajs(root / "train.jsonl", args.regime, args.max_train_trajs)
-    trajs_va = load_trajs(root / "val.jsonl", args.regime, args.max_val_trajs)
-    recs_tr, y_tr, mism_tr = extract(model, tok, trajs_tr, device, args.batch_size, ":fit")
-    recs_va, y_va, mism_va = extract(model, tok, trajs_va, device, args.batch_size, ":eval")
+    trajs_tr = load_trajs(root / "train.jsonl", args.regime, args.max_train_trajs, args.verbose)
+    trajs_va = load_trajs(root / "val.jsonl", args.regime, args.max_val_trajs, args.verbose)
+    recs_tr, y_tr, mism_tr = extract(model, tok, trajs_tr, device, args.batch_size, ":fit", args.verbose)
+    recs_va, y_va, mism_va = extract(model, tok, trajs_va, device, args.batch_size, ":eval", args.verbose)
     print(f"fit states={len(recs_tr)} eval states={len(recs_va)} "
           f"structural-existence mismatches: fit={mism_tr} eval={mism_va}", flush=True)
 
     report = {
         "model": args.model,
         "random_init": args.random_init,
+        "verbose": args.verbose,
         "model_params": n_params,
         "data": args.data,
         "regime": args.regime,
@@ -365,7 +391,7 @@ def main(argv=None):
         fit_eval_path_keyed(recs_tr, y_tr, recs_va, y_va, device, args.seed)
     )
 
-    if args.regime in ("banner", "both"):
+    if args.regime in ("banner", "both") and not args.verbose:
         pooled_audit, line_audit = banner_swap_audit_frozen(
             model, tok, trajs_va, device, seed=args.seed
         )
