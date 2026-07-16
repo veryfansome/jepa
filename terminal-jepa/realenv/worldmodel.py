@@ -177,11 +177,17 @@ def _metrics(net, ctx_net, ev, idx, device, seed=0):
     zc, za, zn = ev["ctx"][idx].to(device), ev["cmd"][idx].to(device), ev["next"][idx].to(device)
     zhat, ls, lg = net(zc, za)
     err_wm = ((zhat - zn) ** 2).mean(-1); err_copy = ((zc - zn) ** 2).mean(-1)
+    # predict-the-train-mean baseline: after standardization by the train next-mean the
+    # mean IS the zero vector, so mean_mse = ||z_next||^2 (2026-07-16 review: copy is a
+    # strawman on transfer; the honest floor is predict-mean).
+    err_mean = (zn ** 2).mean(-1)
     co = ctx_net(zc)
     ysu = ev["success"][idx]
     out = {"n": len(idx),
            "latent": {"wm_mse": err_wm.mean().item(), "copy_mse": err_copy.mean().item(),
-                      "wm_beats_copy_frac": (err_wm < err_copy).float().mean().item()},
+                      "mean_mse": err_mean.mean().item(),
+                      "wm_beats_copy_frac": (err_wm < err_copy).float().mean().item(),
+                      "wm_beats_mean_frac": (err_wm < err_mean).float().mean().item()},
            "success_auc_wm": _auc(ls.softmax(-1)[:, 1].cpu(), ysu),
            "success_auc_context_only": _auc(co[:, :2].softmax(-1)[:, 1].cpu(), ysu),
            "success_pos_rate": ysu.float().mean().item()}
@@ -253,8 +259,10 @@ def main(argv=None):
     for section in ("all", "held_out_tool_steps"):
         report[section] = {
             "wm_beats_copy_frac": agg(section, "latent", "wm_beats_copy_frac"),
+            "wm_beats_mean_frac": agg(section, "latent", "wm_beats_mean_frac"),
             "wm_mse": agg(section, "latent", "wm_mse"),
             "copy_mse": agg(section, "latent", "copy_mse"),
+            "mean_mse": agg(section, "latent", "mean_mse"),
             "success_auc_wm": agg(section, "success_auc_wm"),
             "success_auc_context_only": agg(section, "success_auc_context_only"),
             "command_rank_random_foils": agg(section, "command_rank_random_foils"),
