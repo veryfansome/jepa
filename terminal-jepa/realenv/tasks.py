@@ -51,17 +51,22 @@ def task_text(rng):
 
 def task_git(rng):
     """A real git workflow: init, stage, commit, inspect — outputs carry real hashes,
-    branch names, and status formatting (heavy nuisance, real semantics)."""
+    branch names, and status formatting (heavy nuisance, real semantics). Includes real
+    FAILURES (status before init, log before commit, checkout of a missing branch, push
+    with no remote) so success-prediction transfer to this held-out tool is testable."""
     f = f"{_name(rng)}.py"
+    yield "git status"                                   # fails: not a git repo yet
     yield "git init"
+    yield "git log"                                      # fails: no commits yet
     yield f"printf 'def {_name(rng)}():\\n    return {rng.randint(0,9)}\\n' > {f}"
     yield "git status"
     yield f"git add {f}"
     yield "git commit -m 'add module'"
+    yield f"git checkout no-such-branch-{_name(rng)}"    # fails: pathspec not found
     yield f"printf '\\n# {_name(rng)}\\n' >> {f}"
     yield "git diff"
     yield "git log --oneline"
-    yield "git show --stat HEAD"
+    yield "git push"                                     # fails: no configured remote
 
 
 def task_python(rng):

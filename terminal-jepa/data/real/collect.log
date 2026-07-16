@@ -28,9 +28,9 @@
  },
  "val": {
   "trajs": 120,
-  "steps": 1080,
-  "success_rate": 1.0,
-  "fail_rate": 0.0,
-  "state_changing_rate": 0.222
+  "steps": 1440,
+  "success_rate": 0.667,
+  "fail_rate": 0.333,
+  "state_changing_rate": 0.167
  }
 }

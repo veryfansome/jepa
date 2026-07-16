@@ -1,0 +1,23 @@
+{
+ "data": "data/real",
+ "vocab": 292,
+ "arms": {
+  "jepa": {
+   "aux": "jepa",
+   "success_auc": 0.32310113310813904,
+   "change_auc": 0.8474444150924683,
+   "command_rank": 0.7510416507720947
+  },
+  "recon": {
+   "aux": "recon",
+   "success_auc": 0.4954589903354645,
+   "change_auc": 0.9995833039283752,
+   "command_rank": 0.6621527671813965
+  }
+ },
+ "jepa_minus_recon": {
+  "success_auc": -0.172,
+  "change_auc": -0.152,
+  "command_rank": 0.089
+ }
+}
