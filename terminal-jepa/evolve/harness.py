@@ -39,20 +39,20 @@ def _data_tensors(evalset):
             "verbs": [M.verb_of(c) for c in cmds], "_cmd_embs": cmd_embs}
 
 
-def _base_for(split, seed, steps, fit, data, device):
+def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerfs"):
     """max-baseline content-top1 (retrieve_by_cmd / no_history MLP / copy_prev) + predict-mean
-    calibration for a (split, seed, steps) — objective-independent, so computed once and cached.
-    Returns (base, predict_mean). Halves per-genome cost (skips retraining the MLP baseline)."""
-    key = f"{split}|{seed}|{steps}"
+    calibration for a (data_root, split, seed, steps) — objective-independent, so computed once and
+    cached. Returns (base, predict_mean). Halves per-genome cost (skips retraining the baseline)."""
+    key = f"{data_root}|{split}|{seed}|{steps}"
     cache = json.loads(BASE_CACHE.read_text()) if BASE_CACHE.exists() else {}
     if key in cache:
         return cache[key]["base"], cache[key]["predict_mean"]
     mlp = M.train_cmd_only(fit, device, steps=steps, seed=seed)
     with torch.no_grad():
-        nohist = mlp(data["_cmd_embs"].to(device)).cpu()
-    ct = lambda p: M.content_retrieval(p, data["true"], data["verbs"], seed=seed)["top1_sameverb"]
-    rbc, noh = ct(M.retrieve_by_cmd_baseline(fit, data)), ct(nohist)
-    cpy, mean = ct(data["prev"]), ct(torch.zeros_like(data["true"]))
+        nohist = mlp(evaldata["_cmd_embs"].to(device)).cpu()
+    ct = lambda p: M.content_retrieval(p, evaldata["true"], evaldata["verbs"], seed=seed)["top1_sameverb"]
+    rbc, noh = ct(M.retrieve_by_cmd_baseline(fit, evaldata)), ct(nohist)
+    cpy, mean = ct(evaldata["prev"]), ct(torch.zeros_like(evaldata["true"]))
     entry = {"base": max(rbc, noh, cpy), "predict_mean": mean,
              "retrieve_by_cmd": rbc, "no_history": noh, "copy_prev": cpy}
     cache[key] = entry
@@ -139,7 +139,7 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
                 return _fail("train_diverged (NaN/inf loss)", mode, seeds, steps, split, per_seed)
             if not _leakage_ok(net, device):
                 return _fail("leakage_fail (cmd_t prediction moved when obs_t corrupted)", mode, seeds, steps, split, per_seed)
-            base, mean = _base_for(split, s, steps, fit, evaldata, device)  # cached, objective-independent
+            base, mean = _base_for(split, s, steps, fit, evaldata, device, data_root=data)  # cached, objective-independent
             flat = M.flatten_predictions(net, inner, device)
             pred_obs = target_mod.to_obs(flat["pred"], flat["prev"])  # reconstruct next-obs for retrieval
             wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"], seed=s)["top1_sameverb"]

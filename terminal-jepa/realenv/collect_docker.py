@@ -56,7 +56,45 @@ def gen_sequence(box, dirs, files, rng, length):
     return steps
 
 
-def collect_image(image, n_seqs, seq_len, seed):
+def gen_sequence_diverse(box, dirs, files, rng, length):
+    """Exploration-policy variant (the `exploration` evolve chunk): higher training-data
+    diversity than the baseline policy — (1) richer system identity: read TWO distinct config
+    files at the open; (2) higher distinct-target COVERAGE: cycle through per-sequence SHUFFLED
+    dir/file lists instead of uniform-random sampling (so a sequence visits many distinct paths
+    rather than repeating a few); (3) more file-content: higher `cat`-of-file weight, always with
+    a target. Hypothesis: more diverse (command, observation) pairs on the train systems → better
+    generalization to the unseen held-out systems (same held-out val as baseline)."""
+    steps = []
+
+    def do(cmd):
+        steps.append(box.run(cmd))
+
+    do("uname " + rng.choice(UNAME_OPTS))
+    cfgs = rng.sample(CONFIG_FILES, min(2, len(CONFIG_FILES)))
+    for c in cfgs:
+        do("cat " + c)
+    dcycle = dirs[:]; rng.shuffle(dcycle); di = 0
+    fcycle = files[:]; rng.shuffle(fcycle); fi = 0
+    for _ in range(max(0, length - 1 - len(cfgs))):
+        act = rng.choices(["cd", "ls", "cat", "config"], weights=[0.28, 0.34, 0.30, 0.08])[0]
+        if act == "cd" and dcycle:
+            do(f"cd {dcycle[di % len(dcycle)]}"); di += 1
+        elif act == "ls":
+            opt = rng.choice(LS_OPTS)
+            tgt = (" " + dcycle[di % len(dcycle)]) if dcycle else ""
+            di += 1
+            do(f"ls {opt}{tgt}".strip())
+        elif act == "cat" and fcycle:
+            do("cat " + fcycle[fi % len(fcycle)]); fi += 1
+        else:
+            do("cat " + rng.choice(CONFIG_FILES))
+    return steps
+
+
+POLICIES = {"baseline": gen_sequence, "diverse": gen_sequence_diverse}
+
+
+def collect_image(image, n_seqs, seq_len, seed, policy="baseline"):
     if not image_present(image) and not pull(image):
         return image, None, f"could not pull {image}"
     try:
@@ -73,21 +111,21 @@ def collect_image(image, n_seqs, seq_len, seed):
             seqs.append({"image": image, "system_id": sysid,
                          "steps": [{"cmd": s["cmd"], "output": s["output"],
                                     "exit": s["exit"], "cwd": s["cwd"]}
-                                   for s in gen_sequence(box, dirs, files, rng, ln)]})
+                                   for s in POLICIES[policy](box, dirs, files, rng, ln)]})
         box.close()
         return image, seqs, f"{len(dirs)} dirs / {len(files)} files"
     except Exception as e:  # noqa: BLE001
         return image, None, f"error: {e}"
 
 
-def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers):
+def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, policy="baseline"):
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
     def run_split(images, path, split):
         n_steps = 0
         with open(path, "w") as fh, cf.ThreadPoolExecutor(max_workers=workers) as ex:
-            futs = {ex.submit(collect_image, im, n_seqs, seq_len, seed): im for im in images}
+            futs = {ex.submit(collect_image, im, n_seqs, seq_len, seed, policy): im for im in images}
             for fut in cf.as_completed(futs):
                 image, seqs, info = fut.result()
                 if seqs is None:
@@ -117,9 +155,12 @@ def main(argv=None):
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--train-images", default=",".join(TRAIN_IMAGES))
     ap.add_argument("--val-images", default=",".join(VAL_IMAGES))
+    ap.add_argument("--policy", default="baseline", choices=list(POLICIES))
+    ap.add_argument("--train-only", action="store_true", help="collect train split only (reuse existing val)")
     args = ap.parse_args(argv)
-    summary = collect(args.out, args.train_images.split(","), args.val_images.split(","),
-                      args.seqs_per_image, args.seq_len, args.seed, args.workers)
+    summary = collect(args.out, args.train_images.split(","),
+                      [] if args.train_only else args.val_images.split(","),
+                      args.seqs_per_image, args.seq_len, args.seed, args.workers, args.policy)
     print(json.dumps(summary, indent=1))
 
 
