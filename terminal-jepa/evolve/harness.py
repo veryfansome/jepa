@@ -71,9 +71,11 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod):
     net = build(**aparams).to(device)
     make_opt, bs = G.load_optim(genome)
     opt, sched = make_opt(net.parameters(), steps)
-    g = torch.Generator().manual_seed(seed)
+    next_batch = G.load_batcher(genome)(fit, bs, seed)
     for step in range(1, steps + 1):
-        idx = torch.randint(0, len(fit), (bs,), generator=g).tolist()
+        idx = next_batch(step, steps)
+        if len(idx) != bs or min(idx) < 0 or max(idx) >= len(fit):
+            raise ValueError("batcher contract violation (len/bounds)")
         b = M.collate([fit[i] for i in idx], device)
         pred_full, _ = net(b["tok"], b["types"], b["key_pad"])
         cmd_pred = pred_full[:, 0::2]                              # [B, maxn, D]

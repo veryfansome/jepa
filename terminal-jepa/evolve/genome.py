@@ -66,6 +66,18 @@ def load_target(genome):
     return mod
 
 
+def load_batcher(genome):
+    """Return make(fit, bs, seed) -> next_batch(step, total_steps) -> list[int] of length bs.
+    Defaults to baseline_uniform (bit-identical to the historical torch.randint stream) when a
+    genome has no batcher chunk, so all archived genomes are unchanged."""
+    b = genome["chunks"].get("batcher", {"impl": "baseline_uniform"})
+    mod = importlib.import_module(f"evolve.chunks.batcher.{b['impl']}")
+    if not hasattr(mod, "make_batcher"):
+        raise AttributeError(f"batcher impl '{b['impl']}' has no make_batcher(fit, bs, seed)")
+    p = dict(b.get("params", {}))
+    return lambda fit, bs, seed: mod.make_batcher(fit, bs, seed, **p)
+
+
 def load_arch(genome):
     """Return (build_fn, params) for the arch chunk. arch = {"impl": name, "params": {...}} uses
     the arch registry (a swappable model module); legacy {"d","layers","heads","dropout"} maps to
@@ -100,4 +112,7 @@ def validate(genome):
             raise ValueError(f"unknown arch impl '{a['impl']}' (have {list_impls('arch')})")
     elif a["d"] % a["heads"] != 0:  # legacy numeric baseline transformer
         raise ValueError(f"arch d={a['d']} not divisible by heads={a['heads']}")
+    if "batcher" in c and c["batcher"]["impl"] not in list_impls("batcher"):
+        raise ValueError(f"unknown batcher impl '{c['batcher']['impl']}' "
+                         f"(have {list_impls('batcher')})")
     return True

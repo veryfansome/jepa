@@ -91,7 +91,117 @@ def gen_sequence_diverse(box, dirs, files, rng, length):
     return steps
 
 
-POLICIES = {"baseline": gen_sequence, "diverse": gen_sequence_diverse}
+def gen_sequence_levy_novelty(box, dirs, files, rng, length):
+    """Exploration-policy variant (the `exploration` evolve chunk): forage the REAL directory
+    TREE as an intermittent inverse-square Levy walk with count-based novelty, instead of the
+    baseline's uniformly-random global teleports.
+
+    Confound control: the action/verb selection weights and fallbacks are IDENTICAL to the
+    baseline policy and every action emits exactly ONE command (a multi-level descent is a single
+    `cd /a/b/c`), so the TRAIN verb mix and observation-type marginals match baseline within noise
+    (unlike `diverse`, which shifted cat 15676->22371). Only WHICH concrete paths appear changes:
+      - cd: sample a Levy step-length L (power law, alpha=2 -> P(L>=k)~k^-1, capped) and descend a
+            path of L novelty-weighted children in ONE command (intensive phase); with small prob
+            return to the parent, or make a rare global novelty jump (extensive phase / heavy tail);
+      - ls: option identical to baseline; target (same ~0.45 arg rate) is a novel child of cwd;
+      - cat: prefer a novelty-weighted file inside the current subtree (coherent with history).
+    Visit counts over directories persist across this image's sequences via the reused `box`.
+    Hypothesis: spatially coherent local descent makes the accumulated history genuinely predictive
+    of the next observation (transition structure), while the Levy heavy tail + count-based novelty
+    cover the whole tree -> better generalization to the unseen held-out systems."""
+    from collections import defaultdict
+
+    st = getattr(box, "_levy_state", None)
+    if st is None:
+        def parent_of(p):
+            p = p.rstrip("/") or "/"
+            if p == "/":
+                return "/"
+            par = p.rsplit("/", 1)[0]
+            return par or "/"
+        children = defaultdict(list)
+        for d in dirs:
+            children[parent_of(d)].append(d)
+        st = {"children": children, "all_dirs": list(dirs), "vc": defaultdict(int)}
+        box._levy_state = st
+    children, all_dirs, vc = st["children"], st["all_dirs"], st["vc"]
+
+    ALPHA = 2.0     # inverse-square Levy: intensive-phase step length P(L>=k) ~ k^-(ALPHA-1)
+    MAXJUMP = 8
+
+    steps = []
+
+    def do(cmd):
+        steps.append(box.run(cmd))
+        vc[box.cwd] += 1  # count-based novelty over visited directories
+
+    def novel_choice(pool):
+        if not pool:
+            return None
+        w = [1.0 / (1.0 + vc[p]) for p in pool]
+        return rng.choices(pool, weights=w)[0]
+
+    def global_jump():
+        sample = rng.sample(all_dirs, min(64, len(all_dirs))) if all_dirs else []
+        tgt = novel_choice(sample)
+        do("cd " + tgt) if tgt else do("cd /")
+
+    # system identity: identical to baseline (preserve verb mix / observation marginals)
+    do("uname " + rng.choice(UNAME_OPTS))
+    do("cat " + rng.choice(CONFIG_FILES))
+
+    for _ in range(max(0, length - 2)):
+        act = rng.choices(["cd", "ls", "cat", "config"], weights=[0.32, 0.4, 0.2, 0.08])[0]
+        cwd = box.cwd
+        if act == "cd":
+            r = rng.random()
+            if r < 0.12:
+                global_jump()                              # extensive phase / heavy Levy tail
+            elif r < 0.30 and cwd != "/":
+                do("cd ..")                                 # intermittent return (ascend)
+            else:                                           # intensive phase: Levy-length descent
+                u = rng.random()
+                L = min(MAXJUMP, int((1.0 - u) ** (-1.0 / (ALPHA - 1.0))))
+                c = cwd
+                for _ in range(L):
+                    kids = children.get(c, [])
+                    if not kids:
+                        break
+                    c = novel_choice(kids)
+                if c != cwd:
+                    do("cd " + c)
+                elif cwd != "/":
+                    do("cd ..")
+                else:
+                    global_jump()
+        elif act == "ls":
+            opt = rng.choice(LS_OPTS)
+            kids = children.get(cwd, [])
+            if kids and rng.random() < 0.45:
+                do(f"ls {opt} {novel_choice(kids)}".strip())
+            else:
+                do(f"ls {opt}".strip())
+        elif act == "cat":
+            if cwd != "/":
+                pref = cwd if cwd.endswith("/") else cwd + "/"
+                pool = [f for f in files if f.startswith(pref)]
+            else:
+                pool = []
+            if not pool:
+                pool = files
+            if pool:
+                if len(pool) > 128:
+                    pool = rng.sample(pool, 128)
+                do("cat " + novel_choice(pool))
+            else:
+                do("cat " + rng.choice(CONFIG_FILES))
+        else:
+            do("cat " + rng.choice(CONFIG_FILES))
+    return steps
+
+
+POLICIES = {"baseline": gen_sequence, "diverse": gen_sequence_diverse,
+            "levy_novelty": gen_sequence_levy_novelty}
 
 
 def collect_image(image, n_seqs, seq_len, seed, policy="baseline"):
