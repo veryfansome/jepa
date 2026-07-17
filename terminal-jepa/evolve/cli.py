@@ -40,7 +40,8 @@ def cmd_seed(args):
 
 def cmd_score(args):
     gen = json.load(open(args.genome))
-    res = score_genome(gen, mode=args.mode, proxy_steps=args.proxy_steps, split=args.split)
+    res = score_genome(gen, mode=args.mode, proxy_steps=args.proxy_steps, split=args.split, data=args.data)
+    res["data"] = args.data
     _record(gen, res)
     print(json.dumps(res, indent=1))
 
@@ -74,7 +75,8 @@ def main(argv=None):
 
     s = sub.add_parser("seed"); add_mode(s); s.set_defaults(fn=cmd_seed)
     s = sub.add_parser("score"); s.add_argument("--genome", required=True)
-    s.add_argument("--split", default="inner", choices=["inner", "final"]); add_mode(s); s.set_defaults(fn=cmd_score)
+    s.add_argument("--split", default="inner", choices=["inner", "final"])
+    s.add_argument("--data", default="data/dockerfs"); add_mode(s); s.set_defaults(fn=cmd_score)
     s = sub.add_parser("leaderboard"); s.add_argument("--top", type=int, default=10); s.set_defaults(fn=cmd_leaderboard)
     s = sub.add_parser("sample-parent"); s.add_argument("--seed", type=int, default=0); s.set_defaults(fn=cmd_sample_parent)
     s = sub.add_parser("impls"); s.add_argument("--chunk", default="objective"); s.set_defaults(fn=cmd_impls)
