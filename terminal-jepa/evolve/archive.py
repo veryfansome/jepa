@@ -24,7 +24,11 @@ def load():
 
 
 def _valid(recs):
-    return [r for r in recs if isinstance(r.get("fitness"), (int, float)) and r["fitness"] > NEG]
+    """Scored genomes that count as FITNESS: exclude final-test records — the final-test split is
+    validation-only and must never drive parent selection / the leaderboard (else the optimization
+    leaks into the held-out-of-held-out set)."""
+    return [r for r in recs if isinstance(r.get("fitness"), (int, float)) and r["fitness"] > NEG
+            and r.get("split", "inner") != "final"]
 
 
 def _best_per_id(recs):

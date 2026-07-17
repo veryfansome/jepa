@@ -38,6 +38,20 @@ def load_objective(genome):
     return mod.loss
 
 
+def load_arch(genome):
+    """Return (build_fn, params) for the arch chunk. arch = {"impl": name, "params": {...}} uses
+    the arch registry (a swappable model module); legacy {"d","layers","heads","dropout"} maps to
+    the baseline transformer. build_fn(**params) -> nn.Module with SeqWorldModel's I/O contract."""
+    a = genome["chunks"]["arch"]
+    if "impl" in a:
+        mod = importlib.import_module(f"evolve.chunks.arch.{a['impl']}")
+        if not hasattr(mod, "build"):
+            raise AttributeError(f"arch impl '{a['impl']}' has no build(**params) function")
+        return mod.build, dict(a.get("params", {}))
+    mod = importlib.import_module("evolve.chunks.arch.baseline_transformer")
+    return mod.build, {k: a[k] for k in ("d", "layers", "heads", "dropout") if k in a}
+
+
 def list_impls(chunk="objective"):
     d = CHUNKS_DIR / chunk
     return sorted(p.stem for p in d.glob("*.py") if p.stem != "__init__")
@@ -53,6 +67,9 @@ def validate(genome):
         raise ValueError(f"unknown objective impl '{c['objective']['impl']}' "
                          f"(have {list_impls('objective')})")
     a = c["arch"]
-    if a["d"] % a["heads"] != 0:
+    if "impl" in a:
+        if a["impl"] not in list_impls("arch"):
+            raise ValueError(f"unknown arch impl '{a['impl']}' (have {list_impls('arch')})")
+    elif a["d"] % a["heads"] != 0:  # legacy numeric baseline transformer
         raise ValueError(f"arch d={a['d']} not divisible by heads={a['heads']}")
     return True

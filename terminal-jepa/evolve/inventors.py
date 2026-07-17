@@ -69,6 +69,56 @@ retrieval margin, then `NAME = "<short_snake_case_unique_name>"`, `DESCRIPTION =
 `loss` function. No prose outside the code fence."""
 
 
+def arch_brief():
+    contract = (ROOT / "chunks" / "arch" / "baseline_transformer.py").read_text()
+    baseline = (pathlib.Path(__file__).resolve().parent.parent / "realenv" / "seq_worldmodel.py").read_text()
+    # pull just the SeqWorldModel class for reference
+    start = baseline.find("class SeqWorldModel")
+    end = baseline.find("\n\ndef collate", start)
+    swm = baseline[start:end] if start >= 0 and end > start else "(see realenv/seq_worldmodel.py SeqWorldModel)"
+    tried = G.list_impls("arch")
+    return f"""You are an INVENTOR in an evolutionary search over the ARCHITECTURE of a JEPA-style
+shell world model. Invent ONE new predictor architecture that might beat the baseline causal
+transformer. Favor a real structural idea over a hyperparameter tweak.
+
+WHAT THE MODEL DOES: it reads an interleaved token stream cmd_0, obs_0, cmd_1, obs_1, … where each
+token is a FROZEN 768-d ModernBERT embedding (commands at even positions, observations at odd),
+tagged by type (0=cmd, 1=obs) and position, and at each COMMAND position predicts the next
+observation's 768-d embedding. It MUST be CAUSAL: a command position's prediction may depend only
+on the history up to and including that command — never its own observation (odd index just after
+it) or anything later. Predictions are scored by retrieval (rank the true next-obs vs same-verb
+foils by squared L2).
+
+THE CONTRACT — your output is a complete Python module exposing `build(**params) -> nn.Module`:
+  the module's forward(tok_emb [B,L,768], types [B,L] in {{0,1}}, key_pad [B,L] bool True=pad)
+  returns (pred [B,L,768], h [B,L,dh]) — a prediction AND a hidden state at EVERY position; the
+  harness reads command positions as pred[:, 0::2]. Map the frozen 768-d input in and a 768-d
+  target out. `import torch` / `torch.nn as nn`. Self-contained; no file/network/global state.
+HARD RULES: strictly CAUSAL (a per-genome no-leakage guard perturbs obs_t and REJECTS the genome
+if any command-position prediction at or before t changes — score −inf); handle padding via
+key_pad; keep params/compute modest (the baseline is d≈192, 4 layers). Broken/NaN/leaking → −inf.
+
+THE BASELINE ARCH (baseline_transformer.py wraps this SeqWorldModel — study its interface):
+--------------------------------------------------------------------------------
+{contract}
+--- SeqWorldModel (the reference implementation) ---
+{swm}
+--------------------------------------------------------------------------------
+
+ALREADY REGISTERED (do NOT resubmit): {tried}
+
+IDEA SPACE (invent beyond it): rotary/ALiBi positions instead of learned; a GLU/SwiGLU FFN; a
+gated or highway residual; a two-stream design that routes cmd vs obs tokens differently; an
+explicit learned "system-identity" summary token that aggregates the early uname/config tokens and
+is broadcast to later positions; a causal SSM/Mamba-style state mixer instead of attention; deeper-
+but-narrower; a retrieval/memory over the history; hierarchical (per-step then cross-step). Keep it
+causal and the I/O contract exact.
+
+OUTPUT FORMAT: output ONLY the complete Python module inside a single ```python code fence — a
+short docstring stating the architectural idea + why it may help, then NAME = "<snake_case_unique>",
+DESCRIPTION, then the nn.Module class(es) and `build(**params)`. No prose outside the fence."""
+
+
 def extract_code(text):
     """Pull the python module out of an inventor reply: the last ```python fence, else the last
     generic fence, else the raw text. Returns the code string."""
@@ -78,4 +128,4 @@ def extract_code(text):
 
 if __name__ == "__main__":
     chunk = sys.argv[1] if len(sys.argv) > 1 else "objective"
-    print({"objective": objective_brief}[chunk]())
+    print({"objective": objective_brief, "arch": arch_brief}[chunk]())
