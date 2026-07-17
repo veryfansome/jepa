@@ -113,11 +113,15 @@ class HippoEpisodicWorldModel(nn.Module):
     obs positions keep the parametric prediction (unused by the harness).
     """
 
-    def __init__(self, d=192, layers=4, heads=4, dropout=0.1, max_len=64, kq=128):
+    def __init__(self, d=192, layers=4, heads=4, dropout=0.1, max_len=64, kq=128,
+                 no_history=False):
         super().__init__()
         self.d = d
         self.max_len = max_len
         self.kq = kq
+        # no_history=True is the matched-capacity ablation control: self-only attention AND the
+        # episodic read disabled (the memory IS history by construction). Same modules/params.
+        self.no_history = no_history
 
         # ---- slow neocortex: baseline-matched causal transformer front-end ----
         self.proj = nn.Linear(D, d)
@@ -142,9 +146,18 @@ class HippoEpisodicWorldModel(nn.Module):
         idx = torch.arange(L, device=dev).clamp(max=self.max_len - 1)
         x = self.proj(tok_emb) + self.type_emb(types.clamp(0, 1)) + self.pos_emb(idx)[None]
 
-        causal = torch.triu(torch.ones(L, L, device=dev, dtype=torch.bool), 1)
-        h = self.tf(x, mask=causal, src_key_padding_mask=key_pad)   # [B,L,d]
+        if self.no_history:
+            # self-only attention; ~eye alone forbids all cross-position flow, so drop the
+            # key-padding mask — a padded query attending to itself is harmless (never read)
+            # and avoids the all-masked-row NaN kernel divergence (CPU vs MPS).
+            mask = ~torch.eye(L, device=dev, dtype=torch.bool)
+            h = self.tf(x, mask=mask, src_key_padding_mask=None)
+        else:
+            mask = torch.triu(torch.ones(L, L, device=dev, dtype=torch.bool), 1)
+            h = self.tf(x, mask=mask, src_key_padding_mask=key_pad)  # [B,L,d]
         pred = self.head(h)                                          # [B,L,768] parametric
+        if self.no_history:
+            return pred, h                                          # episodic read disabled
 
         # ---- assemble per-step command/observation views (aligned by step) ----
         n = L // 2
@@ -183,7 +196,7 @@ class HippoEpisodicWorldModel(nn.Module):
         return pred, h
 
 
-def build(d=192, layers=4, heads=4, dropout=0.1, max_len=64, kq=128):
+def build(d=192, layers=4, heads=4, dropout=0.1, max_len=64, kq=128, no_history=False):
     return HippoEpisodicWorldModel(d=d, layers=layers, heads=heads, dropout=dropout,
-                                   max_len=max_len, kq=kq)
+                                   max_len=max_len, kq=kq, no_history=no_history)
 
