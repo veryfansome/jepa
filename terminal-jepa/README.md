@@ -4,6 +4,12 @@ Implementation of the plan in [../terminal-jepa.md](../terminal-jepa.md). Curren
 
 - **Phase 0** (env + datagen): a synthetic in-process filesystem sandbox with ground-truth access, a validated state constructor, the shared full-obs parser, distractor knobs, and typed trajectory generation with layout/predicate splits. Stdlib only.
 - **Phase 1** (world model + probing): from-scratch token encoder, compositional action encoder, AdaLN predictor, SIGReg/VICReg/IDM/temporal-similarity arms, the generative reconstruction twin, and the probing harness (linear pass bar, MLP gap, banner-swap audit). Requires PyTorch — `python3 -m venv .venv && .venv/bin/pip install torch`.
+- **Phase R** (`realenv/`, ACTIVE — see status doc "Phase R"): the real-shell pivot. A Docker-backed recorder runs real commands inside real Linux images and records exploration *sequences*; the goal is a world model that predicts `ls`/`cat`/`cd` outcomes on unseen paths/systems from an exploration history. Needs Docker + `transformers`.
+  - `realenv/docker_env.py` — `DockerBox`: per-command `docker exec` with tracked `cd`, path enumeration, `--help`/system-id readers.
+  - `realenv/collect_docker.py` — sequence generator + parallel collection over images; held-out-*image* split → `data/dockerfs/`.
+  - `realenv/seq_worldmodel.py` — **R4, ACTIVE**: the sequence world model. A causal transformer over interleaved `cmd,obs,cmd,obs,...` frozen-ModernBERT embeddings; the hidden state at each command position predicts that command's resulting observation embedding (latent, standardized). Evaluated on the held-out-*image* split by next-observation retrieval (top-1 + MRR, random and hard same-verb foils) against honest baselines — predict-mean, copy-prev-obs, retrieve-by-command (lexical memory) — plus an optional compute-matched generative twin (token reconstruction) on a common latent probe. Reports `dev` (seen images, unseen sequences) vs `heldout` (unseen images).
+  - `realenv/{record,tasks,collect}.py` — the earlier local-shell recorder (superseded by the docker one but kept).
+  - `realenv/{worldmodel,jepa_vs_gen,probe_outcomes}.py` — R2/R3 single-step world-model + JEPA-vs-generative harness (built for the earlier, retired held-out-*tool* framing; superseded by `seq_worldmodel.py`).
 
 ## Layout
 
@@ -61,6 +67,13 @@ python3 -m evals.dynamics --data data/v1 --adapter oracle-copy --out runs/dynami
 
 # Track B tier 1 planner validation:
 python3 -m plan.cem --data data/v1 --adapter oracle --episodes 100 --out runs/tier1/cem-oracle.json
+
+# Phase R4 — sequence world model over real Docker exploration (needs transformers + the
+# data/dockerfs dataset; first run encodes + caches frozen embeddings):
+.venv/bin/python -m realenv.seq_worldmodel --data data/dockerfs --seeds 0,1,2 --gen-twin --out runs/dockerfs/seq-worldmodel.json
+# History control — full vs matched-capacity self-only (history-masked) transformer:
+.venv/bin/python -m realenv.seq_worldmodel --data data/dockerfs --seeds 0,1,2 --ablation history --out runs/dockerfs/seq-history-ablation.json
+python3 -m unittest tests.test_seq_worldmodel   # no-leakage + retrieval-calibration guards (needs torch)
 ```
 
 ## Notes

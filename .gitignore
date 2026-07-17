@@ -7,4 +7,4 @@ terminal-jepa/.venv/
 terminal-jepa/data/*/*.jsonl
 terminal-jepa/runs/**/ckpt*.pt
 terminal-jepa/runs/**/*.pt
-terminal-jepa/data/real/emb-*.pt
+terminal-jepa/data/**/emb-*.pt
