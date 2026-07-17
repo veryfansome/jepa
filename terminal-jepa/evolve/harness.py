@@ -127,7 +127,7 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     loss_fn = G.load_objective(genome)
     target_mod = G.load_target(genome)
     seeds = [0] if mode == "proxy" else [0, 1, 2]
-    steps = proxy_steps if mode == "proxy" else genome["chunks"]["optim"]["steps"]
+    steps = proxy_steps if mode == "proxy" else genome["chunks"]["optim"].get("steps", 4000)
     evaldata = _data_tensors(inner)  # model-independent; base + wm both score against it
 
     per_seed = []
