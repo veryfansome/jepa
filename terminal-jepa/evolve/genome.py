@@ -1,0 +1,58 @@
+"""Genome = a JSON-able dict selecting one implementation per chunk (+ params). The registry
+resolves a chunk-impl name to code. v0 evolves the `objective` chunk (+ arch/optim numeric
+params); other chunks default to the R4 baseline."""
+
+import importlib
+import pathlib
+
+CHUNKS_DIR = pathlib.Path(__file__).resolve().parent / "chunks"
+
+
+# ---- baseline genome (the R4 world model) ----------------------------------------------
+
+def baseline_genome():
+    return {
+        "id": "gen0-baseline",
+        "parent": None,
+        "generation": 0,
+        "inventor": "seed",
+        "chunk_changed": None,
+        "rationale": "R4 baseline: causal transformer over cmd/obs frozen embeddings, MSE loss.",
+        "chunks": {
+            "objective": {"impl": "mse", "params": {}},
+            "arch": {"d": 192, "layers": 4, "heads": 4, "dropout": 0.1},
+            "optim": {"lr": 3e-4, "wd": 1e-4, "steps": 4000, "bs": 64},
+        },
+    }
+
+
+# ---- registry --------------------------------------------------------------------------
+
+def load_objective(genome):
+    """Import the objective impl module named by the genome and return its `loss` callable.
+    Raises a clear error if the impl is missing or malformed."""
+    name = genome["chunks"]["objective"]["impl"]
+    mod = importlib.import_module(f"evolve.chunks.objective.{name}")
+    if not hasattr(mod, "loss"):
+        raise AttributeError(f"objective impl '{name}' has no loss(pred, tgt) function")
+    return mod.loss
+
+
+def list_impls(chunk="objective"):
+    d = CHUNKS_DIR / chunk
+    return sorted(p.stem for p in d.glob("*.py") if p.stem != "__init__")
+
+
+def validate(genome):
+    """Cheap structural check before spending a training run on a genome."""
+    c = genome.get("chunks", {})
+    for k in ("objective", "arch", "optim"):
+        if k not in c:
+            raise ValueError(f"genome missing chunk '{k}'")
+    if c["objective"]["impl"] not in list_impls("objective"):
+        raise ValueError(f"unknown objective impl '{c['objective']['impl']}' "
+                         f"(have {list_impls('objective')})")
+    a = c["arch"]
+    if a["d"] % a["heads"] != 0:
+        raise ValueError(f"arch d={a['d']} not divisible by heads={a['heads']}")
+    return True
