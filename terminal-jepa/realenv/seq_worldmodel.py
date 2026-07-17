@@ -270,17 +270,21 @@ def cmd_hidden(net, b):
     return cmd_pred[m], cmd_h[m], b["tgt"][m], (b["bag"][m] if "bag" in b else None)
 
 
-def train_model(aux, fit, device, vsize=0, steps=4000, bs=64, lr=3e-4, seed=0, no_history=False):
+def train_model(aux, fit, device, vsize=0, steps=4000, bs=64, lr=3e-4, seed=0, no_history=False,
+                jepa_loss=None):
+    """jepa_loss: optional callable(pred, tgt)->scalar overriding the default MSE for the 'jepa'
+    aux (used by the evolve harness to train under an evolved objective; None = MSE baseline)."""
     torch.manual_seed(seed)
     net = SeqWorldModel(aux, vsize, no_history=no_history).to(device)
     opt = torch.optim.AdamW(net.parameters(), lr=lr, weight_decay=1e-4)
     g = torch.Generator().manual_seed(seed)
     bce = nn.functional.binary_cross_entropy_with_logits
+    jloss = jepa_loss if jepa_loss is not None else (lambda p, t: ((p - t) ** 2).mean())
     for step in range(1, steps + 1):
         idx = torch.randint(0, len(fit), (bs,), generator=g).tolist()
         b = collate([fit[i] for i in idx], device)
         pred, _, tgt, bag = cmd_hidden(net, b)
-        loss = ((pred - tgt) ** 2).mean() if aux == "jepa" else bce(pred, bag)
+        loss = jloss(pred, tgt) if aux == "jepa" else bce(pred, bag)
         opt.zero_grad(set_to_none=True); loss.backward()
         torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
         opt.step()
@@ -618,18 +622,20 @@ def run_gen_twin(fit, val_seqs, device, vmap, steps, seed, jepa_ret):
             "jepa_minus_recon_top1_sameverb": round(jepa_ret["top1_sameverb"] - recon["top1_sameverb"], 4)}
 
 
-def run_history_ablation(train_seqs, val_seqs, device, steps, seeds):
+def run_history_ablation(train_seqs, val_seqs, device, steps, seeds, jepa_loss=None):
     """The reviewer-required control for 'history helps': compare the FULL causal transformer
     against the SAME transformer with self-only attention (no_history) — identical architecture,
     depth, and parameter count, differing ONLY in whether each command position may attend to the
     exploration history. If full > masked on held-out content verbs, the sequence/history is doing
-    real work (not just function-approximation capacity). Paired per seed."""
+    real work (not just function-approximation capacity). Paired per seed. jepa_loss overrides the
+    training objective (used to confirm history still drives the gain under an evolved objective)."""
     rows = []
     for s in seeds:
         fit, _ = split_train_dev(train_seqs, seed=s)
         r = {}
         for name, no_hist in (("full", False), ("masked", True)):
-            net = train_model("jepa", fit, device, steps=steps, seed=s, no_history=no_hist)
+            net = train_model("jepa", fit, device, steps=steps, seed=s, no_history=no_hist,
+                              jepa_loss=jepa_loss)
             flat = flatten_predictions(net, val_seqs, device)
             cv = content_retrieval(flat["pred"], flat["true"], flat["verbs"], seed=s)
             pv = per_verb_breakdown({"m": flat["pred"]}, flat["true"], flat["verbs"], seed=s)
