@@ -68,7 +68,14 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream):
     z_obs - z_prev (delta). z_prev is the previous observation (strict-causal shift of tgt)."""
     torch.manual_seed(seed)
     build, aparams = G.load_arch(genome)
-    net = build(**aparams).to(device)
+    net = build(**aparams)
+    if getattr(target_mod, "LEARNED", False):
+        # learned-target extension: the target impl provides an nn.Module (make_target/to_obs/reg)
+        # whose params are registered on the net so the genome's optimizer trains them jointly.
+        # The eval stays in the FIXED obs space (to_obs must reconstruct), which keeps a learned
+        # target honest: collapsing the target space breaks reconstruction and is scored down.
+        net.target_module = target_mod.make(D)
+    net = net.to(device)
     make_opt, bs = G.load_optim(genome)
     opt, sched = make_opt(net.parameters(), steps)
     next_batch = G.load_batcher(genome)(fit, bs, seed)
@@ -83,7 +90,11 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream):
         prev_full = torch.cat([torch.zeros_like(tgt_full[:, :1]), tgt_full[:, :-1]], dim=1)
         m = b["cmd_mask"]
         pred, tgt, prev = cmd_pred[m], tgt_full[m], prev_full[m]
-        loss = loss_fn(pred, target_mod.make_target(tgt, prev))
+        tmod = getattr(net, "target_module", None)
+        if tmod is not None:
+            loss = loss_fn(pred, tmod.make_target(tgt, prev)) + tmod.reg()
+        else:
+            loss = loss_fn(pred, target_mod.make_target(tgt, prev))
         if not torch.isfinite(loss):
             return net, False
         opt.zero_grad(set_to_none=True)
@@ -128,7 +139,12 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
                 return _fail("leakage_fail (cmd_t prediction moved when obs_t corrupted)", mode, seeds, steps, split, per_seed)
             base, mean = _base_for(split, s, steps, fit, evaldata, device, data_root=data)  # cached, objective-independent
             flat = stream.flatten_predictions(net, inner, device)
-            pred_obs = target_mod.to_obs(flat["pred"], flat["prev"])  # reconstruct next-obs for retrieval
+            tmod = getattr(net, "target_module", None)
+            with torch.no_grad():  # learned to_obs runs on cpu tensors from flatten
+                if tmod is not None:
+                    pred_obs = tmod.cpu().to_obs(flat["pred"], flat["prev"])
+                else:
+                    pred_obs = target_mod.to_obs(flat["pred"], flat["prev"])  # reconstruct next-obs for retrieval
             wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"], seed=s)["top1_sameverb"]
             per_seed.append({"seed": s, "wm": round(wm, 4), "base": round(base, 4),
                              "margin": round(wm - base, 4), "predict_mean": round(mean, 4)})

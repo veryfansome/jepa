@@ -56,10 +56,16 @@ def load_optim(genome):
 
 
 def load_target(genome):
-    """Return the target-chunk module (make_target/to_obs). Defaults to identity (the R4 target)
-    when a genome has no target chunk, so existing genomes are unchanged."""
+    """Return the target-chunk module. Pure impls expose make_target/to_obs (the R4 contract);
+    LEARNED impls expose LEARNED=True and make(D) -> nn.Module with make_target/to_obs/reg,
+    whose params the harness registers on the net (trained jointly, eval still in obs space).
+    Defaults to identity when a genome has no target chunk, so existing genomes are unchanged."""
     t = genome["chunks"].get("target", {"impl": "identity"})
     mod = importlib.import_module(f"evolve.chunks.target.{t['impl']}")
+    if getattr(mod, "LEARNED", False):
+        if not hasattr(mod, "make"):
+            raise AttributeError(f"learned target impl '{t['impl']}' has no make(D)")
+        return mod
     for fn in ("make_target", "to_obs"):
         if not hasattr(mod, fn):
             raise AttributeError(f"target impl '{t['impl']}' has no {fn}")
