@@ -166,6 +166,8 @@ def apply_stats(seqs, mo, so, mc, sc):
     for s in seqs:
         s["z_obs"] = (s["z_obs"] - mo) / so
         s["z_cmd"] = (s["z_cmd"] - mc) / sc
+        if "z_obs_multi" in s:  # multi-vector stream segments live in the obs space
+            s["z_obs_multi"] = (s["z_obs_multi"] - mo.unsqueeze(0)) / so.unsqueeze(0)
 
 
 def bag_of(text, tok, vmap):

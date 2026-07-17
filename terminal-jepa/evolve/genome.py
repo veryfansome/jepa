@@ -78,6 +78,19 @@ def load_batcher(genome):
     return lambda fit, bs, seed: mod.make_batcher(fit, bs, seed, **p)
 
 
+def load_stream(genome):
+    """Return the stream-chunk module (collate / extract_cmd_pred / flatten_predictions /
+    leakage_ok) — how the (cmd, obs) step sequence is laid out as tokens. Defaults to
+    baseline_interleave (bit-identical to the historical harness plumbing) when a genome has
+    no stream chunk, so all archived genomes are unchanged."""
+    s = genome["chunks"].get("stream", {"impl": "baseline_interleave"})
+    mod = importlib.import_module(f"evolve.chunks.stream.{s['impl']}")
+    for fn in ("collate", "extract_cmd_pred", "flatten_predictions", "leakage_ok"):
+        if not hasattr(mod, fn):
+            raise AttributeError(f"stream impl '{s['impl']}' has no {fn}")
+    return mod
+
+
 def load_arch(genome):
     """Return (build_fn, params) for the arch chunk. arch = {"impl": name, "params": {...}} uses
     the arch registry (a swappable model module); legacy {"d","layers","heads","dropout"} maps to
@@ -115,4 +128,7 @@ def validate(genome):
     if "batcher" in c and c["batcher"]["impl"] not in list_impls("batcher"):
         raise ValueError(f"unknown batcher impl '{c['batcher']['impl']}' "
                          f"(have {list_impls('batcher')})")
+    if "stream" in c and c["stream"]["impl"] not in list_impls("stream"):
+        raise ValueError(f"unknown stream impl '{c['stream']['impl']}' "
+                         f"(have {list_impls('stream')})")
     return True

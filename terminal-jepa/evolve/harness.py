@@ -61,10 +61,10 @@ def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerf
     return entry["base"], entry["predict_mean"]
 
 
-def _train(genome, fit, device, loss_fn, seed, steps, target_mod):
-    """Train the world model with the genome's objective + arch + target. Returns (net, ok);
-    ok=False on NaN. The objective's loss compares the model's cmd-position prediction to
-    target_mod.make_target(z_obs, z_prev) — e.g. the raw next obs (identity) or the residual
+def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream):
+    """Train the world model with the genome's objective + arch + target + stream. Returns
+    (net, ok); ok=False on NaN. The objective's loss compares the model's cmd-position prediction
+    to target_mod.make_target(z_obs, z_prev) — e.g. the raw next obs (identity) or the residual
     z_obs - z_prev (delta). z_prev is the previous observation (strict-causal shift of tgt)."""
     torch.manual_seed(seed)
     build, aparams = G.load_arch(genome)
@@ -76,9 +76,9 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod):
         idx = next_batch(step, steps)
         if len(idx) != bs or min(idx) < 0 or max(idx) >= len(fit):
             raise ValueError("batcher contract violation (len/bounds)")
-        b = M.collate([fit[i] for i in idx], device)
+        b = stream.collate([fit[i] for i in idx], device)
         pred_full, _ = net(b["tok"], b["types"], b["key_pad"])
-        cmd_pred = pred_full[:, 0::2]                              # [B, maxn, D]
+        cmd_pred = stream.extract_cmd_pred(pred_full, b)           # [B, maxn, D]
         tgt_full = b["tgt"]                                        # [B, maxn, D] = z_obs per step
         prev_full = torch.cat([torch.zeros_like(tgt_full[:, :1]), tgt_full[:, :-1]], dim=1)
         m = b["cmd_mask"]
@@ -93,22 +93,6 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod):
         if sched is not None:
             sched.step()
     return net, True
-
-
-@torch.no_grad()
-def _leakage_ok(net, device):
-    """HARD FILTER: the cmd_t prediction must not move when obs_t (or later) is corrupted — a
-    genome cannot 'win' by leaking the answer. Mirrors tests/test_seq_worldmodel.py."""
-    net.eval()
-    torch.manual_seed(0)
-    seq = [{"z_obs": torch.randn(6, D), "z_cmd": torch.randn(6, D), "cmds": ["ls /a"] * 6, "image": "x"}]
-    b0 = M.collate(seq, device)
-    p0 = net(b0["tok"], b0["types"], b0["key_pad"])[0][:, 0::2].clone().cpu()
-    b1 = M.collate(seq, device)
-    b1["tok"][0, 7] = torch.randn(D, device=device) * 100.0  # corrupt obs_3 (odd index 2*3+1)
-    p1 = net(b1["tok"], b1["types"], b1["key_pad"])[0][:, 0::2].cpu()
-    chg = (p1 - p0).abs().amax(-1)[0]  # per cmd-position max change
-    return bool((chg[:4] < 1e-4).all())  # positions 0..3 must be unaffected by obs_3
 
 
 def score_genome(genome, mode="proxy", data="data/dockerfs",
@@ -128,6 +112,7 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
 
     loss_fn = G.load_objective(genome)
     target_mod = G.load_target(genome)
+    stream = G.load_stream(genome)
     seeds = [0] if mode == "proxy" else [0, 1, 2]
     steps = proxy_steps if mode == "proxy" else genome["chunks"]["optim"].get("steps", 4000)
     evaldata = _data_tensors(inner)  # model-independent; base + wm both score against it
@@ -136,13 +121,13 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     for s in seeds:
         try:
             fit, _ = M.split_train_dev(train_seqs, seed=s)
-            net, ok = _train(genome, fit, device, loss_fn, s, steps, target_mod)
+            net, ok = _train(genome, fit, device, loss_fn, s, steps, target_mod, stream)
             if not ok:
                 return _fail("train_diverged (NaN/inf loss)", mode, seeds, steps, split, per_seed)
-            if not _leakage_ok(net, device):
+            if not stream.leakage_ok(net, device):
                 return _fail("leakage_fail (cmd_t prediction moved when obs_t corrupted)", mode, seeds, steps, split, per_seed)
             base, mean = _base_for(split, s, steps, fit, evaldata, device, data_root=data)  # cached, objective-independent
-            flat = M.flatten_predictions(net, inner, device)
+            flat = stream.flatten_predictions(net, inner, device)
             pred_obs = target_mod.to_obs(flat["pred"], flat["prev"])  # reconstruct next-obs for retrieval
             wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"], seed=s)["top1_sameverb"]
             per_seed.append({"seed": s, "wm": round(wm, 4), "base": round(base, 4),
