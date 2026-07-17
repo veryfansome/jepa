@@ -67,13 +67,13 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod):
     target_mod.make_target(z_obs, z_prev) — e.g. the raw next obs (identity) or the residual
     z_obs - z_prev (delta). z_prev is the previous observation (strict-causal shift of tgt)."""
     torch.manual_seed(seed)
-    o = genome["chunks"]["optim"]
     build, aparams = G.load_arch(genome)
     net = build(**aparams).to(device)
-    opt = torch.optim.AdamW(net.parameters(), lr=o["lr"], weight_decay=o["wd"])
+    make_opt, bs = G.load_optim(genome)
+    opt, sched = make_opt(net.parameters(), steps)
     g = torch.Generator().manual_seed(seed)
     for step in range(1, steps + 1):
-        idx = torch.randint(0, len(fit), (o["bs"],), generator=g).tolist()
+        idx = torch.randint(0, len(fit), (bs,), generator=g).tolist()
         b = M.collate([fit[i] for i in idx], device)
         pred_full, _ = net(b["tok"], b["types"], b["key_pad"])
         cmd_pred = pred_full[:, 0::2]                              # [B, maxn, D]
@@ -88,6 +88,8 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod):
         loss.backward()
         torch.nn.utils.clip_grad_norm_(net.parameters(), 1.0)
         opt.step()
+        if sched is not None:
+            sched.step()
     return net, True
 
 

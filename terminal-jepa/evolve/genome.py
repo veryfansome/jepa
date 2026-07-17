@@ -38,6 +38,23 @@ def load_objective(genome):
     return mod.loss
 
 
+def load_optim(genome):
+    """Return (make_fn, bs). optim = {"impl": name, "bs": B} uses the optim registry (optimizer +
+    LR schedule); legacy {"lr","wd","steps","bs"} maps to constant AdamW with those values. make_fn
+    (params, steps) -> (optimizer, scheduler_or_None)."""
+    o = genome["chunks"]["optim"]
+    bs = o.get("bs", 64)
+    if "impl" in o:
+        mod = importlib.import_module(f"evolve.chunks.optim.{o['impl']}")
+        if not hasattr(mod, "make"):
+            raise AttributeError(f"optim impl '{o['impl']}' has no make(params, steps)")
+        p = dict(o.get("params", {}))
+        return (lambda params, steps: mod.make(params, steps, **p)), bs
+    lr, wd = o.get("lr", 3e-4), o.get("wd", 1e-4)
+    import torch
+    return (lambda params, steps: (torch.optim.AdamW(params, lr=lr, weight_decay=wd), None)), bs
+
+
 def load_target(genome):
     """Return the target-chunk module (make_target/to_obs). Defaults to identity (the R4 target)
     when a genome has no target chunk, so existing genomes are unchanged."""
