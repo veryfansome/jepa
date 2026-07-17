@@ -27,13 +27,23 @@ split (rockylinux+httpd) is never scored except on a promoted champion.
    chunk to mutate (start with `objective` — lowest risk, cannot touch the leakage mask).
 3. **Build the inventor brief:** `.venv/bin/python -m evolve.inventors objective` — a
    self-contained brief (contract + leaderboard + what's been tried). Use its text verbatim.
-4. **Dispatch a diverse ensemble of inventors** (this is the point — model/harness diversity):
-   - **Claude inventors:** spawn 1–2 via the Agent tool, passing the brief. Ask each for a new
-     objective module; take its returned code.
-   - **Codex inventor (OpenAI, different harness):** run
-     `codex exec -s read-only --skip-git-repo-check -C "$PWD" --output-last-message /tmp/codex_obj.md "<brief>"`
-     then read `/tmp/codex_obj.md`. (Read-only sandbox: it proposes code, it does not write.)
-   Give every inventor the identical brief so the comparison is fair.
+4. **Dispatch a diverse ensemble of inventors — at HIGH effort, code-grounded** (this is the
+   point: model/harness diversity AND rigor). *Lesson (2026-07-17): the Agent tool has no effort
+   knob, so Agent-dispatched inventors run at default effort and, for pure-function chunks, from
+   prose — they materially underperform. At default effort NO gen-2 objective beat InfoNCE; at
+   effort=high with mandatory code-reading, 2 of 3 did.* So:
+   - **Claude inventors — via the WORKFLOW tool, `agent(prompt, {effort:'high', schema})`** (NOT
+     the Agent tool). REQUIRE each to Read the real code before proposing: `evolve/harness.py`
+     (the `_train` loop + `score_genome` eval), the exact metric in `realenv/seq_worldmodel.py`
+     (`_rank_stats`, `_foils_sameverb`, `content_retrieval`), the chunk contract + current leaders,
+     and `evolve/archive/genomes.jsonl` (what's been tried + why things failed). Use a structured
+     `schema` returning `{name, module_code, rationale, grounding}` (the `grounding` field forces
+     them to cite what they read). Give diverse roles (metric-aligned / diversify / recombine-fix).
+   - **Codex inventor (OpenAI, different harness — the diversity arm):** run
+     `codex exec -s read-only --skip-git-repo-check -C "$PWD" --output-last-message /tmp/codex.md "<brief>"`
+     then read `/tmp/codex.md`. (Read-only: proposes code, doesn't write.) Codex has no effort
+     knob either but adds genuine model diversity.
+   Give every inventor the SAME grounding + contract so the comparison is fair.
 5. **Land each proposal.** Extract the module with
    `.venv/bin/python -c "import sys;from evolve.inventors import extract_code;open(sys.argv[2],'w').write(extract_code(open(sys.argv[1]).read()))" <reply.md> evolve/chunks/objective/<name>.py`
    Name files `g<gen>_<idea>_<model>.py` (e.g. `g1_infonce_claude.py`, `g1_ranking_codex.py`) —
