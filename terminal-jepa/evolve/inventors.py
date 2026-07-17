@@ -119,6 +119,50 @@ short docstring stating the architectural idea + why it may help, then NAME = "<
 DESCRIPTION, then the nn.Module class(es) and `build(**params)`. No prose outside the fence."""
 
 
+def target_brief():
+    contract = (ROOT / "chunks" / "target" / "identity.py").read_text()
+    delta = (ROOT / "chunks" / "target" / "delta_prev.py").read_text()
+    tried = G.list_impls("target")
+    return f"""You are an INVENTOR in an evolutionary search over the TARGET REPRESENTATION of a
+JEPA-style shell world model — WHAT the model is trained to predict at each command position.
+Invent ONE new target transform that might make the next-observation easier to predict and thus
+raise held-out retrieval.
+
+WHAT THE MODEL DOES: a causal transformer reads an interleaved (command, observation) history of
+FROZEN 768-d ModernBERT embeddings and predicts the next observation's embedding. Currently it
+predicts the absolute next-obs embedding z_obs (identity target) under an L2-InfoNCE objective (the
+winning objective). The EVAL always ranks the true z_obs against same-verb foils by squared L2 on
+the RECONSTRUCTED prediction, so your transform must be INVERTIBLE: a perfect prediction of your
+target must reconstruct z_obs (near-)exactly.
+
+THE CONTRACT — your output is a Python module exposing two PURE functions:
+  make_target(z_obs, z_prev) -> [n,768]   # what the model trains to predict (objective compares
+                                          #   the model's prediction to THIS)
+  to_obs(pred, z_prev) -> [n,768]         # reconstruct the predicted next-obs for the retrieval eval
+  z_obs = true next-obs embedding [n,768]; z_prev = the PREVIOUS observation embedding [n,768]
+  (causally available; zeros at the first step). Require to_obs(make_target(z_obs,z_prev),z_prev) ≈
+  z_obs. `import torch`. Pure functions of the args only — NO learned params, NO train stats, NO
+  file/state (make_target sees only z_obs,z_prev; to_obs only pred,z_prev).
+
+THE R4 DEFAULT (identity.py) and the delta baseline (delta_prev.py), for the exact interface:
+--------------------------------------------------------------------------------
+{contract}--- delta_prev.py ---
+{delta}--------------------------------------------------------------------------------
+
+ALREADY REGISTERED (do NOT resubmit): {tried}
+
+The space is constrained to invertible functions of (z_obs, z_prev). IDEA SPACE: a PARTIAL residual
+z_obs - alpha*z_prev (alpha in (0,1), reconstruct z_prev*alpha + pred) — interpolates identity and
+delta and may hit a better bias/variance point; a per-dimension fixed reweighting that is inverted
+in to_obs; predicting the delta scaled by a constant (z_obs - z_prev)/c to normalize its magnitude;
+a "double residual" or momentum form; anything invertible that reduces the target's variance or
+better matches the L2 retrieval geometry. Commit to the one you think most likely to help.
+
+OUTPUT FORMAT: output ONLY the complete Python module inside a single ```python code fence — a short
+docstring (idea + why it may lower target variance / raise retrieval), then NAME = "<snake_case>",
+DESCRIPTION, then make_target and to_obs. No prose outside the fence."""
+
+
 def extract_code(text):
     """Pull the python module out of an inventor reply: the last ```python fence, else the last
     generic fence, else the raw text. Returns the code string."""
@@ -128,4 +172,4 @@ def extract_code(text):
 
 if __name__ == "__main__":
     chunk = sys.argv[1] if len(sys.argv) > 1 else "objective"
-    print({"objective": objective_brief, "arch": arch_brief}[chunk]())
+    print({"objective": objective_brief, "arch": arch_brief, "target": target_brief}[chunk]())

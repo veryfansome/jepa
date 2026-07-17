@@ -61,8 +61,11 @@ def _base_for(split, seed, steps, fit, data, device):
     return entry["base"], entry["predict_mean"]
 
 
-def _train(genome, fit, device, loss_fn, seed, steps):
-    """Train the world model with the genome's objective + arch. Returns (net, ok); ok=False on NaN."""
+def _train(genome, fit, device, loss_fn, seed, steps, target_mod):
+    """Train the world model with the genome's objective + arch + target. Returns (net, ok);
+    ok=False on NaN. The objective's loss compares the model's cmd-position prediction to
+    target_mod.make_target(z_obs, z_prev) — e.g. the raw next obs (identity) or the residual
+    z_obs - z_prev (delta). z_prev is the previous observation (strict-causal shift of tgt)."""
     torch.manual_seed(seed)
     o = genome["chunks"]["optim"]
     build, aparams = G.load_arch(genome)
@@ -72,8 +75,13 @@ def _train(genome, fit, device, loss_fn, seed, steps):
     for step in range(1, steps + 1):
         idx = torch.randint(0, len(fit), (o["bs"],), generator=g).tolist()
         b = M.collate([fit[i] for i in idx], device)
-        pred, _, tgt, _ = M.cmd_hidden(net, b)
-        loss = loss_fn(pred, tgt)
+        pred_full, _ = net(b["tok"], b["types"], b["key_pad"])
+        cmd_pred = pred_full[:, 0::2]                              # [B, maxn, D]
+        tgt_full = b["tgt"]                                        # [B, maxn, D] = z_obs per step
+        prev_full = torch.cat([torch.zeros_like(tgt_full[:, :1]), tgt_full[:, :-1]], dim=1)
+        m = b["cmd_mask"]
+        pred, tgt, prev = cmd_pred[m], tgt_full[m], prev_full[m]
+        loss = loss_fn(pred, target_mod.make_target(tgt, prev))
         if not torch.isfinite(loss):
             return net, False
         opt.zero_grad(set_to_none=True)
@@ -115,6 +123,7 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     inner = split_val(val_seqs, split)
 
     loss_fn = G.load_objective(genome)
+    target_mod = G.load_target(genome)
     seeds = [0] if mode == "proxy" else [0, 1, 2]
     steps = proxy_steps if mode == "proxy" else genome["chunks"]["optim"]["steps"]
     evaldata = _data_tensors(inner)  # model-independent; base + wm both score against it
@@ -123,14 +132,15 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     for s in seeds:
         try:
             fit, _ = M.split_train_dev(train_seqs, seed=s)
-            net, ok = _train(genome, fit, device, loss_fn, s, steps)
+            net, ok = _train(genome, fit, device, loss_fn, s, steps, target_mod)
             if not ok:
                 return _fail("train_diverged (NaN/inf loss)", mode, seeds, steps, split, per_seed)
             if not _leakage_ok(net, device):
                 return _fail("leakage_fail (cmd_t prediction moved when obs_t corrupted)", mode, seeds, steps, split, per_seed)
             base, mean = _base_for(split, s, steps, fit, evaldata, device)  # cached, objective-independent
             flat = M.flatten_predictions(net, inner, device)
-            wm = M.content_retrieval(flat["pred"], evaldata["true"], evaldata["verbs"], seed=s)["top1_sameverb"]
+            pred_obs = target_mod.to_obs(flat["pred"], flat["prev"])  # reconstruct next-obs for retrieval
+            wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"], seed=s)["top1_sameverb"]
             per_seed.append({"seed": s, "wm": round(wm, 4), "base": round(base, 4),
                              "margin": round(wm - base, 4), "predict_mean": round(mean, 4)})
         except Exception as e:  # broken inventor code must not crash the loop

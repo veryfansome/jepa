@@ -38,6 +38,17 @@ def load_objective(genome):
     return mod.loss
 
 
+def load_target(genome):
+    """Return the target-chunk module (make_target/to_obs). Defaults to identity (the R4 target)
+    when a genome has no target chunk, so existing genomes are unchanged."""
+    t = genome["chunks"].get("target", {"impl": "identity"})
+    mod = importlib.import_module(f"evolve.chunks.target.{t['impl']}")
+    for fn in ("make_target", "to_obs"):
+        if not hasattr(mod, fn):
+            raise AttributeError(f"target impl '{t['impl']}' has no {fn}")
+    return mod
+
+
 def load_arch(genome):
     """Return (build_fn, params) for the arch chunk. arch = {"impl": name, "params": {...}} uses
     the arch registry (a swappable model module); legacy {"d","layers","heads","dropout"} maps to
