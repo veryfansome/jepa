@@ -1,0 +1,35 @@
+  [train] alpine:latest: 400 seqs (85 dirs / 84 files)
+  [train] debian:stable-slim: 400 seqs (327 dirs / 2054 files)
+  [train] redis:7-alpine: 400 seqs (109 dirs / 703 files)
+  [train] python:3.12-slim: 400 seqs (450 dirs / 3208 files)
+  [train] nginx:stable-alpine: 400 seqs (215 dirs / 1223 files)
+  [train] ubuntu:latest: 400 seqs (673 dirs / 4925 files)
+  [train] postgres:16-alpine: 400 seqs (243 dirs / 1384 files)
+  [train] node:22-slim: 400 seqs (392 dirs / 2988 files)
+  [val] httpd:2.4: 400 seqs (410 dirs / 2975 files)
+  [val] mariadb:latest: 400 seqs (896 dirs / 3718 files)
+  [val] fedora:latest: 400 seqs (2303 dirs / 4676 files)
+  [val] rockylinux:9: 400 seqs (976 dirs / 5387 files)
+{
+ "seed": 0,
+ "seqs_per_image": 400,
+ "seq_len": 16,
+ "train_images": [
+  "alpine:latest",
+  "ubuntu:latest",
+  "debian:stable-slim",
+  "python:3.12-slim",
+  "redis:7-alpine",
+  "nginx:stable-alpine",
+  "postgres:16-alpine",
+  "node:22-slim"
+ ],
+ "val_images_heldout": [
+  "fedora:latest",
+  "rockylinux:9",
+  "mariadb:latest",
+  "httpd:2.4"
+ ],
+ "train_steps": 51190,
+ "val_steps": 25660
+}
