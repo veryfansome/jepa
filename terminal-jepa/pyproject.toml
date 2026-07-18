@@ -1,0 +1,19 @@
+[project]
+name = "terminal-jepa"
+version = "0.1.0"
+description = "JEPA-style shell world model over real Docker filesystems + a ShinkaEvolve-inspired evolutionary design search (evolve/)."
+requires-python = ">=3.12"
+dependencies = [
+    # Only two direct 3rd-party deps: torch (the sequence world model + all training/eval) and
+    # transformers (the frozen text encoders — ModernBERT, intfloat/e5-base-v2, etc.). The R4-R7
+    # work ran on torch 2.13.0 + transformers 5.14.1 on Apple MPS. Docker (CLI) is required at
+    # runtime for data collection (realenv/collect_docker.py) but is not a Python dependency.
+    "torch>=2.13",
+    "transformers>=5.14",
+]
+
+[tool.uv]
+# This is an application/workspace, not an installable library — the code is run as
+# `uv run python -m evolve.cli ...` from terminal-jepa/ with the packages on sys.path, so uv
+# should manage only the dependency environment, not try to build/install the project itself.
+package = false
