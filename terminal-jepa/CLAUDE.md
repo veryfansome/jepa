@@ -4,7 +4,7 @@ The Python project (packages `realenv`, `evolve`). Run as `uv run python -m <mod
 
 ## Environment
 
-- `uv sync` builds/refreshes the locked `.venv` from `pyproject.toml` + `uv.lock` (torch 2.13 / transformers 5.14, Apple MPS). `.venv/` is gitignored; `pyproject.toml` + `uv.lock` are tracked.
+- `uv sync` builds/refreshes the locked `.venv` from `pyproject.toml` + `uv.lock` (torch 2.13 / transformers 5.14; developed on Apple MPS so far — plain torch, so CUDA/CPU work too). `.venv/` is gitignored; `pyproject.toml` + `uv.lock` are tracked.
 - Run everything via `uv run python -m ...` (or the `.venv/bin/python` uv creates). Docker (CLI) is required for data collection; first encoder use downloads the HF model.
 
 ## Active code surface

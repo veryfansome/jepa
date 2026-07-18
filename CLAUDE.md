@@ -1,8 +1,6 @@
 # terminal-JEPA — Context
 
-Research program testing whether Yann LeCun's **JEPA** world-model recipe (predict in latent space, anti-collapse, plan by latent distance) transfers to a **real-shell agent**. Active substrate: a sequence world model over real Linux **Docker** filesystems that, given an exploration history, predicts `ls`/`cat`/`cd` outcomes on **unseen systems** — improved by a Claude-Code-native **ShinkaEvolve** evolutionary search. Python + PyTorch on Apple **MPS**; Docker for data collection. Deps via **uv**.
-
-Git root is `jepa/`; all code lives under `terminal-jepa/`.
+Research program testing whether Yann LeCun's **JEPA** world-model recipe (predict in latent space, anti-collapse, plan by latent distance) transfers to a **real-shell agent**. Active substrate: a sequence world model over real Linux **Docker** filesystems that, given an exploration history, predicts command outcomes on **unseen systems** — improved by a Claude-Code-native **ShinkaEvolve** evolutionary search. The toolset is a small navigational starting set (`uname`/`cat`/`ls`/`cd`), meant to expand — not a fixed scope. Python + PyTorch, developed on Apple **MPS** so far (it's plain torch, so CUDA/CPU work too — MPS is the current machine, not a commitment); Docker for data collection; deps via **uv**.
 
 ## Documentation index — where context lives (single source of truth per topic)
 
@@ -10,14 +8,13 @@ Git root is `jepa/`; all code lives under `terminal-jepa/`.
 |---|---|---|
 | `CLAUDE.md` (this file) | repo identity, navigation, repo-wide rules, doc-sync triggers | live, auto-loaded |
 | `terminal-jepa/CLAUDE.md` | the code project: env/run, active-vs-retired module map, data + regen recipe | live, loaded in-subtree |
-| `terminal-jepa/evolve/CLAUDE.md` | the evolve loop working context: chunks, scoring, guardrails, archive/memory | live, loaded in-subtree |
+| `terminal-jepa/evolve/CLAUDE.md` | the evolve loop — working context **and** full replication manual (chunks, fitness/guardrails, scoring, inventor dispatch, the round recipe) | live, loaded in-subtree |
 | `terminal-jepa-status.md` | **the living status** — current direction, R4→R7 results, findings (synthetic negative as prior work) | **current — read for "what's true now"** |
-| `terminal-jepa/evolve/DESIGN.md` | the evolve **replication manual** — how the search works and how to run/iterate a round | current (deep methodology) |
-| `terminal-jepa/README.md` | module/file inventory + reproduction commands | current for R4/evolve; Phase-0/1 sections describe retired code |
+| `terminal-jepa/README.md` | module/file inventory + reproduction commands | current |
 | `JEPA.md` | background: LeCun's JEPA research program (2022–2026) | external reference (stable) |
 | `ShinkaEvolve.md` | background: LLM-driven evolutionary program search | external reference (stable) |
 
-Cross-session working **state** (per-genome result stats, user preferences) lives in **auto-memory** (`~/.claude/projects/-Users-fanzhu-PyCharmProjects-jepa/memory/`, indexed by `MEMORY.md`), not in these docs. Rule of thumb: **versioned repo facts → CLAUDE.md / docs; evolving cross-session state → auto-memory.** The `evolve-insights` memory is the neutral running stat ledger.
+Cross-session working **state** (per-genome result stats, user preferences) lives in Claude Code's per-user **auto-memory** store (indexed by its `MEMORY.md`), not in these docs. Rule of thumb: **versioned repo facts → CLAUDE.md / docs; evolving cross-session state → auto-memory.** The `evolve-insights` memory is the neutral running stat ledger.
 
 ## Code map
 
@@ -36,7 +33,7 @@ Each `CLAUDE.md` is a contract with future sessions: the context you need to wor
 
 **Update triggers** — when a change touches one of these, update the named doc in the same commit:
 - **`terminal-jepa/CLAUDE.md`** — you add/rename/retire a module or run command, add a data root, or move the active-vs-retired boundary.
-- **`terminal-jepa/evolve/CLAUDE.md`** + **`evolve/DESIGN.md`** — you add a new evolvable **chunk axis**, change the fitness/guardrails/split, or change the scoring CLI. (DESIGN.md owns the deep how; the CLAUDE.md owns the quick operational pointer.)
+- **`terminal-jepa/evolve/CLAUDE.md`** — you add a new evolvable **chunk axis**, change the fitness/guardrails/split, or change the scoring CLI (it's the single evolve doc — working context + manual).
 - **`terminal-jepa-status.md`** — a promoted full-budget result, a new champion genome, or a finding. Record it here (and the neutral stat in the `evolve-insights` memory). This is the living status.
 - **`terminal-jepa/README.md`** — you add/rename a module or its run command (the file inventory).
 - **the `evolve-insights` memory** — any scored genome (neutral stats).
@@ -44,5 +41,5 @@ Each `CLAUDE.md` is a contract with future sessions: the context you need to wor
 **Conventions.**
 - Keep each `CLAUDE.md` under ~200 lines. Approaching the cap → push detail down a level (or into the owning deep doc) and link, don't compress prose.
 - Every `CLAUDE.md` has a sibling `AGENTS.md` symlink (`ln -s CLAUDE.md AGENTS.md`, committed as a symlink) so the **Codex** inventors and other `AGENTS.md` readers load identical context. Creating a new `CLAUDE.md` → add its `AGENTS.md` symlink and index it in this table, same commit.
-- Point to the deep docs for detail (status / DESIGN / README); **never duplicate** them here — a fact with two homes drifts. If a fact is specific to one file, put it in a code comment, not a CLAUDE.md.
+- Point to the deep docs for detail (status / evolve / README); **never duplicate** them here — a fact with two homes drifts. If a fact is specific to one file, put it in a code comment, not a CLAUDE.md.
 - Delete a `CLAUDE.md` (or a line) that stops earning its tokens; a future session recreates it if the need recurs.
