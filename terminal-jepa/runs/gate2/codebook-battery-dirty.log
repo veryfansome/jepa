@@ -1,0 +1,61 @@
+/Users/fzhu/src/github/veryfansome/jepa/terminal-jepa/models/tier2.py:118: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.trunk = nn.TransformerEncoder(layer, layers)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 5508.27it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+head.norm.weight  | UNEXPECTED |  | 
+head.dense.weight | UNEXPECTED |  | 
+decoder.bias      | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+{
+ "adapter": "gate2-codebook-both",
+ "data": "data/v1",
+ "seed": 0,
+ "eval_split": "val-heldout-layouts, val-heldout-predicates",
+ "rollout": {
+  "n": 500,
+  "h1_err_median_by_type": {
+   "state-changing": 0.0,
+   "valid-no-op": 0.0,
+   "invalid": 0.0
+  },
+  "h1_err_mean_by_type": {
+   "state-changing": 0.3002832861189802,
+   "valid-no-op": 0.0,
+   "invalid": 0.18055555555555555
+  },
+  "err_median_by_horizon": {
+   "1": 0.0,
+   "2": 0.0,
+   "3": 0.0
+  }
+ },
+ "calibration": {
+  "n": 500,
+  "change_magnitude_median_by_type": {
+   "state-changing": 1.0,
+   "valid-no-op": 0.0,
+   "invalid": 0.0
+  },
+  "auc_state_changing_vs_non": 0.9075986868444231
+ },
+ "voe": {
+  "n": 300,
+  "err_true_median": 0.0,
+  "acc_vs_alt_action_foil": 0.9683333333333334,
+  "acc_vs_two_edit_foil_copy_passable": 0.9983333333333333
+ },
+ "goal_ranking": {
+  "n_episodes": 100,
+  "rank_acc_vs_random": 0.989430894308943,
+  "rank_acc_vs_invalid": 0.973170731707317,
+  "rank_margin_vs_random_median": 2.0,
+  "optimal_plan_final_goal_distance_median": 0.0,
+  "executed_plan_distance_improved_frac": 1.0
+ },
+ "ckpt": "runs/tier2/slotpred-v2/ckpt.pt"
+}

@@ -1,0 +1,30 @@
+{
+ "seed": 0,
+ "held_out_tools": [
+  "awk",
+  "diff",
+  "du",
+  "git",
+  "sed",
+  "tar"
+ ],
+ "train_tools": "universal-only",
+ "train": {
+  "trajs": 700,
+  "steps": 10533,
+  "success_rate": 0.873,
+  "state_changing_rate": 0.445,
+  "distinct_commands": 7435,
+  "distinct_verbs": 15,
+  "held_out_tool_step_rate": 0.0
+ },
+ "val": {
+  "trajs": 250,
+  "steps": 3738,
+  "success_rate": 0.838,
+  "state_changing_rate": 0.378,
+  "distinct_commands": 2691,
+  "distinct_verbs": 21,
+  "held_out_tool_step_rate": 0.237
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "adapter": "gate2-both",
+ "data": "data/v1",
+ "seed": 0,
+ "eval_split": "val-heldout-layouts, val-heldout-predicates",
+ "rollout": {
+  "n": 500,
+  "h1_err_median_by_type": {
+   "state-changing": 102.66964721679688,
+   "valid-no-op": 59.00279998779297,
+   "invalid": 63.23127746582031
+  },
+  "h1_err_mean_by_type": {
+   "state-changing": 102.43374874774187,
+   "valid-no-op": 59.438075663248696,
+   "invalid": 63.82565922207303
+  },
+  "err_median_by_horizon": {
+   "1": 93.09416580200195,
+   "2": 115.5012435913086,
+   "3": 141.07532501220703
+  }
+ },
+ "calibration": {
+  "n": 500,
+  "change_magnitude_median_by_type": {
+   "state-changing": 60.40476989746094,
+   "valid-no-op": 52.670387268066406,
+   "invalid": 55.53741455078125
+  },
+  "auc_state_changing_vs_non": 0.6295139722956201
+ },
+ "voe": {
+  "n": 300,
+  "err_true_median": 103.1686019897461,
+  "acc_vs_alt_action_foil": 0.4666666666666667,
+  "acc_vs_two_edit_foil_copy_passable": 0.98
+ },
+ "goal_ranking": {
+  "n_episodes": 100,
+  "rank_acc_vs_random": 0.6991869918699187,
+  "rank_acc_vs_invalid": 0.7365853658536585,
+  "rank_margin_vs_random_median": 0.0926666259765625,
+  "optimal_plan_final_goal_distance_median": 127.05017471313477,
+  "executed_plan_distance_improved_frac": 1.0
+ },
+ "ckpt": "runs/gate2/slotpred/ckpt.pt"
+}

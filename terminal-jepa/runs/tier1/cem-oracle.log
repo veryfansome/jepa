@@ -1,0 +1,31 @@
+  cem: 20/100 (success so far 5/20)
+  cem: 40/100 (success so far 13/40)
+  cem: 60/100 (success so far 16/60)
+  cem: 80/100 (success so far 21/80)
+  cem: 100/100 (success so far 27/100)
+cem {"success_rate": 0.27, "mean_steps_on_success": 5.148148148148148}
+  random: 20/100 (success so far 5/20)
+  random: 40/100 (success so far 13/40)
+  random: 60/100 (success so far 14/60)
+  random: 80/100 (success so far 18/80)
+  random: 100/100 (success so far 23/100)
+random {"success_rate": 0.23, "mean_steps_on_success": 4.173913043478261}
+  cem-filtered: 20/100 (success so far 15/20)
+  cem-filtered: 40/100 (success so far 29/40)
+  cem-filtered: 60/100 (success so far 42/60)
+  cem-filtered: 80/100 (success so far 55/80)
+  cem-filtered: 100/100 (success so far 73/100)
+cem-filtered {"success_rate": 0.73, "mean_steps_on_success": 4.52054794520548}
+  random-filtered: 20/100 (success so far 14/20)
+  random-filtered: 40/100 (success so far 31/40)
+  random-filtered: 60/100 (success so far 51/60)
+  random-filtered: 80/100 (success so far 63/80)
+  random-filtered: 100/100 (success so far 76/100)
+random-filtered {"success_rate": 0.76, "mean_steps_on_success": 5.657894736842105}
+  scripted: 20/100 (success so far 20/20)
+  scripted: 40/100 (success so far 40/40)
+  scripted: 60/100 (success so far 60/60)
+  scripted: 80/100 (success so far 80/80)
+  scripted: 100/100 (success so far 100/100)
+scripted {"success_rate": 1.0, "mean_steps_on_success": 2.05}
+deltas: 4.0 -3.0

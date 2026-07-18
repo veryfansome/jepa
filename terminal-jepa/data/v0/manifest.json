@@ -1,0 +1,2987 @@
+{
+ "seed": 0,
+ "steps": 24,
+ "invalid_quota": 0.15,
+ "epsilon": 0.15,
+ "n_banners": 64,
+ "train_layout_ids": [
+  "00d09d7baadeb23c",
+  "00e27f002d78f2d4",
+  "015066c7760cbd94",
+  "03125387efb613fb",
+  "0416b48ee5450c19",
+  "04c4c80968fb6fae",
+  "04ea46b710cddde6",
+  "04ec52e55a3a1e2b",
+  "04fb907b97bcbead",
+  "06e68ca680e494da",
+  "07b9e25a70af51cd",
+  "081af92c94db1df7",
+  "0a0c632f32b7e74a",
+  "0ab5c4cabd06dcf9",
+  "0b36d4303366ef8e",
+  "0c29627a9c65130b",
+  "0ff70fb92ab1a807",
+  "105a6fa9628e60bf",
+  "11e4a297e8fe745e",
+  "14bc727899bf0e45",
+  "14f9a89518ee8c4c",
+  "1665bc08a0b0ca06",
+  "171a6a9a1863dfca",
+  "172762d60ce20214",
+  "17bc09d56a45ede4",
+  "1a37fa6d891e90ec",
+  "1ab99e19a127b158",
+  "1b1fbccf377ead03",
+  "1b4fa52cd7c1d211",
+  "1bef7fa15c36e8c8",
+  "1cd16a9953f2d548",
+  "1dfe5f91137bffa7",
+  "1ecabc8e2b9b6791",
+  "1f70012bfc425cb5",
+  "20732b2da8817b03",
+  "2092981e91b92645",
+  "2113e627b555ed8d",
+  "216783535e16023e",
+  "21ff071848696180",
+  "2298cd4abf880b1d",
+  "2334bdc2e9f1e926",
+  "23a453b829373293",
+  "2437b8dc989fbbf0",
+  "2520a6c884dd7fea",
+  "27b0b7310045df37",
+  "29274ffc70f900d8",
+  "2962ea863c19bbf0",
+  "29b15f324fa314d0",
+  "2a4ff675876275f4",
+  "2b60179b2284a027",
+  "2bb84ef498297255",
+  "2e1771aa452ff170",
+  "2f73956b6f57b150",
+  "2ffbc7d2c9905169",
+  "3121d42dd406c4ff",
+  "31d1d362834e4063",
+  "3239cf755e72c1fb",
+  "328ba59a28c391f2",
+  "3399c163673d3e05",
+  "33dcafd8316d8906",
+  "33f8b60d1a3cb687",
+  "349dc4b6a194b879",
+  "3591c854bec48741",
+  "372be433ac678aba",
+  "38ab6c03f45dfbbd",
+  "3973409fda78d3ab",
+  "3ac16fdf55e6b6b6",
+  "3be1153eef3d1100",
+  "3c07430229f09461",
+  "3da23b5504c664c1",
+  "3de2f98651e620e9",
+  "3ec178a914b73d33",
+  "3faec79359d8f00d",
+  "40f2050a096e0a24",
+  "4108aae2f6b0d0a2",
+  "41311830a8be6e8b",
+  "416a38b4030058ef",
+  "4253076bcf6ad5eb",
+  "42efbd4c9aca3c59",
+  "441ec4342e9b31d2",
+  "4517050c467d9265",
+  "46c94a3c5857daa7",
+  "46d2181e285f4e0e",
+  "48d2ff4ee04778d7",
+  "48ec4964397c658a",
+  "48fc48a07011524d",
+  "49495dfffd08888c",
+  "4959be040561cc4b",
+  "4983f7370c588e3f",
+  "49bb09c657513517",
+  "49d710ce78ec24e3",
+  "4a4d031c26bcd54b",
+  "4aab5a73a75995b4",
+  "4b2c050c13aee0a9",
+  "4bbbfe7a78d1e178",
+  "4bed97d8921d23b0",
+  "4c7ad84afd33db90",
+  "4d85121cac78c58c",
+  "4eaaa04eb73177f4",
+  "50371821ef947c92",
+  "51403563be1b6337",
+  "51764319c1806eee",
+  "518268196079e003",
+  "5209e02cd150298e",
+  "538065c0a854d404",
+  "54177833d22b9a92",
+  "547a004a5fc52f16",
+  "554565036de49a8f",
+  "55636286a2c082c8",
+  "558ae49e57effacb",
+  "55f8fac5cfb6eea7",
+  "56b3f1be60ccfbec",
+  "56b84baa0b9bd989",
+  "56e8d7569a05abe3",
+  "57f00084ae296ed2",
+  "5865820eb8a37ac0",
+  "59211d8ae9fa01b5",
+  "5b9b5a2c1ad8918f",
+  "5b9c50c57b5ca461",
+  "5d3f1f3060838e44",
+  "5e51614c3ab56386",
+  "5edd813b74d1c435",
+  "5ff0a4bb370a1ab8",
+  "609c0346897bac0d",
+  "612ff02544f06d76",
+  "61689fbd6d2354ec",
+  "6477cbd9015af736",
+  "66a2b4fbf4ae7d7e",
+  "66c9d84780334c8d",
+  "66dfe1f0f123d574",
+  "6729175c948db218",
+  "67dfb94b42c3d33f",
+  "68801d3c7911a020",
+  "69008e4124ca56d2",
+  "692919bfc08e253a",
+  "6968770d14498b26",
+  "6a8d97f7d61bb395",
+  "6bd811e464a64513",
+  "6cbf7611d4e64d1f",
+  "6de74291495c4e0b",
+  "6e5facaa2d694f4e",
+  "7028ab46e8aa8811",
+  "703648e16bbe32ef",
+  "713e793aa6742322",
+  "716ae1c777f17ccf",
+  "718e2abf4c0ddd21",
+  "71945483b4717a30",
+  "72260cf5602563d4",
+  "72e712f98bfd04e9",
+  "737b677b7a427b97",
+  "73f6c61eec4f0244",
+  "740c9bb5f3efefa7",
+  "746e5c3345449334",
+  "74fe3db2a47eef7b",
+  "75e331689c576694",
+  "75fde878128be2e8",
+  "768e5115a306537d",
+  "77cdbb0532878529",
+  "78aea87f3f22575e",
+  "7910281eb98d844b",
+  "795101e76f4c7149",
+  "7b114a58329612ab",
+  "7b92b2cee5b091b3",
+  "7ba5beba83c6121d",
+  "7c6c569b7723ecd8",
+  "7cd42e38bacd4526",
+  "7d845d674934307c",
+  "7e3866dc7f6e46a2",
+  "7e5cb28aeef16f18",
+  "7ee344a909fd6f5d",
+  "7f564d52258135fd",
+  "818d361ab50f0537",
+  "81ded3954723172a",
+  "82510282f8396f88",
+  "82e79a99747a5605",
+  "8501211691f05e58",
+  "869552bb979a59c4",
+  "8724f5b4cb4ff7b0",
+  "8875f862ca4418bc",
+  "896f2edf64142778",
+  "8b0d80cd1eb19db5",
+  "8bc10eb57b2f93ef",
+  "8c7013371adf7a20",
+  "8d8b9046747ccea2",
+  "8dde325a27f50107",
+  "8e7b683c3c6c1418",
+  "906d11021db7a023",
+  "90aafa4db0a61995",
+  "915581bca19b3b0a",
+  "9350ef2246a1ea53",
+  "9602ee5e0e8a5b5e",
+  "963c1910e636483c",
+  "96bd14813c08995a",
+  "974621da7e4afed1",
+  "9782bb56084a860a",
+  "98c49b1afd740da8",
+  "98d4ebac93e4e9d0",
+  "998dd0c8367252bc",
+  "99c980c3935de540",
+  "9ab1c9182193ea7a",
+  "9b138aa34b7a74fe",
+  "9d1759b0a6aef199",
+  "9d748ff0f45e4611",
+  "9eb0172b0ef659ed",
+  "9f73d53b5de12c5c",
+  "a0a39f3d51470e63",
+  "a1b50d8494b23787",
+  "a1fa3072396f81b0",
+  "a382fcfadbbe7998",
+  "a38b72146c89c9d7",
+  "a3a641de3db6d654",
+  "a43aca3f034e5ead",
+  "a48b061d337ef1ee",
+  "a4ce418287ef06a6",
+  "a4e07f5a787f3491",
+  "a50f7e0f175f1c44",
+  "a635b40c28a47d36",
+  "a66e7ce75a0262aa",
+  "a679c8606e64a65e",
+  "a6dad6f743c33783",
+  "a6f7ff1afc79d6ae",
+  "a86d64e6b4cbc9c8",
+  "a9e3084b2aeea769",
+  "abe273a78a14e336",
+  "ac0b185bc317faad",
+  "ac0c90847c6f6888",
+  "ad68ec63558d83a9",
+  "ad908bce70ce5140",
+  "ae8b17f573a2a91b",
+  "aefb08a4a58a913a",
+  "afb39dd5eb742504",
+  "b089dc619b78dbbb",
+  "b201451a77034280",
+  "b25b9ac1f82baed9",
+  "b2808603a709b945",
+  "b3eb1908507aa46f",
+  "b3f77187e39b3874",
+  "b405898912f0f83e",
+  "b45c35de87e63030",
+  "b5c9257603274628",
+  "b67fd5a6731f9d01",
+  "b68cb97f36e7709e",
+  "b7ef364d605005de",
+  "b86b5a3968ca6b55",
+  "b9eac58ab3083646",
+  "bb4751860ef6ee78",
+  "bbe604566843ff4d",
+  "bc23a0e178020dc3",
+  "c0f3423b84d93799",
+  "c1390799e7dabe05",
+  "c257051aed2e27f6",
+  "c3eace11961faab5",
+  "c4135e76d0400146",
+  "c497b4bfc33aa9a2",
+  "c5ac7179a05c3996",
+  "c8b719087817ddfe",
+  "c92c4dfbfcce40fa",
+  "c98c4c745de2c162",
+  "c9c2bbd644b62773",
+  "c9d240a0ba2d4d73",
+  "ca38d9ec198c9376",
+  "cb801adbcbfb3376",
+  "cbdbfec0d09f7964",
+  "cc209e0e32e5bb0b",
+  "cc822cf6de4c20c8",
+  "cdf07a6516eb4305",
+  "cf365b6df6ebe354",
+  "d1425d8ea1a7e72f",
+  "d1dbd770de734153",
+  "d20e950ab03ff096",
+  "d22cae7c8c55b1b7",
+  "d406415a6a8ed001",
+  "d41d9174dcd54297",
+  "d4d3747a613a24ef",
+  "d526ea98fe43359c",
+  "d55bbb8edbccacd6",
+  "d566c59623297762",
+  "d7267dbd0c54b708",
+  "d84c3478eb06a925",
+  "d8a637ae620e5959",
+  "d9ac07b317146aa2",
+  "d9fab5c2ac916af3",
+  "da481332ac4c5ef9",
+  "da5cb76a5ae22e92",
+  "da8aae0e096d836b",
+  "da96016fc312b230",
+  "dbfcdeb2925bfc9f",
+  "dcdd92f07c63e45c",
+  "dd6dbe237c9618ce",
+  "deaeeb25742b5270",
+  "dee879bc0726fb6a",
+  "e132191fb04020f8",
+  "e1952a4df6459f0d",
+  "e1d0ae4cb2aa46f9",
+  "e2398e0fceb04290",
+  "e388ff396ef62a7b",
+  "e57cdf9f5998126d",
+  "e6f54aa0965d5e00",
+  "e7062d0523ed3932",
+  "e759d0bc6548988d",
+  "e7e60c1cdb2a8966",
+  "e800465c83eb0290",
+  "e8d522307bfbbd9f",
+  "ea1e08e622aa1d35",
+  "eb77bdafd513cb2c",
+  "ecfdf580b819c03d",
+  "ed3b9519244878ca",
+  "ed5333239977c83a",
+  "eda4edeb4555998a",
+  "edd3d011ec9ea18b",
+  "edfb0226ec5ab885",
+  "f016e49e626a8dac",
+  "f0ecf6fd02aff690",
+  "f56f87f06ae1c617",
+  "f593c8a09a3049f9",
+  "f6954d9936d66800",
+  "f6e5f1a1729bf4e2",
+  "f72c8a3459298021",
+  "f7bb3944185664a1",
+  "f80d42b13c44a6e1",
+  "f928f43b5f3e9f4f",
+  "fa797b9e6c95230a",
+  "fd57f32caeb4f597"
+ ],
+ "val_layout_ids": [
+  "0262fff2257240a5",
+  "02631a9543a0ba7f",
+  "09f2205744775011",
+  "0a19d746c13791c9",
+  "0b947582f0bed7ef",
+  "0d9a4e85609a1164",
+  "0dfb4a47435dbc97",
+  "107c87556bca9778",
+  "112a7bded50f8c43",
+  "1199bbbd78ca513a",
+  "1540d5b5b41ceabb",
+  "1da4e30d063c1ed2",
+  "2239783519c4d5d0",
+  "23b634026601576a",
+  "25769319b18ac63d",
+  "277bf81aa21b436c",
+  "29b511b7c4877e17",
+  "2c0b0847532f5abd",
+  "2dea10a537dfc66f",
+  "311b40ec938cc81a",
+  "3e0b2e128d52469a",
+  "3f34990037b3afa2",
+  "40ede7b17653855b",
+  "443d09909d93cff5",
+  "47daa3f474a3bcb1",
+  "501af586c794a481",
+  "505d087fb5888e14",
+  "52e6b4f128b81527",
+  "56cae432531f61f3",
+  "57492178d0a60aa2",
+  "58f64e8c2168e979",
+  "6b67586bbf4ab723",
+  "73a9b685c6924b35",
+  "743b2fb671576148",
+  "7b680799222d48ea",
+  "7e49d39ecde2af06",
+  "7ff4cfd7f650b0ff",
+  "830416eff1dd4efd",
+  "89448d51aa488fbf",
+  "89b7cb2f0440a9e9",
+  "8ab5a76698b3878a",
+  "8e52b193fe7f7513",
+  "8f20c41be16a481e",
+  "8fde1078b7d8f171",
+  "907c76d45c6db503",
+  "90b7173d9f793b72",
+  "9657c4642c9c12a3",
+  "978a7c99763cfeaa",
+  "9a965f26c333a9fe",
+  "9cd06927f6c5e88f",
+  "9d0ddfbecb502a4a",
+  "9f1551dacf1298e4",
+  "a5900c1d8e6cb267",
+  "abd17597eaae638c",
+  "abef577b5cea7c61",
+  "c1c33f68c1594800",
+  "c21170a815c1c8b8",
+  "c48f84314f9e4cb7",
+  "ccf4e797bfbf28dc",
+  "cd364d01ff37bda7",
+  "cdc3029e784bcb10",
+  "cfa7b1362538e666",
+  "d0d43a4a408aa480",
+  "d1654b65c7e35bb1",
+  "d451b174432d27e3",
+  "dab64422c5907929",
+  "dcfbdb432b6dae81",
+  "de5de223d60788bd",
+  "e7a823685414edf8",
+  "e99177c8ea15a70e",
+  "ea76652d6ef31412",
+  "eae935d9b25ee926",
+  "eb426e655142f8f2",
+  "f1966e97c0892ff5",
+  "f2d39b92b72d080d",
+  "f7dede0883641dd7",
+  "f847ffc4dbaae651"
+ ],
+ "n_train_predicates": 2089,
+ "n_val_predicates": 534,
+ "val_predicates": [
+  {
+   "kind": "file_exists_with_class",
+   "path": "/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists",
+   "path": "/data.csv"
+  },
+  {
+   "kind": "file_absent",
+   "path": "/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/log.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/notes.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/log.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/b/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/readme.md",
+   "cls": 5
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/run.sh"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/cfg.ini",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/readme.md",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/notes.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/notes.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/d/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/d/cfg.ini"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/d/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/log.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/cfg.ini"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/e/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/cfg.ini",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/readme.md",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/f/log.txt"
+  },
+  {
+   "kind": "file_absent",
+   "path": "/f/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/readme.md",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/log.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists",
+   "path": "/a/a/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/cfg.ini",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/a/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/b/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/data.csv",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/b/run.sh"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/a/b/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/run.sh",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/log.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/log.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/cfg.ini",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/b/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/b/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/c/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/c/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/c/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/c/log.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/c/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/c/cfg.ini",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/c/cfg.ini",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/c/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/data.csv",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/data.csv",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/d/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/d/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/log.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/d/readme.md",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/e/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/notes.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/e/data.csv"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/a/e/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/e/readme.md",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/a/f/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/f/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/a/f/readme.md"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/a/f/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/a/f/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/notes.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/log.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/cfg.ini",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/b/a/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/a/readme.md",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists",
+   "path": "/b/b/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists",
+   "path": "/b/b/run.sh"
+  },
+  {
+   "kind": "file_absent",
+   "path": "/b/b/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/log.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/b/cfg.ini",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists",
+   "path": "/b/c/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/data.csv",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/b/c/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/log.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/log.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/c/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/b/d/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/data.csv",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/run.sh",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists",
+   "path": "/b/d/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/d/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/b/e/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/data.csv",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/log.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/e/readme.md",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/notes.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists",
+   "path": "/b/f/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists",
+   "path": "/b/f/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/b/f/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/cfg.ini",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/b/f/readme.md",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/a/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/data.csv",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/a/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/a/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/a/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/a/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/b/notes.txt"
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/b/data.csv"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/b/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/data.csv",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/log.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/b/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/b/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/c/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/c/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/c/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/d/data.csv"
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/d/run.sh"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/d/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/run.sh",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/cfg.ini",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/d/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/e/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/e/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/e/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/notes.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists",
+   "path": "/c/f/log.txt"
+  },
+  {
+   "kind": "file_absent",
+   "path": "/c/f/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/c/f/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_absent",
+   "path": "/d/a/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/d/a/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/log.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_absent",
+   "path": "/d/a/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/a/readme.md",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists",
+   "path": "/d/b/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/cfg.ini",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/b/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/c/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/c/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/d/c/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/c/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/c/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/c/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/c/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/c/readme.md",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/d/d/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/notes.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/cfg.ini",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/d/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/d/e/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists",
+   "path": "/d/e/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/data.csv",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/e/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/d/f/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/log.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/log.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/cfg.ini",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists",
+   "path": "/d/f/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/readme.md",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/d/f/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/a/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/a/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/a/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/a/log.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/e/a/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/a/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/a/cfg.ini",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/a/cfg.ini",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/b/notes.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/b/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/b/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/b/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/b/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/b/cfg.ini",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/b/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/c/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists",
+   "path": "/e/c/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/c/run.sh"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/e/c/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/run.sh",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/run.sh",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/c/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/cfg.ini",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/c/readme.md",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/data.csv",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/run.sh",
+   "cls": 1
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/d/log.txt"
+  },
+  {
+   "kind": "file_exists",
+   "path": "/e/d/log.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/d/cfg.ini"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/cfg.ini",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/cfg.ini",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/cfg.ini",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/d/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/d/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/e/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/data.csv",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/e/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/notes.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_absent",
+   "path": "/e/f/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/cfg.ini",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/e/f/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists",
+   "path": "/f/a/notes.txt"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/data.csv",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/data.csv",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists",
+   "path": "/f/a/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/run.sh",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/a/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/run.sh",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/run.sh",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/log.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/log.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists",
+   "path": "/f/b/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/readme.md",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/b/readme.md",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists",
+   "path": "/f/c/notes.txt"
+  },
+  {
+   "kind": "file_absent",
+   "path": "/f/c/run.sh"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/c/log.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists",
+   "path": "/f/c/readme.md"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/c/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/c/readme.md",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/c/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_absent",
+   "path": "/f/d/data.csv"
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/data.csv",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/run.sh",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/log.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/log.txt",
+   "cls": 4
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/cfg.ini",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/cfg.ini",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/readme.md",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/d/readme.md",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/notes.txt",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/data.csv",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/run.sh",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/log.txt",
+   "cls": 5
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/cfg.ini",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/readme.md",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/e/readme.md",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/notes.txt",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/notes.txt",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/notes.txt",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/notes.txt",
+   "cls": 3
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/notes.txt",
+   "cls": 6
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/data.csv",
+   "cls": 1
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/data.csv",
+   "cls": 7
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/run.sh",
+   "cls": 0
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/run.sh",
+   "cls": 2
+  },
+  {
+   "kind": "file_exists_with_class",
+   "path": "/f/f/cfg.ini",
+   "cls": 2
+  },
+  {
+   "kind": "cwd_is",
+   "path": "/a"
+  },
+  {
+   "kind": "cwd_is",
+   "path": "/c"
+  },
+  {
+   "kind": "cwd_is",
+   "path": "/a/c"
+  },
+  {
+   "kind": "cwd_is",
+   "path": "/a/f"
+  },
+  {
+   "kind": "cwd_is",
+   "path": "/e/b"
+  }
+ ]
+}

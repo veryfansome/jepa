@@ -1,0 +1,23 @@
+{
+ "ckpt": "untrained",
+ "regime": "both",
+ "linear": {
+  "cwd_acc": 0.1281999945640564,
+  "exists_balacc": 0.5357306450605392,
+  "cls_acc_given_exists": 0.1441902071237564,
+  "macro": 0.269373615582784,
+  "banner_acc": 0.07639999687671661
+ },
+ "mlp": {
+  "cwd_acc": 0.11739999800920486,
+  "exists_balacc": 0.5411778576672077,
+  "cls_acc_given_exists": 0.14469578862190247,
+  "macro": 0.2677578814327717,
+  "banner_acc": 0.10920000076293945
+ },
+ "banner_swap_audit": {
+  "banner_swap_dz_median": 0.25842344760894775,
+  "state_change_dz_median": 0.18272776901721954,
+  "ratio": 1.414253830909729
+ }
+}

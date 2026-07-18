@@ -1,0 +1,448 @@
+{
+ "date": "2026-07-13",
+ "scope": "findings 14-18 + six new modules",
+ "process": "8 dimension finders -> dedup (49 raw -> 31 merged) -> per-finding truth+materiality verification",
+ "agents": 71,
+ "confirmed": [
+  {
+   "severity": "critical",
+   "title": "Tier-2/gate-2 'rule passed' verdicts fail pre-registered rule 1's invalid-transition clause: 13 spurious edit-units over 72 invalid transitions vs a copy floor of exactly 0, passed only via a post-hoc median-only reading",
+   "file": "terminal-jepa-status.md",
+   "location": "lines 66, 68 (findings 16-17); rule text terminal-jepa/models/tier2.py:25-31",
+   "claim_attacked": "Finding 16 'slotpred-v2 passes the rule' and finding 17 'Gate 2 PASSED ... rule passed'",
+   "description": "Rule 1 (pre-registered, models/tier2.py:26-28) requires h1 rollout error on valid-no-op AND invalid transitions to match the copy floor (0) within noise, with AUC >= 0.9, and pre-specifies no summary statistic. slotpred-v2's invalid h1 error is mean 0.18055... = exactly 13 edit-units over 72 invalid transitions (rng replay of random.Random(\"dynamics:0\") confirms type counts 353/75/72) on draws pair-matched with the copy control, which scores exactly 0/72 with zero variance (invalid => state unchanged => copy exact) \u2014 not \"within noise\" of the floor under any defensible statistical reading (paired sign test p\u22482.4e-4; the ~18% over-fire rate is independently corroborated by train_log.json em.invalid 0.8141 at step 3000). The recorded PASS relies on scoring the clause by the median (0.0) \u2014 a statistic that saturates at 0 for any over-fire rate below 50% and is blind to exactly the spurious-edit failure the clause was written to catch \u2014 and the doc's pass sentences in findings 16 and 17 recite only the no-op error and AUC, omitting the invalid clause and demoting the mean to a \"flagged caveat\"/\"inherited caveat\". The round-1\u21922 loss fix introduced the over-fire (round-1 slotpred invalid mean 0.0/72) and median scoring could not detect the regression. Under the strict reading no round-2 candidate is calibrated (editpred-v2 fails AUC 0.785 and invalid under any statistic), so rule 2's \"among calibrated candidates\" set is empty. Gate 2 inherits invalid = 0.18055... verbatim in both codebook batteries (clean and dirty) and is likewise declared \"rule passed\". This matters at gate 3: finding 18 shows the validity filter is worth +46-53 points, i.e. unfiltered planners lean on exactly the invalid-transition class where this model over-fires \u2014 the plan's pre-recorded \u00a75 \"planner exploits undertrained invalid actions\" risk. CORRECTION to the original finding: the claim that the doc applied a \"different (harsher) metric\" to fail editpred is wrong \u2014 editpred's calibration clause was also quoted by median (round-1 no-op median 1.0; editpred-v2 invalid change-magnitude median 1.0) and editpred fails under every statistic including AUC; the statistic use is consistent, the defect is that the median-only reading was post-hoc (never pre-registered) and insensitive to this failure mode. What survives: the bake-off winner (slotpred dominates editpred on every component in both rounds), the no-op clause, and the AUC clause as measured. What does not survive as recorded: finding 16's \"passes the pre-registered rule\" and finding 17's \"rule passed\".",
+   "evidence": "models/tier2.py:25-31 rule text; runs/tier2/slotpred-v2/battery.json rollout.h1_err_mean_by_type.invalid = 0.18055555555555555 (median 0), rng replay of the battery stream (random.Random('dynamics:0')) confirms type counts {state-changing: 353, valid-no-op: 75, invalid: 72}, 0.18055*72 = 13.0 exactly; runs/dynamics-battery/oracle-copy.json invalid mean/median 0.0 on the identical paired draws; runs/gate2/codebook-battery-{clean,dirty}.json inherit 0.18055...; runs/tier2/slotpred/battery.json round-1 invalid mean 0.0; runs/tier2/slotpred-v2/train_log.json em.invalid 0.8141 at step 3000; independent 720-transition CPU check: 23/113 invalid transitions fired; status doc findings 16/17 pass sentences quote only no-op error and AUC.",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Finding 16: 'slotpred-v2 passes the pre-registered rule' / 'slotpred wins by the pre-registered rule' (terminal-jepa-status.md:66) \u2014 flips; winner direction survives but the rule-pass claim does not",
+    "Finding 17: 'Gate 2 PASSED ... rule passed' (terminal-jepa-status.md:68) \u2014 flips; inherits the identical 0.18055 invalid h1 mean in both codebook batteries",
+    "Status header/summary claims 'gate 2 passed via linear-decoder grounding' (terminal-jepa-status.md:7, 19) \u2014 propagate the flipped verdict",
+    "Finding 18 / gate-3 plan (indirect, not flipped): gate 3 stresses invalid-action exploitation, the exact transition class where the gate-2 checkpoint over-fires ~18-20%; the \u00a75 risk is now measured, so gate-3 go-ahead premised on gate-2 PASS needs re-scoping"
+   ]
+  },
+  {
+   "severity": "critical",
+   "title": "Gate-1 'PASSED at ceiling' was never evaluated against its own pre-registered rule, and the architecture-matched untrained floor sits at the same path-keyed ceiling \u2014 the measurable margins fail both clauses",
+   "file": "terminal-jepa-status.md",
+   "location": "lines 19, 26, 31, 62 (gate-1 rule, A1 pass declaration, finding 14); probes/frozen_probe.py:344-355",
+   "claim_attacked": "Finding 14 / 'gate 1 PASSED at ceiling' (held-out macro 100% path-keyed / 44.4% pooled vs the 28.2% untrained floor); repeated at lines 7, 19, 31",
+   "description": "The gate-1 rule was genuinely pre-registered (committed 2026-07-10, verified via git show HEAD): held-out linear macro >= architecture-matched untrained floor +20 AND >= reconstruction twin +10, with the \u00a77 amendment pinning baselines to 'same encoder class and output dimension'. The recorded PASS uses neither comparison. (a) The floor cited, 28.2%, is the 256-d from-scratch untrained-CLS pooled floor \u2014 wrong architecture, wrong dimension, and wrong readout for the 768-d path-keyed headline. (b) A measured architecture-matched floor (random-init ModernBERT-base via AutoModel.from_config, identical readout and probe budget) gives content-given-existence 100.0% (2782/2782 held-out pairs) \u2014 margin exactly 0 on the headline metric \u2014 structural existence 1.0 by construction for ANY encoder (the keying is the parser), and cwd 42% at a data-starved fit, so the floor macro is >= 80.7% and the gate margin <= 19.3 < +20; two of the three macro components carry zero margin and the pass rides entirely on the never-measured cwd floor. (c) The reconstruction-twin +10 clause was never evaluated \u2014 the recon arm has never been run (status line 155) \u2014 and is unsatisfiable in principle at a 100% score, since the plan itself notes the twin sits at the probing ceiling on machine-readable observations. (d) The only readout that IS protocol-v2-comparable to the 28.2% floor, pooled, scores 44.4% \u2014 margin +16.2, also below +20. No predicate-satisfaction/exact-state metrics were reported as the rule requires. The substantive pooled result (frozen beats trained-CLS 26.0 and untrained-CLS 28.2) stands, but the gate-1 PASS as a rule verdict \u2014 the anchor of the whole A1 track \u2014 rests on margin arithmetic that was never done and fails where it can be done.",
+   "evidence": "git show HEAD:terminal-jepa-status.md confirms rule text (line 26) predates the run; runs/frozen-modernbert-v1/probe.json: pooled.linear.macro=0.44405, path_keyed macro 1.0, no untrained-frozen arm, no twin, no predicate-satisfaction keys; runs/untrained-cls-v1-v2.json: linear.macro=0.28171, encoder_d_out 256; margin 0.44405-0.28171=+16.2<20. Random-init ModernBERT check (script at scratchpad/random_floor_check.py: 300 fit / 200 eval states from data/v1, regime both, protocol-v2 fit_head/standardize, seed 0): cls_acc_given_exists=1.0, cwd_acc=0.42, macro_with_structural_exists=0.807; independently replicated at smaller budget (n=376 eval pairs) with content=1.000. Recon twin absence: status line 155; twin-at-ceiling note: terminal-jepa.md line 44.",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Finding 14 / gate-1 'PASSED at ceiling' (status lines 7, 19, 31, 62) \u2014 flips: under the pre-registered rule (arch-matched floor +20 AND recon twin +10) the path-keyed headline carries <=+19.3 margin vs the measured architecture-matched random-init floor (two of three macro components at zero margin), the pooled readout carries +16.2, and the twin clause was never run \u2014 the PASS fails both clauses where measurable",
+    "Finding 17 / gate-2 PASS via linear-decoder grounding \u2014 does not flip (its battery numbers are independently measured) but needs re-scoping: the gate-ladder prerequisite rung is void, and the load-bearing role of *pretrained* (vs random-init) frozen features in the grounding pipeline is now unattributed except via cwd",
+    "One-paragraph summary and 'Where we are' headline claims (lines 7, 19) repeating 'gate 1 passed at ceiling' \u2014 headline is wrong as stated",
+    "NOT affected: finding 15a (clean targets), 15b (dynamics battery), finding 16 (tier-2 slotpred winner), finding 18 (tier-1 planner/CEM) \u2014 all oracle-representation or rendering measurements independent of gate-1 arithmetic"
+   ]
+  },
+  {
+   "severity": "critical",
+   "title": "Gate-2 PASS validates no dynamics over frozen features: it is the unchanged tier-2 checkpoint re-scored behind a ~100% decoder that approximates the repo's own exact parser \u2014 bit-identical battery numbers, zero new capability evidence",
+   "file": "terminal-jepa/models/gate2.py",
+   "location": "Gate2CodebookAdapter, lines 324-379; runs/gate2/codebook-battery-clean.json vs runs/tier2/slotpred-v2/battery.json; status doc line 68 (finding 17), line 31",
+   "claim_attacked": "Finding 17 'Gate 2 PASSED' as a distinct ladder rung, and the line-31 claim that the A1 arm cleared its dynamics gate ('the arm then trains a predictor on the frozen features and must clear gates 2-3 like everything else')",
+   "description": "The ladder defines gate 2 for A1 as a learned predictor over the frozen representation. That experiment ran twice and failed both times (rounds 1-2). The recorded PASS (round 3) swaps the interface: frozen features -> label-fit linear decoder -> the tier-2 predictor trained on ORACLE symbolic states (finding 16), reused unchanged \u2014 predict() and distance() delegate entirely to the tier-2 checkpoint. The frozen encoder's only role is encode(): text -> FsState, where existence is hand string-keying (no model involved), content class is a linear head over a line that literally prints the answer (render.py renders '{path} [cK]'; render_full docstring: 'Content classes are shown so the state is exactly recoverable'), and cwd over a line printing 'cwd: ...'. env/parse.py parse_full is the exact, round-trip-tested inverse and the plan's own nonprivileged component; plan \u00a75 states 'in full-obs a trivial parser + classical search is a nonprivileged ceiling'. So the 149M encoder contributes a 99.7-100%-accurate approximation of a 25-line exact parser already in the repo, and the result is arithmetically forced by verdicts already on the books (findings 14 + 16): with decode at ~100% the composed system IS the tier-2 system, and the artifacts show it \u2014 state-changing h1 mean 0.29745042492917845 (=105/353), invalid 0.18055..., AUC 0.9075986868444231, and VoE 0.9683333... identical to 15+ digits between codebook-battery-clean.json and tier-2's battery.json (same battery rng, same 500 draws, decoder exact on every one); only goal-ranking moves by ~1.5/615 comparisons. The only new measurement in round 3 is the decoder's val accuracy, fit with ground-truth labels at build time and validated on the same 200 val trajectories the battery uses. The doc discloses the composition honestly, but the ladder bookkeeping treats a relabeling as a cleared gate; the gate the ladder actually specified for this arm remains failed, and gate 3 on this pipeline will measure 'parser + symbolic dynamics + planner' \u2014 the exact regime the plan says supports only machinery claims, not representation/dynamics claims.",
+   "evidence": "Byte-level comparison of runs/gate2/codebook-battery-clean.json vs runs/tier2/slotpred-v2/battery.json (values above, identical to 15+ digits; both record ckpt = runs/tier2/slotpred-v2/ckpt.pt); models/gate2.py 324-379 (predict/distance delegate to Tier2Adapter; build_codebook fits heads on ground-truth-labeled train features, validates on cache-val.pt = the same 200 val trajs run_battery loads); env/render.py 24-35; env/parse.py 15-39; tests/test_roundtrip.py; probes/frozen_probe.py 81-146 (key_lines string-keying); terminal-jepa.md \u00a75 first paragraph; status line 31 wording contradicting what was credited.",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Finding 17: 'Gate 2 PASSED via linear-decoder grounding' \u2014 flips to gate-not-cleared/failed as pre-registered for the A1 arm",
+    "Status line 31 (Path to a working agent, A1): claim that the A1 arm cleared gate 2 per the 'must clear gates 2\u20133 like everything else' rule",
+    "Status line 19 (Where we are): 'gate 2 passed (finding 17)' summary state and the advancement of the live front to gate 3 on that basis",
+    "Finding 17 corollary: 'closing A3 as unnecessary (measured, not argued)' \u2014 the nuisance invariance is supplied by a label-fit decoder, not the representation",
+    "Prospective gate-3 verdict scope: on this pipeline it measures parser + symbolic dynamics + planner, supporting only machinery claims per plan \u00a75, not representation/dynamics claims"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "The AUC >= 0.9 clause is a knife-edge, seed-dependent pass: margin 0.6 SE on a single battery seed, 1 of 5 fresh referee draws fails the bar, and the gate-2 'AUC 0.908' is the same sample, not independent confirmation",
+   "file": "terminal-jepa/evals/dynamics.py",
+   "location": "lines 169-182 (calibration_eval, n=500); runs/tier2/slotpred-v2/battery.json calibration.auc",
+   "claim_attacked": "Findings 16 and 17's pass citation 'AUC 0.908 >= 0.9' (rule 1's second clause)",
+   "description": "Finding holds as described with two marginal refinements: (a) under exact battery rng semantics (rollout consumption then calibration, seed 3), the checkpoint's AUC is 0.8860, not the reviewer's 0.8894 \u2014 slightly worse, still a fail, so the \"1 of 5 fresh draws fails\" claim is confirmed in direction and load-bearing substance; (b) the terminal-jepa.md \u00a77 pre-commitment (borderline 0.01 < p < 0.10 triggers rerun at >=10 seeds) strictly governs the >=5-seed paired-permutation protocol for arm comparisons, so its non-application to the battery's AUC threshold is an argument that the project violated its own methodological spirit, not a literal breach of the pre-registered battery rule, which specified no seed-variance handling at all.",
+   "evidence": "Instrumented replication of calibration_eval draws at seed 'dynamics:0': counts {state-changing: 362, valid-no-op: 71, invalid: 67}; Hanley-McNeil on A=0.9075986868: SE=0.0127, CI (0.8826, 0.9326), margin (A-0.9)/SE = 0.60; 5-seed rerun (random.Random(f'dynamics:{s}'), s=1..5) on runs/tier2/slotpred-v2/ckpt.pt: seed 3 AUC = 0.8894 < 0.9; AUC byte-identical across runs/tier2/slotpred-v2/battery.json, runs/gate2/codebook-battery-clean.json, runs/gate2/codebook-battery-dirty.json; terminal-jepa.md S7 pre-commitment text; evals/dynamics.py:291 single shared rng.",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Finding 16 \u2014 tier-2 bake-off: the 'slotpred passes the pre-registered battery rule' declaration (rule 1's AUC >= 0.9 clause); the comparative slotpred-over-editpred winner choice itself does not flip (editpred fails rule 1 on independent grounds in both rounds)",
+    "Finding 17 \u2014 'Gate 2 PASSED via linear-decoder grounding': its 'rule passed' declaration depends on the same clause, and its 'AUC 0.908' citation is the byte-identical sample as tier-2's, so it adds no independent confirmation",
+    "Derivative: the status-file headline claims 'gate 2 passed (finding 17)' and the gate-3 go-decision sequencing that treats gate 2 as cleared (finding 18's framing inherits but its own tier-1 planner verdict is unaffected)"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "'Closing A3 as unnecessary (measured, not argued)' is tautological: the predictor never sees contaminated inputs, so the pre-registered A3 fallback trigger was never exercised",
+   "file": "terminal-jepa-status.md",
+   "location": "line 68 (finding 17, A3-closure sentence) and line 33 (A3 scope-down)",
+   "claim_attacked": "Finding 17's claim that the clean-vs-dirty battery identity is an end-to-end nuisance-robustness measurement that closes A3",
+   "description": "Finding 17's A3-closure sentence overclaims. In the passing round-3 pipeline the tier-2 predictor consumes only argmax-decoded discrete FsStates (models/gate2.py, Gate2CodebookAdapter.encode/predict), so the pre-registered fallback trigger (status line 33: \"prediction over contaminated *inputs* still chases nuisance\") was structurally unexercisable in that configuration \u2014 nuisance can only enter via a decode flip, and the decode's nuisance robustness (file_class 1.0 / cwd 0.9972, both regimes pooled) was already measured at codebook build time, making the clean/dirty battery identity near-foreordained: the dirty run's entire incremental content is one extra decode-error unit (state-changing h1 mean 106/353 vs 105/353; every other value bit-identical). One correction to the reviewer's wording: the trigger WAS exercised in feature space \u2014 rounds 1-2 ran clean/dirty battery pairs on the embedding-space arms (runs/gate2/battery-{clean,dirty}.log, battery-v2-{clean,dirty}.log) and showed large clean-vs-dirty gaps (e.g. round-1 calibration no-op change magnitude ~52.7 dirty vs ~1.27 clean; rollout h1 93 vs 58), unreported in the status doc \u2014 direct evidence that for arms where features rather than symbols flow into dynamics (A2, any future embedding-space predictor), input-side nuisance remains a live problem, consistent with finding 14's contaminated-feature measurements (pooled banner-swap ratio 1.17; banner decodable at 45%/31%). The closure therefore holds only conditional on keeping the symbolic bottleneck, which the sentence does not state.",
+   "evidence": "torch-load of runs/gate2/codebook.pt -> val_decode_acc {'file_class': 1.0, 'cwd': 0.9972}; full-file diff of the two codebook battery JSONs -> only rollout.h1_err_mean_by_type.state-changing differs, 105/353 vs 106/353 reproduce both floats exactly; evals/dynamics.py rollout/calibration/voe pass _ctx (dirty) into encode; models/gate2.py Gate2CodebookAdapter feeds only the decoded FsState to t2.predict; feature contamination: runs/frozen-modernbert-v1/probe.json (finding 14).",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 17 (gate-2 PASS) \u2014 only its embedded A3-closure sub-claim ('closing A3 as unnecessary, measured not argued'); the PASS itself and its battery numbers stand",
+    "Line 33 A3 scope-down decision \u2014 'A3-as-loss remains only as a fallback' is now recorded as closed, but the closure holds only conditional on the symbolic bottleneck and is untested for A2/embedding-space arms"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "Finding 14's headline \u2014 frozen *pretrained* features 'dissolve the representation problem' / preserve what JEPA training 'demonstrably destroyed' \u2014 is misattributed: the path-keyed readout, not pretraining, carries 2/3 of the perfect macro, and the finding-13 comparison exists only in pooled space",
+   "file": "terminal-jepa-status.md",
+   "location": "line 62 (finding 14); probes/frozen_probe.py:81-101, 194-230",
+   "claim_attacked": "Finding 14: 'frozen pretrained text features dissolve the representation problem \u2014 zero training', 'held-out-layout probes are perfect', and 'which our JEPA-trained encoders demonstrably destroyed (finding 13)'",
+   "description": "The finding holds as described, with two wording corrections: (a) the from-scratch slot encoder emits a 1024-d latent (4 slots x 256), not \"one 256-d vector\" \u2014 the substance (global single-readout probes, no per-line keying in probes/probe.py) is unchanged; (b) \"no path-keyed per-line measurement of them exists or is possible\" should read \"exists\" only \u2014 the from-scratch encoders' internal per-token states could in principle be line-keyed, but no such measurement was ever made, and finding 13 probed only their output latents. Independently re-measured: random-init ModernBERT-base under the identical path-keyed readout scores content-given-existence 1852/1852 = 100.0% on held-out layouts (cwd 32.7% at a 300-state data-starved budget vs the reviewer's 42% at theirs; protocol-scale random cwd remains unmeasured), and frozen pretrained pooled content is 0.161, below the 0.175 majority floor, so the pooled ~16-pt advantage over the (non-architecture-matched, 256-d) untrained floor comes from cwd and existence, not content.",
+   "evidence": "Random-init ModernBERT-base, identical readout/probe budget: content 2782/2782 = 100.0% on held-out layouts (replicated independently at n=376: 1.000); runs/frozen-modernbert-v1/probe.json path_keyed vs pooled sections; finding 13 artifacts are protocol-v2 pooled probes (runs/untrained-cls-v1-v2.json et al.); no per-line readout exists for the CLS/slot from-scratch checkpoints. Token-line assignment verified sound (2,842 tokens across 12 rendered observations, 0 span violations; searchsorted logic in frozen_probe.py:120 correct \u2014 render.py emits no indentation or empty lines).",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Gate-1 pass (finding 14) \u2014 flip risk: pre-registered +20-over-architecture-matched-floor margin not established on either readout (path-keyed ~19.3 pts vs matched random floor; pooled 16.2 pts vs mismatched floor)",
+    "Finding 14's cross-arm claim that JEPA training 'demonstrably destroyed' what pretraining preserved \u2014 must be re-scoped to the pooled arm only (~16 pts, unverified vs matched 768-d random pooled floor)",
+    "Gate-2 PASS (finding 17) \u2014 verdict stands (directly measured end-to-end) but its finding-14 grounding rationale and the implied necessity of pretrained features for the linear state reader need a caveat/random-init control",
+    "One-paragraph summary and 'Where we are' restatements of 'gate 1 passed at ceiling' (lines 7, 19) \u2014 inherit the flip risk"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "Both goal-driven evals are ~90% a single predicate family: the val predicate pool plus the unsatisfied-at-s0 filter make goal-ranking (findings 15b/16/17) and the CEM tier-1 verdict (finding 18) near-blind to cd/rm/cwd goal families",
+   "file": "terminal-jepa/evals/dynamics.py",
+   "location": "lines 240-245 (goal_ranking_eval predicate sampling + pred.check(s0) filter); plan/cem.py:163-175 (sample_episodes); data/v1/manifest.json val_predicates",
+   "claim_attacked": "Findings 15b/16/17's goal-ranking numbers presented as covering 'held-out predicates' (and every artifact's eval_split stamp), and finding 18's algorithm-level generalization 'CEM-the-algorithm adds nothing ... distribution-sharpening has nothing to grip when improvement is needle-shaped'",
+   "description": "The finding holds as written, with three small refinements: (i) the illustrative claim that a model with broken cd/rm goal-distance behavior 'would still post ~0.99' slightly overstates \u2014 the 4 minority-family episodes contribute comparison-weighted terms, so a fully broken family would likely shave a few points off the headline (still nowhere near failing any recorded bar, so the substantive point survives); (ii) finding 18 is partially self-aware \u2014 it explicitly names file_exists_with_class as 'the residual failures' \u2014 but as failure analysis, not as disclosure that the episode mix was ~89-90% that family with zero cwd_is episodes; (iii) the 'each mkdir reduces oracle distance by 1' example is plausible under OracleAdapter.distance but was not verified against make_satisfying's cwd_is exemplar construction; the load-bearing fact (zero gradient-shaped episodes ran) is verified.",
+   "evidence": "data/v1/manifest.json val_predicates kind counts {file_exists_with_class: 436, file_absent: 56, file_exists: 37, cwd_is: 5}; instrumented rng-exact replication of goal_ranking_eval at seed 'dynamics:0' (100 episodes, 16 skips via pred.check(s0), 615 wins_rand comparisons); env-only replay of sample_episodes('data/v1', 100, 200, Random('cem:0')): kinds {FileExistsWithClass: 89, FileExists: 10, FileAbsent: 1}; artifact field eval_split = 'val-heldout-layouts, val-heldout-predicates' in all battery JSONs.",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Finding 18 (tier-1 planner verdict): 'machinery validated' half stands, but the algorithm-level half \u2014 CEM adds nothing over random shooting / +30 bar unreachable by CEM / Planner B carries the gate-3 burden \u2014 could flip; it was never tested on cwd_is or rm-style goals where symbolic distance has a multi-step gradient",
+    "Finding 17 (gate-2 PASS): the goal-ranking component of the pass rule (0.99/0.97 margin 2.0) certifies ~90% file_exists_with_class, not 'held-out predicates' as stamped; the PASS is under-certified against its pre-registered scope and carries a conditional flip risk on a stratified rerun",
+    "Finding 16 (tier-2 winner slotpred): winner selection robust (editpred failed calibration/rollout, which are mix-independent), but slotpred's battery-pass ranking line (0.99/0.98) needs re-scoping to the file_exists_with_class family",
+    "Finding 15b (battery validity): oracle/copy self-test validity stands, but the battery's 'held-out predicates' coverage claim and every artifact's eval_split stamp need re-scoping; the skew is structural (pool composition + unsatisfied-at-s0 filter), not incidental",
+    "Downstream plan (status line 19, gate-3 framing): the Planner B pivot rests on finding 18's untested generalization and inherits its flip risk"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "Filtered arms: position-0 pool replacement severs CEM's control of the only executed action, making cem-filtered ~ random-filtered by construction",
+   "file": "terminal-jepa/plan/cem.py",
+   "location": "lines 97-113 (cem_plan sampling/refit), 101-102, 158 (receding horizon executes seq[0])",
+   "claim_attacked": "Finding 18's filtered pairing (73% vs 76%, delta -3) and its explanation 'the validity filter's +46-53 points is mostly needle-supply, which is why filtered random matches filtered CEM'",
+   "description": "In filtered mode every candidate's seq[0] is overwritten by an independent uniform draw from valid_pool AFTER the factored ids are sampled (line 102), but the elites refit (lines 110-113) uses the ORIGINAL ids at t=0 \u2014 ids that were discarded and had no causal relation to the rollout cost. So pv[0]/p1[0]/p2[0] are refit on noise and the distribution over position 0 stays uniform-over-pool in every iteration. Under receding horizon only seq[0] is ever executed, so filtered CEM has no first-order mechanism to sharpen the executed action; its only edge over filtered random shooting is second-order (sharpened suffixes changing which pool action wins argmin). The recorded -3 filtered delta is therefore close to guaranteed-null by harness construction, and the needle-supply explanation for 'filtered random matches filtered CEM' is confounded: the harness could not have shown a filtered CEM advantage even if one existed. This also deviates from plan \u00a75, which specifies a filter that 'drops precondition-violating actions' (rejection, which would preserve distributional control of position 0), not replacement. The same harness is slated to run tiers 2-3 / gate 3 (\u00a77's filtered-vs-filtered 'deployment condition'), so future filtered verdicts inherit the defect. The \u00a77-primary unfiltered pairing is unaffected.",
+   "evidence": "Code reading of plan/cem.py: ids sampled at lines 98-99, seq[0] overwritten at line 102 (after ids fixed), cands store the stale ids (line 103), refit consumes e[2][t] for all t including t=0 (lines 110-113); cem_plan reinitializes all distributions uniform at every replan (lines 89-91), so sharpened suffixes never carry over to a step where they would execute.",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Finding 18 \u2014 filtered pairing (cem-filtered 73% vs random-filtered 76%, delta -3): null-by-construction, could flip on corrected rerun",
+    "Finding 18 \u2014 needle-supply explanation ('which is why filtered random matches filtered CEM'): confounded, needs re-scoping",
+    "Finding 18 / status 'Where we are' \u2014 'CEM won't clear the +30 bar; Planner B carries the RQ3 burden': untested in the filtered deployment condition",
+    "Gate 3 and tiers 2-3 filtered verdicts (pending): same plan/cem.py harness, inherit the defect until fixed",
+    "NOT affected: finding 14 (gate-1 pass), 15a (clean targets), 15b (battery), 16 (tier-2 slotpred), 17 (gate-2 PASS), finding 18's unfiltered \u00a77-primary pairing and its machinery-validated half"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "'+30 unreachable by CEM' rests on one post-hoc-tuned configuration at 1/3 the committed budget, half the committed episode count, single seed, with a by-construction '100% ceiling' and noise-level deltas hardened into an unhedged verdict driving the Planner-B pivot",
+   "file": "terminal-jepa-status.md",
+   "location": "line 70 (finding 18) and line 19 ('Where we are'); plan/cem.py lines 22-25, 67-73, 82-94, 172, 184-190",
+   "claim_attacked": "Finding 18 'RQ3's +30-over-random bar looks unreachable by CEM' / 'CEM-the-algorithm adds nothing over matched-budget random shooting', hardened at line 19 to 'CEM won't clear the +30 bar'",
+   "description": "As described, with three precision corrections: (1) horizon 6 is a CLI default (plan/cem.py:184), not hardcoded, and lies within \u00a75's H \u2208 {3..8}, so it is an untested-sweep issue, not a spec deviation; (2) the \u2265200-episode and 300\u00d730 figures are \u00a77 formal-run commitments and finding 18 frames this run as a tier-1 machinery check with the iters reduction disclosed \u2014 the defect is that the episode-count shortfall is not flagged and the verdict is generalized beyond the tested configuration, not that the deviations were concealed; (3) the 'same seed-0 episode set' claim for the tuning rounds is inferred from CLI defaults and deterministic episode sampling, not provable from artifacts (runs/tier1/ preserves only the final invocation). Additionally, the findings section carries a blanket single-seed/directional caveat (status line 45) that nominally covers finding 18, but the 'Where we are' hardening at line 19 ('CEM won't clear the +30 bar', Planner B 'the expected vehicle') sits outside that hedge. All other assertions verified: docstring-only tuning measurements, by-construction 100% scripted ceiling via the cem.py:172 solvability filter, unpaired 95% CI of roughly \u00b112 on the +4/-3 deltas (upper ~16, excluding +30 at this config only), numeric imprecision (mean_steps 2.05 vs '2.0'; planner range 4.17-5.66 vs '~4.5-5.7'), and clean budget fairness between the two arms.",
+   "evidence": "plan/cem.py:172 'if pred.check(s0) or not plan_for(pred, s0): continue'; cem.py:22-25 documents the 300x10 deviation; rollout_cost/cem_plan docstrings cite 'measured' tuning numbers with no runs/ artifacts (runs/tier1/ contains only the final cem-oracle.json + log, both 15:54, all five arms in one invocation of the final code); runs/tier1/cem-oracle.json: deltas +4.0/-3.0, episodes=100, budget samples=300 iters=10, scripted mean_steps_on_success=2.05, random=4.174, cem=5.148; terminal-jepa.md \u00a77 '300 samples x 30 iterations ... >=200 held-out episodes per condition. These numbers are commitments'; binomial SE at n=100, p~0.25 is ~4.3-6 points; status line 19 vs line 70 wording.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 18 (tier-1 planner verdict): the algorithm-level negative 'CEM-the-algorithm adds nothing over matched-budget random shooting' and 'RQ3's +30-over-random bar looks unreachable by CEM' \u2014 needs re-scoping to the tested configuration (300x10, H=6, n=100, single seed) or a committed-budget rerun; the machinery-validation half of the same finding stands",
+    "'Where we are' line 19: the unhedged hardening 'CEM won't clear the +30 bar' and the resulting expectation that Planner B is the gate-3 vehicle \u2014 the strategy pivot rests on an under-powered, post-hoc-tuned single configuration and should be stated as conditional on the tested config"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "Every 2026-07-13 pre-registration claim is unverifiable: all six verdict-producing modules are untracked in git and their mtimes postdate the results they govern; gate 2 never had its own pass rule stated before it ran",
+   "file": "terminal-jepa/evals/dynamics.py",
+   "location": "docstring lines 4-8, 29-34; also models/tier2.py:25, models/gate2.py, probes/target_noise.py:17, plan/cem.py; git status",
+   "claim_attacked": "Findings 15a/15b/16: 'criterion pre-registered ... before measurement', 'expectations pre-recorded in the module docstring', 'selection rule pre-registered ... before training'; finding 17's 'rule passed'",
+   "description": "The repo has no commits after 2026-07-10 and all six verdict-producing modules (evals/dynamics.py, models/tier2.py, models/gate2.py, probes/frozen_probe.py, probes/target_noise.py, plan/cem.py) are untracked, so no timestamped evidence shows any docstring rule/criterion predates its measurement \u2014 and mtimes (with birth times equal to mtimes, so no earlier anchor) point the wrong way for four of them: tier2.py (12:25:56) postdates the round-1 battery artifacts (12:23:31/12:23:52) and its loss_fn comment cites round-1 results, so the 'recorded before training' selection rule is indistinguishable from a post-round-1 edit; dynamics.py ('pre-registered BEFORE any learned predictor exists') was written at 15:02:18, after the tier-2 bake-off (12:58) and gate-2 rounds 1-2 (through 14:58) \u2014 though before the round-3 PASS artifacts (15:08/15:12), so the on-disk referee is at least mtime-consistent with the PASS run itself; gate2.py (16:49:42) postdates ALL gate-2 artifacts (latest 15:12) and the status doc (15:55:30), so the on-disk model code is not verifiably the code behind the recorded gate-2 PASS; frozen_probe.py (14:06) postdates probe.json (10:39). On gate 2's criterion: the committed 2026-07-10 status doc does pre-state a QUALITATIVE Dynamics-gate criterion (rollout error by transition type, invalid/no-op calibration, goal-distance ranking with final-distance improvement), but no QUANTITATIVE pass bar was ever pre-registered for gate 2 \u2014 gate2.py's docstring records only design decisions, and finding 17's 'rule passed' imports the tier-2 bake-off SELECTION rule (AUC>=0.9, copy-floor match), which itself lives only in an untracked file whose mtime postdates round 1. Mitigations verified: rerunning oracle-copy under today's dynamics.py reproduces every measured value of the 11:07 artifact exactly, though not bit-for-bit \u2014 the current code adds a 'ckpt': null field absent from the artifact, itself confirming a post-11:07 schema edit; and the gate2 codebook-clean vs tier2 slotpred-v2 batteries share exactly identical rollout/calibration/VoE blocks (goal_ranking differs marginally: 0.989 vs 0.992), so the referee's eval core is stable and cross-round numbers are comparable \u2014 but the rule/criterion text has no such anchor, and for a program whose credibility explicitly leans on pre-registration (\u00a77 calls budget numbers 'commitments'), the ordering claims rest entirely on author assertion.",
+   "evidence": "git log: only two commits, both 2026-07-10 20:5x; git status: all six modules untracked; stat mtimes: target_noise.py 11:05 / artifact 11:06; tier2.py 12:25:56 vs slotpred battery.json 12:23; dynamics.py 15:02:18 vs gate2 battery-v2-dirty.log 14:58 and codebook batteries 15:08/15:12; gate2.py 16:49:42 vs status doc 15:55:30. Reproduction check: python3 -m evals.dynamics --adapter oracle-copy today == runs/dynamics-battery/oracle-copy.json exactly; bit-identical values in runs/gate2/codebook-battery-clean.json vs runs/tier2/slotpred-v2/battery.json prove sampling/scoring stability across the 15:02 edit.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 15a \u2014 clean-targets decision ('criterion pre-registered in the module docstring before measurement' unverifiable; decision itself robust at 8x over criterion)",
+    "Finding 15b \u2014 dynamics-battery validity ('expectations pre-recorded in the module docstring' unverifiable; dynamics.py mtime postdates tier-2/gate-2 rounds, mitigated by bit-for-bit reproduction)",
+    "Finding 16 \u2014 tier-2 winner slotpred ('selection rule pre-registered before training' unverifiable; tier2.py edited after round-1 artifacts; AUC 0.908 vs >=0.9 is the one marginal component; winner ordering unaffected)",
+    "Finding 17 \u2014 gate-2 PASS ('rule passed' had no gate-2-specific pre-stated criterion \u2014 tier-2 rule imported post hoc \u2014 and gate2.py on disk postdates all gate-2 artifacts and the status doc; needs rerun under committed code)",
+    "Finding 14 \u2014 gate-1 pass (secondary: frozen_probe.py mtime postdates probe.json, provenance-only; ceiling margin and plan-doc thresholds keep the verdict safe)",
+    "Finding 18 \u2014 tier-1 planner verdict (secondary: plan/cem.py untracked, provenance hygiene only; no pre-registration claim attacked)"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "The battery diagnoses failures and then declares the fixes passed on the identical frozen seed-0 eval sample, with no independent instrument \u2014 five fix iterations were steered by and adjudicated on one draw",
+   "file": "terminal-jepa-status.md",
+   "location": "findings 16-17 (lines 66-68); runs battery.json 'seed': 0 throughout",
+   "claim_attacked": "Findings 16 and 17's fix-then-pass verdicts (tier-2 round 1->2, gate-2 rounds 1->2->3)",
+   "description": "Holds as described with two numeric corrections that strengthen it: (a) the AUC bar flips on ~50% of fresh draws, not 20% \u2014 replaying the battery's exact RNG stream order on the recorded slotpred-v2 checkpoint gives AUC 0.8918 (seed 1), 0.9201 (seed 2), 0.8860 (seed 3), 0.9256 (seed 4) against the 0.9 bar, with the recorded seed-0 pass (0.9076) reproduced bit-exact; (b) the cited seed-3 value 0.8894 does not reproduce under the faithful stream order (rollout consumes the RNG before calibration) \u2014 the correct seed-3 value is 0.8860. All other elements confirmed: universal seed 0, adapter-independent frozen draws, diagnose-then-adjudicate on the same sample across tier-2 rounds 1-2 and gate-2 rounds 1-3, codebook decoder validated on the same first-200 val trajectories the battery samples from, and no planner-in-the-loop or fresh-draw check of the winners.",
+   "evidence": "All battery.json artifacts carry 'seed': 0; run_battery uses random.Random(f'dynamics:{seed}'); sampling calls (randrange, sample_valid, make_satisfying) never consume adapter outputs, and the oracle-copy rerun reproduced the artifact exactly, proving a fixed draw sequence; 5-seed calibration sweep (seed 3 AUC 0.8894 < 0.9); build_codebook validates on cache-val.pt = the battery's 200 val trajs.",
+   "materiality": "high",
+   "affected_verdicts": [
+    "Finding 16: slotpred-v2 passes the pre-registered battery rule (AUC 0.908 >= 0.9) -- pass verdict could flip; the slotpred-over-editpred comparative verdict survives",
+    "Finding 17: Gate 2 PASSED via linear-decoder grounding (AUC 0.908 >= 0.9) -- headline gate verdict could flip on a fresh draw",
+    "Status summary / 'Where we are' headline claims that gate 2 passed and the live front is gate 3 (derivative of finding 17)"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "'editpred failed calibration' is an operating-point verdict, not a shape verdict: pos_weight=20/threshold-0.5/bias -3 were never tuned, the referee only measured editpred through its own fixed threshold, and a higher threshold gives it 3x better invalid calibration than the declared winner",
+   "file": "terminal-jepa/models/tier2.py",
+   "location": "lines 127-128 (bias -3), 168-169 (hard 0.5 threshold in step()), 187 (pos_weight in loss), 265-267 (defaults, never swept); verdict at terminal-jepa-status.md line 66",
+   "claim_attacked": "Finding 16's 'edit-factoring failed calibration and is crossed off' as an architecture-shape conclusion",
+   "description": "Accurate as described except two magnitudes, both from the reviewer's ~720-transition subsample: on the battery's full val universe (200 trajs, 4800 transitions) editpred-v2's raw max-sigmoid AUC is 0.890 (not 0.877) vs thresholded 0.788 (recorded 0.785) \u2014 the ~0.10 understatement stands; and the th=0.9 invalid fire-rate advantage over slotpred-v2 is ~2.5x (0.073 vs 0.180), not 3x (their 0.062 vs 0.204). All other numbers verify exactly: hard 0.5 threshold inside step() is the only path the referee measures (tier2.py:168-169 via Tier2Adapter.predict, evals/dynamics.py:169-182); pos_weight=20/bias -3/copy_margin=10 are untouched defaults in both ckpts' train_args with no sweep anywhere in the repo; train_log.json shows invalid EM 0.846 at step 2200 (above slotpred-v2's final 0.814) drifting monotonically to 0.519 by 3000 while state-changing EM rises 0.307\u21920.406; slotpred's 10-logit copy margin vs editpred's 3-logit swing were never matched. The concessions also verify: raw AUC still fails the pre-registered 0.9 bar and editpred's state-changing error is worse than slotpred's at every threshold, so the bake-off winner and downstream gate-2 PASS stand \u2014 only the shape-level generalization (\"edit-factoring... crossed off\", status line 38; verdict at line 66) is weakened.",
+   "evidence": "Runs on 720 val transitions (held-out layouts, CPU): editpred-v2 raw max-sigmoid AUC 0.8765 vs same-sample battery-style thresholded AUC 0.7710; threshold sweep th=0.5/0.9/0.99 -> invalid fire-rate 0.558/0.062/0.000, state-changing fire-rate 0.886/0.538/0.354; slotpred-v2 invalid fire-rate 0.204. runs/tier2/editpred-v2/train_log.json steps 2000-3000 (invalid EM 0.808 -> 0.519 while state-changing EM 0.307 -> 0.406, no plateau).",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 16 (tier-2 bake-off): the architecture-shape conclusion 'not edit-factoring' / 'edit-factoring failed calibration and is crossed off' \u2014 needs re-scoping to the tested operating point; the winner selection itself (slotpred-v2 passes the pre-registered rule) is NOT affected",
+    "Finding 16 (tier-2 bake-off): the recorded editpred-v2 calibration AUC 0.785 and invalid-fire characterization \u2014 correct per battery protocol but mislabeled as a shape property (raw AUC 0.877; th=0.9 invalid fire-rate 6.2% vs winner's 20.4%)"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "The tier-2 trainer lacks the nonfinite-step guard the project built for exactly this machine's MPS failure mode, and 'device-numerics-sensitive, itself a mark against the shape' converts a known harness gap into architectural evidence",
+   "file": "terminal-jepa/models/tier2.py",
+   "location": "training loop lines 304-320 (no isfinite check; contrast train/train.py:221-229); claim at terminal-jepa-status.md line 66",
+   "claim_attacked": "Finding 16's 'its round-1 collapse was device-numerics-sensitive, itself a mark against the shape'",
+   "description": "The status doc's operational learnings (line 119) record that MPS on this machine produces nonfinite values under memory pressure at ~2% of steps, root-caused as environmental ('an identical replay ran clean'), and that train/train.py therefore skips any step with nonfinite loss or grad norm. models/tier2.py has no such guard \u2014 it only clips grad norm, and clip_grad_norm_ does not protect against NaN/inf gradients (it scales by a nonfinite factor). editpred round 1 ran on MPS during a window with documented memory pressure (two jetsam kills recorded around the rerun attempts), destabilized late (loss 0.46->1.79 over the last 800 steps, monitor EM collapsing), and trained clean on CPU. That pattern is at least as consistent with 'the documented environmental MPS failure hit an unguarded trainer' as with 'the editpred shape is numerics-fragile' \u2014 and no control separates them: slotpred was never trained on CPU, editpred never rerun on MPS with a guard. Independent of the attribution, the missing guard is a live harness defect: the declared winner slotpred-v2 itself trained on MPS (device='auto'), and any future tier-2 or bake-off rerun on this machine can be silently corrupted the same way.",
+   "evidence": "grep of both trainers (only train/train.py has isfinite/skipped logic); runs/tier2/editpred/train_log.json (loss 0.464 @2200 -> 1.785 @3000, invalid EM 0.885 -> 0.545); runs/tier2/editpred-v2/train_log.json (CPU, loss 0.045, monotone-improving EM); terminal-jepa-status.md line 119 (MPS NaN root-caused environmental, guard added to the main trainer) and line 66 (jetsam kills preceding the CPU rerun); ckpt train_args showing slotpred-v2 on 'auto' (MPS).",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 16 (tier-2 winner slotpred) \u2014 the winner verdict itself stands via the editpred-v2 CPU confirmation rerun, but its supporting claim 'round-1 collapse was device-numerics-sensitive, itself a mark against the shape' is unsupported attribution and must be re-scoped",
+    "Finding 17 (gate-2 PASS) \u2014 unaffected in outcome (battery numbers are post-hoc measurements of the actual slotpred-v2 checkpoint), but inherits a training-provenance caveat since the winner checkpoint was trained on MPS with the unguarded trainer",
+    "Future tier-2/bake-off reruns \u2014 untrustworthy on this machine until the train/train.py isfinite step-skip guard is ported to models/tier2.py"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "build_valid_pool orders its candidate pool by salted set-hash order, making the filtered planner arms irreproducible across processes",
+   "file": "terminal-jepa/plan/cem.py",
+   "location": "line 135 (build_valid_pool), consumed at lines 102 and 124",
+   "claim_attacked": "Finding 18's filtered numbers (cem-filtered 73% vs random-filtered 76%, delta -3) in runs/tier1/cem-oracle.json, and the reproducibility premise of future \u00a77 formal Phase-2 runs",
+   "description": "build_valid_pool returns list({actions.sample_valid(state, rng) for _ in range(draws)}) \u2014 a set of string tuples whose iteration order depends on Python's per-process string-hash salt (PYTHONHASHSEED). Every subsequent valid_pool[rng.randrange(len(valid_pool))] draw therefore picks a different action across processes even with identical --seed: the index-to-action mapping is scrambled while the rng stream is unchanged. Verified empirically: two processes with the same rng seed produced entirely different pool orderings. Every other RNG path in the project is deliberately string-keyed and process-stable, and sample_valid/sample_invalid/make_satisfying all sort before choosing \u2014 this is the single hash-order leak. Effect: the recorded filtered success rates (73/76) are one nondeterministic realization; a rerun of the exact command gives different filtered numbers, and the -3 filtered delta can move or flip sign at n=100. Unfiltered arms and the scripted ceiling never touch the pool and are reproducible. No bias is introduced (the pool draw is uniform either way), so the directional verdict stands, but the \u00a77 pre-registered protocol (paired, seeded runs at the +30 bar) inherits an irreproducible harness. Fix is one word: sorted(...) instead of list({...}).",
+   "evidence": "Read plan/cem.py:131-135; ran the same seeded pool construction in two separate python3 processes: first-5 elements differed completely; confirmed pool is consumed by index at cem.py:102 and 124; status doc 'Operational learnings' on string-keyed process-stable RNG.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 18 (tier-1 planner verdict) \u2014 filtered-arm numbers only; verdict stands",
+    "Prospective \u00a77 formal Phase-2 protocol / gate-3 reproducibility premise (not yet a recorded verdict)"
+   ]
+  },
+  {
+   "severity": "major",
+   "title": "The planner cannot run the pipeline that actually passed gate 2: --adapter gate2 loads the failed round-1/2 Gate2Net, gate2-codebook is not wired into plan/cem.py, and there are no --input-regime/--codebook flags",
+   "file": "terminal-jepa/plan/cem.py",
+   "location": "lines 5-7 (docstring claim), 181 (choices), 196-198 (gate2 branch)",
+   "claim_attacked": "The status doc's gate-3 plan (line 19: 'the gate-2 pipeline swapped into the planner') and cem.py's own claim that 'The SAME planner runs tiers 2-3 by swapping the adapter (--adapter tier2/gate2)'",
+   "description": "Gate 2 passed via Gate2CodebookAdapter (frozen encoder + linear decoder + tier-2 dynamics), which evals/dynamics.py exposes as adapter 'gate2-codebook'. plan/cem.py's adapter choices are only sorted(ADAPTERS) + ['tier2', 'gate2'], and its 'gate2' branch constructs Gate2Adapter(args.ckpt) \u2014 the embedding-space Gate2Net that failed rounds 1 and 2 (VoE 0.48 chance, ranking margin ~0). A gate-3 run following cem.py's documented pattern would evaluate the known-failed predictor while the status doc records gate 2 as passed, producing a spurious behavior-gate negative attributed to the passing pipeline (the report's adapter field would read 'gate2-clean', easy to miss). Compounding it, cem.py has no --input-regime or --codebook flags, so even the adapter it can load runs at its 'clean' default \u2014 a gate-3 run could not test the deployed contaminated regime. No recorded number is corrupted yet; this is a harness gap that corrupts the next verdict on the live front.",
+   "evidence": "Read plan/cem.py:181,193-200 (no gate2-codebook choice, no codebook/input-regime args) vs evals/dynamics.py:311-337 (gate2-codebook wired with --codebook and --input-regime); runs/gate2/slotpred/battery-clean.json confirms the Gate2Net that 'gate2' loads is the failed round-1 net (VoE 0.483, ranking margin 0.024).",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Gate-3 behavior gate (prospective, the live front): not yet recorded, but would be corrupted \u2014 a run per the documented pattern evaluates the failed Gate2Net, not the passing gate-2 pipeline",
+    "Status doc line 19 gate-3 plan claim ('the gate-2 pipeline swapped into the planner'): false as stated; needs re-scoping to 'pending planner wiring of gate2-codebook + input-regime/codebook flags'",
+    "Finding 18 / cem.py docstring hand-off claim ('SAME planner runs tiers 2-3 by swapping the adapter'): needs re-scoping to oracle-validated-only; the recorded tier-1 numbers themselves stand",
+    "Unaffected: finding 14 (gate-1 pass), finding 15a/15b (clean targets, battery validity), finding 16 (slotpred winner), finding 17 (gate-2 PASS \u2014 produced via evals/dynamics.py's correctly wired gate2-codebook adapter)"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "Goal exemplars are always encoded with ctx=None (clean render), so a 'contaminated-input' battery run is not uniformly contaminated for feature-space adapters \u2014 a path the oracle self-test can never exercise",
+   "file": "terminal-jepa/evals/dynamics.py",
+   "location": "lines 247-248 (exemplar encode with ctx=None); models/gate2.py:359-363, 406-415 (ctx=None renders clean)",
+   "claim_attacked": "Finding 15b's 'battery built and validated' (self-test coverage), finding 17's framing of the input_regime='both' run as an end-to-end contaminated-input measurement, and the dirty-run numbers for feature-space adapters underlying A3 reasoning",
+   "description": "goal_ranking_eval encodes make_satisfying exemplars with ctx=None; both Gate2 adapters render clean whenever ctx is None, so in an --input-regime both run every candidate latent is contaminated-rendered while every goal exemplar is clean-rendered. For the symbolic codebook adapter the decoder strips nuisance and the effect is nil (verified: the clean/dirty codebook batteries differ only by one rollout edit unit, all other values bit-identical), but for L2 feature-space adapters (gate2 rounds 1-2 dirty runs, and any future A3-fallback measurement \u2014 the dirty run's stated purpose) goal distances carry a systematic clean-vs-dirty offset; by finding 14's own measurement a banner swap moves each line's vector 0.64-0.75x a genuine state change. Rankings partially cancel (all rolled candidates share the dirty anchor) so no recorded verdict flips (rounds 1-2 failed decisively on regime-consistent metrics), but optimal_plan_final_goal_distance and margins in dirty feature-space runs are contaminated, and the oracle/oracle vs oracle/copy self-test cannot detect any bug on this path because oracle adapters ignore ctx entirely \u2014 the ctx/render arm of the referee is validated by nothing. Worth documenting or adding a regime-matched exemplar option before this referee scores another feature-space arm.",
+   "evidence": "evals/dynamics.py:247-248 'adapter.encode(e, None)' vs lines 251, 195-196 using _ctx(tr, ...); all other components (rollout 153/156, calibration 174, voe 195-209) pass _ctx; models/gate2.py encode's 'ctx is not None' guard falling back to render_full(state, None, None); OracleAdapter.encode ignores ctx (dynamics.py:63-64); full-file diff of runs/gate2/codebook-battery-clean.json vs -dirty.json (only rollout state-changing h1 mean differs, 105/353 vs 106/353); finding 14's banner-swap line-vector measurements (status doc line 62).",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 15b \u2014 'dynamics-gate battery built and validated': the self-test coverage claim must be re-scoped; the ctx/render arm is untested",
+    "Finding 17 \u2014 gate-2 PASS itself stands, but its framing of the dirty run as an end-to-end contaminated-input measurement and the 'A3 closed as unnecessary, measured not argued' claim need re-scoping",
+    "A3 scope-down decision (status doc Track A, A3 bullet) \u2014 the fallback trigger measurement it relies on is only clean-exemplar-referenced for feature-space arms",
+    "Rounds 1-2 feature-space dirty-run goal-distance/margin numbers (finding 17) \u2014 contaminated but non-verdict-bearing since those rounds failed on regime-consistent metrics"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "Finding 16's '78.7% exact-match' headline is a seen-layout train-monitor number presented undisclosed amid held-out results; 'near-perfectly' and median-only horizon reporting overstate dynamics quality, and 'beats it on every battery component' includes round-2 ties",
+   "file": "terminal-jepa-status.md",
+   "location": "line 66 (finding 16); provenance terminal-jepa/models/tier2.py:276",
+   "claim_attacked": "Finding 16's 'this architecture CAN learn the domain's dynamics near-perfectly (78.7% exact-match ... rollout medians 0 through h=3)' and 'slotpred beats it on every battery component in both rounds'; by extension finding 17's failure-attribution logic",
+   "description": "Finding 16's '78.7% exact-match' is the final train_log.json monitor EM from a seen-layout slice (models/tier2.py:276: 'train-layout monitoring slice, NOT val.jsonl'), presented in the same parenthetical as held-out battery numbers with no split disclosed \u2014 a provenance/disclosure defect, but NOT an inflation: an independent check on 2,400 held-out val.jsonl transitions gives 80.2% state-changing EM, statistically indistinguishable from 78.7% (the reviewer's 76.8% on 720 transitions is the same figure under sampling noise; 'the true held-out figure is lower' is unsupported). 'Near-perfectly' sits next to a ~20% state-changing error rate (battery h1 mean 0.297 = 105 slot-edits/353 transitions) and an 18% invalid-action over-fire mean that the doc itself discloses; median-only horizon reporting (err_median_by_horizon all 0, no mean-by-horizon field) is confirmed, though the 'roughly half of 3-step rollouts contain a wrong state' compounding estimate overstates \u2014 the artifact's h=3 median of 0 caps errored mixed-type rollouts at <=50%. 'Beats it on every battery component in both rounds' is not strictly true at the per-field level in round 2: ties (never losses) on rank_margin (2.0=2.0), executed_plan_distance_improved_frac (1.0=1.0, also 1.0 for oracle-copy so uninformative), and state-changing change-magnitude median (1.0=1.0); slotpred wins every section's primary metric. Severity: minor \u2014 wording/disclosure only; the comparative verdicts (3.6x over copy, slotpred over editpred, gate-2 attribution) stand.",
+   "evidence": "runs/tier2/slotpred-v2/train_log.json final em state-changing 0.7868; tier2.py:276 comment; 720-transition val check: state-changing EM 0.768 (n=526), invalid fired 23/113; runs/tier2/slotpred-v2/battery.json (h1 mean 0.297 = 105/353, err_median_by_horizon all 0, no mean-by-horizon field); runs/tier2/slotpred-v2/battery.json vs editpred-v2/battery.json: rank_margin 2.0 = 2.0, executed frac 1.0 = 1.0 (also 1.0 in oracle-copy.json).",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 16 (tier-2 winner = slotpred): winner stands, but its 'headline for the program' claim (78.7% provenance, 'near-perfectly', median-only rollout reporting) and 'beats it on every battery component in both rounds' need re-scoping",
+    "Finding 17 (gate-2 PASS): the pass stands, but the inherited failure-attribution logic ('a gate-2 failure would be attributable to the representation interface') needs qualification since dynamics error alone can cause multi-step rollout failures",
+    "Prospective gate-3 interpretation: a future gate-3 miss cannot be attributed solely to representation or search given the ~21-30% per-step dynamics error rate"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "Several load-bearing diagnostic numbers in findings 16-18 have no artifact, script, or log anywhere in the repo",
+   "file": "terminal-jepa-status.md",
+   "location": "findings 16, 17, 18 (lines 66, 68, 70); models/gate2.py build_codebook docstring lines 284-291",
+   "claim_attacked": "Finding 16's per-verb breakdown; finding 17's nearest-centroid 52%/81% and round-1 norm diagnosis; finding 18's pre-fix 'measured' tuning numbers",
+   "description": "(a) Finding 16's round-1 diagnostic 'mkdir 100% exact, cd 94%, every file verb 0% fired': grep across runs/ finds no per-verb record; the only trace is a code comment (models/tier2.py:179) covering only the 0%-fired fragment \u2014 the 100% and 94% figures exist nowhere. (b) Finding 17's 'nearest-centroid decoding managed only 52%/81%' \u2014 the stated justification that grounding must be discriminative, not metric \u2014 is quoted in prose and the build_codebook docstring, but no code computes centroid decoding and no artifact or log records it; the number is unreproducible as recorded (the codebook build itself has no saved log; its val-accuracy print survives only inside codebook.pt, which does confirm the claimed 100%/99.7%). (c) Finding 17's round-1 diagnosis numbers ('changed line's signal, norm ~27, drowns in 301 x 0.2 diffuse error') are recorded nowhere. (d) Finding 18's two 'measured' design lessons (receding horizon 'scored 0%' pre-shaping; CEM 'measurably lost' pre-strict-improver-elites) exist only as docstring assertions in plan/cem.py. All support diagnoses rather than verdicts, but each is presented as a measurement.",
+   "evidence": "grep -r 'mkdir|per-verb|by_verb|centroid' over runs/ returns nothing; models/tier2.py:179 comment; models/gate2.py:286 and status prose are the only occurrences of 52%/81%; plan/cem.py:67-88 docstrings are the only trace of the 0%-success and CEM-loses measurements; torch-load of codebook.pt confirms val_decode_acc but no centroid measurement; runs/gate2/ contains no codebook build log.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "finding 16 \u2014 tier-2 winner slotpred (round-1 per-verb diagnosis unverifiable; winner selection itself artifact-backed and intact)",
+    "finding 17 \u2014 gate-2 PASS (52%/81% nearest-centroid justification and round-1 norm diagnosis unverifiable; the pass and 100%/99.7% grounding artifact-backed and intact)",
+    "finding 18 \u2014 tier-1 planner verdict (pre-fix 'measured' design lessons in plan/cem.py unverifiable; headline CEM-vs-random numbers artifact-backed and intact)"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "The 'scripted ceiling' is the privileged plan_for constructive planner, not the committed nonprivileged parser+BFS baseline, which has never been implemented or run",
+   "file": "terminal-jepa/plan/cem.py",
+   "location": "lines 156-157 (scripted arm calls plan_for(pred, state) on the true state); datagen/policies.py lines 9-11",
+   "claim_attacked": "Finding 18's 'scripted plan_for ceiling 100%' as satisfying plan \u00a75's / gate 3's 'parser+BFS reported as the nonprivileged ceiling'",
+   "description": "Plan \u00a75 commits the ceiling baseline as 'parser + BFS/A* \u2014 parse the full-obs observation into a symbolic state and search classically', explicitly nonprivileged, with 'BFS on true state (privileged) kept only as a sanity check on the parser'; the gate-3 spec (status line 28) repeats it. The harness instead calls plan_for directly on the true FsState \u2014 the datagen constructive planner whose own docstring says 'data collection may be privileged; planners may not be'. No parser runs and no search runs. In tier-1 full obs this is nearly harmless (the whole tier is privileged and a full-obs parse recovers the exact state, so 100% would almost surely stand), and finding 18 honestly names it 'scripted plan_for ceiling'; but the cem.py docstring calls it 'the parser+search analogue for full obs', and the committed \u00a75/gate-3 baseline does not exist anywhere under plan/. If the same arm is reused at gate 3 it silently substitutes a privileged constructive planner for the pre-registered nonprivileged ceiling.",
+   "evidence": "plan/cem.py line 157: seq = plan_for(pred, state) with state = true FsState from val.jsonl; datagen/policies.py docstring; terminal-jepa.md \u00a75 Baselines paragraph; terminal-jepa-status.md line 28; no BFS/A* or parser-based planner exists under plan/ (only cem.py).",
+   "materiality": "low",
+   "affected_verdicts": [
+    "Finding 18 (Track B tier-1 planner verdict) \u2014 labeling only; verdict and numbers stand",
+    "Gate 3 (behavior gate, not yet run) \u2014 prospective: pre-registered parser+BFS nonprivileged ceiling must be implemented before it can report as specified"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "build_valid_pool's 300-draw approximation covers ~7% of the valid action space; the filtered arms' 73-76% plateau is quantitatively bounded by this hardcoded knob, not by search",
+   "file": "terminal-jepa/plan/cem.py",
+   "location": "lines 131-135 (build_valid_pool, draws=300 hardcoded)",
+   "claim_attacked": "Finding 18's 'machinery validated (filtered success 73-76% vs scripted ceiling 100%)' and its failure attribution for the residual ~25%",
+   "description": "build_valid_pool (plan/cem.py:131-135) approximates the valid-action set with 300 sample_valid draws \u2014 measured on the reconstructed episode start states this dedups to a median pool of ~188 of a median 2,636 valid actions (~7% coverage; valid-set min/med/max 1031/2636/7438, reproduced exactly). Because filtered planners always execute a pool-drawn seq[0], filtered episode success is hard upper-bounded by the pool's needle-supply rate compounded over \u226412 replans, and that bound is monotone in the hardcoded, sensitivity-unchecked draws parameter. For the 89 file_exists_with_class episodes, only 2-3/40 sampled start-state pools contain any one-step satisfying action, and per-rebuild P(write-needle in pool) is 3.4-10.9%. Caveat vs the original claim: write-needle compounding alone predicts ~53% overall filtered success, not the observed 73-76 \u2014 the remainder comes from other pool-supplied channels (cp/mv of an existing right-class file, mkdir-then-write), which are also draws-limited, so the plateau is bounded and largely explained by pool supply but not point-matched by the write-needle arithmetic alone. Finding 18 already credits the filter's gains to needle-supply and CEM-vs-random is pool-symmetric, so no verdict flips (severity correctly minor); what the record omits is that the 73-76 level and the ~25-point gap to the scripted ceiling reflect the draws=300 knob rather than any property of search or cost, and gate 3's reported filtered-vs-filtered numbers run through the same code.",
+   "evidence": "Scratch script over the reconstructed episodes: valid-set sizes via actions._valid_args summed over verbs (min/med/max = 1031/2636/7438); pool sizes from build_valid_pool (160/186/210); satisfying-action-in-pool 3/40; per-state P(write-needle in pool) 0.036-0.109.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 18 (tier-1 planner verdict): the 'filtered success 73-76% vs scripted ceiling 100%' framing and the residual-failure attribution \u2014 needs re-scoping and a draws-sensitivity rerun; the 'machinery validated' and 'CEM adds nothing over random' components stand",
+    "Gate 3 (prospective): filtered-vs-filtered secondary pairing inherits the draws=300 knob; the primary unfiltered +30 bar is unaffected"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "The needle-mechanism sentence in finding 18 is inaccurate in both directions: the needle is not unique, and for many start states there is NO one-step satisfying action",
+   "file": "terminal-jepa-status.md",
+   "location": "line 70: 'file_exists_with_class needs exactly (write, path, cK) ... P(needle) ~ 1/865k per unfiltered draw'",
+   "claim_attacked": "Finding 18's mechanism explanation for the residual failures, the stated basis for the Planner-B pivot",
+   "description": "Measured on the actual episode states: (a) the needle is not unique \u2014 when any existing file already holds class K, (cp, src, path) and (mv, src, path) also satisfy the predicate in one action (one sampled state had 13 distinct one-step satisfiers); (b) more importantly, for many episode start states there are ZERO one-step satisfying actions because the target's parent directory doesn't exist (write to an orphan path is invalid), so the 'needle' is actually a multi-action sequence (mkdir chain + write) and the quoted 1/865k per-draw probability (arithmetic itself verified correct: 9 x 310 x 310) applies only to the terminal write with parents in place. The mkdir portion does move oracle distance (exemplars include the parents), so the landscape is 'gradient then needle', not pure needle. Since this mechanism story motivates Planner-B ('whose whole design premise is needle proposal'), its wording should match the measured structure.",
+   "evidence": "Scratch script: per-episode count of one-step satisfying actions in the full valid set was 0 for the majority of sampled file_exists_with_class states and up to 13 for others; ARGS size confirmed as 2+42+258+8=310, 9x310^2=864,900; make_satisfying's _ensure_dirs adds parents to exemplars so each mkdir reduces OracleAdapter.distance by 1.",
+   "materiality": "low",
+   "affected_verdicts": [
+    "Finding 18 mechanism explanation only (the 'two-arg needle' sentence and its 1/865k per-draw framing) \u2014 the finding's recorded verdicts (tier-1 machinery validated; CEM-adds-nothing-over-random; Planner-B pivot) stand unchanged"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "The 'two-edit foil: impossible under a single action' claim is false for 4/300 foils (same-coordinate second edits are one edit from s), exactly accounting for copy's 0.9933",
+   "file": "terminal-jepa/evals/dynamics.py",
+   "location": "lines 205-210 (two-edit foil construction and comment); docstring lines 16-19",
+   "claim_attacked": "The module docstring/comment and finding 15b's characterization of the two-edit foil ('a file appears without a creating command' / copy scores ~1.0 / 'provably copy-passable')",
+   "description": "The finding is accurate in all checkable particulars (histogram {1:4, 2:245, 3:49, 4:2}; 4 ties, 0 losses; (296+4\u00d70.5)/300 = 0.99333 matching the artifact exactly; all 4 distance-1 foils single-action-reachable from s). One illustrative example is slightly off: at seed 0 the two mv-based one-edit foils move FROM the first-edited path (touch f then mv f\u2192g, the mv reverting the touch and making one new edit at g), not 'an overwriting cp/mv onto the same path'. The general mechanism statement \u2014 the second action re-edits the coordinate the first action changed \u2014 covers all 4 observed cases. Also note the docstring's pre-recorded self-test expectation said '~1.0', which 0.9933 satisfies; only the line-205 'impossible under a single action' comment and the docstring's strict 'nearer than' logic are falsified, not the recorded expectation.",
+   "evidence": "Instrumented rng-exact replication of voe_eval at seed 'dynamics:0': two-edit foil distances {1.0: 4, 2.0: 245, 3.0: 49, 4.0: 2}; runs/dynamics-battery/oracle-copy.json acc_vs_two_edit_foil_copy_passable = 0.9933333333333333; env/actions.py _apply_write/_copy_like (overwrites are STATE_CHANGING one-edit transitions); comment at evals/dynamics.py:205 and docstring lines 17-19.",
+   "materiality": "low",
+   "affected_verdicts": [
+    "Finding 15b (dynamics-battery validity) \u2014 prose characterization of the two-edit foil only; the verdict itself stands"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "VoE foil-drop survivorship is empirically zero at seed 0 (concern settled), but the artifact cannot show it: effective foil counts are never reported",
+   "file": "terminal-jepa/evals/dynamics.py",
+   "location": "lines 212-217 (voe_eval report: n = len(errs_true), acc divides by len(hits_alt))",
+   "claim_attacked": "The survivorship-bias concern against findings 15b/16/17's VoE numbers \u2014 largely defused, with a reporting gap",
+   "description": "Cheap check run and settled: replicating the exact rng sequence, all 300 accepted state-changing transitions found both an alt-action foil and a two-edit foil within 20 tries (alt_miss=0, two_miss=0), so no recorded VoE number carries survivorship bias. However the report's 'n' is len(errs_true) while the accuracies divide by len(hits_alt)/len(hits_two), which are not recorded \u2014 a future data distribution where foil search fails (highly constrained states) would silently shrink the effective n and bias the accepted-transition mix with no trace in the JSON. Also verified clean in the same pass: _auc handles ties and degenerate inputs correctly, _median is correct on even-length lists, the single shared rng makes all components exactly paired across adapters, and rollout_eval's exclusion of each trajectory's last 2 transitions from h1 sampling is unbiased here (tail ttype mix 72.0% state-changing vs 72.5% overall; all val trajectories are exactly 24 steps).",
+   "evidence": "Instrumented rng-exact replication at seed 'dynamics:0': voe n_true=300, alt_found=300, alt_miss=0, two_found=300, two_miss=0; ttype census all={state-changing: 3480, valid-no-op: 604, invalid: 716} vs last-2 tail={288, 49, 63}; traj steps min=max=24; replicated rollout counts {353, 75, 72} match artifact-derived denominators.",
+   "materiality": "low",
+   "affected_verdicts": [
+    "none flip \u2014 verdicts touched only via reporting hygiene: finding 15b (battery validity: VoE component denominators unrecorded but verified full), finding 16 (tier-2 winner slotpred: VoE comparisons paired and denominators full), finding 17 (gate-2 PASS: VoE 0.968 denominator verified full)"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "All 200 eval noise streams are fit-seen with identical step alignment, so finding 14's held-out numbers are untested against novel dynamic noise the features measurably carry",
+   "file": "terminal-jepa/probes/frozen_probe.py",
+   "location": "line 67 (noise = t[\"noise_seed\"]); terminal-jepa-status.md lines 62, 102",
+   "claim_attacked": "Finding 14's '100% path-keyed / 44.4% pooled on held-out layouts' (generality), via the ops-note claim that noise-stream replay is 'benign for state metrics'",
+   "description": "Accurate as written, with one wording tightening: the fit split's contamination patterns are a superset (800 streams x 25 steps), not \"the exact same finite set\" \u2014 every one of the eval split's 200 noise streams (5,000 noise lines) is fit-seen verbatim at the same step index. All quantitative citations verify: frozen_probe.py:67, generate.py noise_seed=i, render.py pure-function noise line, target-noise.json 0.607 vs banner-swap line dz 0.663, status lines 62/102.",
+   "evidence": "probes/frozen_probe.py:67 passes t[\"noise_seed\"] through for both splits; env/render.py _noise_line seeds Random(f\"noise:{noise_seed}:{step}\"); status doc line 102 records the replay and the benign rationale; runs/frozen-modernbert-v1/target-noise.json nuisance_noiseline_line_dz_median=0.607.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 14 (A1 frozen-features day-zero verdict) \u2014 generality claim needs a novel-noise caveat or a rerun with disjoint val noise seeds; the layout-transfer numbers themselves stand",
+    "Finding 17 (gate-2 PASS) \u2014 only the 'decoder strips noise contamination entirely / A3 closed, measured not argued' sub-claim; the PASS itself stands via the clean-input run"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "Finding 15a's signal term is the smallest possible edit (one [cK] token), measured by medians over a single hardcoded noise stream, and the raw distributions are not persisted \u2014 the 79% figure is construction-specific, though the clean-targets verdict survives",
+   "file": "terminal-jepa/probes/target_noise.py",
+   "location": "lines 75-96, 104-109; runs/frozen-modernbert-v1/target-noise.json",
+   "claim_attacked": "Finding 15a: 'the one line an action actually changed moves 2.65 ... aggregate nuisance power is 79% of signal power, 8x over the 10% criterion'",
+   "description": "Same finding, with two precision fixes: d_noise draws from exactly 25 distinct noise-line transitions (26 distinct noise lines; trajectories are uniformly 24 steps -> 25 states, t in 0..24 with noise_seed hardcoded to 0), not ~26 transitions; and the ~4500 per-line d_noise entries remain state-contextual, so the small effective sample applies to the perturbation source, not to every entry being a duplicate. The uniform signal multiplier that would flip the verdict is >=2.81x (2.9x cited is sufficient but not tight).",
+   "evidence": "probes/target_noise.py:75 (noise = 0 for all samples), :79-82 (write-only signal construction, pre-registered in the docstring), :104-109 (median-only estimators; raw lists discarded); runs/frozen-modernbert-v1/target-noise.json contains only the five medians and the ratio; env/render.py confirms step enters only the noise line.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 15a \u2014 clean-targets prediction-target decision (quantitative claim needs scope caveat; verdict itself stands)"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "The embedding-space-regression negative spans one 0.64M configuration \u2014 1/30th of the plan's authorized envelope, with neither of VL-JEPA's two load-bearing ingredients tried \u2014 before the arm was closed",
+   "file": "terminal-jepa-status.md",
+   "location": "finding 17 rounds 1-2 (line 68); plan \u00a74 'Scale: <=20M params'; models/gate2.py config d=128/layers=2",
+   "claim_attacked": "Finding 17's 'real negative for small-predictor embedding-space regression' as grounds for the symbolic pivot",
+   "description": "Accurate as written, with two precision notes. (a) The '1/30th of the authorized envelope' ratio uses the plan's \u226420M total-params budget (terminal-jepa.md \u00a74 line 45); the more directly comparable number is the plan's predictor-specific spec of ~5\u201310M (line 42), against which the 0.64M net is still 8\u201316x under \u2014 the gap survives either denominator. (b) The claim that VL-JEPA's 490M predictor is initialized from pretrained LM layers is an external-paper fact not verifiable from this repo's artifacts; what is repo-verifiable is that finding 17 cites VL-JEPA only by scale (status line 68), that models/gate2.py's predictor is a from-scratch nn.TransformerEncoder with no pretrained initialization, and that no embedding-space run above 0.64M exists (only runs/gate2/slotpred and slotpred-v2, differing solely in edit_weight per checkpoint train_args, both seed=0/3000 steps). The finding correctly concedes the status text's honest scoping ('our 0.64M net cannot carry'), and the gate-2 PASS verdict itself is unaffected (earned by round 3 against the pre-registered battery) \u2014 consistent with minor severity. The residual defect stands: a negative recorded 'for the record', whose own diagnosed root is capacity, was closed without a single in-envelope capacity probe, and the summary sections ('failed twice, informatively') reuse it as architecture rationale.",
+   "evidence": "models/gate2.py: config {'d': 128, 'layers': 2}, train.log 'params=0.64M'; only two training runs exist (runs/gate2/slotpred, slotpred-v2), differing solely in edit_weight (ckpt train_args: round-1 has no edit_weight key, round-2 has 100.0); terminal-jepa.md \u00a74 'Scale: <=20M params total'; finding 17 cites VL-JEPA 490M without noting its pretrained-layer initialization.",
+   "materiality": "medium",
+   "affected_verdicts": [
+    "Finding 17 subsidiary negative: 'real negative for small-predictor embedding-space regression in this domain' (rounds 1-2) \u2014 needs re-scoping to the tested 0.64M configuration or an in-envelope bounding run before the arm is treated as closed",
+    "Finding 17 / A1-track standing architecture conclusion: 'frozen-features -> linear symbol grounding -> symbolic latent dynamics' as the settled gate-2 architecture \u2014 the pass stands, but the implied exhaustion of embedding-space dynamics does not",
+    "NOT affected: gate-1 pass (finding 14), clean-targets decision (15a), battery validity (15b), tier-2 winner slotpred (16), gate-2 PASS itself (17 round 3), tier-1 planner verdict (18)"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "cem-oracle.json records neither the data path nor the seed",
+   "file": "terminal-jepa/plan/cem.py",
+   "location": "lines 204-207 (report dict); runs/tier1/cem-oracle.json",
+   "claim_attacked": "Reproducibility of finding 18's artifact",
+   "description": "The report embeds adapter, ckpt, budget, and episode count but omits --data and --seed, both of which determine the episode set (the sibling referee evals/dynamics.py records both 'data' and 'seed' in its reports). The recorded run is reconstructible only by assuming defaults (data/v1, seed 0) \u2014 which the reconstruction confirmed consistent \u2014 but a tier-3/gate-3 run at a non-default seed or data root would leave an artifact that cannot be tied to its inputs. Cheap fix given the project's self-auditing-artifact convention.",
+   "evidence": "runs/tier1/cem-oracle.json contains keys {adapter, ckpt, budget, episodes, planners, cem_minus_random_points, cem_minus_random_points_filtered} only; evals/dynamics.py run_battery embeds data/seed/eval_split (lines 295-299).",
+   "materiality": "low",
+   "affected_verdicts": [
+    "Finding 18 (tier-1 planner verdict) \u2014 artifact reproducibility/auditability only; the verdict itself and its numbers are unaffected"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "Weight-decay grouping decays five embedding tables in both tier2 and gate2, contradicting the project's own audit convention",
+   "file": "terminal-jepa/models/tier2.py",
+   "location": "lines 290-296 (same pattern at terminal-jepa/models/gate2.py:217-223)",
+   "claim_attacked": "The fidelity-audit convention (status doc line 89: 'weight decay now excludes 1-D params/embeddings/queries') as applied to the new modules; hygiene around finding 16's training setup",
+   "description": "As described, except the count in the title: the (p.ndim <= 1 or 'emb' in n) filter decays five embedding tables in Tier2Net (file_val, dir_val, cwd_val, special_arg, role at tier2.py:108-114, filter at 290-296) but only two in Gate2Net (special_arg, role at gate2.py:75-76, filter at 217-223). This contradicts the audit convention at terminal-jepa-status.md line 89 that weight decay excludes embeddings. No recorded verdict is affected \u2014 both tier-2 bake-off arms share the identical architecture and optimizer grouping \u2014 but every tier-2 and gate-2 checkpoint trained these tables under unintended 0.01 weight decay, and any future embedding table whose name lacks 'emb' inherits the trap silently.",
+   "evidence": "Read models/tier2.py:290-296 and models/gate2.py:217-223; module attribute names at tier2.py:108-114 and gate2.py:73-76 ('file_val', 'dir_val', 'cwd_val', 'special_arg', 'role' contain no 'emb'); convention at terminal-jepa-status.md line 89 and its adversarial-review follow-up (line 105).",
+   "materiality": "low",
+   "affected_verdicts": [
+    "none flip; hygiene-only contact with finding 16 (tier-2 bake-off training setup) and finding 17 (gate-2 rounds 1-3 trained under unintended embedding decay), plus the status-doc line 89 convention claim as applied to the new modules"
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "Gate2Adapter h>=2 rollouts re-infer presence by norm on fed-back predictions, so round-1/2 multi-horizon errors conflate model drift with feedback-presence artifacts (h1 semantics verified safe)",
+   "file": "terminal-jepa/models/gate2.py",
+   "location": "lines 94-101 (forward: present = norm > presence_norm; anchor = feats * present), 417-420 (predict feeds outputs back)",
+   "claim_attacked": "The h2/h3 rollout medians in runs/gate2/slotpred*/battery-*.json as pure measurements of predictor drift (finding 17's rounds 1-2 narrative)",
+   "description": "As stated, with two refinements: (a) the claim that the FAIL verdicts \"were decided at h1 where no feedback occurs\" should note that round 2's supporting \"ranking at chance\" metric comes from goal_ranking_eval (evals/dynamics.py:253-268), which also chains predictions multi-step and is therefore exposed to the same feedback-presence artifact \u2014 the verdicts remain safe only because both FAILs are overdetermined by h1-only metrics (round 1: 62.6 vs 61.8, VoE 0.483, no-op 1.35 vs 0; round 2: no-op 42 vs floor 0, state-changing 2x floor). (b) The h1-safety margin re-measured on a larger sample: 76,590 vectors from 60 cache-val.pt trajs (both regimes), min line-vector norm 24.24, 0 vectors <= the 1.0 presence threshold (~24x margin; the original 25.06/15,188 figures were a smaller sample, same conclusion).",
+   "evidence": "Read models/gate2.py:94-101,417-420 and evals/dynamics.py:151-158 (z chained through predict at h 1..3); loaded runs/gate2/cache-val.pt (60 trajs sampled): alignment clean vs raw jsonl, min line-vec norm 25.055, zero vectors under the presence threshold.",
+   "materiality": "low",
+   "affected_verdicts": [
+    "None flip. Finding 17 (gate-2): round-1/2 FAIL verdicts unaffected (decided at h1); the round-2 'ranking at chance' diagnostic detail and any round-1/2 h2/h3 rollout medians need a measurement caveat only; the round-3 PASS is untouched (Gate2CodebookAdapter/tier-2 symbolic path). Findings 14 (gate-1 pass), 15 (clean targets, battery validity), 16 (tier-2 winner slotpred), and 18 (tier-1 planner) are entirely outside the defect's path."
+   ]
+  },
+  {
+   "severity": "minor",
+   "title": "gate2.py loads four artifact types with torch.load(weights_only=False) while tier2 sets weights_only=True for the same checkpoint structure",
+   "file": "terminal-jepa/models/gate2.py",
+   "location": "lines 150 (train cache), 266 (_gather_labeled cache), 340 (codebook), 396 (Gate2Adapter ckpt)",
+   "claim_attacked": "Artifact-loading hygiene of the gate-2 pipeline (no recorded number affected)",
+   "description": "All four gate2.py torch.load call sites (lines 150, 266, 340, 396) pass weights_only=False, enabling arbitrary pickle execution on load; Tier2Adapter (models/tier2.py:233) loads a structurally equivalent ckpt dict (gate2's adds only \"model\" str and \"step\" int keys) with weights_only=True. Verified empirically on torch 2.13.0 that codebook.pt, slotpred-v2/ckpt.pt, and cache-val.pt all load under weights_only=True, so the safe mode suffices for this content. The artifacts are self-produced (saved by the same file at gate2.py:142/253/320), so there is no present exploitation path \u2014 but the inconsistency means any cache/checkpoint swapped in from elsewhere would be silently trusted. Minor severity; no recorded number affected.",
+   "evidence": "Read models/gate2.py:149-150,263-267,339-341,396 and models/tier2.py:232-235; loaded codebook.pt and cache-val.pt and confirmed contents are weights_only-compatible types.",
+   "materiality": "low",
+   "affected_verdicts": []
+  }
+ ],
+ "refuted_count": 1
+}

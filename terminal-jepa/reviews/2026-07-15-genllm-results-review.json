@@ -1,0 +1,130 @@
+{
+ "date": "2026-07-15",
+ "scope": "round-5 faithful generative-LLM predictor (SmolLM2-360M) over frozen features, ew0 pretrained + random-init; before finding-23 write-up",
+ "process": "4 dimension skeptics -> per-finding independent verification (re-derived from battery JSONs + code)",
+ "agents": 19,
+ "n_findings": 15,
+ "by_severity": {
+  "sound": 8,
+  "major": 3,
+  "minor": 4
+ },
+ "major_confirmed": [
+  {
+   "dim": "numbers-calibration",
+   "severity": "major",
+   "claim": "Claim A: state-changing 63.95 does NOT beat the copy floor 63.13 (diff +0.82, z~+1.5, 'not significant').",
+   "title": "Direction is right (does not beat copy) but 'z~+1.5, not significant' misapplies the seed structure; paired, the gap is highly consistent and significantly WORSE",
+   "verdict": "confirmed",
+   "corrected": "State-changing 63.95 does not beat copy 63.13; it is +0.82 (~1.3%) WORSE (63.9483 vs 63.1269; lower feature-space L2 = better, and copy predicts 'no change', so a learned predictor must go below copy to beat it). Because the 5 battery seeds vary only eval sampling around ONE trained net (single training seed 0, per train_log.json), they are paired by eval-seed; the per-seed gaps are [0.842, 0.849, 0.793, 0.785, 0.837] (range 0.785-0.849, SE 0.0132, paired t ~+62, p<<0.001), i.e. highly consistent and not sampling noise \u2014 genllm-pre is reproducibly slightly worse than copy on state-changing, not statistically indistinguishable. An unpaired across-seed z that treats eval seeds as independent training runs gives z~+1.5 (recomputed 1.515; sample-std/Welch t +1.355, df 8, two-sided p~0.21), i.e. 'n.s.', but that test does not match the single-training-seed design; true training-run variance is unmeasured with n=1 trained net. Verdict is unchanged: genllm-pre still fails the gate (no-op 1.65, invalid 2.63, AUC 0.803<0.9) and does not beat the copy floor."
+  },
+  {
+   "dim": "overreach-ew10",
+   "severity": "major",
+   "claim": "Draft D: 'edit-weight 10 not run for genllm ... round-4's 2x2 showed ew10 monotonically WORSENS no-op/invalid haze, so it cannot clear the no-op~0 clause -- the calibration failure is robust to it.' Draft A rests the verdict on AUC 0.803 < 0.9.",
+   "title": "Skipping ew10 is defensible for the no-op clause, but 'the calibration failure is robust to it' is imprecise: round-4 ew10 IMPROVES AUC 0.784->0.869 -- the AUC half of the verdict is exactly what ew10 moves most",
+   "verdict": "confirmed",
+   "corrected": "Finding (Draft D), corrected per the reviewer: 'ew10 was not run for genllm; by the round-4 prior it monotonically worsens the no-op/invalid haze (pretrained no-op 5.10->10.33, invalid 5.55->17.02), which already blocks the no-op~0/invalid~0 clauses, so ew10 cannot make genllm PASS. Note ew10 IMPROVES AUC (round-4 pretrained 0.784->0.869, randinit 0.869->0.879) but never reaches 0.9, so calibration also stays sub-gate. Therefore the PASS verdict -- not the AUC value -- is what is ew10-robust; calibration/AUC is NOT ew10-invariant (it rises), and genllm's ew10 AUC (~0.87-0.88 expected) is inferred, not run. Recommend actually running genllm ew10 to close the inference gap, since it is the arm most likely to change the AUC number.' All underlying numbers reproduce exactly from the artifacts; the substantive verdict (genllm does not clear the PASS rule: AUC 0.803 < 0.9 and no-op/invalid nonzero) stands."
+  },
+  {
+   "dim": "overreach-ew10",
+   "severity": "major",
+   "claim": "Draft A: 'state-changing 63.95 does NOT beat the copy floor 63.13 (diff +0.82, z~+1.5, not significant). Its best behavior is copy-equivalence-with-residual-haze.'",
+   "title": "The +0.82 state-changing gap is not a null result: it is a robust WRONG-DIRECTION gap (genllm is worse than copy on all 5 eval seeds, paired t~62) -- the 'z~+1.5 not significant' framing understates the collapse",
+   "verdict": "confirmed",
+   "corrected": "CONFIRMED as written. Recompute reproduces every number: genllm_pre state-chg per seed [62.6204, 63.8629, 65.2950, 64.0683, 63.8951] mean 63.9483; copy [61.7787, 63.0139, 64.5016, 63.2828, 63.0577] mean 63.1269; paired diffs [0.8417, 0.8489, 0.7935, 0.7854, 0.8374] all positive, mean +0.821, std 0.030, paired t = 62.1; unpaired Welch t = 1.36 (SE 0.606). CopyDynamics.predict is verified identity (dynamics.py:88-89), so the copy floor's state-changing error IS the true feature-space change magnitude and a real dynamics model must score below it \u2014 genllm being +0.82 above means it is marginally WORSE than doing nothing on state-changing slots, not statistically equal. Pairing is verified correct: run_battery seeds rng = random.Random(f\"dynamics:{seed}\") (dynamics.py:319), so both arms sample identical transitions per seed index and the five seeds vary only eval sampling around a single training-seed-0 net (train_log.json: 3k steps, 0 skips). Recommended Finding-23 wording, unchanged from the draft's suggestion: 'genllm state-chg 63.95 sits +0.82 ABOVE the copy floor 63.13 \u2014 robustly higher on all 5 eval seeds (paired, t~62). It does not beat copy; if anything it is marginally worse at state-changing slots, i.e. it has collapsed to copy plus residual haze (no-op 1.65 and invalid 2.63 vs copy's exact 0). The gap is small relative to the ~63-unit change magnitude and is ~1.4 sigma unpaired, so treat the magnitude, not the sign, as noise-limited.' Drop the bare 'not significant', which reads as 'equal to copy' and hides the robust wrong-direction sign."
+  }
+ ],
+ "all_titles": [
+  {
+   "dim": "numbers-calibration",
+   "severity": "sound",
+   "title": "Calibration clauses fail at the mean AND per-seed; feature-space unit and copy-floor baseline verified",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "numbers-calibration",
+   "severity": "major",
+   "title": "Direction is right (does not beat copy) but 'z~+1.5, not significant' misapplies the seed structure; paired, the gap is highly consistent and significantly WORSE",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "numbers-calibration",
+   "severity": "sound",
+   "title": "Claims B and C magnitudes verified exactly; AUC genuinely pretraining-independent; genllm-pre dominates round-4 on all metrics",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "pretraining-effect",
+   "severity": "sound",
+   "title": "CLAIM B deltas and directions reproduce exactly; AUC-flat is real for round-5",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "pretraining-effect",
+   "severity": "sound",
+   "title": "Enormous z reproduces (-158 pooled-SE / -253 paired) and IS single-training-seed reproducibility, not training-run variance; scope note D covers it but the z framing needs an explicit caveat",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "pretraining-effect",
+   "severity": "minor",
+   "title": "Round-4 pretraining was NOT inert: it DEGRADED AUC 0.869->0.784 and rank 0.867->0.827; 'verdict-irrelevant' is true only for the pass/fail bit and understates a real (adverse) effect",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "pretraining-effect",
+   "severity": "sound",
+   "title": "state-chg-vs-copyfloor diff +0.82 and z~+1.5 reproduce; consistent with 'copy-equivalence' reading that Claim B relies on",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "fidelity-fix",
+   "severity": "sound",
+   "title": "Bidirectional-attention fidelity fix is real, applied, and load-bearing (round-4 causal bug genuinely fixed)",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "fidelity-fix",
+   "severity": "sound",
+   "title": "All headline means (CLAIMS A/B/C) recompute exactly from the per-seed JSONs; pass-rule verdict correct",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "fidelity-fix",
+   "severity": "minor",
+   "title": "CLAIM A's 'z~+1.5, not significant' understates the direction: the predictor is slightly WORSE than copy on state-changing, and the pairing tells a different story",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "fidelity-fix",
+   "severity": "minor",
+   "title": "CLAIM C's 'generative LLM the single changed ingredient vs round-4' has two additional uncontrolled architectural differences (in_proj width-match and action-token position)",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "overreach-ew10",
+   "severity": "major",
+   "title": "Skipping ew10 is defensible for the no-op clause, but 'the calibration failure is robust to it' is imprecise: round-4 ew10 IMPROVES AUC 0.784->0.869 -- the AUC half of the verdict is exactly what ew10 moves most",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "overreach-ew10",
+   "severity": "major",
+   "title": "The +0.82 state-changing gap is not a null result: it is a robust WRONG-DIRECTION gap (genllm is worse than copy on all 5 eval seeds, paired t~62) -- the 'z~+1.5 not significant' framing understates the collapse",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "overreach-ew10",
+   "severity": "minor",
+   "title": "'The frozen-feature interface is the wall' is over-generalized from ONE 316M config at a SINGLE training seed; and the scale caveat carries a repo-internal inconsistency (Llama-3.2-1B is ~1.24B, not the 490M cited)",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "overreach-ew10",
+   "severity": "sound",
+   "title": "Claim B (pretraining helps toward copy-equivalence, AUC/rank pretraining-independent) and the finding-21 / symbolic-bottleneck inference in C both check out against the JSONs",
+   "verdict": "confirmed"
+  }
+ ]
+}

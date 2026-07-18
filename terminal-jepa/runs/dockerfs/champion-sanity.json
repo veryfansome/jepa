@@ -1,0 +1,30 @@
+{
+ "genome": "g1-l2infonce-claude",
+ "objective": "g1_l2infonce_claude",
+ "split": "final",
+ "gen_twin_seed": 0,
+ "gen_twin": {
+  "jepa_top1_sameverb": 0.789,
+  "recon_top1_sameverb": 0.5662,
+  "jepa_minus_recon": 0.2228
+ },
+ "history_ablation": {
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "full_content_top1": {
+   "mean": 0.7248,
+   "std": 0.0036
+  },
+  "masked_content_top1": {
+   "mean": 0.3927,
+   "std": 0.0017
+  },
+  "history_gain_content_top1": {
+   "mean": 0.3321,
+   "std": 0.0033
+  }
+ }
+}

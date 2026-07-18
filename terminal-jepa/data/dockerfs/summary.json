@@ -1,0 +1,23 @@
+{
+ "seed": 0,
+ "seqs_per_image": 400,
+ "seq_len": 16,
+ "train_images": [
+  "alpine:latest",
+  "ubuntu:latest",
+  "debian:stable-slim",
+  "python:3.12-slim",
+  "redis:7-alpine",
+  "nginx:stable-alpine",
+  "postgres:16-alpine",
+  "node:22-slim"
+ ],
+ "val_images_heldout": [
+  "fedora:latest",
+  "rockylinux:9",
+  "mariadb:latest",
+  "httpd:2.4"
+ ],
+ "train_steps": 51190,
+ "val_steps": 25660
+}

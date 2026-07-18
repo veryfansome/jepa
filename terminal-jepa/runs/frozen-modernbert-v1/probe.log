@@ -1,0 +1,28 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 6061.98it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+decoder.bias      | UNEXPECTED |  | 
+head.dense.weight | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+model=answerdotai/ModernBERT-base params=149M device=mps
+  extract:fit: 64/20000
+  extract:fit: 3264/20000
+  extract:fit: 6464/20000
+  extract:fit: 9664/20000
+  extract:fit: 12864/20000
+  extract:fit: 16064/20000
+  extract:fit: 19264/20000
+  extract:eval: 64/5000
+  extract:eval: 3264/5000
+fit states=20000 eval states=5000 structural-existence mismatches: fit=0 eval=0
+pooled linear {"cwd_acc": 0.4564000070095062, "exists_balacc": 0.7146673202514648, "cls_acc_given_exists": 0.16109074652194977, "macro": 0.44405269126097363, "banner_acc": 0.45100000500679016, "by_depth": {"1": {"exists_balacc": 0.8965820372104645, "cls_acc_given_exists": 0.26839679479599}, "2": {"exists_balacc": 0.7602688372135162, "cls_acc_given_exists": 0.1747695505619049}, "3": {"exists_balacc": 0.6188776195049286, "cls_acc_given_exists": 0.12879735231399536}}}
+pooled mlp {"cwd_acc": 0.40880000591278076, "exists_balacc": 0.6457674652338028, "cls_acc_given_exists": 0.14799471199512482, "macro": 0.40085406104723614, "banner_acc": 0.3384000062942505, "by_depth": {"1": {"exists_balacc": 0.8268863260746002, "cls_acc_given_exists": 0.19155150651931763}, "2": {"exists_balacc": 0.6679856181144714, "cls_acc_given_exists": 0.15874052047729492}, "3": {"exists_balacc": 0.575790211558342, "cls_acc_given_exists": 0.13170011341571808}}}
+path-keyed linear {"cwd_acc": 1.0, "cls_acc_given_exists": 1.0, "banner_acc": 0.3091999888420105, "cls_by_depth": {"1": 1.0, "2": 1.0, "3": 1.0}, "macro_learned": 1.0, "macro_with_structural_exists": 1.0}
+path-keyed mlp {"cwd_acc": 1.0, "cls_acc_given_exists": 0.9999863505363464, "banner_acc": 0.227400004863739, "cls_by_depth": {"1": 1.0, "2": 1.0, "3": 0.9999749660491943}, "macro_learned": 0.9999931752681732, "macro_with_structural_exists": 0.9999954501787821}
+audit pooled {"banner_swap_dz_median": 0.7567178606987, "state_change_dz_median": 0.6489980816841125, "ratio": 1.1659785784498173}
+audit line {"banner_swap_line_dz_median": 0.6629447340965271, "state_change_unchanged_line_dz_median": 0.8865178227424622, "ratio": 0.7478075647094078}

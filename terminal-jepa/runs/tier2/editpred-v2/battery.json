@@ -1,0 +1,48 @@
+{
+ "adapter": "tier2-editpred",
+ "data": "data/v1",
+ "seed": 0,
+ "eval_split": "val-heldout-layouts, val-heldout-predicates",
+ "rollout": {
+  "n": 500,
+  "h1_err_median_by_type": {
+   "state-changing": 1.0,
+   "valid-no-op": 0.0,
+   "invalid": 1.0
+  },
+  "h1_err_mean_by_type": {
+   "state-changing": 2.348441926345609,
+   "valid-no-op": 0.05333333333333334,
+   "invalid": 2.861111111111111
+  },
+  "err_median_by_horizon": {
+   "1": 1.0,
+   "2": 2.0,
+   "3": 4.0
+  }
+ },
+ "calibration": {
+  "n": 500,
+  "change_magnitude_median_by_type": {
+   "state-changing": 1.0,
+   "valid-no-op": 0.0,
+   "invalid": 1.0
+  },
+  "auc_state_changing_vs_non": 0.7846905276643447
+ },
+ "voe": {
+  "n": 300,
+  "err_true_median": 1.0,
+  "acc_vs_alt_action_foil": 0.8533333333333334,
+  "acc_vs_two_edit_foil_copy_passable": 0.9883333333333333
+ },
+ "goal_ranking": {
+  "n_episodes": 100,
+  "rank_acc_vs_random": 0.7252032520325203,
+  "rank_acc_vs_invalid": 0.6585365853658537,
+  "rank_margin_vs_random_median": 2.0,
+  "optimal_plan_final_goal_distance_median": 2.0,
+  "executed_plan_distance_improved_frac": 1.0
+ },
+ "ckpt": "runs/tier2/editpred-v2/ckpt.pt"
+}

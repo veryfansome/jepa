@@ -1,0 +1,20 @@
+.claude/settings.local.json
+
+terminal-jepa/.venv/
+**/__pycache__/
+*.pyc
+
+terminal-jepa/data/*/*.jsonl
+terminal-jepa/runs/**/ckpt*.pt
+terminal-jepa/runs/**/*.pt
+terminal-jepa/data/**/emb-*.pt
+
+# experiment stdout logs + scratch (noise, regenerable) — result JSONs stay tracked
+terminal-jepa/runs/**/*.log
+terminal-jepa/runs/**/*.out
+terminal-jepa/**/scratchpad/
+# regenerable perf cache; the genomes.jsonl archive stays tracked (the real record)
+terminal-jepa/evolve/archive/base_cache.json
+terminal-jepa/runs/dockerfs/seq-smoke-s0.json
+# old Phase-1 (synthetic) reproduction scratch — regenerable
+terminal-jepa/runs/repro/

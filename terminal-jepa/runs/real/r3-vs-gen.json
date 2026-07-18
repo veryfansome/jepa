@@ -1,0 +1,34 @@
+{
+ "data": "data/real",
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "held_out_tool_steps": 885,
+ "vocab": 1239,
+ "jepa": {
+  "success_auc": {
+   "mean": 0.6563,
+   "std": 0.068
+  },
+  "command_rank_sameverb": {
+   "mean": 0.7163,
+   "std": 0.004
+  }
+ },
+ "recon": {
+  "success_auc": {
+   "mean": 0.6814,
+   "std": 0.099
+  },
+  "command_rank_sameverb": {
+   "mean": 0.7325,
+   "std": 0.0048
+  }
+ },
+ "jepa_minus_recon": {
+  "success_auc": -0.025,
+  "command_rank_sameverb": -0.016
+ }
+}

@@ -1,0 +1,149 @@
+{
+ "date": "2026-07-16",
+ "scope": "diverse-substrate R3 world model + JEPA-vs-gen, before verdict write-up",
+ "agents": 15,
+ "by_severity": {
+  "major": 8,
+  "sound": 3,
+  "critical": 1
+ },
+ "material": [
+  {
+   "dim": "transfer-real",
+   "severity": "major",
+   "title": "success_auc 0.68 on held-out tools is largely a lexical command-verb signal, not context-conditioned consequence prediction",
+   "verdict": "confirmed",
+   "corrected": "CONFIRMED. Claim A's success metric does NOT demonstrate genuine state-conditioned consequence prediction. On the 885 held-out-tool steps, success_auc 0.68 is a partial, lexically-transferred VERB-identity signal carried in the frozen z_cmd embedding, not context-conditioned reasoning.\n\nIndependently re-derived evidence:\n- Held-out success is near-deterministic per verb: awk/du/sed = 1.00, diff = 0.844, git = 0.096, tar = 0.527 (overall 0.725).\n- A verb-lookup oracle scores AUC 0.947 (ceiling), far above the WM's 0.68.\n- z_cmd alone recovers verbs: supervised nearest-centroid = 0.992 verb accuracy; z_cmd->verb->success-rate = 0.944; fully-unsupervised KMeans = 0.965 \u2014 no context, no learned model.\n- Joint-net ablation on held-out (3 seeds): true 0.682 -> context-only path (cmd-zeroed) 0.51 (chance), command-only path (ctx-zeroed) ~0.70, cmd-shuffled ~0.50 (chance). Standalone probes: ctx-only 0.54 (chance), cmd-only 0.63, ctx+cmd 0.70. Context alone is at chance; the command carries the signal.\n- The 6 held-out tools appear zero times in train, so the WM never learned them; the 0.68 is lexical transfer, and it sits below the 0.947 verb-oracle ceiling for exactly that reason.\n\nRequired corrections to the report:\n1. Do NOT claim 0.68 is \"genuine consequence-prediction\" or that \"the direction WORKS\" for the success metric. It is dominated by verb identity lexically encoded in z_cmd.\n2. Report success_auc against a verb-lexical baseline (verb-oracle 0.947; z_cmd-clustering 0.944) rather than only against the near-chance context-only head (0.54); the latter comparison flatters the WM.\n3. Acknowledge that because held-out verbs are disjoint from train verbs, the 0.68 is a partial, lexically-transferred verb signal, not evidence of state-conditioned reasoning.\n\nMinor factual fix: the held-out-tool step count is 885, not 886 (r3-vs-gen.json already says 885). This is immaterial to the conclusion.\n\nScope note (does not weaken the finding): ctx+cmd (0.70) does modestly exceed cmd-only (0.63), so context is not literally zero-information, but context-only is at chance (0.54) while the command path alone reaches ~0.66-0.70 \u2014 so the finding's central claim (context contributes almost nothing; ~0.66 of 0.68 is the command lexical signal) is upheld. The command-ranking metrics (random-foils 0.871, same-verb-foils 0.725) are the more defensible discrimination evidence and are unaffected by this finding."
+  },
+  {
+   "dim": "transfer-real",
+   "severity": "major",
+   "title": "wm_beats_copy 0.88 is against a strawman; the WM does not beat a trivial predict-the-mean baseline in latent MSE",
+   "verdict": "confirmed",
+   "corrected": "On held-out-tool steps the WM's latent prediction beats the COPY baseline (WM mse 1.081 vs copy 1.839; wm_beats_copy_frac 0.881), but this is against a weak baseline: consecutive observation embeddings genuinely differ (only 1.6% of held-out steps have identical obs), so 'no change' is a poor prediction. A trivial predict-the-training-mean baseline \u2014 which, after the code's standardization by the train next-mean, is exactly the zero vector \u2014 achieves held-out latent MSE 1.045, LOWER (better) than the WM's 1.081 on all 3 seeds (wm_beats_mean_frac = 0.478 < 0.5). Therefore on UNSEEN tools the WM does NOT beat the simplest non-copy baseline, and 'beats copy 88%' must not be cited as evidence of learned command-specific latent transfer dynamics. Report wm_beats_copy alongside a mean/constant baseline. (Numbers reproduced from artifacts: copy 1.8388, WM 1.0807, mean 1.0452, seed0 WM 1.0889, frac ctx==next 0.0158, first-step leak 0.0.) Caveat to state honestly: this shortfall is specific to the held-out/transfer subset \u2014 on the full val set (trained tools) the WM (0.508) clearly beats both predict-mean (1.010) and copy (2.122), so the WM does learn real latent dynamics on tools it trained on; the transfer-to-unseen-tool latent-dynamics bet is what is unsupported."
+  },
+  {
+   "dim": "transfer-real",
+   "severity": "major",
+   "title": "Same-verb rank 0.725 is surface lexical overlap (obs echoes command args), not learned consequence modeling; a no-model cosine baseline scores higher (0.749)",
+   "verdict": "confirmed",
+   "corrected": "Claim A (\"hard same-verb rank 0.725 vs 0.5 ... can the world model tell different commands apart by their predicted effect\", implying learned command discrimination) is REFUTED as stated and should be corrected.\n\nThe same-verb ranking of 0.725 is surface lexical overlap, not learned consequence modeling. render_obs (realenv/collect.py:27) echoes the full command line \u2014 including its unique file argument \u2014 into the observation transcript that becomes z_next, so the true command's z_cmd shares argument tokens with its own echoed z_next while a different same-verb foil instance (different filename) does not.\n\nEvidence (3-seed, re-derived): the learned WM scores same-verb rank 0.726, but is beaten by a no-model frozen-embedding cosine(z_cmd, z_next) baseline at 0.748 on every seed, and crushed by a zero-parameter raw-token-Jaccard(command, echoed-obs) baseline at 0.871. Untrained pred=z_cmd scores 0.598 and pred=z_ctx+z_cmd 0.555.\n\nCorrect framing: report the same-verb rank against the frozen-embedding cosine(z_cmd,z_next) baseline (0.748), which the WM (0.725) does not beat, and against the token-overlap baseline (0.871), which dominates both. The metric measures \"the command's arguments appear verbatim in the echoed transcript\" (lexical overlap), not \"the world model tells commands apart by predicted effect.\" It does not support a learned-world-model / learned command-discrimination claim, and because z_next itself lexically encodes the command, it also does not cleanly test abstract consequence modeling. (Note: distinct-command foil pools are healthy \u2014 awk 116/diff 119/du 8/git 38/sed 135/tar 80 \u2014 so the metric is not degenerate; it is simply measuring lexical overlap. The step count is 885, not 886.)"
+  },
+  {
+   "dim": "jepa-vs-gen-fairness",
+   "severity": "critical",
+   "title": "The tie is outlier-driven and statistically null: JEPA actually WINS 2 of 3 seeds; the -0.025 sign is set entirely by one recon outlier",
+   "verdict": "confirmed",
+   "corrected": "The JEPA-vs-generative outcome comparison is UNDERPOWERED and INCONCLUSIVE at 3 seeds, not a demonstrated tie or negative. Per-seed success_auc (r3vsgen2.log): jepa=[0.601,0.752,0.616], recon=[0.586,0.640,0.818]; paired diffs [+0.015,+0.112,-0.202]; JEPA wins 2/3 seeds. Aggregate jepa_minus_recon=-0.025 is dominated by the lone recon seed2=0.818 (which the draft itself flags as an outlier); paired t=-0.27 on 2 dof (p~0.81), 95% CI roughly [-0.42,+0.37], and each arm's std (jepa 0.068, recon 0.099) exceeds the 0.025 gap. Drop seed2 and JEPA leads +0.0635 (0.6765 vs 0.613). Caveat: this outlier-drop is direction-dependent (dropping jepa's own high seed1 instead swings the diff to -0.094 favoring recon), so the robust reading is the t-test: inconclusive. The goal's stop condition (beat the compute-matched generative twin) is NOT met, but neither is a negative established; the draft's 'JEPA ties / no JEPA-specific advantage / bet unsupported' over-claims a negative from n=3 noise whose central tendency mildly favors JEPA once the outlier is set aside. Collect >=8-10 seeds before any tie/no-advantage/negative claim. (Verified sound and unaffected: WM on 886 held-out-tool steps -- wm_beats_copy 0.881+/-0.005, success_auc_wm 0.682+/-0.027 vs ctx-only 0.540+/-0.004, rank random 0.871+/-0.009, same-verb 0.725+/-0.008; design is confound-free -- matched init, aux-only trunk, common frozen-h probe; substrate genuine -- train 0% held-out-tool exposure, val 23.7%.)"
+  },
+  {
+   "dim": "jepa-vs-gen-fairness",
+   "severity": "major",
+   "title": "The vs-gen JEPA arm is architecturally handicapped vs the JEPA that produced the headline results (plain absolute head, no residual/zero-init copy baseline; no pretrained-init predictor)",
+   "verdict": "partial",
+   "corrected": "The finding's factual claims are all correct and re-derived: the vs-gen JEPA arm (realenv/jepa_vs_gen.py) uses a plain nn.Linear absolute-prediction head (measured weight norm 15.997 at init, random), whereas the headline WM (realenv/worldmodel.py) uses a residual zero-init delta head (delta weight norm 0.0 at init, z_next=z_ctx+delta); bodies are identical (1536->512->512) so only the aux-head form differs; and no pretrained-init predictor exists in either (all heads random). The draft SHOULD disclose this asymmetry and soften 'no JEPA advantage in the real regime' to 'no advantage under this (absolute, random-init) JEPA arm.' HOWEVER, the finding's implied conclusion \u2014 that this handicap is load-bearing and a fairer JEPA is a real untested threat to the verdict \u2014 is REFUTED by direct experiment and closer reading: (1) The finding's key evidence (vs-gen JEPA 0.656 < WM 0.682) is a MISATTRIBUTION: WM's 0.682 comes from a success head trained JOINTLY with outcome supervision on the trunk, while vs-gen's 0.656 comes from a frozen, outcome-blind trunk probe (the intended clean design). Those are different measurements, not a head-form effect. (2) I reproduced the exact vs-gen pipeline (matching the artifact to 3 decimals) and ADDED the proposed residual zero-init delta-head JEPA arm: it scored success 0.603+/-0.037 (WORSE than the absolute arm's 0.656; jepa-minus-recon widened from -0.025 to -0.079) and rank 0.729 (tying recon 0.732). De-handicapping JEPA is neutral-to-worse, not better. (3) success_auc is statistically indistinguishable across all arms (std 0.068-0.099 over 3 seeds); only rank is stable (std ~0.004), and recon >= JEPA under every head variant. Recommended correction to the finding: keep the disclosure point (state the head-form and random-init asymmetry; soften the claim to 'this JEPA arm'), but downgrade severity from major to minor and remove the implication that a fairer residual-head JEPA would close/reverse the gap \u2014 an actually-run residual-head JEPA does not. A pretrained-init predictor remains genuinely untested and is a fair caveat, but the residual-head portion of the concern is empirically dead. Relevant files: /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/realenv/jepa_vs_gen.py, /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/realenv/worldmodel.py, /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/runs/real/r3-vs-gen.json, /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/runs/real/r3-diverse.json."
+  },
+  {
+   "dim": "jepa-vs-gen-fairness",
+   "severity": "major",
+   "title": "The command_rank comparison is cross-space and confounded by literal command-token echo, so citing recon 0.732 > jepa 0.716 is not a fair test in either direction",
+   "verdict": "confirmed",
+   "corrected": "The command_rank comparison in the JEPA-vs-recon head-to-head is a confounded cross-space diagnostic and cannot be cited as evidence for or against a tie. The two arms rank against different targets in incomparable spaces (jepa: MSE to the 768-d pooled next-latent ev[\"next\"]; recon: per-token BCE to the 1239-d multi-hot next-obs bag ev[\"bag\"]; jepa_vs_gen.py:130-133). Recon's side is specifically inflated by literal command-token echo: render_obs (collect.py:24-32) prints the full command line into every observation, so the recon target bag re-includes the true command's own verb+argument tokens. Re-derivation confirms a NO-MODEL token-identity ranker already reaches ~0.68 same-verb rank (near recon's 0.7325), and 100% of a true command's arg tokens are echoed into its target bag vs ~57% for a same-verb foil. JEPA's pooled continuous target has no such per-token echo axis (analogous no-model shortcuts score only 0.597/0.0). Therefore the -0.016 gap (jepa 0.716 vs recon 0.732) supports NEITHER \"recon wins\" NOR \"JEPA fails to beat recon.\" Fix: drop command_rank from the JEPA-vs-recon head-to-head, or replace it with a common-space rank (e.g., rank both arms through their frozen h under a single shared metric). If retained, label it a confounded cross-space diagnostic only, and remove the clause \"yet JEPA still does not beat it,\" which improperly leans on the inflated recon number. This does not affect the within-space WM command_rank_sameverb_foils=0.725 in r3-diverse.json, which is not implicated."
+  },
+  {
+   "dim": "substrate-and-verdict",
+   "severity": "major",
+   "title": "success_auc 0.68 is a verb-identity lookup, not consequence understanding; a trivial 'is it git?' feature scores 0.80, beating the WM",
+   "verdict": "confirmed",
+   "corrected": "CONFIRMED. success_auc must be dropped as evidence for Verdict A ('the direction works'), or caveated explicitly: on the 885 held-out-tool steps success is near-deterministic given the verb (awk/du/sed 1.00, diff 0.84, tar 0.53, git 0.096), so success AUC measures verb recognition, not world-model consequence prediction. A trivial 1-bit 'not-git' feature scores AUC 0.7982 -- higher than the WM's 0.682 (and higher than every seed: {0.716, 0.652, 0.677}); an oracle verb-rate scores 0.9465. z_cmd losslessly encodes verb identity (CV is-git probe AUC = 1.0), and the context-only baseline (0.54) is weak only because the prior observation does not reveal the upcoming tool. This is the same verb-lookup degeneracy the 2026-07-16 review flagged, now inside the success metric.\n\nThe remaining WM claims are re-derived and reproduce exactly, and are NOT affected by this critique because they are verb-robust by construction: wm_beats_copy_frac 0.8814 (copy baseline is 0.5 regardless of verb) and command_rank on stateful/diverse tools -- random-foils 0.8712 and, critically, same-verb-foils 0.725 (foils drawn from the same verb, controlling for verb identity). These -- not the success head -- are the load-bearing evidence for 'the direction works.' The JEPA-vs-gen result stands as reported (jepa-minus-recon: success -0.025, rank -0.016), and its success comparison inherits the same verb-lookup caveat since it uses a common success probe.\n\nNet effect on the verdict: Verdict A survives but must be restated on beats-copy and same-verb command-rank only; the '0.68 vs 0.54' success claim should be removed or explicitly flagged as verb recognition beaten by a 1-bit feature."
+  },
+  {
+   "dim": "substrate-and-verdict",
+   "severity": "major",
+   "title": "Aggregate held-out metrics are inflated by read-only tools and low-diversity verbs; same-verb rank is at chance for git/du and only 10.6% of steps are stateful",
+   "verdict": "confirmed",
+   "corrected": "Verdict A must be reported per-tool, not as a pooled mean. On the 885 held-out-tool steps: (1) Only 10.6% (94/885) change filesystem state \u2014 awk/diff/du/sed = 0% (pure stdout), git 9%, tar 53% \u2014 so 'world model transfers' is mostly 'predicts read-only commands leave state roughly where the text delta lands.' beats-copy (~0.88) is an easy bar: the transcript embedding moves ~equally whether or not state changes (copy_mse 1.83 non-changing vs 1.91 changing), so 'predict a text delta' beats 'obs = prior obs' for free; genuinely stateful transfer is carried by tar (beats-copy 0.947) and partially git. (2) Same-verb rank 0.725 hides a wide split: diff .94-.96, sed .87-.89, awk .77, tar .75 (real within-verb discrimination) vs du .48 and git .53 (at/below chance). du is at chance essentially by construction (~49% of same-verb foils are identical strings -> forced 0.5 ties; when strings differ the WM wins 294:19); git is only 9% ties but shows genuinely weak discrimination (58.5% win on differing foils) because 91% of git steps are interchangeable read-only subcommands \u2014 so 'at chance for git' is part construction, part real limitation, and should be stated as such rather than purely 'by construction.' (3) Additionally, success_auc_wm 0.682 vs context-only 0.540 is inflated by the same mechanism: per-tool success is near-degenerate (awk/du/sed = 100%, git = 9.6%, diff 84%, tar 53%), so the WM's advantage is largely verb-lookup (the verb determines the outcome) rather than within-tool consequence prediction. Multi-seed stability (std ~0.005-0.008) is real but is stability of an inflated aggregate, not strength. The JEPA-vs-gen result (jepa-minus-recon -0.025 success, -0.016 rank, with success std 0.07-0.10) is honest: no measurable JEPA advantage over the compute-matched generative baseline."
+  },
+  {
+   "dim": "substrate-and-verdict",
+   "severity": "major",
+   "title": "Substrate is genuinely improved but still confounded (held tools OOD in verb only, in-distribution in observation-space); 'the world-model direction works' over-reads; needs one more strengthening before a stop",
+   "verdict": "confirmed",
+   "corrected": "The reviewer's finding is CONFIRMED on every independently checkable point; the brief's proposed verdict (\"the world-model direction works; stop-worthy\") over-reads and should be replaced by the finding's honest read: \"JEPA neither clearly wins nor loses; a frozen-embedding predictor beats trivial baselines on some stateful/diverse tools, but the outcome metric is a verb lookup and the OOD-ness is shallow \u2014 needs one more strengthening before any stop.\" The one robust cross-arm result (JEPA <= generative) carries forward.\n\nRe-derived from data/real, cached embeddings, and code (all match the finding):\n- n = 885 held-out-tool steps, NOT 886 (artifacts r3-diverse.json, r3-vs-gen.json, r3d.log, and a direct count all say 885; brief's 886 is a label error).\n- Per-tool distinct held commands: sed 135, diff 119, awk 116, tar 80, git 38, du 8 (exact). Diversity is uneven: du and git near-degenerate; only 4/6 tools rich.\n- Token-level OOD real (0 held cmds verbatim in train; all 6 held verbs count 0 in train) but observation-space OOD shallow: nearest-train-obs cosine 0.9672 vs within-train 0.9936; nearest-train verb awk->sort, sed->sort, diff->cp, tar->cat, git->cat, du->head (exact).\n- Success is a verb lookup: verb-only predictor AUC 0.947 on held steps; the WM's success_auc 0.682 sits far BELOW that ceiling. awk/du/sed always succeed, git fails 90%, tar mixed.\n- 89.4% of held steps are read-only (791/885); change_rate 0.000 for awk/diff/du/sed; only git (0.09) and tar (0.53) mutate state, so the state-change story is essentially tar-only.\n- Same-verb rank at chance for 2/6 tools (du 0.453, git 0.534); pooled 0.725/0.881 are carried by diff/sed/tar/awk, overstating uniform competence.\n- JEPA-vs-gen: success jepa 0.656 / recon 0.681, jepa-minus-recon -0.025 with paired 95% CI +/-0.399 (underpowered, spans 0). command_rank(same-verb) -0.016 +/-0.004 with recon beating jepa in every seed (-0.014,-0.017,-0.017): the JEPA<=generative rank result is robust.\n- Single collection seed (summary.json/collect.log seed 0; one train/val draw; one embedding cache). The 3 seeds are model-init only, so no numbers carry data-sampling variance.\n\nRequired caveats before any verdict: (1) success = verb lookup, not consequence prediction; (2) held tools OOD in token but in-distribution in observation-space (cos 0.967, outputs mirror sort/cat/cp/head) => shallow transfer; (3) 89% read-only and same-verb rank at chance for git/du => pooled 0.725/0.881 overstate; (4) success JEPA-vs-recon CI +/-0.4; (5) single collection seed, 3 model seeds. Recommend one more strengthening (multiple collection seeds, harder-OOD tools with structurally novel outputs, a consequence label not deducible from the verb, and the pretrained-predictor arm) rather than declaring \"the direction works.\" Relevant files: /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/realenv/{tasks,record,collect,worldmodel,jepa_vs_gen}.py; /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/runs/real/{r3-diverse.json,r3-vs-gen.json}; /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/data/real/{train.jsonl,val.jsonl,summary.json,emb-train.pt,emb-val.pt}."
+  }
+ ],
+ "all_titles": [
+  {
+   "dim": "transfer-real",
+   "severity": "major",
+   "title": "success_auc 0.68 on held-out tools is largely a lexical command-verb signal, not context-conditioned consequence prediction",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "transfer-real",
+   "severity": "major",
+   "title": "wm_beats_copy 0.88 is against a strawman; the WM does not beat a trivial predict-the-mean baseline in latent MSE",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "transfer-real",
+   "severity": "major",
+   "title": "Same-verb rank 0.725 is surface lexical overlap (obs echoes command args), not learned consequence modeling; a no-model cosine baseline scores higher (0.749)",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "transfer-real",
+   "severity": "sound",
+   "title": "Artifacts reproduce, no encoding/standardization/context leaks, and the honest parts of the verdict (B ties, C not met) hold",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "jepa-vs-gen-fairness",
+   "severity": "critical",
+   "title": "The tie is outlier-driven and statistically null: JEPA actually WINS 2 of 3 seeds; the -0.025 sign is set entirely by one recon outlier",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "jepa-vs-gen-fairness",
+   "severity": "major",
+   "title": "The vs-gen JEPA arm is architecturally handicapped vs the JEPA that produced the headline results (plain absolute head, no residual/zero-init copy baseline; no pretrained-init predictor)",
+   "verdict": "partial"
+  },
+  {
+   "dim": "jepa-vs-gen-fairness",
+   "severity": "major",
+   "title": "The command_rank comparison is cross-space and confounded by literal command-token echo, so citing recon 0.732 > jepa 0.716 is not a fair test in either direction",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "jepa-vs-gen-fairness",
+   "severity": "sound",
+   "title": "The frozen-trunk + fresh common-probe design is implemented correctly and is genuinely decoupled from the aux head",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "substrate-and-verdict",
+   "severity": "major",
+   "title": "success_auc 0.68 is a verb-identity lookup, not consequence understanding; a trivial 'is it git?' feature scores 0.80, beating the WM",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "substrate-and-verdict",
+   "severity": "major",
+   "title": "Aggregate held-out metrics are inflated by read-only tools and low-diversity verbs; same-verb rank is at chance for git/du and only 10.6% of steps are stateful",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "substrate-and-verdict",
+   "severity": "sound",
+   "title": "JEPA-vs-gen conclusion is directionally honest, but 'ties' overstates the success result (statistically uninformative, 95% CI [-0.42, +0.37]) and recon has a small but real rank edge",
+   "verdict": "confirmed"
+  },
+  {
+   "dim": "substrate-and-verdict",
+   "severity": "major",
+   "title": "Substrate is genuinely improved but still confounded (held tools OOD in verb only, in-distribution in observation-space); 'the world-model direction works' over-reads; needs one more strengthening before a stop",
+   "verdict": "confirmed"
+  }
+ ]
+}

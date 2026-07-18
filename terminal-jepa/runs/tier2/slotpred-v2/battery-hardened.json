@@ -1,0 +1,460 @@
+{
+ "adapter": "tier2-slotpred",
+ "ckpt": "runs/tier2/slotpred-v2/ckpt.pt",
+ "data": "data/v1",
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "aggregate": {
+  "rule_clauses.state_changing_h1_mean": {
+   "mean": 0.2765981750487687,
+   "std": 0.011140574635724175,
+   "min": 0.265625,
+   "max": 0.29745042492917845,
+   "n_seeds": 5
+  },
+  "rule_clauses.noop_h1_mean": {
+   "mean": 0.0,
+   "std": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "n_seeds": 5
+  },
+  "rule_clauses.invalid_h1_mean": {
+   "mean": 0.22096862385744703,
+   "std": 0.03343532606979954,
+   "min": 0.18055555555555555,
+   "max": 0.2631578947368421,
+   "n_seeds": 5
+  },
+  "rule_clauses.auc_state_changing_vs_non": {
+   "mean": 0.9062219394798335,
+   "std": 0.015424172590627354,
+   "min": 0.8859946666666667,
+   "max": 0.9256190653509588,
+   "n_seeds": 5
+  },
+  "voe.acc_vs_alt_action_foil": {
+   "mean": 0.9523333333333334,
+   "std": 0.008856886837057624,
+   "min": 0.9433333333333334,
+   "max": 0.9683333333333334,
+   "n_seeds": 5
+  },
+  "goal_ranking.rank_acc_vs_random": {
+   "mean": 0.9735574744195936,
+   "std": 0.0037923259193737816,
+   "min": 0.9691714836223507,
+   "max": 0.9797421731123389,
+   "n_seeds": 5
+  },
+  "goal_ranking.rank_acc_vs_invalid": {
+   "mean": 0.9450317411971462,
+   "std": 0.006360197094112524,
+   "min": 0.9327956989247311,
+   "max": 0.9502762430939227,
+   "n_seeds": 5
+  }
+ },
+ "per_seed": [
+  {
+   "adapter": "tier2-slotpred",
+   "data": "data/v1",
+   "seed": 0,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 0.29745042492917845,
+     "valid-no-op": 0.0,
+     "invalid": 0.18055555555555555
+    },
+    "err_median_by_horizon": {
+     "1": 0.0,
+     "2": 0.0,
+     "3": 0.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.9075986868444231
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 0.0,
+    "acc_vs_alt_action_foil": 0.9683333333333334,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.9759358288770054,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.9566666666666667,
+      "n": 150
+     },
+     "file_absent": {
+      "acc": 0.9866666666666667,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.9711538461538461,
+      "n": 156
+     },
+     "file_exists_with_class": {
+      "acc": 0.9916666666666667,
+      "n": 180
+     }
+    },
+    "rank_acc_vs_invalid": 0.9491978609625669,
+    "rank_margin_vs_random_median": 2.0,
+    "optimal_plan_final_goal_distance_median": 0.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 0.29745042492917845,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.18055555555555555,
+    "auc_state_changing_vs_non": 0.9075986868444231
+   },
+   "ckpt": "runs/tier2/slotpred-v2/ckpt.pt"
+  },
+  {
+   "adapter": "tier2-slotpred",
+   "data": "data/v1",
+   "seed": 1,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 0.27225130890052357,
+     "valid-no-op": 0.0,
+     "invalid": 0.20270270270270271
+    },
+    "err_median_by_horizon": {
+     "1": 0.0,
+     "2": 0.0,
+     "3": 0.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.8917696120859233
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 0.0,
+    "acc_vs_alt_action_foil": 0.955,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.9713261648745519,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.9845679012345679,
+      "n": 162
+     },
+     "file_absent": {
+      "acc": 0.9533333333333334,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.9371069182389937,
+      "n": 159
+     },
+     "file_exists_with_class": {
+      "acc": 1.0,
+      "n": 162
+     }
+    },
+    "rank_acc_vs_invalid": 0.9327956989247311,
+    "rank_margin_vs_random_median": 2.0,
+    "optimal_plan_final_goal_distance_median": 0.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 0.27225130890052357,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.20270270270270271,
+    "auc_state_changing_vs_non": 0.8917696120859233
+   },
+   "ckpt": "runs/tier2/slotpred-v2/ckpt.pt"
+  },
+  {
+   "adapter": "tier2-slotpred",
+   "data": "data/v1",
+   "seed": 2,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 0.26988636363636365,
+     "valid-no-op": 0.0,
+     "invalid": 0.25842696629213485
+    },
+    "err_median_by_horizon": {
+     "1": 0.0,
+     "2": 0.0,
+     "3": 0.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.9201276664511958
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 0.0,
+    "acc_vs_alt_action_foil": 0.9433333333333334,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.9691714836223507,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.9740740740740741,
+      "n": 135
+     },
+     "file_absent": {
+      "acc": 0.9666666666666667,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.9455782312925171,
+      "n": 147
+     },
+     "file_exists_with_class": {
+      "acc": 0.9876543209876543,
+      "n": 162
+     }
+    },
+    "rank_acc_vs_invalid": 0.9450867052023122,
+    "rank_margin_vs_random_median": 2.0,
+    "optimal_plan_final_goal_distance_median": 0.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 0.26988636363636365,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.25842696629213485,
+    "auc_state_changing_vs_non": 0.9201276664511958
+   },
+   "ckpt": "runs/tier2/slotpred-v2/ckpt.pt"
+  },
+  {
+   "adapter": "tier2-slotpred",
+   "data": "data/v1",
+   "seed": 3,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 0.2777777777777778,
+     "valid-no-op": 0.0,
+     "invalid": 0.2631578947368421
+    },
+    "err_median_by_horizon": {
+     "1": 0.0,
+     "2": 0.0,
+     "3": 0.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.8859946666666667
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 0.0,
+    "acc_vs_alt_action_foil": 0.9483333333333334,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.9716117216117216,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.9618055555555556,
+      "n": 144
+     },
+     "file_absent": {
+      "acc": 0.9733333333333334,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.9528301886792453,
+      "n": 159
+     },
+     "file_exists_with_class": {
+      "acc": 0.9970238095238095,
+      "n": 168
+     }
+    },
+    "rank_acc_vs_invalid": 0.9478021978021978,
+    "rank_margin_vs_random_median": 2.0,
+    "optimal_plan_final_goal_distance_median": 0.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 0.2777777777777778,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.2631578947368421,
+    "auc_state_changing_vs_non": 0.8859946666666667
+   },
+   "ckpt": "runs/tier2/slotpred-v2/ckpt.pt"
+  },
+  {
+   "adapter": "tier2-slotpred",
+   "data": "data/v1",
+   "seed": 4,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 0.265625,
+     "valid-no-op": 0.0,
+     "invalid": 0.2
+    },
+    "err_median_by_horizon": {
+     "1": 0.0,
+     "2": 0.0,
+     "3": 0.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.9256190653509588
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 0.0,
+    "acc_vs_alt_action_foil": 0.9466666666666667,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.9797421731123389,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.9743589743589743,
+      "n": 156
+     },
+     "file_absent": {
+      "acc": 0.9866666666666667,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.9647435897435898,
+      "n": 156
+     },
+     "file_exists_with_class": {
+      "acc": 0.9967948717948718,
+      "n": 156
+     }
+    },
+    "rank_acc_vs_invalid": 0.9502762430939227,
+    "rank_margin_vs_random_median": 2.0,
+    "optimal_plan_final_goal_distance_median": 0.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 0.265625,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.2,
+    "auc_state_changing_vs_non": 0.9256190653509588
+   },
+   "ckpt": "runs/tier2/slotpred-v2/ckpt.pt"
+  }
+ ]
+}

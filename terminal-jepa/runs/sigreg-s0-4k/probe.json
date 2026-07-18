@@ -1,0 +1,38 @@
+{
+ "ckpt": "runs/sigreg-s0-4k/ckpt.pt",
+ "regime": "both",
+ "eval_split": "val-heldout-layouts",
+ "fit_states": 20000,
+ "eval_states": 5000,
+ "probe_fit": {
+  "steps": 400,
+  "batch": 4096,
+  "lr": 0.01
+ },
+ "chance_floors": {
+  "cwd_majority": 0.09839999675750732,
+  "exists_pos_rate": 0.05366511642932892,
+  "exists_balacc_chance": 0.5,
+  "cls_majority_given_exists": 0.174770325422287,
+  "banner_chance": 0.015625
+ },
+ "linear": {
+  "cwd_acc": 0.094200000166893,
+  "exists_balacc": 0.5367772728204727,
+  "cls_acc_given_exists": 0.1294996291399002,
+  "macro": 0.2534923007090886,
+  "banner_acc": 0.01360000018030405
+ },
+ "mlp": {
+  "cwd_acc": 0.061000000685453415,
+  "exists_balacc": 0.5641302838921547,
+  "cls_acc_given_exists": 0.12655283510684967,
+  "macro": 0.25056103989481926,
+  "banner_acc": 0.01119999960064888
+ },
+ "banner_swap_audit": {
+  "banner_swap_dz_median": 0.1605111062526703,
+  "state_change_dz_median": 1.3773868083953857,
+  "ratio": 0.116533063352108
+ }
+}

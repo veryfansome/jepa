@@ -1,0 +1,25 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 6711.29it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+head.dense.weight | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+decoder.bias      | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  train: 0/400 trajs
+  train: 50/400 trajs
+  train: 100/400 trajs
+  train: 150/400 trajs
+  train: 200/400 trajs
+  train: 250/400 trajs
+  train: 300/400 trajs
+  train: 350/400 trajs
+saved runs/gate2/cache-train.pt (400 trajs)
+  val: 0/200 trajs
+  val: 50/200 trajs
+  val: 100/200 trajs
+  val: 150/200 trajs
+saved runs/gate2/cache-val.pt (200 trajs)

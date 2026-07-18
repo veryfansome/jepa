@@ -1,0 +1,21 @@
+{
+ "ckpt": "runs/sigreg-v1-s0-4k/ckpt.pt",
+ "encoder_type": "cls",
+ "data": "data/v1",
+ "split": "val",
+ "regime": "both",
+ "max_trajs": 40,
+ "device": "cpu",
+ "changed": {
+  "n": 703,
+  "copy_baseline_mse": 0.00794367153898191,
+  "predictor_mse": 0.0011869480219235784,
+  "ratio_pred_over_copy": 0.14942058166666114
+ },
+ "noop": {
+  "n": 257,
+  "copy_baseline_mse": 3.111072336649208e-05,
+  "predictor_mse": 0.001262405440010075,
+  "ratio_pred_over_copy": 40.577823444946105
+ }
+}

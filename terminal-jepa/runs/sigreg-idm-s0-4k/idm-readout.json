@@ -1,0 +1,28 @@
+{
+ "ckpt": "runs/sigreg-idm-s0-4k/ckpt.pt",
+ "arm": "sigreg+idm",
+ "data": "data/v0",
+ "split": "val",
+ "regime": "both",
+ "batches": 40,
+ "batch_size": 32,
+ "seed": 0,
+ "horizon": 3,
+ "device": "cpu",
+ "transitions_evaluated": 3840,
+ "accuracy": {
+  "verb_acc": 0.6503,
+  "arg1_acc": 0.2154,
+  "arg2_acc": 0.6211
+ },
+ "majority_floors": {
+  "verb": 0.2708,
+  "arg1": 0.0245,
+  "arg2": 0.6049
+ },
+ "distinct_labels": {
+  "verb": 9,
+  "arg1": 292,
+  "arg2": 157
+ }
+}

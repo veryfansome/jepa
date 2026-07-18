@@ -1,0 +1,26 @@
+{
+ "transitions_total": 52800,
+ "transition_mix": {
+  "invalid": 0.15083333333333335,
+  "state-changing": 0.7332575757575758,
+  "valid-no-op": 0.1159090909090909
+ },
+ "invalid_coverage_by_failure_type": {
+  "already-exists": 1737,
+  "busy": 774,
+  "missing-parent": 1850,
+  "nonexistent-path": 896,
+  "not-empty": 967,
+  "same-src-dst": 861,
+  "wrong-type": 879
+ },
+ "failure_types_missing": [
+  "malformed-arg"
+ ],
+ "banners_used": 64,
+ "distinct_banner_layout_pairs": 2099,
+ "train_layouts": 323,
+ "val_layouts": 77,
+ "max_state_dirs": 23,
+ "max_state_files": 32
+}

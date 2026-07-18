@@ -1,0 +1,57 @@
+{
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "steps": 4000,
+ "n_val": 25660,
+ "full": {
+  "content_top1_sameverb": {
+   "mean": 0.5582,
+   "std": 0.0058
+  },
+  "ls_top1": {
+   "mean": 0.5403,
+   "std": 0.0086
+  },
+  "cat_top1": {
+   "mean": 0.5759,
+   "std": 0.0045
+  },
+  "cd_top1": {
+   "mean": 0.7893,
+   "std": 0.0077
+  },
+  "latent_mse": {
+   "mean": 0.3207,
+   "std": 0.0042
+  }
+ },
+ "masked": {
+  "content_top1_sameverb": {
+   "mean": 0.2958,
+   "std": 0.001
+  },
+  "ls_top1": {
+   "mean": 0.2174,
+   "std": 0.0017
+  },
+  "cat_top1": {
+   "mean": 0.3823,
+   "std": 0.0016
+  },
+  "cd_top1": {
+   "mean": 0.7862,
+   "std": 0.01
+  },
+  "latent_mse": {
+   "mean": 0.3916,
+   "std": 0.0028
+  }
+ },
+ "history_gain_content_top1": {
+  "mean": 0.2624,
+  "std": 0.005
+ }
+}
