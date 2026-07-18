@@ -1,0 +1,20 @@
+transitions: train=18240 monitor=960
+/Users/fzhu/src/github/veryfansome/jepa/terminal-jepa/models/tier2.py:118: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.trunk = nn.TransformerEncoder(layer, layers)
+head=editpred params=0.45M identity-at-init: OK
+{"step": 200, "loss": 5.48367, "em": {"invalid": 1.0, "state-changing": 0.0, "valid-no-op": 1.0, "all": 0.2917}}
+{"step": 400, "loss": 3.24222, "em": {"invalid": 0.9744, "state-changing": 0.0, "valid-no-op": 1.0, "all": 0.2875}}
+{"step": 600, "loss": 0.59735, "em": {"invalid": 0.6346, "state-changing": 0.0397, "valid-no-op": 0.879, "all": 0.2448}}
+{"step": 800, "loss": 0.82184, "em": {"invalid": 0.8205, "state-changing": 0.0809, "valid-no-op": 1.0, "all": 0.3198}}
+{"step": 1000, "loss": 0.55909, "em": {"invalid": 0.7308, "state-changing": 0.1132, "valid-no-op": 0.9919, "all": 0.3271}}
+{"step": 1200, "loss": 0.52612, "em": {"invalid": 0.6603, "state-changing": 0.1632, "valid-no-op": 0.9919, "all": 0.351}}
+{"step": 1400, "loss": 0.19264, "em": {"invalid": 0.7179, "state-changing": 0.2309, "valid-no-op": 1.0, "all": 0.4094}}
+{"step": 1600, "loss": 0.27057, "em": {"invalid": 0.7564, "state-changing": 0.2529, "valid-no-op": 0.9919, "all": 0.4302}}
+{"step": 1800, "loss": 0.20394, "em": {"invalid": 0.7821, "state-changing": 0.3, "valid-no-op": 0.9839, "all": 0.4667}}
+{"step": 2000, "loss": 0.18662, "em": {"invalid": 0.8077, "state-changing": 0.3074, "valid-no-op": 0.9919, "all": 0.4771}}
+{"step": 2200, "loss": 0.15529, "em": {"invalid": 0.8462, "state-changing": 0.3206, "valid-no-op": 0.9919, "all": 0.4927}}
+{"step": 2400, "loss": 0.14864, "em": {"invalid": 0.8013, "state-changing": 0.3412, "valid-no-op": 0.9839, "all": 0.499}}
+{"step": 2600, "loss": 0.09347, "em": {"invalid": 0.7115, "state-changing": 0.3338, "valid-no-op": 0.9355, "all": 0.4729}}
+{"step": 2800, "loss": 0.12809, "em": {"invalid": 0.6026, "state-changing": 0.3941, "valid-no-op": 0.9516, "all": 0.5}}
+{"step": 3000, "loss": 0.04509, "em": {"invalid": 0.5192, "state-changing": 0.4059, "valid-no-op": 0.9839, "all": 0.499}}
+saved runs/tier2/editpred-v2/ckpt.pt

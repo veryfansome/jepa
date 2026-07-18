@@ -1,0 +1,38 @@
+{
+ "ckpt": "runs/sigreg-s0/ckpt.pt",
+ "regime": "both",
+ "eval_split": "train-layouts-heldout-trajectories",
+ "fit_states": 20000,
+ "eval_states": 5000,
+ "probe_fit": {
+  "steps": 400,
+  "batch": 4096,
+  "lr": 0.01
+ },
+ "chance_floors": {
+  "cwd_majority": 0.11400000005960464,
+  "exists_pos_rate": 0.05859457328915596,
+  "exists_balacc_chance": 0.5,
+  "cls_majority_given_exists": 0.17143160104751587,
+  "banner_chance": 0.015625
+ },
+ "linear": {
+  "cwd_acc": 0.17479999363422394,
+  "exists_balacc": 0.572000116109848,
+  "cls_acc_given_exists": 0.43302419781684875,
+  "macro": 0.39327476918697357,
+  "banner_acc": 0.024399999529123306
+ },
+ "mlp": {
+  "cwd_acc": 0.26660001277923584,
+  "exists_balacc": 0.6925502568483353,
+  "cls_acc_given_exists": 0.5150092244148254,
+  "macro": 0.4913864980141322,
+  "banner_acc": 0.02319999970495701
+ },
+ "banner_swap_audit": {
+  "banner_swap_dz_median": 0.13630446791648865,
+  "state_change_dz_median": 1.264524221420288,
+  "ratio": 0.10779111087322235
+ }
+}

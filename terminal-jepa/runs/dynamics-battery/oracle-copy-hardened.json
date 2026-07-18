@@ -1,0 +1,460 @@
+{
+ "adapter": "oracle-copy",
+ "ckpt": null,
+ "data": "data/v1",
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "aggregate": {
+  "rule_clauses.state_changing_h1_mean": {
+   "mean": 1.0763194835837424,
+   "std": 0.007304955117080545,
+   "min": 1.0625,
+   "max": 1.0833333333333333,
+   "n_seeds": 5
+  },
+  "rule_clauses.noop_h1_mean": {
+   "mean": 0.0,
+   "std": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "n_seeds": 5
+  },
+  "rule_clauses.invalid_h1_mean": {
+   "mean": 0.0,
+   "std": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "n_seeds": 5
+  },
+  "rule_clauses.auc_state_changing_vs_non": {
+   "mean": 0.5,
+   "std": 0.0,
+   "min": 0.5,
+   "max": 0.5,
+   "n_seeds": 5
+  },
+  "voe.acc_vs_alt_action_foil": {
+   "mean": 0.5469999999999999,
+   "std": 0.014659088951530688,
+   "min": 0.5233333333333333,
+   "max": 0.5633333333333334,
+   "n_seeds": 5
+  },
+  "goal_ranking.rank_acc_vs_random": {
+   "mean": 0.5,
+   "std": 0.0,
+   "min": 0.5,
+   "max": 0.5,
+   "n_seeds": 5
+  },
+  "goal_ranking.rank_acc_vs_invalid": {
+   "mean": 0.5,
+   "std": 0.0,
+   "min": 0.5,
+   "max": 0.5,
+   "n_seeds": 5
+  }
+ },
+ "per_seed": [
+  {
+   "adapter": "oracle-copy",
+   "data": "data/v1",
+   "seed": 0,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 1.0764872521246458,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "err_median_by_horizon": {
+     "1": 1.0,
+     "2": 2.0,
+     "3": 2.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.5
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 1.0,
+    "acc_vs_alt_action_foil": 0.5633333333333334,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.5,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.5,
+      "n": 150
+     },
+     "file_absent": {
+      "acc": 0.5,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.5,
+      "n": 156
+     },
+     "file_exists_with_class": {
+      "acc": 0.5,
+      "n": 180
+     }
+    },
+    "rank_acc_vs_invalid": 0.5,
+    "rank_margin_vs_random_median": 0.0,
+    "optimal_plan_final_goal_distance_median": 2.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 1.0764872521246458,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.0,
+    "auc_state_changing_vs_non": 0.5
+   },
+   "ckpt": null
+  },
+  {
+   "adapter": "oracle-copy",
+   "data": "data/v1",
+   "seed": 1,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 1.081151832460733,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "err_median_by_horizon": {
+     "1": 1.0,
+     "2": 2.0,
+     "3": 2.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.5
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 1.0,
+    "acc_vs_alt_action_foil": 0.5616666666666666,
+    "acc_vs_two_edit_foil_copy_passable": 0.9983333333333333
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.5,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.5,
+      "n": 162
+     },
+     "file_absent": {
+      "acc": 0.5,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.5,
+      "n": 159
+     },
+     "file_exists_with_class": {
+      "acc": 0.5,
+      "n": 162
+     }
+    },
+    "rank_acc_vs_invalid": 0.5,
+    "rank_margin_vs_random_median": 0.0,
+    "optimal_plan_final_goal_distance_median": 2.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 1.081151832460733,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.0,
+    "auc_state_changing_vs_non": 0.5
+   },
+   "ckpt": null
+  },
+  {
+   "adapter": "oracle-copy",
+   "data": "data/v1",
+   "seed": 2,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 1.0625,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "err_median_by_horizon": {
+     "1": 1.0,
+     "2": 2.0,
+     "3": 2.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.5
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 1.0,
+    "acc_vs_alt_action_foil": 0.5416666666666666,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.5,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.5,
+      "n": 135
+     },
+     "file_absent": {
+      "acc": 0.5,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.5,
+      "n": 147
+     },
+     "file_exists_with_class": {
+      "acc": 0.5,
+      "n": 162
+     }
+    },
+    "rank_acc_vs_invalid": 0.5,
+    "rank_margin_vs_random_median": 0.0,
+    "optimal_plan_final_goal_distance_median": 2.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 1.0625,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.0,
+    "auc_state_changing_vs_non": 0.5
+   },
+   "ckpt": null
+  },
+  {
+   "adapter": "oracle-copy",
+   "data": "data/v1",
+   "seed": 3,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 1.0833333333333333,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "err_median_by_horizon": {
+     "1": 1.0,
+     "2": 2.0,
+     "3": 3.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.5
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 1.0,
+    "acc_vs_alt_action_foil": 0.5233333333333333,
+    "acc_vs_two_edit_foil_copy_passable": 0.9983333333333333
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.5,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.5,
+      "n": 144
+     },
+     "file_absent": {
+      "acc": 0.5,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.5,
+      "n": 159
+     },
+     "file_exists_with_class": {
+      "acc": 0.5,
+      "n": 168
+     }
+    },
+    "rank_acc_vs_invalid": 0.5,
+    "rank_margin_vs_random_median": 0.0,
+    "optimal_plan_final_goal_distance_median": 2.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 1.0833333333333333,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.0,
+    "auc_state_changing_vs_non": 0.5
+   },
+   "ckpt": null
+  },
+  {
+   "adapter": "oracle-copy",
+   "data": "data/v1",
+   "seed": 4,
+   "eval_split": "val-heldout-layouts, val-heldout-predicates",
+   "rollout": {
+    "n": 500,
+    "h1_err_median_by_type": {
+     "state-changing": 1.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "h1_err_mean_by_type": {
+     "state-changing": 1.078125,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "err_median_by_horizon": {
+     "1": 1.0,
+     "2": 2.0,
+     "3": 2.0
+    }
+   },
+   "calibration": {
+    "n": 500,
+    "change_magnitude_median_by_type": {
+     "state-changing": 0.0,
+     "valid-no-op": 0.0,
+     "invalid": 0.0
+    },
+    "auc_state_changing_vs_non": 0.5
+   },
+   "voe": {
+    "n": 300,
+    "n_alt_foils": 300,
+    "n_two_edit_foils": 300,
+    "foils_dropped_alt": 0,
+    "foils_dropped_two_edit": 0,
+    "err_true_median": 1.0,
+    "acc_vs_alt_action_foil": 0.545,
+    "acc_vs_two_edit_foil_copy_passable": 1.0
+   },
+   "goal_ranking": {
+    "n_episodes": 100,
+    "episode_stratification": "round-robin over predicate kinds",
+    "exemplar_ctx": "clean (exemplars always render banner=None/noise=None; finding 19 caveat for contaminated-input runs)",
+    "rank_acc_vs_random": 0.5,
+    "rank_acc_vs_random_by_kind": {
+     "cwd_is": {
+      "acc": 0.5,
+      "n": 156
+     },
+     "file_absent": {
+      "acc": 0.5,
+      "n": 75
+     },
+     "file_exists": {
+      "acc": 0.5,
+      "n": 156
+     },
+     "file_exists_with_class": {
+      "acc": 0.5,
+      "n": 156
+     }
+    },
+    "rank_acc_vs_invalid": 0.5,
+    "rank_margin_vs_random_median": 0.0,
+    "optimal_plan_final_goal_distance_median": 2.0,
+    "executed_plan_distance_improved_frac": 1.0
+   },
+   "rule_clauses": {
+    "scoring": "means (medians never used for clause verdicts)",
+    "state_changing_h1_mean": 1.078125,
+    "noop_h1_mean": 0.0,
+    "invalid_h1_mean": 0.0,
+    "auc_state_changing_vs_non": 0.5
+   },
+   "ckpt": null
+  }
+ ]
+}

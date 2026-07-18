@@ -1,0 +1,13 @@
+{
+ "model": "answerdotai/ModernBERT-base",
+ "data": "data/v1",
+ "n_samples": 300,
+ "criterion": "clean targets if L*nuisance^2/signal^2 > 0.1",
+ "file_lines_per_obs_median": 15.0,
+ "nuisance_noiseline_line_dz_median": 0.6069731712341309,
+ "nuisance_banner_line_dz_median": 0.6439564228057861,
+ "signal_changed_line_dz_median": 2.6512839794158936,
+ "spillover_unchanged_line_dz_median": 0.36155393719673157,
+ "aggregate_power_ratio_nuisance_over_signal": 0.7861723301830972,
+ "verdict": "clean-targets"
+}

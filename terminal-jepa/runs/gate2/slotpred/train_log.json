@@ -1,0 +1,137 @@
+[
+ {
+  "step": 200,
+  "loss": 0.25034,
+  "copy_ratio": {
+   "state-changing": 0.9383,
+   "valid-no-op": 0.893,
+   "invalid": 0.9239
+  }
+ },
+ {
+  "step": 400,
+  "loss": 0.21659,
+  "copy_ratio": {
+   "state-changing": 0.9143,
+   "valid-no-op": 0.8199,
+   "invalid": 0.83
+  }
+ },
+ {
+  "step": 600,
+  "loss": 0.23603,
+  "copy_ratio": {
+   "state-changing": 0.9142,
+   "valid-no-op": 0.8023,
+   "invalid": 0.8174
+  }
+ },
+ {
+  "step": 800,
+  "loss": 0.24334,
+  "copy_ratio": {
+   "state-changing": 0.9108,
+   "valid-no-op": 0.8007,
+   "invalid": 0.8107
+  }
+ },
+ {
+  "step": 1000,
+  "loss": 0.22919,
+  "copy_ratio": {
+   "state-changing": 0.8894,
+   "valid-no-op": 0.7319,
+   "invalid": 0.7599
+  }
+ },
+ {
+  "step": 1200,
+  "loss": 0.21951,
+  "copy_ratio": {
+   "state-changing": 0.8764,
+   "valid-no-op": 0.7003,
+   "invalid": 0.7314
+  }
+ },
+ {
+  "step": 1400,
+  "loss": 0.23213,
+  "copy_ratio": {
+   "state-changing": 0.8718,
+   "valid-no-op": 0.6911,
+   "invalid": 0.7185
+  }
+ },
+ {
+  "step": 1600,
+  "loss": 0.26488,
+  "copy_ratio": {
+   "state-changing": 0.8701,
+   "valid-no-op": 0.6822,
+   "invalid": 0.7101
+  }
+ },
+ {
+  "step": 1800,
+  "loss": 0.21617,
+  "copy_ratio": {
+   "state-changing": 0.8692,
+   "valid-no-op": 0.6825,
+   "invalid": 0.7088
+  }
+ },
+ {
+  "step": 2000,
+  "loss": 0.18417,
+  "copy_ratio": {
+   "state-changing": 0.8622,
+   "valid-no-op": 0.6675,
+   "invalid": 0.6977
+  }
+ },
+ {
+  "step": 2200,
+  "loss": 0.20777,
+  "copy_ratio": {
+   "state-changing": 0.8591,
+   "valid-no-op": 0.6595,
+   "invalid": 0.6837
+  }
+ },
+ {
+  "step": 2400,
+  "loss": 0.19778,
+  "copy_ratio": {
+   "state-changing": 0.8551,
+   "valid-no-op": 0.6522,
+   "invalid": 0.6805
+  }
+ },
+ {
+  "step": 2600,
+  "loss": 0.22835,
+  "copy_ratio": {
+   "state-changing": 0.8533,
+   "valid-no-op": 0.6439,
+   "invalid": 0.6724
+  }
+ },
+ {
+  "step": 2800,
+  "loss": 0.19698,
+  "copy_ratio": {
+   "state-changing": 0.852,
+   "valid-no-op": 0.6418,
+   "invalid": 0.6702
+  }
+ },
+ {
+  "step": 3000,
+  "loss": 0.18277,
+  "copy_ratio": {
+   "state-changing": 0.8512,
+   "valid-no-op": 0.6406,
+   "invalid": 0.6708
+  }
+ }
+]

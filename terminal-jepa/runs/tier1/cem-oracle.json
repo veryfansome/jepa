@@ -1,0 +1,35 @@
+{
+ "adapter": "oracle",
+ "ckpt": null,
+ "budget": {
+  "samples": 300,
+  "iters": 10,
+  "horizon": 6,
+  "max_steps": 12
+ },
+ "episodes": 100,
+ "planners": {
+  "cem": {
+   "success_rate": 0.27,
+   "mean_steps_on_success": 5.148148148148148
+  },
+  "random": {
+   "success_rate": 0.23,
+   "mean_steps_on_success": 4.173913043478261
+  },
+  "cem-filtered": {
+   "success_rate": 0.73,
+   "mean_steps_on_success": 4.52054794520548
+  },
+  "random-filtered": {
+   "success_rate": 0.76,
+   "mean_steps_on_success": 5.657894736842105
+  },
+  "scripted": {
+   "success_rate": 1.0,
+   "mean_steps_on_success": 2.05
+  }
+ },
+ "cem_minus_random_points": 4.0,
+ "cem_minus_random_points_filtered": -3.0
+}

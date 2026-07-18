@@ -1,0 +1,9 @@
+.claude/settings.local.json
+
+terminal-jepa/.venv/
+**/__pycache__/
+*.pyc
+
+terminal-jepa/data/*/*.jsonl
+terminal-jepa/runs/**/ckpt*.pt
+terminal-jepa/runs/**/*.pt

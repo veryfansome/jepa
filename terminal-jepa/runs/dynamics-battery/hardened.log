@@ -1,0 +1,239 @@
+seed 0: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.0, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 1.0}
+seed 1: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.0, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 1.0}
+seed 2: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.0, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 1.0}
+seed 3: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.0, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 1.0}
+seed 4: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.0, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 1.0}
+{
+ "rule_clauses.state_changing_h1_mean": {
+  "mean": 0.0,
+  "std": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "n_seeds": 5
+ },
+ "rule_clauses.noop_h1_mean": {
+  "mean": 0.0,
+  "std": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "n_seeds": 5
+ },
+ "rule_clauses.invalid_h1_mean": {
+  "mean": 0.0,
+  "std": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "n_seeds": 5
+ },
+ "rule_clauses.auc_state_changing_vs_non": {
+  "mean": 1.0,
+  "std": 0.0,
+  "min": 1.0,
+  "max": 1.0,
+  "n_seeds": 5
+ },
+ "voe.acc_vs_alt_action_foil": {
+  "mean": 1.0,
+  "std": 0.0,
+  "min": 1.0,
+  "max": 1.0,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_random": {
+  "mean": 0.9986876604389799,
+  "std": 0.0013178732010351714,
+  "min": 0.9961464354527938,
+  "max": 1.0,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_invalid": {
+  "mean": 1.0,
+  "std": 0.0,
+  "min": 1.0,
+  "max": 1.0,
+  "n_seeds": 5
+ }
+}
+seed 0: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 1.0764872521246458, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 0.5}
+seed 1: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 1.081151832460733, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 0.5}
+seed 2: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 1.0625, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 0.5}
+seed 3: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 1.0833333333333333, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 0.5}
+seed 4: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 1.078125, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.0, "auc_state_changing_vs_non": 0.5}
+{
+ "rule_clauses.state_changing_h1_mean": {
+  "mean": 1.0763194835837424,
+  "std": 0.007304955117080545,
+  "min": 1.0625,
+  "max": 1.0833333333333333,
+  "n_seeds": 5
+ },
+ "rule_clauses.noop_h1_mean": {
+  "mean": 0.0,
+  "std": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "n_seeds": 5
+ },
+ "rule_clauses.invalid_h1_mean": {
+  "mean": 0.0,
+  "std": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "n_seeds": 5
+ },
+ "rule_clauses.auc_state_changing_vs_non": {
+  "mean": 0.5,
+  "std": 0.0,
+  "min": 0.5,
+  "max": 0.5,
+  "n_seeds": 5
+ },
+ "voe.acc_vs_alt_action_foil": {
+  "mean": 0.5469999999999999,
+  "std": 0.014659088951530688,
+  "min": 0.5233333333333333,
+  "max": 0.5633333333333334,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_random": {
+  "mean": 0.5,
+  "std": 0.0,
+  "min": 0.5,
+  "max": 0.5,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_invalid": {
+  "mean": 0.5,
+  "std": 0.0,
+  "min": 0.5,
+  "max": 0.5,
+  "n_seeds": 5
+ }
+}
+/Users/fzhu/src/github/veryfansome/jepa/terminal-jepa/models/tier2.py:118: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.trunk = nn.TransformerEncoder(layer, layers)
+seed 0: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.29745042492917845, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.18055555555555555, "auc_state_changing_vs_non": 0.9075986868444231}
+seed 1: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.27225130890052357, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.20270270270270271, "auc_state_changing_vs_non": 0.8917696120859233}
+seed 2: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.26988636363636365, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.25842696629213485, "auc_state_changing_vs_non": 0.9201276664511958}
+seed 3: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.2777777777777778, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.2631578947368421, "auc_state_changing_vs_non": 0.8859946666666667}
+seed 4: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.265625, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.2, "auc_state_changing_vs_non": 0.9256190653509588}
+{
+ "rule_clauses.state_changing_h1_mean": {
+  "mean": 0.2765981750487687,
+  "std": 0.011140574635724175,
+  "min": 0.265625,
+  "max": 0.29745042492917845,
+  "n_seeds": 5
+ },
+ "rule_clauses.noop_h1_mean": {
+  "mean": 0.0,
+  "std": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "n_seeds": 5
+ },
+ "rule_clauses.invalid_h1_mean": {
+  "mean": 0.22096862385744703,
+  "std": 0.03343532606979954,
+  "min": 0.18055555555555555,
+  "max": 0.2631578947368421,
+  "n_seeds": 5
+ },
+ "rule_clauses.auc_state_changing_vs_non": {
+  "mean": 0.9062219394798335,
+  "std": 0.015424172590627354,
+  "min": 0.8859946666666667,
+  "max": 0.9256190653509588,
+  "n_seeds": 5
+ },
+ "voe.acc_vs_alt_action_foil": {
+  "mean": 0.9523333333333334,
+  "std": 0.008856886837057624,
+  "min": 0.9433333333333334,
+  "max": 0.9683333333333334,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_random": {
+  "mean": 0.9735574744195936,
+  "std": 0.0037923259193737816,
+  "min": 0.9691714836223507,
+  "max": 0.9797421731123389,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_invalid": {
+  "mean": 0.9450317411971462,
+  "std": 0.006360197094112524,
+  "min": 0.9327956989247311,
+  "max": 0.9502762430939227,
+  "n_seeds": 5
+ }
+}
+/Users/fzhu/src/github/veryfansome/jepa/terminal-jepa/models/tier2.py:118: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.trunk = nn.TransformerEncoder(layer, layers)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/134 [00:00<?, ?it/s]Loading weights: 100%|██████████| 134/134 [00:00<00:00, 6245.55it/s]
+[transformers] [1mModernBertModel LOAD REPORT[0m from: answerdotai/ModernBERT-base
+Key               | Status     |  | 
+------------------+------------+--+-
+head.dense.weight | UNEXPECTED |  | 
+decoder.bias      | UNEXPECTED |  | 
+head.norm.weight  | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+seed 0: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.29745042492917845, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.18055555555555555, "auc_state_changing_vs_non": 0.9075986868444231}
+seed 1: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.27486910994764396, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.20270270270270271, "auc_state_changing_vs_non": 0.8917696120859233}
+seed 2: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.26988636363636365, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.25842696629213485, "auc_state_changing_vs_non": 0.9201276664511958}
+seed 3: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.2777777777777778, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.2631578947368421, "auc_state_changing_vs_non": 0.8859946666666667}
+seed 4: {"scoring": "means (medians never used for clause verdicts)", "state_changing_h1_mean": 0.2682291666666667, "noop_h1_mean": 0.0, "invalid_h1_mean": 0.2, "auc_state_changing_vs_non": 0.9256190653509588}
+{
+ "rule_clauses.state_changing_h1_mean": {
+  "mean": 0.27764256859152614,
+  "std": 0.010476949729495501,
+  "min": 0.2682291666666667,
+  "max": 0.29745042492917845,
+  "n_seeds": 5
+ },
+ "rule_clauses.noop_h1_mean": {
+  "mean": 0.0,
+  "std": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "n_seeds": 5
+ },
+ "rule_clauses.invalid_h1_mean": {
+  "mean": 0.22096862385744703,
+  "std": 0.03343532606979954,
+  "min": 0.18055555555555555,
+  "max": 0.2631578947368421,
+  "n_seeds": 5
+ },
+ "rule_clauses.auc_state_changing_vs_non": {
+  "mean": 0.9062219394798335,
+  "std": 0.015424172590627354,
+  "min": 0.8859946666666667,
+  "max": 0.9256190653509588,
+  "n_seeds": 5
+ },
+ "voe.acc_vs_alt_action_foil": {
+  "mean": 0.9523333333333334,
+  "std": 0.008856886837057624,
+  "min": 0.9433333333333334,
+  "max": 0.9683333333333334,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_random": {
+  "mean": 0.9721226654706581,
+  "std": 0.003634489822405571,
+  "min": 0.9686379928315412,
+  "max": 0.9788213627992634,
+  "n_seeds": 5
+ },
+ "goal_ranking.rank_acc_vs_invalid": {
+  "mean": 0.9423344674755189,
+  "std": 0.007603351011941367,
+  "min": 0.9274193548387096,
+  "max": 0.9478021978021978,
+  "n_seeds": 5
+ }
+}

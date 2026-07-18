@@ -1,0 +1,23 @@
+{
+ "ckpt": "runs/sigreg-s0/ckpt.pt",
+ "regime": "both",
+ "linear": {
+  "cwd_acc": 0.10419999808073044,
+  "exists_balacc": 0.5373612828552723,
+  "cls_acc_given_exists": 0.13032299280166626,
+  "macro": 0.25729475791255635,
+  "banner_acc": 0.013399999588727951
+ },
+ "mlp": {
+  "cwd_acc": 0.07000000029802322,
+  "exists_balacc": 0.566918209195137,
+  "cls_acc_given_exists": 0.13228751718997955,
+  "macro": 0.2564019088943799,
+  "banner_acc": 0.020600000396370888
+ },
+ "banner_swap_audit": {
+  "banner_swap_dz_median": 0.14969821274280548,
+  "state_change_dz_median": 1.2685366868972778,
+  "ratio": 0.1180085763335228
+ }
+}
