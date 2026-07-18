@@ -61,11 +61,11 @@ def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerf
     return entry["base"], entry["predict_mean"]
 
 
-def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream):
-    """Train the world model with the genome's objective + arch + target + stream. Returns
-    (net, ok); ok=False on NaN. The objective's loss compares the model's cmd-position prediction
-    to target_mod.make_target(z_obs, z_prev) — e.g. the raw next obs (identity) or the residual
-    z_obs - z_prev (delta). z_prev is the previous observation (strict-causal shift of tgt)."""
+def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream, head=None, head_p=None):
+    """Train the world model with the genome's objective + arch + target + stream (+ optional head).
+    Returns (net, ok); ok=False on NaN. The objective's loss compares the model's cmd-position
+    prediction to target_mod.make_target(z_obs, z_prev) — e.g. the raw next obs (identity) or the
+    residual z_obs - z_prev (delta). z_prev is the previous observation (strict-causal shift of tgt)."""
     torch.manual_seed(seed)
     build, aparams = G.load_arch(genome)
     net = build(**aparams)
@@ -75,6 +75,12 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream):
         # The eval stays in the FIXED obs space (to_obs must reconstruct), which keeps a learned
         # target honest: collapsing the target space breaks reconstruction and is scored down.
         net.target_module = target_mod.make(D)
+    head_state = None
+    if head is not None:
+        # head-axis extension: wrap may re-point net.forward and register readout/aux params on
+        # net (trained jointly). aux_loss adds a train-only self-supervised term; passthrough is
+        # a no-op returning None + 0.0. Must run BEFORE make_opt so aux params are optimized.
+        head_state = head.wrap(net, D, **(head_p or {}))
     net = net.to(device)
     make_opt, bs = G.load_optim(genome)
     opt, sched = make_opt(net.parameters(), steps)
@@ -95,6 +101,8 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream):
             loss = loss_fn(pred, tmod.make_target(tgt, prev)) + tmod.reg()
         else:
             loss = loss_fn(pred, target_mod.make_target(tgt, prev))
+        if head is not None:
+            loss = loss + head.aux_loss(head_state, b, net, device)  # 0.0 for passthrough
         if not torch.isfinite(loss):
             return net, False
         opt.zero_grad(set_to_none=True)
@@ -124,6 +132,10 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     loss_fn = G.load_objective(genome)
     target_mod = G.load_target(genome)
     stream = G.load_stream(genome)
+    head, head_p = G.load_head(genome)
+    if not head.leak_safe(head, head_p):
+        return _fail("head_leak_fail (aux branch could leak future obs)", mode,
+                     [0] if mode == "proxy" else [0, 1, 2], 0, split, [])
     seeds = [0] if mode == "proxy" else [0, 1, 2]
     steps = proxy_steps if mode == "proxy" else genome["chunks"]["optim"].get("steps", 4000)
     evaldata = _data_tensors(inner)  # model-independent; base + wm both score against it
@@ -132,7 +144,7 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     for s in seeds:
         try:
             fit, _ = M.split_train_dev(train_seqs, seed=s)
-            net, ok = _train(genome, fit, device, loss_fn, s, steps, target_mod, stream)
+            net, ok = _train(genome, fit, device, loss_fn, s, steps, target_mod, stream, head, head_p)
             if not ok:
                 return _fail("train_diverged (NaN/inf loss)", mode, seeds, steps, split, per_seed)
             if not stream.leakage_ok(net, device):

@@ -49,10 +49,17 @@ def main(argv=None):
     ap.add_argument("--bs", type=int, default=96)
     args = ap.parse_args(argv)
 
-    percep = importlib.import_module(f"evolve.chunks.perception.{args.perception}")
+    # The multi-vector render (render_obs_multi/K/pool/MODEL) may live in a perception impl or be
+    # self-contained in a stream impl (e.g. r7_role_multivec). Try perception first, then stream.
+    try:
+        percep = importlib.import_module(f"evolve.chunks.perception.{args.perception}")
+        if not hasattr(percep, "render_obs_multi"):
+            raise ImportError
+    except ImportError:
+        percep = importlib.import_module(f"evolve.chunks.stream.{args.perception}")
     for fn in ("render_obs_multi", "pool"):
         if not hasattr(percep, fn):
-            raise AttributeError(f"perception impl '{args.perception}' missing {fn}")
+            raise AttributeError(f"impl '{args.perception}' missing {fn}")
     K = percep.K
     encode_texts.percep = percep
 

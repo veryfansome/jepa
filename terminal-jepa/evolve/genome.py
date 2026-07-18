@@ -97,6 +97,19 @@ def load_stream(genome):
     return mod
 
 
+def load_head(genome):
+    """Return (head_module, params) for the readout-head chunk (wrap / aux_loss / leak_safe).
+    Defaults to baseline_passthrough (bit-identical to the historical bare-Linear readout: wrap
+    is a no-op, aux_loss returns 0.0) when a genome has no head chunk, so archived genomes are
+    unchanged."""
+    h = genome["chunks"].get("head", {"impl": "baseline_passthrough"})
+    mod = importlib.import_module(f"evolve.chunks.head.{h['impl']}")
+    for fn in ("wrap", "aux_loss", "leak_safe"):
+        if not hasattr(mod, fn):
+            raise AttributeError(f"head impl '{h['impl']}' has no {fn}")
+    return mod, dict(h.get("params", {}))
+
+
 def load_arch(genome):
     """Return (build_fn, params) for the arch chunk. arch = {"impl": name, "params": {...}} uses
     the arch registry (a swappable model module); legacy {"d","layers","heads","dropout"} maps to
@@ -137,4 +150,7 @@ def validate(genome):
     if "stream" in c and c["stream"]["impl"] not in list_impls("stream"):
         raise ValueError(f"unknown stream impl '{c['stream']['impl']}' "
                          f"(have {list_impls('stream')})")
+    if "head" in c and c["head"]["impl"] not in list_impls("head"):
+        raise ValueError(f"unknown head impl '{c['head']['impl']}' "
+                         f"(have {list_impls('head')})")
     return True
