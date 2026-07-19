@@ -1,6 +1,6 @@
 # Backlog — deferred ideas
 
-Forward-looking ideas we've decided not to do *yet* (distinct from `terminal-jepa-status.md`, which records what's true now). Pull an item up when its cost/benefit flips. Delete items that stop being worth their line.
+Forward-looking ideas we've decided not to do *yet* (distinct from `README.md`, which records what's true now). Pull an item up when its cost/benefit flips. Delete items that stop being worth their line.
 
 ## Evolve framework — turning it inward (meta-evolution)
 
@@ -18,5 +18,5 @@ Adopted 2026-07-18: inspiration exemplars, automated meta-scratchpad (champion-f
 
 ## JEPA model / research directions
 
-- **Expand the toolset beyond the initial `uname`/`cat`/`ls`/`cd`** (e.g. `man`/`less`/more tools) once the current bar is solid — the content-verb eval grows with it. See `terminal-jepa-status.md`.
+- **Expand the toolset beyond the initial `uname`/`cat`/`ls`/`cd`** (e.g. `man`/`less`/more tools) once the current bar is solid — the content-verb eval grows with it. See `README.md`.
 - **Structured / path-keyed multi-vector readout** — the earlier finding pointed at a path-keyed readout; the R6 line-strip and R7 role-canonical multi-vector streams both lost to their single-vector controls, but a per-directory-entry or path-keyed variant is untried (a one-file `stream` + `perception` impl on existing infra).

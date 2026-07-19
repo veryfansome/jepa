@@ -9,7 +9,7 @@ Research program testing whether Yann LeCun's **JEPA** world-model recipe (predi
 | `CLAUDE.md` (this file) | repo identity, navigation, repo-wide rules, doc-sync triggers | live, auto-loaded |
 | `terminal-jepa/CLAUDE.md` | the code project: env/run, active-vs-retired module map, data + regen recipe | live, loaded in-subtree |
 | `terminal-jepa/evolve/CLAUDE.md` | the evolve loop — working context **and** full replication manual (chunks, fitness/guardrails, scoring, inventor dispatch, the round recipe) | live, loaded in-subtree |
-| `terminal-jepa-status.md` | **the living status** — current direction, R4→R7 results, findings (synthetic negative as prior work) | **current — read for "what's true now"** |
+| `README.md` (root) | **the living status + project front page** — current direction, R4→R7 results, findings (synthetic negative as prior work) | **current — read for "what's true now"** |
 | `BACKLOG.md` | deferred ideas (forward-looking) — meta-evolution, un-adopted ShinkaEvolve mechanisms, research directions | current |
 | `terminal-jepa/README.md` | module/file inventory + reproduction commands | current |
 | `JEPA.md` | background: LeCun's JEPA research program (2022–2026) | external reference (stable) |
@@ -19,7 +19,7 @@ Cross-session working **state** (per-genome result stats, user preferences) live
 
 ## Code map
 
-The whole tree is now the active direction: `terminal-jepa/realenv/{seq_worldmodel,docker_env,collect_docker}.py` (the R4 world model + Docker data collection), all of `terminal-jepa/evolve/` (the search), `terminal-jepa/tests/test_seq_worldmodel.py`, and the `data/dockerfs*` roots. The synthetic Phase 0–1 sandbox and the R1–R3 real-shell prototypes were **removed 2026-07-18** — git history retains them; their empirical record is the "prior work" section of `terminal-jepa-status.md`. Don't resurrect that substrate: it cannot scale past the retired 301-slot ontology / held-out-tool framing.
+The whole tree is now the active direction: `terminal-jepa/realenv/{seq_worldmodel,docker_env,collect_docker}.py` (the R4 world model + Docker data collection), all of `terminal-jepa/evolve/` (the search), `terminal-jepa/tests/test_seq_worldmodel.py`, and the `data/dockerfs*` roots. The synthetic Phase 0–1 sandbox and the R1–R3 real-shell prototypes were **removed 2026-07-18** — git history retains them; their empirical record is the "prior work" section of `README.md`. Don't resurrect that substrate: it cannot scale past the retired 301-slot ontology / held-out-tool framing.
 
 ## Repo-wide rules
 
@@ -35,7 +35,7 @@ Each `CLAUDE.md` is a contract with future sessions: the context you need to wor
 **Update triggers** — when a change touches one of these, update the named doc in the same commit:
 - **`terminal-jepa/CLAUDE.md`** — you add/rename/retire a module or run command, add a data root, or move the active-vs-retired boundary.
 - **`terminal-jepa/evolve/CLAUDE.md`** — you add a new evolvable **chunk axis**, change the fitness/guardrails/split, or change the scoring CLI (it's the single evolve doc — working context + manual).
-- **`terminal-jepa-status.md`** — a promoted full-budget result, a new champion genome, or a finding. Record it here (and the neutral stat in the `evolve-insights` memory). This is the living status.
+- **`README.md`** — a promoted full-budget result, a new champion genome, or a finding. Record it here (and the neutral stat in the `evolve-insights` memory). This is the living status.
 - **`terminal-jepa/README.md`** — you add/rename a module or its run command (the file inventory).
 - **`.claude/skills/evolve/SKILL.md`** — you change an evolve chunk/CLI/threshold or the inventor-dispatch pattern it references, or rename anything in its `description` (its only discovery surface). It's a thin pointer to `evolve/CLAUDE.md`; keep the two consistent.
 - **the `evolve-insights` memory** — any scored genome (neutral stats).

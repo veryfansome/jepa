@@ -1,6 +1,6 @@
 # terminal-jepa/ — the code project
 
-The Python project (packages `realenv`, `evolve`). Run as `uv run python -m <module>` from this directory. Repo-wide identity, doc index, and rules are in the root `../CLAUDE.md`; the file inventory + full command list is in `README.md`; current results/direction are in `../terminal-jepa-status.md`.
+The Python project (packages `realenv`, `evolve`). Run as `uv run python -m <module>` from this directory. Repo-wide identity, doc index, and rules are in the root `../CLAUDE.md`; the file inventory + full command list are in this dir's `README.md`; the project overview + current results/direction are in the root `../README.md`.
 
 ## Environment
 
@@ -14,7 +14,7 @@ The Python project (packages `realenv`, `evolve`). Run as `uv run python -m <mod
 - **`evolve/`** — the ShinkaEvolve search over the R4 foundation. **See `evolve/CLAUDE.md`.**
 - `tests/test_seq_worldmodel.py` — no-future-leakage + retrieval-calibration guards for the R4 model.
 
-The retired synthetic Phase 0–1 sandbox and R1–R3 prototypes were removed 2026-07-18 (git history + the `terminal-jepa-status.md` "prior work" section retain them). The tree is R4 + evolve only.
+The retired synthetic Phase 0–1 sandbox and R1–R3 prototypes were removed 2026-07-18 (git history + the `README.md` "prior work" section retain them). The tree is R4 + evolve only.
 
 ## Data + regeneration (data is gitignored; only `summary.json` per root is tracked)
 
@@ -33,4 +33,4 @@ Other perception roots (bge / codebert / e5-large / multi-vector / exploration-p
 ## Update triggers
 
 - Add/rename/retire a module or run command → update `README.md` (inventory) and, if it moves the active-vs-retired boundary, the root `../CLAUDE.md` code map.
-- Change the R4 eval, foils, baselines, or the leakage/calibration guards → this is the fitness the search trusts: update `../terminal-jepa-status.md` (R4 section) and note the ripple in `evolve/CLAUDE.md` (the guardrails reuse this code).
+- Change the R4 eval, foils, baselines, or the leakage/calibration guards → this is the fitness the search trusts: update `../README.md` (R4 section) and note the ripple in `evolve/CLAUDE.md` (the guardrails reuse this code).

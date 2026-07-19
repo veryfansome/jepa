@@ -1,6 +1,6 @@
 # terminal-jepa
 
-The JEPA shell world model (Phase R4) + the ShinkaEvolve evolutionary search over it. Working context (env, data regen, the evolve loop + its replication manual) is in the `CLAUDE.md` files (`../CLAUDE.md`, `CLAUDE.md`, `evolve/CLAUDE.md`); current direction and results are in [../terminal-jepa-status.md](../terminal-jepa-status.md).
+The JEPA shell world model (Phase R4) + the ShinkaEvolve evolutionary search over it. Working context (env, data regen, the evolve loop + its replication manual) is in the `CLAUDE.md` files (`../CLAUDE.md`, `CLAUDE.md`, `evolve/CLAUDE.md`); current direction and results are in [../README.md](../README.md).
 
 **Environment:** `uv sync`, then run everything as `uv run python -m <module>`. Needs Docker for data collection; first encoder use downloads the HF model.
 
@@ -34,4 +34,4 @@ uv run python -m evolve.cli leaderboard --top 12
 ## Notes
 
 - Data roots (`data/dockerfs*`) are derived and gitignored (only `summary.json` per root is tracked); regenerate via the recipe in `CLAUDE.md`. The collection RNG is seeded, so the dataset reproduces when the local Docker images match.
-- The retired synthetic Phase 0–1 sandbox and the R1–R3 real-shell prototypes were removed 2026-07-18 (git history retains them); the project is now the R4 world model + the evolve search only. Their empirical record survives as "prior work" in `../terminal-jepa-status.md`.
+- The retired synthetic Phase 0–1 sandbox and the R1–R3 real-shell prototypes were removed 2026-07-18 (git history retains them); the project is now the R4 world model + the evolve search only. Their empirical record survives as "prior work" in `../README.md`.

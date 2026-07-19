@@ -1,6 +1,6 @@
 # evolve/ — the ShinkaEvolve search (working context + replication manual)
 
-A Claude-Code-native evolutionary design search over the R4 world model (`../realenv/seq_worldmodel.py`): decompose it into swappable **chunks**, have heterogeneous LLM inventors (**Claude** via the Workflow tool at effort=high + **Codex** via `codex exec`, arxiv/cross-domain research encouraged) invent/recombine chunk implementations, keep whatever beats the current best on a trustworthy held-out margin. This file is both the working context and the full replication manual — read it before running a round. Results/progression live in `../../terminal-jepa-status.md`; the neutral per-genome stat ledger is the `evolve-insights` auto-memory note. The `/evolve` skill drives a generation.
+A Claude-Code-native evolutionary design search over the R4 world model (`../realenv/seq_worldmodel.py`): decompose it into swappable **chunks**, have heterogeneous LLM inventors (**Claude** via the Workflow tool at effort=high + **Codex** via `codex exec`, arxiv/cross-domain research encouraged) invent/recombine chunk implementations, keep whatever beats the current best on a trustworthy held-out margin. This file is both the working context and the full replication manual — read it before running a round. Results/progression live in `../../README.md`; the neutral per-genome stat ledger is the `evolve-insights` auto-memory note. The `/evolve` skill drives a generation.
 
 ## The two layers
 
@@ -76,7 +76,7 @@ The biggest gains after the first objective/encoder wins came from **stacking** 
 5. Proxy queue (serialize GPU — one background queue): score each as a one-chunk mutation of the best on the best data root; a new axis also runs its bit-identical plumbing check.
 6. Promote anything beating the incumbent by > ~0.002 proxy to full (inner+final); recombine winners; test epistasis.
 7. Validate the champion (`sanity.py` gen-twin + history ablation on final-test; a revisited-split if an arch has a memory/history mechanism).
-8. Record neutral stats in `evolve-insights` + commit `archive/genomes.jsonl`; update the progression in `../../terminal-jepa-status.md`.
+8. Record neutral stats in `evolve-insights` + commit `archive/genomes.jsonl`; update the progression in `../../README.md`.
 
 Ops: run heavy GPU jobs one at a time via tracked background tasks (not detached `&`); invoke as `uv run python -m ...`; score via redirect-to-file + JSON-extract; derived data roots are gitignored (only `summary.json` tracked).
 
@@ -84,4 +84,4 @@ Ops: run heavy GPU jobs one at a time via tracked background tasks (not detached
 
 - New chunk impl → drop it in `chunks/<chunk>/` (auto-discovered); CPU-smoke-test first.
 - New chunk **axis**, or a change to fitness/guardrails/split/scoring-CLI → update this file (chunks + fitness + scoring) and note eval ripples in `../CLAUDE.md`.
-- A promoted full result / new champion → update `../../terminal-jepa-status.md` + the `evolve-insights` memory (same round).
+- A promoted full result / new champion → update `../../README.md` + the `evolve-insights` memory (same round).
