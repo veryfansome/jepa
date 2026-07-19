@@ -1,86 +1,37 @@
 # terminal-jepa
 
-Implementation of the plan in [../terminal-jepa.md](../terminal-jepa.md). Current state, findings so far, and reproduction notes: [../terminal-jepa-status.md](../terminal-jepa-status.md).
+The JEPA shell world model (Phase R4) + the ShinkaEvolve evolutionary search over it. Working context (env, data regen, the evolve loop + its replication manual) is in the `CLAUDE.md` files (`../CLAUDE.md`, `CLAUDE.md`, `evolve/CLAUDE.md`); current direction and results are in [../README.md](../README.md).
 
-- **Phase 0** (env + datagen): a synthetic in-process filesystem sandbox with ground-truth access, a validated state constructor, the shared full-obs parser, distractor knobs, and typed trajectory generation with layout/predicate splits. Stdlib only.
-- **Phase 1** (world model + probing): from-scratch token encoder, compositional action encoder, AdaLN predictor, SIGReg/VICReg/IDM/temporal-similarity arms, the generative reconstruction twin, and the probing harness (linear pass bar, MLP gap, banner-swap audit). Requires PyTorch — `python3 -m venv .venv && .venv/bin/pip install torch`.
-- **Phase R** (`realenv/`, ACTIVE — see status doc "Phase R"): the real-shell pivot. A Docker-backed recorder runs real commands inside real Linux images and records exploration *sequences*; the goal is a world model that predicts `ls`/`cat`/`cd` outcomes on unseen paths/systems from an exploration history. Needs Docker + `transformers`.
-  - `realenv/docker_env.py` — `DockerBox`: per-command `docker exec` with tracked `cd`, path enumeration, `--help`/system-id readers.
-  - `realenv/collect_docker.py` — sequence generator + parallel collection over images; held-out-*image* split → `data/dockerfs/`.
-  - `realenv/seq_worldmodel.py` — **R4, ACTIVE**: the sequence world model. A causal transformer over interleaved `cmd,obs,cmd,obs,...` frozen-ModernBERT embeddings; the hidden state at each command position predicts that command's resulting observation embedding (latent, standardized). Evaluated on the held-out-*image* split by next-observation retrieval (top-1 + MRR, random and hard same-verb foils) against honest baselines — predict-mean, copy-prev-obs, retrieve-by-command (lexical memory) — plus an optional compute-matched generative twin (token reconstruction) on a common latent probe. Reports `dev` (seen images, unseen sequences) vs `heldout` (unseen images).
-  - `realenv/{record,tasks,collect}.py` — the earlier local-shell recorder (superseded by the docker one but kept).
-  - `realenv/{worldmodel,jepa_vs_gen,probe_outcomes}.py` — R2/R3 single-step world-model + JEPA-vs-generative harness (built for the earlier, retired held-out-*tool* framing; superseded by `seq_worldmodel.py`).
+**Environment:** `uv sync`, then run everything as `uv run python -m <module>`. Needs Docker for data collection; first encoder use downloads the HF model.
 
-## Layout
+## Modules
 
-- `env/vocab.py` — shared enumerations (dir/file names, content classes, path universe, banner vocabulary); every layout, probe label space, and action argument draws from these.
-- `env/state.py` — `FsState`, invariants, ground-truth probe features, goal predicates, and `make_satisfying` (the validated goal-exemplar constructor).
-- `env/actions.py` — factored `(verb, arg1, arg2)` actions, validity semantics, transition typing (state-changing / valid-no-op / invalid + failure taxonomy), typed valid/invalid samplers.
-- `env/render.py` — full-obs and partial-obs renderers with banner / dynamic-noise knobs; pure functions so the training loader picks the regime at load time.
-- `env/parse.py` — full-obs text → `FsState`; the shared nonprivileged parser (baseline, validity filter, goal exemplars, Phase-3 belief tracker).
-- `env/world.py` — `Sandbox` stepped-episode wrapper.
-- `datagen/layouts.py` — layout generator, hash-stable layout split, predicate-universe split.
-- `datagen/policies.py` — typed-random policy (invalid quota) and scripted goal-reacher (ε-noise, chained goals).
-- `datagen/generate.py` — dataset CLI; writes `train.jsonl`, `val.jsonl`, `manifest.json`, `summary.json`.
-- `models/data.py` — compositional tokenizer (closed vocab built from `env.vocab` + UNK), regime-aware trajectory loader, training windows, probe examples.
-- `models/nets.py` — `TokenEncoder` (CLS latent, z∈R²⁵⁶), action encoder, AdaLN `Predictor` (zero-init gates), `ReconDecoder` (generative twin), `IDMHead`.
-- `models/losses.py` — SIGReg (Epps–Pulley over random 1-D projections), VICReg variance/covariance, temporal similarity.
-- `train/train.py` — training CLI: arms `sigreg | vicreg | sigreg+idm | sigreg+tempsim | recon`; 1-step teacher-forced + 3-step rollout latent L2, no EMA/stop-gradient.
-- `probes/probe.py` — probing CLI: fits on train-layout states, evaluates on held-out layouts; cwd accuracy, pooled existence balanced-accuracy, content accuracy given existence, macro average, banner-identity probe, banner-swap ‖Δz‖ audit.
-- `probes/frozen_probe.py` — A1 day-zero probe (zero training): frozen pretrained HF encoder over rendered observation text, pooled + path-keyed readouts, protocol-v2 head fitting reused from `probe.py`, pooled and line-level banner-swap audits. Requires `transformers`.
-- `probes/target_noise.py` — zero-training gate-2 target-noise measurement over frozen features (noise-line nuisance vs changed-line signal, pre-registered power-ratio criterion → clean-vs-raw target decision). Requires `transformers`.
-- `evals/dynamics.py` — dynamics-gate battery (the shared referee for Track B tiers and Track A gate 2): rollout error by transition type, change-magnitude calibration, violation-of-expectation (copy-resistant alt-action foil primary), goal-distance ranking along `plan_for` plans vs `make_satisfying` exemplars. Adapter interface; ships oracle/oracle and oracle/copy self-test adapters (stdlib only) plus `--adapter tier2 --ckpt ...` for learned predictors (torch).
-- `models/tier2.py` — tier-2 predictor bake-off: slot-transformer trunk over the fixed 301-slot key universe with tied action-arg/slot embeddings; `slotpred` (full re-prediction, identity-at-init copy-margin logits — the bake-off winner) vs `editpred` (structural copy + edit heads — failed calibration); training CLI + battery adapter.
-- `models/gate2.py` — gate 2 over frozen ModernBERT features: `--mode precompute` (dual-regime feature cache), `--mode train` with `--trunk {scratch|pretrained|genllm}` — `scratch` (embedding-space slotpred, failed rounds 1–2), `pretrained` (predictor = the ModernBERT encoder's own layers; round 4, finding 21 — NOT VL-JEPA's recipe), `genllm` (predictor = a pretrained decoder-only generative LLM, `--llm-model` default SmolLM2-360M; the faithful VL-JEPA ingredient, round 5, finding 23), each with a `--trunk-init {pretrained|random}` attribution control; `--mode codebook` (linear-decoder symbol grounding — the round-3 configuration), plus battery adapters (`gate2`, `gate2-copy`, `gate2-codebook`). No trunk clears the dynamics gate (findings 21, 23).
-- `plan/cem.py` — Planner A: factored discrete CEM + random shooting (matched budget) + scripted `plan_for` ceiling, over the adapter interface (tier-1 oracle now; tier-2/gate-2 checkpoints swap in via `--adapter`/`--ckpt`); unfiltered primary + position-0 validity-filter arms.
+- `realenv/seq_worldmodel.py` — **R4, the foundation**: a causal transformer over interleaved `cmd,obs,cmd,obs,…` frozen-encoder embeddings; the hidden state at each command position predicts that command's next-observation embedding (latent, standardized). Owns the eval the search reuses — next-obs retrieval with hard same-verb foils, the honest baselines (predict-mean / copy-prev / retrieve-by-command), the content-verb margin — plus the optional generative twin and the history ablation.
+- `realenv/docker_env.py` — `DockerBox`: per-command `docker exec` with tracked `cd`, path enumeration, system-id readers.
+- `realenv/collect_docker.py` — sequence generator + parallel collection over Docker images; held-out-*image* split → `data/dockerfs/`; exploration policies.
+- `evolve/` — the chunk-based evolutionary design search over the R4 model. See `evolve/CLAUDE.md` (working context + replication manual).
+- `tests/test_seq_worldmodel.py` — no-future-leakage + retrieval-calibration guards for the R4 model.
 
 ## Commands
 
 ```sh
-python3 -m unittest discover -s tests        # property-based test suite (any cwd works)
-python3 -m datagen.generate --out data/v0    # generate a dataset + summary report
+uv sync                                              # build/refresh the locked env
 
-# Phase 1 (needs .venv with torch):
-.venv/bin/python -m train.train --data data/v0 --arm sigreg --out runs/sigreg-s0
-.venv/bin/python -m probes.probe --data data/v0 --ckpt runs/sigreg-s0/ckpt.pt --out runs/sigreg-s0/probe.json
-.venv/bin/python -m probes.probe --data data/v0 --ckpt untrained --seed 0 --out runs/untrained-probe.json
+# Data (needs Docker; full seeded recipe is in CLAUDE.md):
+uv run python -m realenv.collect_docker --out data/dockerfs ...      # collect raw sequences
+uv run python -m evolve.reencode --perception enc_e5_base --src data/dockerfs --out data/dockerfs-e5
 
-# Track A1 (needs transformers: .venv/bin/python -m pip install transformers):
-.venv/bin/python -m probes.frozen_probe --data data/v1 --model answerdotai/ModernBERT-base --out runs/frozen-modernbert-v1/probe.json
-.venv/bin/python -m probes.target_noise --data data/v1 --out runs/frozen-modernbert-v1/target-noise.json
+# R4 sequence world model (baseline + sanity arms):
+uv run python -m realenv.seq_worldmodel --data data/dockerfs --seeds 0,1,2 --gen-twin --out runs/dockerfs/seq-worldmodel.json
+uv run python -m realenv.seq_worldmodel --data data/dockerfs --seeds 0,1,2 --ablation history --out runs/dockerfs/seq-history-ablation.json
+uv run python -m unittest tests.test_seq_worldmodel
 
-# Dynamics-gate battery (stdlib only for oracle adapters):
-python3 -m evals.dynamics --data data/v1 --adapter oracle --out runs/dynamics-battery/oracle-oracle.json
-python3 -m evals.dynamics --data data/v1 --adapter oracle-copy --out runs/dynamics-battery/oracle-copy.json
-
-# Track B tier 2 (predictor bake-off over oracle features):
-.venv/bin/python -m models.tier2 --data data/v1 --head slotpred --out runs/tier2/slotpred-v2
-.venv/bin/python -m evals.dynamics --data data/v1 --adapter tier2 --ckpt runs/tier2/slotpred-v2/ckpt.pt --out runs/tier2/slotpred-v2/battery.json
-
-# Gate 2 (frozen features):
-.venv/bin/python -m models.gate2 --mode precompute --data data/v1 --out runs/gate2
-.venv/bin/python -m models.gate2 --mode codebook --cache runs/gate2 --data data/v1
-.venv/bin/python -m evals.dynamics --data data/v1 --adapter gate2-codebook --ckpt runs/tier2/slotpred-v2/ckpt.pt --input-regime both --out runs/gate2/codebook-battery-dirty.json
-# A1 learned-predictor-over-frozen-features arms (both FAIL the dynamics gate — findings 21, 23):
-.venv/bin/python -m models.gate2 --mode train --cache runs/gate2 --trunk genllm --trunk-init pretrained --batch 8 --out runs/gate2/round5-genllm-pretrained
-.venv/bin/python -m evals.dynamics --data data/v1 --adapter gate2 --ckpt runs/gate2/round5-genllm-pretrained/ckpt.pt --input-regime clean --seeds 0,1,2,3,4 --out runs/gate2/round5-genllm-pretrained/battery-clean-hardened.json
-
-# Track B tier 1 planner validation:
-python3 -m plan.cem --data data/v1 --adapter oracle --episodes 100 --out runs/tier1/cem-oracle.json
-
-# Phase R4 — sequence world model over real Docker exploration (needs transformers + the
-# data/dockerfs dataset; first run encodes + caches frozen embeddings):
-.venv/bin/python -m realenv.seq_worldmodel --data data/dockerfs --seeds 0,1,2 --gen-twin --out runs/dockerfs/seq-worldmodel.json
-# History control — full vs matched-capacity self-only (history-masked) transformer:
-.venv/bin/python -m realenv.seq_worldmodel --data data/dockerfs --seeds 0,1,2 --ablation history --out runs/dockerfs/seq-history-ablation.json
-python3 -m unittest tests.test_seq_worldmodel   # no-leakage + retrieval-calibration guards (needs torch)
+# Evolve search (score a genome; see evolve/CLAUDE.md):
+uv run python -m evolve.cli score --genome <g.json> --mode proxy --data data/dockerfs-e5
+uv run python -m evolve.cli leaderboard --top 12
 ```
 
 ## Notes
 
-- Trajectories store compact states/actions/stdout, not rendered text; observations are rendered on demand so the renderer stays the single source of truth and distractor regimes are chosen at load time (`banner_id` and `noise_seed` are stored per trajectory).
-- Banner ids come from an RNG stream keyed by (seed, split, trajectory index) only — independent of layout and policy by construction; the datagen test verifies banners are unchanged when the layout pool changes.
-- The invalid-action quota is enforced per step at the trajectory level (the policy's choice is overridden with probability q), so the realized invalid rate tracks `--invalid-quota` regardless of policy mix; `summary.json` reports the realized mix.
-- The ≤12-dir / ≤20-file caps bound layout generation only; runtime states can grow past them (bounded by the vocabulary: 42 dirs / 258 files) and `summary.json` reports the realized maximum. Runtime caps are deliberately not invariants — they would break minimal-edit goal exemplars.
-- Layout identity for splits is keyed on tree + contents only (cwd excluded): cwd is initial state, not layout.
-- `malformed-arg` never appears in generated data by construction (typed samplers stay in-vocabulary); it exists for Phase 2's LLM-proposal lowering path and is covered by tests.
+- Data roots (`data/dockerfs*`) are derived and gitignored (only `summary.json` per root is tracked); regenerate via the recipe in `CLAUDE.md`. The collection RNG is seeded, so the dataset reproduces when the local Docker images match.
+- The retired synthetic Phase 0–1 sandbox and the R1–R3 real-shell prototypes were removed 2026-07-18 (git history retains them); the project is now the R4 world model + the evolve search only. Their empirical record survives as "prior work" in `../README.md`.

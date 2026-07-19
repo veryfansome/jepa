@@ -178,7 +178,7 @@ The terminal-JEPA program has an evolvable program (a world-model training recip
 4. **Search space** for the LLM to mutate: the loss expression in `train_model`, `lr`, `d/layers/heads`, `dropout`, and the standardization.
 5. **Final verdict:** judge the champion **once** on the third split, re-running `run_gen_twin` and `run_history_ablation` on it, so the claim "evolution improved the *world-model margin*, not the val-fit" survives the program's own adversarial bar.
 
-Relevant local files: `/Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/realenv/seq_worldmodel.py` (`SeqWorldModel`, `train_model`, `content_retrieval`, `retrieval`, `run_history_ablation`, `run_gen_twin`, `retrieve_by_cmd_baseline`, `CmdOnlyMLP`, `cached_encode`, `main`); `/Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/realenv/collect_docker.py` (exploration-policy target); `/Users/fanzhu/PyCharmProjects/jepa/terminal-jepa-status.md` (§ "Phase R — real shell world model").
+Relevant local files: `/Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/realenv/seq_worldmodel.py` (`SeqWorldModel`, `train_model`, `content_retrieval`, `retrieval`, `run_history_ablation`, `run_gen_twin`, `retrieve_by_cmd_baseline`, `CmdOnlyMLP`, `cached_encode`, `main`); `/Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/realenv/collect_docker.py` (exploration-policy target); `/Users/fanzhu/PyCharmProjects/jepa/README.md` (§ "Phase R — real shell world model").
 
 ## 11. Index
 
