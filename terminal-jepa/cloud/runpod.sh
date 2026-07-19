@@ -34,7 +34,9 @@
 #   RUNPOD_POD_NAME     default tjepa-score
 #   RUNPOD_TYPES_FILTER default "4090|5090|A100|H100|L40|A40|RTX 6000"
 #   RUNPOD_PUBKEY_FILE / RUNPOD_SSH_KEY   ssh identity (auto-discovered otherwise)
-#   RUNPOD_VOLUME_ID + RUNPOD_DATACENTER (+ RUNPOD_VOLUME_MOUNT)  optional volume deploy
+#   RUNPOD_USE_VOLUME=1 + RUNPOD_VOLUME_ID + RUNPOD_DATACENTER (+ RUNPOD_VOLUME_MOUNT)
+#                       volume deploy is an explicit opt-in (a shared env file may carry a
+#                       stale volume id from another project)
 
 set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"   # the jepa repo root
@@ -58,8 +60,12 @@ if [ -z "$RUNPOD_SSH_KEY" ]; then
         [ -f "$c" ] && RUNPOD_SSH_KEY="$c" && break
     done
 fi
-# IdentitiesOnly: a multi-key agent trips MaxAuthTries; accept-new: every pod is a fresh host key
-SSH_OPTS="-o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30${RUNPOD_SSH_KEY:+ -i $RUNPOD_SSH_KEY -o IdentitiesOnly=yes}"
+# accept-new: every pod is a fresh host key. The preferred key is offered via -i but NOT
+# hard-pinned: RunPod also honors the ACCOUNT-level console key in authorized_keys, and on
+# the first probe the injected PUBLIC_KEY was ignored while the account key (held only by
+# the agent) worked — IdentitiesOnly would have locked us out (and did). Set RUNPOD_SSH_PIN=1
+# to re-add pinning if a many-key agent trips MaxAuthTries.
+SSH_OPTS="-o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30${RUNPOD_SSH_KEY:+ -i $RUNPOD_SSH_KEY}${RUNPOD_SSH_PIN:+ -o IdentitiesOnly=yes}"
 
 log() { echo "==> $*" >&2; }
 die() { echo "ERROR: $*" >&2; exit 1; }
@@ -162,7 +168,14 @@ _deploy_rest() {
 
 cmd_launch() {
     local id
-    if [ -n "${RUNPOD_VOLUME_ID:-}" ]; then id=$(_deploy_rest); else id=$(_deploy_gql); fi
+    # volume deploys are an explicit opt-in (RUNPOD_USE_VOLUME=1): the shared env file may
+    # carry a stale RUNPOD_VOLUME_ID from another project, and silently pinning to a dead
+    # volume's datacenter fails the deploy (hit on the first probe: "network volume not found")
+    if [ "${RUNPOD_USE_VOLUME:-0}" = "1" ] && [ -n "${RUNPOD_VOLUME_ID:-}" ]; then
+        id=$(_deploy_rest)
+    else
+        id=$(_deploy_gql)
+    fi
     _await_ssh "$id"
 }
 

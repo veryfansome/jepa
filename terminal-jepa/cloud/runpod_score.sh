@@ -55,7 +55,7 @@ if [ -z "$SSH_KEY" ]; then
         [ -f "$c" ] && SSH_KEY="$c" && break
     done
 fi
-SSH_OPTS="-o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30${SSH_KEY:+ -i $SSH_KEY -o IdentitiesOnly=yes}"
+SSH_OPTS="-o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30${SSH_KEY:+ -i $SSH_KEY}${RUNPOD_SSH_PIN:+ -o IdentitiesOnly=yes}"
 _ssh() { ssh $SSH_OPTS -p "$POD_PORT" "root@$POD_IP" "$@"; }
 
 _jobs() { grep -vE '^\s*(#|$)' "$JOBS_FILE"; }
