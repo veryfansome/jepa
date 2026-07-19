@@ -98,7 +98,10 @@ def main(argv=None):
         out["ref_bench"] = bench(build(args.ref), args.device, args.bs, args.length, args.steps, args.warmup)
         out["speedup"] = round(out["ref_bench"]["median_ms"] / out["median_ms"], 2)
         if args.eq:
-            out["eq"] = eq_check(build(args.arch, params), build(args.ref))
+            try:
+                out["eq"] = eq_check(build(args.arch, params), build(args.ref))
+            except Exception as e:  # Tier-B archs have a different state_dict — report, don't crash
+                out["eq"] = {"tier_a_pass": False, "error": f"{type(e).__name__}: {e}"[:300]}
     print(json.dumps(out, indent=1))
 
 

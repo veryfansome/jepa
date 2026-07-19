@@ -85,7 +85,8 @@ stage_bootstrap() {
 
 stage_syncdata() {
     _refresh
-    local roots; roots=$(_jobs | awk '{print $4}' | sort -u)
+    local roots; roots=$(_jobs | awk '$2 != "bench" {print $4}' | sort -u | grep -v '^-$' || true)
+    [ -n "$roots" ] || { log "syncdata: no data roots needed"; return; }
     # shellcheck disable=SC2086
     $RP sync-data "$POD_ID" $roots
 }
@@ -94,6 +95,7 @@ stage_jobs() {  # rsync the genome JSONs named in jobs.tsv up under cloud/podjob
     _refresh
     local tmp; tmp=$(mktemp -d)
     while read -r gid mode split data gpath; do
+        [ "$mode" = "bench" ] && continue   # bench rows carry no genome
         [ -f "$gpath" ] || die "genome file missing for $gid: $gpath"
         cp "$gpath" "$tmp/$gid.json"
     done < <(_jobs)
@@ -143,11 +145,22 @@ mkdir -p cloud/podresults
 run_one() {
     local gid="$1" mode="$2" split="$3" data="$4"
     local out="cloud/podresults/$gid.$mode.$split.json"
-    if [ -s "$out" ] && grep -q '"fitness"' "$out"; then echo "skip $gid.$mode.$split"; return 0; fi
-    echo "[$(date -u +%H:%M:%S)] scoring $gid $mode/$split on $data"
-    uv run python -m evolve.cli score --genome "cloud/podjobs/$gid.json" \
-        --mode "$mode" --split "$split" --data "$data" > "$out" 2>&1
-    grep -q '"fitness"' "$out" || { echo "FAILED $gid.$mode.$split — tail:"; tail -5 "$out"; return 1; }
+    local okpat='"fitness"'
+    [ "$mode" = "bench" ] && okpat='"median_ms"'
+    if [ -s "$out" ] && grep -q "$okpat" "$out"; then echo "skip $gid.$mode.$split"; return 0; fi
+    if [ "$mode" = "bench" ]; then
+        # gid = the arch impl to bench; split = the reference arch (use "-" for the default champion arch)
+        local ref="$split"; [ "$ref" = "-" ] && ref="r7_path_delta_fastweights_codex"
+        echo "[$(date -u +%H:%M:%S)] benching $gid vs $ref"
+        { nvidia-smi --query-gpu=name,driver_version --format=csv,noheader | sed 's/^/GPU: /'
+          uv run python -m evolve.bench --arch "$gid" --ref "$ref" --eq --device cuda
+        } > "$out" 2>&1
+    else
+        echo "[$(date -u +%H:%M:%S)] scoring $gid $mode/$split on $data"
+        uv run python -m evolve.cli score --genome "cloud/podjobs/$gid.json" \
+            --mode "$mode" --split "$split" --data "$data" > "$out" 2>&1
+    fi
+    grep -q "$okpat" "$out" || { echo "FAILED $gid.$mode.$split — tail:"; tail -5 "$out"; return 1; }
 }
 export -f run_one
 fail=0
@@ -198,8 +211,9 @@ stage_download() { _load; $RP pull "$POD_ID"; }
 stage_verifydl() {
     local missing=0
     while read -r gid mode split data _; do
+        local okpat='"fitness"'; [ "$mode" = "bench" ] && okpat='"median_ms"'
         local f="$CLOUD_DIR/podresults/$(_result_name "$gid" "$mode" "$split")"
-        if [ -s "$f" ] && grep -q '"fitness"' "$f"; then :; else log "MISSING/invalid: $f"; missing=1; fi
+        if [ -s "$f" ] && grep -q "$okpat" "$f"; then :; else log "MISSING/invalid: $f"; missing=1; fi
     done < <(_jobs)
     [ "$missing" = "0" ] || die "refusing: results not verified local (run download, or fix + re-run score)"
     log "verifydl: all $(_jobs | wc -l | tr -d ' ') results local"
