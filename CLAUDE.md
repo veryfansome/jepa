@@ -10,6 +10,7 @@ Research program testing whether Yann LeCun's **JEPA** world-model recipe (predi
 | `terminal-jepa/CLAUDE.md` | the code project: env/run, active-vs-retired module map, data + regen recipe | live, loaded in-subtree |
 | `terminal-jepa/evolve/CLAUDE.md` | the evolve loop — working context **and** full replication manual (chunks, fitness/guardrails, scoring, inventor dispatch, the round recipe) | live, loaded in-subtree |
 | `terminal-jepa-status.md` | **the living status** — current direction, R4→R7 results, findings (synthetic negative as prior work) | **current — read for "what's true now"** |
+| `BACKLOG.md` | deferred ideas (forward-looking) — meta-evolution, un-adopted ShinkaEvolve mechanisms, research directions | current |
 | `terminal-jepa/README.md` | module/file inventory + reproduction commands | current |
 | `JEPA.md` | background: LeCun's JEPA research program (2022–2026) | external reference (stable) |
 | `ShinkaEvolve.md` | background: LLM-driven evolutionary program search | external reference (stable) |
@@ -36,6 +37,7 @@ Each `CLAUDE.md` is a contract with future sessions: the context you need to wor
 - **`terminal-jepa/evolve/CLAUDE.md`** — you add a new evolvable **chunk axis**, change the fitness/guardrails/split, or change the scoring CLI (it's the single evolve doc — working context + manual).
 - **`terminal-jepa-status.md`** — a promoted full-budget result, a new champion genome, or a finding. Record it here (and the neutral stat in the `evolve-insights` memory). This is the living status.
 - **`terminal-jepa/README.md`** — you add/rename a module or its run command (the file inventory).
+- **`.claude/skills/evolve/SKILL.md`** — you change an evolve chunk/CLI/threshold or the inventor-dispatch pattern it references, or rename anything in its `description` (its only discovery surface). It's a thin pointer to `evolve/CLAUDE.md`; keep the two consistent.
 - **the `evolve-insights` memory** — any scored genome (neutral stats).
 
 **Conventions.**
