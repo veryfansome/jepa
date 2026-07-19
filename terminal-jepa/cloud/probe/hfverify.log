@@ -1,0 +1,3 @@
+===== STAGE provision @ 20:27:32 =====
+/Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/cloud/runpod.sh: line 47: RUNPOD_API_KEY: RUNPOD_API_KEY required (put it in ~/.runpod.env or ~/.lambda.env)
+STAGE provision FAILED @ 20:27:32

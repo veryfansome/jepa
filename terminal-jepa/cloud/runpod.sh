@@ -22,7 +22,7 @@
 #                                    default — our data roots are small enough to rsync)
 #
 # Auth: RUNPOD_API_KEY, auto-sourced from $RUNPOD_ENV_FILE (default ~/.runpod.env,
-# falling back to ~/.lambda.env where the key already lives from the sandbox project).
+# the project's single env file; the sandbox-era ~/.lambda.env is not consulted).
 # Env knobs (defaults tuned for scoring this repo's ~2M-param world models):
 #   RUNPOD_GPU_TYPE     default "NVIDIA GeForce RTX 4090"
 #   RUNPOD_GPU_COUNT    default 1
@@ -41,10 +41,12 @@
 set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"   # the jepa repo root
 TJ_DIR="$REPO_DIR/terminal-jepa"
+# single env file for this project: ~/.runpod.env (RUNPOD_API_KEY, HF_TOKEN). The
+# sandbox-era ~/.lambda.env is deliberately NOT sourced — its stale RUNPOD_VOLUME_ID
+# hijacked a deploy once; vestigial config must not steer this project.
 RUNPOD_ENV_FILE="${RUNPOD_ENV_FILE:-$HOME/.runpod.env}"
-[ -f "$RUNPOD_ENV_FILE" ] || RUNPOD_ENV_FILE="$HOME/.lambda.env"
 [ -f "$RUNPOD_ENV_FILE" ] && { set +u; . "$RUNPOD_ENV_FILE"; set -u; }
-: "${RUNPOD_API_KEY:?RUNPOD_API_KEY required (put it in ~/.runpod.env or ~/.lambda.env)}"
+: "${RUNPOD_API_KEY:?RUNPOD_API_KEY required (put it in ~/.runpod.env)}"
 
 GQL="https://api.runpod.io/graphql?api_key=$RUNPOD_API_KEY"
 GPU_TYPE="${RUNPOD_GPU_TYPE:-NVIDIA GeForce RTX 4090}"
@@ -166,17 +168,53 @@ _deploy_rest() {
     echo "$id"
 }
 
+# REST no-volume deploy that constrains host CUDA driver versions (the 4090 fleet is
+# heterogeneous — a 12.4-driver host cannot run any torch 2.13 wheel). allowedCudaVersions
+# biases placement; the launch loop below still VERIFIES via nvidia-smi and re-rolls,
+# in case the field is ignored for some host class.
+ALLOWED_CUDA="${RUNPOD_ALLOWED_CUDA:-12.6,12.7,12.8,12.9,13.0}"
+_deploy_rest_novol() {
+    local pubkey; pubkey=$(_pubkey | tr -d '\n')
+    log "deploying ${GPU_COUNT}x '$GPU_TYPE' ($CLOUD), disk=${DISK_GB}GB, allowedCuda=[$ALLOWED_CUDA]"
+    local body r id
+    body=$(jq -n --arg name "$POD_NAME" --arg img "$IMAGE" --arg cloud "$CLOUD" \
+        --argjson gc "$GPU_COUNT" --arg gt "$GPU_TYPE" --argjson disk "$DISK_GB" \
+        --arg pk "$pubkey" --arg cuda "$ALLOWED_CUDA" \
+        '{name:$name, imageName:$img, cloudType:$cloud, computeType:"GPU",
+          gpuCount:$gc, gpuTypeIds:[$gt], volumeInGb:0, containerDiskInGb:$disk,
+          ports:["22/tcp"], env:{PUBLIC_KEY:$pk},
+          allowedCudaVersions:($cuda | split(","))}')
+    r=$(rest POST /pods "$body")
+    id=$(echo "$r" | jq -r '.id // empty')
+    [ -n "$id" ] || { echo "$r" | jq -r '.error // .message // .' >&2; die "deploy (REST no-volume) failed"; }
+    echo "$id"
+}
+
+_driver_ok() {  # <ip> <port> — true iff the host driver CUDA version is >= 12.6
+    local drv
+    drv=$(_ssh_to "$1" "$2" 'nvidia-smi | grep -oE "CUDA Version: [0-9]+\.[0-9]+"' 2>/dev/null | grep -oE '[0-9]+\.[0-9]+' || echo 0)
+    log "host driver CUDA: $drv"
+    awk -v d="$drv" 'BEGIN{exit !(d >= 12.6)}'
+}
+
 cmd_launch() {
-    local id
+    local id ip port try
     # volume deploys are an explicit opt-in (RUNPOD_USE_VOLUME=1): the shared env file may
     # carry a stale RUNPOD_VOLUME_ID from another project, and silently pinning to a dead
     # volume's datacenter fails the deploy (hit on the first probe: "network volume not found")
     if [ "${RUNPOD_USE_VOLUME:-0}" = "1" ] && [ -n "${RUNPOD_VOLUME_ID:-}" ]; then
-        id=$(_deploy_rest)
-    else
-        id=$(_deploy_gql)
+        id=$(_deploy_rest); _await_ssh "$id"; return
     fi
-    _await_ssh "$id"
+    for try in 1 2 3 4; do
+        id=$(_deploy_rest_novol)
+        ip=""; port=""; read -r id ip port < <(_await_ssh "$id" | tail -1) || true
+        [ -n "${ip:-}" ] || die "launch: no ssh endpoint for $id"
+        if _driver_ok "$ip" "$port"; then echo "$id $ip $port"; return; fi
+        log "driver too old on $id (try $try/4) — terminating and re-rolling"
+        cmd_terminate "$id"
+        sleep 5
+    done
+    die "no pod with driver CUDA >= 12.6 after 4 tries (widen RUNPOD_ALLOWED_CUDA or try another GPU type)"
 }
 
 cmd_datacenters() {
@@ -253,16 +291,33 @@ cmd_bootstrap() {
     log "bootstrap complete for $id"
 }
 
-# sync-data <podId> <data_root>... — rsync a data root's encoder caches + summary up.
-# Only emb-seq-*.pt + summary.json are needed to score (cached_encode short-circuits);
-# raw *.jsonl stay local.
+# sync-data <podId> <data_root>... — get a data root's caches onto the pod. Preferred path:
+# the pod downloads from the PUBLIC HF dataset repo ($TJEPA_HF_DATASET) anonymously at
+# datacenter speed (measured: the home-connection rsync of the 650MB e5 root took 16 min).
+# Falls back to rsync (emb-seq-*.pt + summary.json only) when TJEPA_HF_DATASET is empty or
+# the root isn't in the repo. Only the caches are needed to score (cached_encode
+# short-circuits); raw *.jsonl live in the HF repo for pod-side re-encoding.
+HF_DATASET="${TJEPA_HF_DATASET-veryfansome/terminal-jepa-dockerfs}"
 cmd_sync_data() {
     local id="${1:?sync-data <podId> <data_root>...}"; shift
     local ip port; read -r ip port < <(_host "$id"); [ -n "${ip:-}" ] || die "no SSH port for $id"
-    local root
+    local root name
     for root in "$@"; do
-        [ -d "$TJ_DIR/$root" ] || die "no such data root: $TJ_DIR/$root"
-        log "sync-data $root → pod"
+        name="$(basename "$root")"
+        if [ -n "$HF_DATASET" ] && _ssh_to "$ip" "$port" "
+            export PATH=\"\$HOME/.local/bin:\$PATH\" UV_NO_SYNC=1
+            cd ~/jepa/terminal-jepa && uv run python - <<PY
+from huggingface_hub import snapshot_download
+snapshot_download(repo_id='$HF_DATASET', repo_type='dataset',
+                  allow_patterns=['$name/*'], local_dir='data')
+import pathlib, sys
+sys.exit(0 if any(pathlib.Path('data/$name').glob('*')) else 1)
+PY"; then
+            log "sync-data $root ← HF $HF_DATASET (pod-side download)"
+            continue
+        fi
+        [ -d "$TJ_DIR/$root" ] || die "no such data root: $TJ_DIR/$root (and not in HF repo)"
+        log "sync-data $root → pod (rsync fallback)"
         _ssh_to "$ip" "$port" "mkdir -p ~/jepa/terminal-jepa/$root"
         rsync -a --include='emb-seq-*.pt' --include='summary.json' --exclude='*' \
             -e "ssh $SSH_OPTS -p $port" "$TJ_DIR/$root/" "root@$ip:~/jepa/terminal-jepa/$root/"
