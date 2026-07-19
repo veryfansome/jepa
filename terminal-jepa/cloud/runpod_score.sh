@@ -122,7 +122,7 @@ print("imports ok; device:", M.pick_device())
 PY
     '
     local root
-    for root in $(_jobs | awk '{print $4}' | sort -u); do
+    for root in $(_jobs | awk '$2 != "bench" {print $4}' | sort -u | grep -v '^-$' || true); do
         _ssh "test -f ~/jepa/terminal-jepa/$root/emb-seq-train.pt && test -f ~/jepa/terminal-jepa/$root/emb-seq-val.pt" \
             || die "data root $root missing caches on pod — run STAGE=syncdata"
     done

@@ -50,7 +50,7 @@ uv run python -m evolve.cli impls --chunk arch
 uv run python -m evolve.bench --arch <impl> [--ref <impl> --eq]   # speed bench + Tier-A equivalence (R9-speed rounds)
 ```
 
-Perception/stream recipes need a re-encoded root first (`reencode.py` / `mv_encode.py`); score with `--data <that root>`. **Current champion** (`r8-co-muon-block1`, final-test 0.5716): e5-base-v2 encoder (`data/dockerfs-e5`) + `r7_path_delta_fastweights_codex` arch + `r6_free_energy_precision_l2_contrastive` objective + `r8_muon_key_orthogonal_addressing` optim + `r6_sysblock_hardneg_curriculum` batcher (block1/hard75/ramp30) — all five chunks evolved. External scoring (RunPod) ingests via `cli ingest --env <tag>`; see `../cloud/README.md`.
+Perception/stream recipes need a re-encoded root first (`reencode.py` / `mv_encode.py`); score with `--data <that root>`. **Current champion** (`r9-arch-chunked-codex`, final-test 0.5848, 35 ms/step on a 4090 / 132 on MPS): e5-base-v2 encoder (`data/dockerfs-e5`) + `r9_chunked_delta_fastweights_codex` arch + `r6_free_energy_precision_l2_contrastive` objective + `r8_muon_key_orthogonal_addressing` optim + `r6_sysblock_hardneg_curriculum` batcher (block1/hard75/ramp30) — all five chunks evolved. External scoring (RunPod) ingests via `cli ingest --env <tag>`; see `../cloud/README.md`.
 
 ## Inventor dispatch (the mutation operators)
 
