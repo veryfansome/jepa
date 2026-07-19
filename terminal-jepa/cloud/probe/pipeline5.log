@@ -1,0 +1,16 @@
+===== STAGE bootstrap @ 17:49:17 =====
+==> ensuring rsync/git/curl/tmux on the pod
+==> rsync repo code → root@103.196.86.87:~/jepa/  (code only; data goes via sync-data)
+==> uv sync + CUDA smoke on the pod
+downloading uv 0.11.29 x86_64-unknown-linux-gnu
+installing to /root/.local/bin
+  uv
+  uvx
+everything's installed!
+Resolved 55 packages in 1ms
+Checked 53 packages in 1ms
+  × No solution found when resolving dependencies:
+  ╰─▶ Because there is no version of torch==2.13.0+cu128 and you require
+      torch==2.13.0+cu128, we can conclude that your requirements are
+      unsatisfiable.
+STAGE bootstrap FAILED @ 17:49:25

@@ -234,7 +234,21 @@ cmd_bootstrap() {
         command -v uv >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
         export PATH="$HOME/.local/bin:$PATH"
         cd ~/jepa/terminal-jepa && uv sync
-        uv run python -c "import torch; assert torch.cuda.is_available(), \"no CUDA\"; print(\"cuda ok:\", torch.cuda.get_device_name(0))"
+        # the lock pins the default (cu13) torch wheels; many hosts still run 12.x drivers,
+        # where cu13 binaries cannot init. Detect the driver CUDA version and swap in the
+        # matching cu12x torch INSIDE THE POD VENV ONLY (lockfile untouched); UV_NO_SYNC on
+        # later `uv run` calls keeps uv from restoring the locked wheels.
+        drv=$(nvidia-smi | grep -oE "CUDA Version: [0-9]+\.[0-9]+" | grep -oE "[0-9]+\.[0-9]+")
+        # the +cu126 local-version pin is required: a bare torch spec is "already satisfied"
+        # by the locked cu13 wheels and uv skips the swap. cu126 is the newest CUDA-12 index
+        # that still ships torch 2.13.0 (cu128 stops at 2.11), and cu126 wheels run on any
+        # >=12.6 driver — so the pod matches the locked torch version exactly.
+        case "$drv" in
+            12.6*|12.7*|12.8*|12.9*) uv pip install --index-url https://download.pytorch.org/whl/cu126 "torch==2.13.0+cu126" ;;
+            12.*) echo "driver CUDA $drv too old for cu126 torch 2.13 — pick a newer-driver pod" >&2; exit 1 ;;
+            *)    echo "driver CUDA $drv — keeping locked (cu13) torch wheels" ;;
+        esac
+        UV_NO_SYNC=1 uv run python -c "import torch; assert torch.cuda.is_available(), \"no CUDA\"; print(\"cuda ok:\", torch.cuda.get_device_name(0), \"| driver CUDA $drv\")"
     '
     log "bootstrap complete for $id"
 }

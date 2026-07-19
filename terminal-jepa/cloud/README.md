@@ -18,6 +18,13 @@ uv run python -m evolve.cli ingest --genome <g.json> --result cloud/podresults/<
 - **Serialize by default.** `CONCURRENCY=1`; raise it only knowingly (GPU contention adds nondeterminism).
 - **First trip on new hardware: run a cheap probe** (incumbent proxy + one full seed) to measure wall-clock speedup and the environment's fitness offset before committing a round to it. Budget ~$15-25 of learning incidents for any new tier (sandbox lesson).
 
-## Cost ballpark
+## Probe results (2026-07-19, 1x RTX 4090 SECURE $0.34/hr, torch 2.13.0+cu126, pod driver CUDA 12.8)
 
-An R8-sized round (17 proxies + 4 full split-scores + sanity arms) took ~14 h serialized on the local MPS machine. On a 1x RTX 4090 (~$0.35–0.70/hr) the same queue is a few GPU-hours → **single-digit dollars per round**; even an A100/H100 pod stays <$20. The dominant win is that full promotions (3 seeds × 4000 steps on the sequential fastweights archs) stop monopolizing the dev machine.
+Measured with the champion genome (`rp0-cuda-probe-champion` in the archive, env `runpod-4090-cu126`):
+
+- **Fitness agreement is essentially exact**: proxy 0.6150 (local MPS 0.6150); full inner 0.6143, per-seed 0.6136/0.6103/0.6191 (local 0.6142: 0.6137/0.6098/0.6190). The one-environment rule stays as cheap insurance, but the measured MPS↔CUDA offset on this workload is ≈±0.0005.
+- **A 4090 is NOT faster per job**: full inner 64 min vs 69 min local (~1.08×); proxy ~7.5 min vs ~6 min. The fastweights-family archs are a sequential python loop over positions with tiny tensors — kernel-launch-bound, not FLOPs-bound, so a bigger GPU doesn't help. **The offload win is parallelism, not speed**: N pods (or `CONCURRENCY>1` on one under-utilized pod) divide the round's wall-clock at ~$0.35/hr each, and the dev machine stays free. Per-job speedups would need harness-side work (torch.compile/CUDA-graphs on the sequential archs) — an environment change requiring re-baselining.
+- **Data upload is the tax**: 16 min for the 650MB e5 root from the home connection (~5.4 Mbps effective) — motivates hosting the roots (HF dataset repo or a volume) rather than re-uploading per pod.
+- Bootstrap ≈40s warm / ~3 min cold. Whole probe incl. 3 debug re-provisions: **<$1.50**.
+
+Setup facts encoded in the scripts by the probe's failures: account-level console key must be offerable (no `IdentitiesOnly` hard-pin by default); volume deploys are opt-in (`RUNPOD_USE_VOLUME=1`) so stale env-file volume ids can't hijack; locked cu13 torch wheels don't run on CUDA-12.x drivers — bootstrap swaps in `torch==2.13.0+cu126` (same version as the lock; cu128 index stops at torch 2.11) and `UV_NO_SYNC=1` keeps `uv run` from undoing it.

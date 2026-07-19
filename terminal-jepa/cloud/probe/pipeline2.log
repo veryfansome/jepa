@@ -1,0 +1,15 @@
+===== STAGE provision @ 17:36:38 =====
+==> deploying 1x 'NVIDIA GeForce RTX 4090' (SECURE), disk=60GB, image=runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04 (no volume)
+==> pod id: 9mtpqiltxlsdpr — polling for RUNNING + a public SSH port (2-5 min)
+    status=RUNNING ssh=
+    status=RUNNING ssh=
+    status=RUNNING ssh=
+    status=RUNNING ssh=103.196.86.87:18838
+==> waiting for sshd at 103.196.86.87:18838
+==> provisioned 9mtpqiltxlsdpr @ 103.196.86.87:18838
+===== STAGE bootstrap @ 17:42:51 =====
+==> ensuring rsync/git/curl/tmux on the pod
+Permission denied, please try again.
+Permission denied, please try again.
+root@103.196.86.87: Permission denied (publickey,password).
+STAGE bootstrap FAILED @ 17:42:54

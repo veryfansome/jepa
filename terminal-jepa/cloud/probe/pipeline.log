@@ -1,0 +1,5 @@
+===== STAGE provision @ 17:35:41 =====
+==> deploying 1x 'NVIDIA GeForce RTX 4090' (SECURE) in AP-JP-1, volume a82cukfeny @ /workspace
+create pod: get attached volume: network volume not found
+ERROR: deploy (REST + volume) failed
+STAGE provision FAILED @ 17:35:41

@@ -107,7 +107,7 @@ stage_jobs() {  # rsync the genome JSONs named in jobs.tsv up under cloud/podjob
 stage_verify() {  # cheap preflight before any paid scoring: GPU, env, data roots present
     _refresh
     _ssh '
-        set -e; export PATH="$HOME/.local/bin:$PATH"
+        set -e; export PATH="$HOME/.local/bin:$PATH" UV_NO_SYNC=1
         nvidia-smi -L
         cd ~/jepa/terminal-jepa
         uv run python - <<PY
@@ -137,7 +137,7 @@ stage_score() {
     script=$(cat <<'REMOTE'
 #!/bin/bash
 set -uo pipefail
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH" UV_NO_SYNC=1
 cd ~/jepa/terminal-jepa
 mkdir -p cloud/podresults
 run_one() {

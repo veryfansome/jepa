@@ -1,0 +1,30 @@
+{
+ "id": "rp0-cuda-probe-champion",
+ "parent": "r8-co-muon-block1",
+ "generation": 14,
+ "inventor": "harness-r8",
+ "chunk_changed": null,
+ "rationale": "RunPod 4090 environment-calibration probe: the unchanged new-champion genome (fastweights + free_energy + muon optim + sysblock block1) scored on CUDA to fix the cross-environment fitness offset + wall-clock. Not a search result.",
+ "chunks": {
+  "objective": {
+   "impl": "r6_free_energy_precision_l2_contrastive",
+   "params": {}
+  },
+  "arch": {
+   "impl": "r7_path_delta_fastweights_codex",
+   "params": {}
+  },
+  "optim": {
+   "impl": "r8_muon_key_orthogonal_addressing",
+   "bs": 64
+  },
+  "batcher": {
+   "impl": "r6_sysblock_hardneg_curriculum",
+   "params": {
+    "n_block_images": 1,
+    "hard_frac_max": 0.75,
+    "ramp_frac": 0.3
+   }
+  }
+ }
+}

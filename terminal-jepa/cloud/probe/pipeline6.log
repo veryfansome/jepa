@@ -1,0 +1,155 @@
+===== STAGE bootstrap @ 17:51:23 =====
+==> ensuring rsync/git/curl/tmux on the pod
+==> rsync repo code → root@103.196.86.87:~/jepa/  (code only; data goes via sync-data)
+==> uv sync + CUDA smoke on the pod
+downloading uv 0.11.29 x86_64-unknown-linux-gnu
+installing to /root/.local/bin
+  uv
+  uvx
+everything's installed!
+Resolved 55 packages in 1ms
+Checked 53 packages in 1ms
+Resolved 29 packages in 629ms
+Downloading torch (804.7MiB)
+Downloading nvidia-cufile-cu12 (1.1MiB)
+Downloading nvidia-cublas-cu12 (374.9MiB)
+Downloading nvidia-nvshmem-cu12 (132.7MiB)
+Downloading nvidia-curand-cu12 (53.7MiB)
+Downloading nvidia-cuda-nvrtc-cu12 (22.6MiB)
+Downloading nvidia-nccl-cu12 (276.3MiB)
+Downloading nvidia-cusparse-cu12 (206.5MiB)
+Downloading nvidia-nvjitlink-cu12 (18.8MiB)
+Downloading nvidia-cusparselt-cu12 (273.9MiB)
+Downloading nvidia-cudnn-cu12 (674.0MiB)
+Downloading nvidia-cufft-cu12 (190.9MiB)
+Downloading nvidia-cuda-cupti-cu12 (8.5MiB)
+Downloading nvidia-cusolver-cu12 (150.9MiB)
+Downloading cuda-bindings (11.4MiB)
+ Downloaded nvidia-cufile-cu12
+ Downloaded cuda-bindings
+ Downloaded nvidia-cuda-cupti-cu12
+ Downloaded nvidia-nvjitlink-cu12
+ Downloaded nvidia-cuda-nvrtc-cu12
+ Downloaded nvidia-curand-cu12
+ Downloaded nvidia-nvshmem-cu12
+ Downloaded nvidia-cublas-cu12
+ Downloaded nvidia-cusolver-cu12
+ Downloaded nvidia-cusparse-cu12
+ Downloaded nvidia-nccl-cu12
+ Downloaded nvidia-cufft-cu12
+ Downloaded nvidia-cusparselt-cu12
+ Downloaded nvidia-cudnn-cu12
+ Downloaded torch
+Prepared 18 packages in 24.50s
+Uninstalled 3 packages in 653ms
+Installed 18 packages in 1.71s
+ - cuda-bindings==13.3.1
+ + cuda-bindings==12.9.4
+ - cuda-toolkit==13.0.3.0
+ + cuda-toolkit==12.6.3
+ + nvidia-cublas-cu12==12.6.4.1
+ + nvidia-cuda-cupti-cu12==12.6.80
+ + nvidia-cuda-nvrtc-cu12==12.6.85
+ + nvidia-cuda-runtime-cu12==12.6.77
+ + nvidia-cudnn-cu12==9.10.2.21
+ + nvidia-cufft-cu12==11.3.0.4
+ + nvidia-cufile-cu12==1.11.1.6
+ + nvidia-curand-cu12==10.3.7.77
+ + nvidia-cusolver-cu12==11.7.1.2
+ + nvidia-cusparse-cu12==12.5.4.2
+ + nvidia-cusparselt-cu12==0.7.1
+ + nvidia-nccl-cu12==2.29.3
+ + nvidia-nvjitlink-cu12==12.6.85
+ + nvidia-nvshmem-cu12==3.4.5
+ + nvidia-nvtx-cu12==12.6.77
+ - torch==2.13.0
+ + torch==2.13.0+cu126
+cuda ok: NVIDIA GeForce RTX 4090 | driver CUDA 12.8
+==> bootstrap complete for u8jrb6m4o9jr1y
+===== STAGE syncdata @ 17:52:03 =====
+==> sync-data data/dockerfs-e5 → pod
+===== STAGE jobs @ 18:08:12 =====
+==> jobs synced: 2
+===== STAGE verify @ 18:08:17 =====
+GPU 0: NVIDIA GeForce RTX 4090 (UUID: GPU-af47e35d-6191-0f7c-2171-17a0ea4d8969)
+imports ok; device: cuda
+==> verify: ok
+===== STAGE score @ 18:08:22 =====
+==> score: launched in pod tmux session 'tjepa'
+===== STAGE poll @ 18:08:27 =====
+==> poll [18:08:33] 1/2 results
+==> poll [18:09:38] 1/2 results
+==> poll [18:10:43] 1/2 results
+==> poll [18:11:49] 1/2 results
+==> poll [18:12:54] 1/2 results
+==> poll [18:14:01] 1/2 results
+==> poll [18:15:07] 1/2 results
+==> poll [18:16:12] 2/2 results
+==> poll [18:17:18] 2/2 results
+==> poll [18:18:23] 2/2 results
+==> poll [18:19:29] 2/2 results
+==> poll [18:20:34] 2/2 results
+==> poll [18:21:40] 2/2 results
+==> poll [18:22:46] 2/2 results
+==> poll [18:23:51] 2/2 results
+==> poll [18:24:56] 2/2 results
+==> poll [18:26:02] 2/2 results
+==> poll [18:27:07] 2/2 results
+==> poll [18:28:12] 2/2 results
+==> poll [18:29:18] 2/2 results
+==> poll [18:30:23] 2/2 results
+==> poll [18:31:28] 2/2 results
+==> poll [18:32:34] 2/2 results
+==> poll [18:33:39] 2/2 results
+==> poll [18:34:46] 2/2 results
+==> poll [18:35:53] 2/2 results
+==> poll [18:37:01] 2/2 results
+==> poll [18:38:07] 2/2 results
+==> poll [18:39:12] 2/2 results
+==> poll [18:40:18] 2/2 results
+==> poll [18:41:23] 2/2 results
+==> poll [18:42:29] 2/2 results
+==> poll [18:43:34] 2/2 results
+==> poll [18:44:40] 2/2 results
+==> poll [18:45:45] 2/2 results
+==> poll [18:46:50] 2/2 results
+==> poll [18:47:55] 2/2 results
+==> poll [18:49:00] 2/2 results
+==> poll [18:50:06] 2/2 results
+==> poll [18:51:11] 2/2 results
+==> poll [18:52:16] 2/2 results
+==> poll [18:53:22] 2/2 results
+==> poll [18:54:27] 2/2 results
+==> poll [18:55:32] 2/2 results
+==> poll [18:56:39] 2/2 results
+==> poll [18:57:45] 2/2 results
+==> poll [18:58:50] 2/2 results
+==> poll [18:59:57] 2/2 results
+==> poll [19:01:02] 2/2 results
+==> poll [19:02:08] 2/2 results
+==> poll [19:03:14] 2/2 results
+==> poll [19:04:20] 2/2 results
+==> poll [19:05:25] 2/2 results
+==> poll [19:06:31] 2/2 results
+==> poll [19:07:36] 2/2 results
+==> poll [19:08:41] 2/2 results
+==> poll [19:09:47] 2/2 results
+==> poll [19:10:52] 2/2 results
+==> poll [19:11:59] 2/2 results
+==> poll [19:13:04] 2/2 results
+==> poll [19:14:10] 2/2 results
+==> poll [19:15:23] 2/2 results
+==> poll [19:16:28] 2/2 results
+==> poll [19:17:35] 2/2 results
+==> poll [19:18:42] 2/2 results
+==> poll [19:19:47] 2/2 results
+==> poll: all jobs done
+===== STAGE download @ 19:20:48 =====
+==> rsync pod cloud/podresults/ → /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa/cloud/podresults/
+===== STAGE verifydl @ 19:20:51 =====
+==> verifydl: all 2 results local
+===== STAGE terminate @ 19:20:51 =====
+==> verifydl: all 2 results local
+==> terminating u8jrb6m4o9jr1y
+terminated
+PROBE PIPELINE DONE @ 19:20:51
