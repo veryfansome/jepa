@@ -18,3 +18,9 @@ terminal-jepa/evolve/archive/base_cache.json
 terminal-jepa/runs/dockerfs/seq-smoke-s0.json
 # old Phase-1 (synthetic) reproduction scratch — regenerable
 terminal-jepa/runs/repro/
+
+# cloud offload runtime state (scripts are tracked; results/state/jobs are per-round scratch)
+terminal-jepa/cloud/podresults/
+terminal-jepa/cloud/*.state
+terminal-jepa/cloud/*.log
+terminal-jepa/cloud/jobs.tsv

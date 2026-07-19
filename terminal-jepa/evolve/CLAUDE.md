@@ -78,7 +78,7 @@ The biggest gains after the first objective/encoder wins came from **stacking** 
 7. Validate the champion (`sanity.py` gen-twin + history ablation on final-test; a revisited-split if an arch has a memory/history mechanism).
 8. Record neutral stats in `evolve-insights` + commit `archive/genomes.jsonl`; update the progression in `../../README.md`.
 
-Ops: run heavy GPU jobs one at a time via tracked background tasks (not detached `&`); invoke as `uv run python -m ...`; score via redirect-to-file + JSON-extract; derived data roots are gitignored (only `summary.json` tracked).
+Ops: run heavy GPU jobs one at a time via tracked background tasks (not detached `&`); invoke as `uv run python -m ...`; score via redirect-to-file + JSON-extract; derived data roots are gitignored (only `summary.json` tracked). Big queues (full promotions, long proxy batches) can be offloaded to a RunPod pod via `../cloud/runpod_score.sh` + `cli ingest` — but scores are only comparable **within one environment** (MPS vs CUDA differ beyond proxy noise; re-baseline the incumbent when moving; see `../cloud/README.md`).
 
 ## Update triggers
 

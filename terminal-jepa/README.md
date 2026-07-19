@@ -11,6 +11,7 @@ The JEPA shell world model (Phase R4) + the ShinkaEvolve evolutionary search ove
 - `realenv/collect_docker.py` — sequence generator + parallel collection over Docker images; held-out-*image* split → `data/dockerfs/`; exploration policies.
 - `evolve/` — the chunk-based evolutionary design search over the R4 model. See `evolve/CLAUDE.md` (working context + replication manual).
 - `tests/test_seq_worldmodel.py` — no-future-leakage + retrieval-calibration guards for the R4 model.
+- `cloud/` — RunPod offload for GPU-heavy scoring: `runpod.sh` (provider wrapper: launch/bootstrap/sync-data/pull/terminate) + `runpod_score.sh` (idempotent batch orchestrator over `cloud/jobs.tsv`); pulled results enter the archive via `uv run python -m evolve.cli ingest`. See `cloud/README.md`.
 
 ## Commands
 

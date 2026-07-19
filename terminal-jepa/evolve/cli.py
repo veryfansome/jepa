@@ -46,6 +46,24 @@ def cmd_score(args):
     print(json.dumps(res, indent=1))
 
 
+def cmd_ingest(args):
+    """Append an externally-scored result (e.g. a RunPod job's cli-score stdout, which may
+    carry cache-note lines around the JSON) to the archive, without rescoring."""
+    import re
+    gen = json.load(open(args.genome))
+    txt = open(args.result).read()
+    m = re.search(r"\{.*\}", txt, re.DOTALL)
+    if not m:
+        raise SystemExit(f"no JSON object found in {args.result}")
+    res = json.loads(m.group(0))
+    if "fitness" not in res:
+        raise SystemExit(f"result {args.result} has no fitness field")
+    if args.env:
+        res["env"] = args.env
+    rec = _record(gen, res)
+    print(json.dumps({k: rec.get(k) for k in ("id", "fitness", "guardrail", "mode", "split")}, indent=1))
+
+
 def cmd_leaderboard(args):
     lb = A.leaderboard(args.top)
     if not lb:
@@ -77,6 +95,10 @@ def main(argv=None):
     s = sub.add_parser("score"); s.add_argument("--genome", required=True)
     s.add_argument("--split", default="inner", choices=["inner", "final"])
     s.add_argument("--data", default="data/dockerfs"); add_mode(s); s.set_defaults(fn=cmd_score)
+    s = sub.add_parser("ingest"); s.add_argument("--genome", required=True)
+    s.add_argument("--result", required=True)
+    s.add_argument("--env", default=None, help="environment tag recorded on the entry (e.g. 'runpod-4090')")
+    s.set_defaults(fn=cmd_ingest)
     s = sub.add_parser("leaderboard"); s.add_argument("--top", type=int, default=10); s.set_defaults(fn=cmd_leaderboard)
     s = sub.add_parser("sample-parent"); s.add_argument("--seed", type=int, default=0); s.set_defaults(fn=cmd_sample_parent)
     s = sub.add_parser("impls"); s.add_argument("--chunk", default="objective"); s.set_defaults(fn=cmd_impls)

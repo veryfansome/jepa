@@ -12,6 +12,7 @@ The Python project (packages `realenv`, `evolve`). Run as `uv run python -m <mod
 - **`realenv/seq_worldmodel.py`** — R4, the foundation: a causal transformer over interleaved `cmd,obs,cmd,obs,…` frozen-encoder embeddings; the hidden state at each command position predicts that command's next-observation embedding (latent). Owns the **eval** the whole search reuses: next-obs retrieval, hard same-verb foils, the honest baselines (predict-mean / copy-prev / retrieve-by-command), the content-verb margin. Immutable from a genome's point of view.
 - **`realenv/docker_env.py`** (`DockerBox`: per-command `docker exec`, tracked `cd`, path enumeration) + **`realenv/collect_docker.py`** (sequence generator + parallel collection, held-out *image* split, exploration policies).
 - **`evolve/`** — the ShinkaEvolve search over the R4 foundation. **See `evolve/CLAUDE.md`.**
+- **`cloud/`** — RunPod offload for GPU-heavy scoring (`runpod.sh` provider wrapper + `runpod_score.sh` batch orchestrator; results ingested via `cli ingest`). **See `cloud/README.md`** — the one-environment-per-comparison rule there is load-bearing.
 - `tests/test_seq_worldmodel.py` — no-future-leakage + retrieval-calibration guards for the R4 model.
 
 The retired synthetic Phase 0–1 sandbox and R1–R3 prototypes were removed 2026-07-18 (git history + the `README.md` "prior work" section retain them). The tree is R4 + evolve only.
