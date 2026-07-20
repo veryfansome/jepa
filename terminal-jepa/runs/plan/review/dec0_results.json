@@ -1,0 +1,3633 @@
+{
+ "agg": {
+  "cos_min": 0.24,
+  "cos_ls": 0.24,
+  "cos_cd": 0.09,
+  "cos_sum": 0.35,
+  "l2_min": 0.05,
+  "rank_ls": 0.22,
+  "zcal_ls": 0.05,
+  "zcal_min": 0.05,
+  "lexical": 0.58
+ },
+ "gt_agg": {
+  "abs_cos_cd": 0.0,
+  "abs_cos_ls": 0.64,
+  "zcal_cd": 0.01,
+  "zcal_ls": 0.51
+ },
+ "diff_vs_cos_min": {
+  "cos_min": 0,
+  "cos_ls": 0,
+  "cos_cd": 90,
+  "cos_sum": 36,
+  "l2_min": 86,
+  "rank_ls": 67,
+  "zcal_ls": 31,
+  "zcal_min": 31,
+  "lexical": 76
+ },
+ "fid0": 3445.611,
+ "rows": [
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/lt",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/usr",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": true,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3434.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/libmount",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3381.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/es_GT",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3419.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/bzip2",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/run",
+    "cos_ls": "/run",
+    "cos_cd": "/root",
+    "cos_sum": "/run",
+    "l2_min": "/afs",
+    "rank_ls": "/run",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3905.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/5f",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 3464.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/rar",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/usr",
+    "rank_ls": "/srv",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": true,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 3660.4,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/75",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3462.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/9b",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/proc",
+    "cos_sum": "/afs",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3379.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/zam",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 10,
+   "fid_cos_min_pick": 3633.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/e2",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3441.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/eb",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3364.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/cgg",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/var"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 3452.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/ee",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3480.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/88",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3419.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/bc",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3402.6,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/bas",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 8,
+   "fid_cos_min_pick": 3681.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/en_NZ",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/mnt"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3408.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/tpm2-tss",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/run",
+    "cos_ls": "/run",
+    "cos_cd": "/tmp",
+    "cos_sum": "/tmp",
+    "l2_min": "/tmp",
+    "rank_ls": "/tmp",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/tmp"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3832.4,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/ig",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 11,
+   "fid_cos_min_pick": 3388.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/44",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/proc",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3452.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/sr",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/usr",
+    "rank_ls": "/srv",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": true,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3690.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/elfutils-libelf",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3411.4,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/ka_GE",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 8,
+   "fid_cos_min_pick": 3719.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/90",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/proc",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3413.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/libtirpc",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/tmp",
+    "cos_sum": "/afs",
+    "l2_min": "/afs",
+    "rank_ls": "/run",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3384.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/sga",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3637.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/fr_CH",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 7,
+   "fid_cos_min_pick": 3417.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/fy",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3722.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/chp",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 7,
+   "fid_cos_min_pick": 3291.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/pap",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/mnt"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 8,
+   "fid_cos_min_pick": 3384.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/en_ZA",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 23,
+   "fid_cos_min_pick": 3388.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/vim-data",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/dev",
+    "rank_ls": "/run",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 3426.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/0d",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3386.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib64/dnf5",
+   "depth": 3,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/root",
+    "l2_min": "/afs",
+    "rank_ls": "/dev",
+    "zcal_ls": "/afs",
+    "zcal_min": "/afs",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3432.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/setup",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/media",
+    "l2_min": "/afs",
+    "rank_ls": "/run",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 3384.6,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/mad",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/mnt"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3710.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/69",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3290.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/arc",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 9,
+   "fid_cos_min_pick": 3381.4,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/fat",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/boot",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 11,
+   "fid_cos_min_pick": 3565.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/libsolv",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/run",
+    "l2_min": "/media",
+    "rank_ls": "/run",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3441.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/dnf5/aliases.d",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/afs",
+    "l2_min": "/afs",
+    "rank_ls": "/etc",
+    "zcal_ls": "/afs",
+    "zcal_min": "/afs",
+    "lexical": "/afs"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3432.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/21",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3290.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/licenses/zstd",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/run",
+    "cos_ls": "/run",
+    "cos_cd": "/root",
+    "cos_sum": "/run",
+    "l2_min": "/afs",
+    "rank_ls": "/run",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 4266.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/no",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3708.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/afa",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/afs"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3376.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/etc/ssl",
+   "depth": 2,
+   "correct": "/etc",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/var",
+    "cos_sum": "/var",
+    "l2_min": "/etc",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/etc"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": true,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3427.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/nn_NO",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3631.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/share/locale/art",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/usr",
+    "cos_sum": "/usr",
+    "l2_min": "/afs",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3643.4,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/42",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/proc",
+    "cos_sum": "/var",
+    "l2_min": "/afs",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 5,
+   "fid_cos_min_pick": 3402.4,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "fedora:latest",
+   "goal": "/usr/lib/.build-id/85",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3419.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/etc/ssl/certs",
+   "depth": 3,
+   "correct": "/etc",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/etc",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/etc"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": true,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3192.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/mariadb/ukrainian",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/etc",
+    "cos_ls": "/etc",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/sys",
+    "zcal_ls": "/sys",
+    "zcal_min": "/sys",
+    "lexical": "/sys"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3206.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/var/cache/apt",
+   "depth": 3,
+   "correct": "/var",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": true,
+    "zcal_min": true,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3163.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/pt",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/usr",
+    "l2_min": "/tmp",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 5,
+   "fid_cos_min_pick": 3125.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/polkit-1/actions",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/opt",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/mnt"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3204.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/terminfo/p",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/proc",
+    "rank_ls": "/proc",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3204.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/mariadb-client-core",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/sys",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/docker-entrypoint-initdb.d"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3220.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/zh_TW",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/mnt",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3728.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/mariadb/italian",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/etc",
+    "zcal_min": "/etc",
+    "lexical": "/docker-entrypoint-initdb.d"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3158.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libtinfo6",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/etc",
+    "l2_min": "/etc",
+    "rank_ls": "/etc",
+    "zcal_ls": "/etc",
+    "zcal_min": "/etc",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3168.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/adduser",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3103.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/perl-base",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/run",
+    "cos_ls": "/run",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/usr",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 4095.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/procps",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/proc",
+    "l2_min": "/proc",
+    "rank_ls": "/proc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/proc"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3215.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/etc/iproute2/rt_tables.d",
+   "depth": 3,
+   "correct": "/etc",
+   "picks": {
+    "cos_min": "/etc",
+    "cos_ls": "/etc",
+    "cos_cd": "/etc",
+    "cos_sum": "/etc",
+    "l2_min": "/proc",
+    "rank_ls": "/home",
+    "zcal_ls": "/etc",
+    "zcal_min": "/etc",
+    "lexical": "/etc"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": true,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": true,
+    "zcal_min": true,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3195.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": true,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/mariadb/georgian",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/sys",
+    "cos_ls": "/sys",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/sys",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/sys"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 5055.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/sv",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/sbin.usr-is-merged",
+    "cos_sum": "/usr",
+    "l2_min": "/mnt",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3696.2,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/apport",
+   "depth": 3,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/bin.usr-is-merged",
+    "cos_sum": "/bin.usr-is-merged",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/bin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3127.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/terminfo/h",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/root",
+    "l2_min": "/root",
+    "rank_ls": "/proc",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3139.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/readline-common",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 3114.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/ca",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/sbin.usr-is-merged",
+    "cos_sum": "/usr",
+    "l2_min": "/mnt",
+    "rank_ls": "/home",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 4,
+   "fid_cos_min_pick": 3168.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libmd0",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/media",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 5,
+   "fid_cos_min_pick": 3150.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/debianutils/shells.d",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/mnt",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3163.4,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libffi8",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/media",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 5,
+   "fid_cos_min_pick": 3143.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libpam-modules",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3137.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/mariadb/estonian",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/etc",
+    "zcal_min": "/etc",
+    "lexical": "/sys"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3176.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/zoneinfo/Etc",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/proc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3133.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/bin",
+   "depth": 2,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/usr",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3166.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/ncurses-bin",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/bin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3175.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/ga",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/proc",
+    "rank_ls": "/home",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3400.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/oc",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/proc",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 10,
+   "fid_cos_min_pick": 3176.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/ne",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/bin.usr-is-merged",
+    "cos_sum": "/usr",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3580.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/diffutils",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/bin.usr-is-merged",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3199.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libudev1",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/mnt",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/dev"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3170.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/lib/systemd/system",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/media",
+    "cos_ls": "/media",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/media",
+    "zcal_min": "/media",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3820.6,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/ia",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/root",
+    "cos_sum": "/usr",
+    "l2_min": "/proc",
+    "rank_ls": "/proc",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3578.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libcap2",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3191.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libgdbm6t64",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/media",
+    "rank_ls": "/etc",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3063.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/man/zh_TW",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/root",
+    "cos_ls": "/root",
+    "cos_cd": "/root",
+    "cos_sum": "/root",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/root",
+    "zcal_ls": "/root",
+    "zcal_min": "/root",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 8033.9,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/man/ru",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/usr",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/run",
+    "zcal_min": "/run",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3541.1,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/var/lib/dpkg/info",
+   "depth": 4,
+   "correct": "/var",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/var"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": true,
+    "zcal_min": true,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3168.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/locale/hu",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/usr",
+    "cos_ls": "/usr",
+    "cos_cd": "/bin.usr-is-merged",
+    "cos_sum": "/usr",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/usr",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 3,
+   "fid_cos_min_pick": 3612.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/libnettle8t64",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/usr",
+    "l2_min": "/media",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3063.8,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/man/sv",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/usr"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3142.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/mariadb-client",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/docker-entrypoint-initdb.d"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 2,
+   "fid_cos_min_pick": 3136.6,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/zoneinfo/Indian",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/srv",
+    "cos_sum": "/srv",
+    "l2_min": "/srv",
+    "rank_ls": "/srv",
+    "zcal_ls": "/media",
+    "zcal_min": "/media",
+    "lexical": "/mnt"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3094.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/lib/ssl/misc",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3167.5,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/var/lib/pam",
+   "depth": 3,
+   "correct": "/var",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/var",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/var"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": true,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": true,
+    "zcal_min": true,
+    "lexical": true
+   },
+   "goal_rank_of_pick_rankls": 1,
+   "fid_cos_min_pick": 3247.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/etc/systemd/system/multi-user.target.wants",
+   "depth": 4,
+   "correct": "/etc",
+   "picks": {
+    "cos_min": "/etc",
+    "cos_ls": "/etc",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/docker-entrypoint-initdb.d",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/etc",
+    "zcal_ls": "/etc",
+    "zcal_min": "/etc",
+    "lexical": "/docker-entrypoint-initdb.d"
+   },
+   "hit": {
+    "cos_min": true,
+    "cos_ls": true,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": true,
+    "zcal_ls": true,
+    "zcal_min": true,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3187.7,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": false,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/common-licenses",
+   "depth": 3,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/sbin.usr-is-merged",
+    "cos_sum": "/var",
+    "l2_min": "/var",
+    "rank_ls": "/bin.usr-is-merged",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/sbin.usr-is-merged"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 0,
+   "fid_cos_min_pick": 3147.0,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": false
+   }
+  },
+  {
+   "image": "mariadb:latest",
+   "goal": "/usr/share/doc/ncurses-base",
+   "depth": 4,
+   "correct": "/usr",
+   "picks": {
+    "cos_min": "/var",
+    "cos_ls": "/var",
+    "cos_cd": "/docker-entrypoint-initdb.d",
+    "cos_sum": "/var",
+    "l2_min": "/docker-entrypoint-initdb.d",
+    "rank_ls": "/run",
+    "zcal_ls": "/var",
+    "zcal_min": "/var",
+    "lexical": "/root"
+   },
+   "hit": {
+    "cos_min": false,
+    "cos_ls": false,
+    "cos_cd": false,
+    "cos_sum": false,
+    "l2_min": false,
+    "rank_ls": false,
+    "zcal_ls": false,
+    "zcal_min": false,
+    "lexical": false
+   },
+   "goal_rank_of_pick_rankls": 6,
+   "fid_cos_min_pick": 3163.3,
+   "gt_hit": {
+    "abs_cos_cd": false,
+    "abs_cos_ls": true,
+    "zcal_cd": false,
+    "zcal_ls": true
+   }
+  }
+ ]
+}

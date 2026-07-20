@@ -1,0 +1,53 @@
+{
+ "0": {
+  "n": 2000,
+  "plan1": {
+   "hist_retr": 0.048,
+   "hist_or_fit": 0.542
+  },
+  "per_verb": {
+   "cat": {
+    "hist_retr": 0.0519,
+    "hist_or_fit": 0.6412
+   },
+   "ls": {
+    "hist_retr": 0.0417,
+    "hist_or_fit": 0.3828
+   }
+  }
+ },
+ "1": {
+  "n": 2000,
+  "plan1": {
+   "hist_retr": 0.055,
+   "hist_or_fit": 0.5445
+  },
+  "per_verb": {
+   "cat": {
+    "hist_retr": 0.0609,
+    "hist_or_fit": 0.6412
+   },
+   "ls": {
+    "hist_retr": 0.0456,
+    "hist_or_fit": 0.3893
+   }
+  }
+ },
+ "2": {
+  "n": 2000,
+  "plan1": {
+   "hist_retr": 0.0545,
+   "hist_or_fit": 0.5425
+  },
+  "per_verb": {
+   "cat": {
+    "hist_retr": 0.0617,
+    "hist_or_fit": 0.6445
+   },
+   "ls": {
+    "hist_retr": 0.043,
+    "hist_or_fit": 0.3789
+   }
+  }
+ }
+}

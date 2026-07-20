@@ -38,3 +38,10 @@ planners, identical protocol, whatever the inner outcome — the probe's value i
 measurement. A C3 failure with the measured flat-field mechanism routes to: path-structured
 observation/goal representations (the R8 pathkey-stream thread; v2 design) and
 goal-conditioned readout lenses for future evolve rounds — recorded as stats, not verdicts.
+
+---
+POST-RUN CORRECTION (2026-07-20, from the adversarial review; protocol unchanged): the
+horizon sentence above miscounts — episodes are opener 2 + ls probe 1 + 7×(cd+ls) = 17 steps
+(34 tokens), not 16; training sequences span 12–20 steps, so 17 is within the trained range
+(measured: last-step error identical at 16 vs 17 steps, sqL2 2015 vs 2016). Recorded as a
+correction rather than edited in place.

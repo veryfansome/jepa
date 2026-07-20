@@ -41,7 +41,8 @@ from evolve.chunks.perception import enc_e5_base as PERC
 
 D = M.D
 LS_PROBE = "ls -la"          # deterministic in-distribution probe (in LS_OPTS)
-MAX_DECISIONS = 7            # opener(2) + 7*(cd+ls) = 16 steps = the trained horizon
+MAX_DECISIONS = 7            # opener(2) + ls probe(1) + 7*(cd+ls) = 17 steps (34 tokens) —
+                             # within the 12-20-step range the training sequences span
 
 
 class Enc:
@@ -52,7 +53,10 @@ class Enc:
         self.tok = AutoTokenizer.from_pretrained(PERC.MODEL)
         self.model = AutoModel.from_pretrained(PERC.MODEL).to(device).eval()
         self.device = device
-        train = M.cached_encode(data_root, "train", "answerdotai/ModernBERT-base", device)
+        cache = pathlib.Path(data_root) / "emb-seq-train.pt"
+        assert cache.exists(), (f"{cache} missing — refusing to rebuild stats: cached_encode "
+                                f"would re-encode with a model name that may not match this root")
+        train = M.cached_encode(data_root, "train", PERC.MODEL, device)
         self.mo, self.so, self.mc, self.sc = M.standardize_stats(train)
 
     @torch.no_grad()

@@ -1,0 +1,74 @@
+{
+ "0": {
+  "n": 2000,
+  "true_path_in_hist": 0.0345,
+  "distractor_path_in_hist": 0.0389,
+  "any_distractor_in_hist": 0.2555,
+  "true_exclusive_in_hist": 0.027,
+  "plan1": {
+   "g3": 0.115,
+   "sub": 0.027,
+   "sub_g3": 0.1165
+  },
+  "per_verb": {
+   "cat": {
+    "g3": 0.112,
+    "sub": 0.0381,
+    "sub_g3": 0.1136
+   },
+   "ls": {
+    "g3": 0.1198,
+    "sub": 0.0091,
+    "sub_g3": 0.1211
+   }
+  }
+ },
+ "1": {
+  "n": 2000,
+  "true_path_in_hist": 0.0345,
+  "distractor_path_in_hist": 0.0407,
+  "any_distractor_in_hist": 0.258,
+  "true_exclusive_in_hist": 0.0265,
+  "plan1": {
+   "g3": 0.1145,
+   "sub": 0.0265,
+   "sub_g3": 0.115
+  },
+  "per_verb": {
+   "cat": {
+    "g3": 0.1144,
+    "sub": 0.0381,
+    "sub_g3": 0.1161
+   },
+   "ls": {
+    "g3": 0.1146,
+    "sub": 0.0078,
+    "sub_g3": 0.1133
+   }
+  }
+ },
+ "2": {
+  "n": 2000,
+  "true_path_in_hist": 0.0345,
+  "distractor_path_in_hist": 0.0374,
+  "any_distractor_in_hist": 0.2395,
+  "true_exclusive_in_hist": 0.0285,
+  "plan1": {
+   "g3": 0.124,
+   "sub": 0.0285,
+   "sub_g3": 0.1255
+  },
+  "per_verb": {
+   "cat": {
+    "g3": 0.1209,
+    "sub": 0.0414,
+    "sub_g3": 0.1226
+   },
+   "ls": {
+    "g3": 0.1289,
+    "sub": 0.0078,
+    "sub_g3": 0.1302
+   }
+  }
+ }
+}
