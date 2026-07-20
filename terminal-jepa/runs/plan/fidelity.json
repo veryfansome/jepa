@@ -1,0 +1,44 @@
+  using cache data/dockerfs-e5/emb-seq-train.pt
+  using cache data/dockerfs-e5/emb-seq-val.pt
+{
+ "fitness": 0.626,
+ "guardrail": "pass",
+ "mode": "full",
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "steps": 4000,
+ "split": "inner",
+ "wm_content_top1": 0.8901,
+ "base_content_top1": 0.264,
+ "eval_images": [
+  "fedora:latest",
+  "mariadb:latest"
+ ],
+ "per_seed": [
+  {
+   "seed": 0,
+   "wm": 0.89,
+   "base": 0.2636,
+   "margin": 0.6264,
+   "predict_mean": 0.0178
+  },
+  {
+   "seed": 1,
+   "wm": 0.8942,
+   "base": 0.2653,
+   "margin": 0.6289,
+   "predict_mean": 0.0179
+  },
+  {
+   "seed": 2,
+   "wm": 0.8861,
+   "base": 0.2632,
+   "margin": 0.6228,
+   "predict_mean": 0.0178
+  }
+ ],
+ "data": "data/dockerfs-e5"
+}

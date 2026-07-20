@@ -1,0 +1,140 @@
+{
+ "genome": "r9-arch-chunked-codex",
+ "split": "inner",
+ "k": 8,
+ "dedup_cos": 0.99,
+ "n_content": 2000,
+ "n_cd": 500,
+ "device": "cuda",
+ "per_seed": [
+  {
+   "seed": 0,
+   "content": {
+    "wm_plan1": 0.6145,
+    "masked_plan1": 0.4005,
+    "lexical_plan1": 0.338,
+    "retrieve_plan1": 0.543,
+    "n": 2000,
+    "per_verb": {
+     "cat": {
+      "wm": 0.612,
+      "masked": 0.4042,
+      "lexical": 0.3953,
+      "retrieve": 0.6429
+     },
+     "ls": {
+      "wm": 0.6185,
+      "masked": 0.3945,
+      "lexical": 0.2461,
+      "retrieve": 0.3828
+     }
+    }
+   },
+   "cd_calibration": {
+    "wm_plan1": 0.754,
+    "masked_plan1": 0.77,
+    "lexical_plan1": 0.994,
+    "retrieve_plan1": 0.882,
+    "n": 500,
+    "per_verb": {
+     "cd": {
+      "wm": 0.754,
+      "masked": 0.77,
+      "lexical": 0.994,
+      "retrieve": 0.882
+     }
+    }
+   },
+   "plan_margin": 0.0715,
+   "history_gap": 0.214,
+   "ckpt_margin": 0.6264
+  },
+  {
+   "seed": 1,
+   "content": {
+    "wm_plan1": 0.627,
+    "masked_plan1": 0.4085,
+    "lexical_plan1": 0.3475,
+    "retrieve_plan1": 0.5455,
+    "n": 2000,
+    "per_verb": {
+     "cat": {
+      "wm": 0.6209,
+      "masked": 0.4367,
+      "lexical": 0.4026,
+      "retrieve": 0.6429
+     },
+     "ls": {
+      "wm": 0.6367,
+      "masked": 0.3633,
+      "lexical": 0.2591,
+      "retrieve": 0.3893
+     }
+    }
+   },
+   "cd_calibration": {
+    "wm_plan1": 0.768,
+    "masked_plan1": 0.752,
+    "lexical_plan1": 0.998,
+    "retrieve_plan1": 0.89,
+    "n": 500,
+    "per_verb": {
+     "cd": {
+      "wm": 0.768,
+      "masked": 0.752,
+      "lexical": 0.998,
+      "retrieve": 0.89
+     }
+    }
+   },
+   "plan_margin": 0.0815,
+   "history_gap": 0.2185,
+   "ckpt_margin": 0.6289
+  },
+  {
+   "seed": 2,
+   "content": {
+    "wm_plan1": 0.638,
+    "masked_plan1": 0.3915,
+    "lexical_plan1": 0.347,
+    "retrieve_plan1": 0.544,
+    "n": 2000,
+    "per_verb": {
+     "cat": {
+      "wm": 0.6429,
+      "masked": 0.3929,
+      "lexical": 0.4058,
+      "retrieve": 0.6469
+     },
+     "ls": {
+      "wm": 0.6302,
+      "masked": 0.3893,
+      "lexical": 0.2526,
+      "retrieve": 0.3789
+     }
+    }
+   },
+   "cd_calibration": {
+    "wm_plan1": 0.798,
+    "masked_plan1": 0.73,
+    "lexical_plan1": 0.998,
+    "retrieve_plan1": 0.88,
+    "n": 500,
+    "per_verb": {
+     "cd": {
+      "wm": 0.798,
+      "masked": 0.73,
+      "lexical": 0.998,
+      "retrieve": 0.88
+     }
+    }
+   },
+   "plan_margin": 0.094,
+   "history_gap": 0.2465,
+   "ckpt_margin": 0.6228
+  }
+ ],
+ "plan_margin_mean": 0.0823,
+ "history_gap_mean": 0.2263,
+ "random_floor": 0.125
+}
