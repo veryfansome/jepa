@@ -115,7 +115,8 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream, head=N
 
 
 def score_genome(genome, mode="proxy", data="data/dockerfs",
-                 model="answerdotai/ModernBERT-base", proxy_steps=1000, split="inner"):
+                 model="answerdotai/ModernBERT-base", proxy_steps=1000, split="inner",
+                 save_dir=None):
     """Return a fitness dict. mode='proxy' -> steps=proxy_steps, seeds=[0]; 'full' -> genome
     steps, seeds=[0,1,2]. split='inner' (fedora+mariadb, the optimization target) or 'final'
     (rockylinux+httpd, the untouched held-out-of-held-out test — champion validation only). Any
@@ -160,6 +161,15 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
             wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"], seed=s)["top1_sameverb"]
             per_seed.append({"seed": s, "wm": round(wm, 4), "base": round(base, 4),
                              "margin": round(wm - base, 4), "predict_mean": round(mean, 4)})
+            if save_dir:
+                # checkpoint hook (plan-eval / Phase-0): save AFTER scoring so training and
+                # eval are byte-identical to a hook-less run; consumers must fidelity-gate
+                # the saved seeds' margins against the archived record before use.
+                p = pathlib.Path(save_dir); p.mkdir(parents=True, exist_ok=True)
+                torch.save({"state_dict": net.cpu().state_dict(), "genome": genome, "seed": s,
+                            "steps": steps, "split": split, "data": data,
+                            "margin": per_seed[-1]["margin"]},
+                           p / f"{genome['id']}.s{s}.pt")
         except Exception as e:  # broken inventor code must not crash the loop
             return _fail(f"exception: {type(e).__name__}: {e}", mode, seeds, steps, split, per_seed)
 

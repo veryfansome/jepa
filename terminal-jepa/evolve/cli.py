@@ -40,7 +40,8 @@ def cmd_seed(args):
 
 def cmd_score(args):
     gen = json.load(open(args.genome))
-    res = score_genome(gen, mode=args.mode, proxy_steps=args.proxy_steps, split=args.split, data=args.data)
+    res = score_genome(gen, mode=args.mode, proxy_steps=args.proxy_steps, split=args.split,
+                       data=args.data, save_dir=args.save_dir)
     res["data"] = args.data
     _record(gen, res)
     print(json.dumps(res, indent=1))
@@ -94,7 +95,9 @@ def main(argv=None):
     s = sub.add_parser("seed"); add_mode(s); s.set_defaults(fn=cmd_seed)
     s = sub.add_parser("score"); s.add_argument("--genome", required=True)
     s.add_argument("--split", default="inner", choices=["inner", "final"])
-    s.add_argument("--data", default="data/dockerfs"); add_mode(s); s.set_defaults(fn=cmd_score)
+    s.add_argument("--data", default="data/dockerfs")
+    s.add_argument("--save-dir", default=None, help="checkpoint trained per-seed models here (plan-eval hook)")
+    add_mode(s); s.set_defaults(fn=cmd_score)
     s = sub.add_parser("ingest"); s.add_argument("--genome", required=True)
     s.add_argument("--result", required=True)
     s.add_argument("--env", default=None, help="environment tag recorded on the entry (e.g. 'runpod-4090')")

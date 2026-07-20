@@ -10,6 +10,7 @@ The JEPA shell world model (Phase R4) + the ShinkaEvolve evolutionary search ove
 - `realenv/docker_env.py` — `DockerBox`: per-command `docker exec` with tracked `cd`, path enumeration, system-id readers.
 - `realenv/collect_docker.py` — sequence generator + parallel collection over Docker images; held-out-*image* split → `data/dockerfs/`; exploration policies.
 - `evolve/` — the chunk-based evolutionary design search over the R4 model. See `evolve/CLAUDE.md` (working context + replication manual).
+- `realenv/plan_eval.py` — Phase-0 planning probe (Stage 1): goal-conditioned action ranking by predicted-latent distance on the frozen champion; prereg in `benchmarks/plan-probe-v1-prereg.md`; guards in `tests/test_plan_eval.py`.
 - `tests/test_seq_worldmodel.py` — no-future-leakage + retrieval-calibration guards for the R4 model.
 - `cloud/` — RunPod offload for GPU-heavy scoring: `runpod.sh` (provider wrapper: launch/bootstrap/sync-data/pull/terminate) + `runpod_score.sh` (idempotent batch orchestrator over `cloud/jobs.tsv`); pulled results enter the archive via `uv run python -m evolve.cli ingest`. See `cloud/README.md`.
 
