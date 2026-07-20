@@ -1,0 +1,3038 @@
+{
+ "planner": "random",
+ "write_policy": "write",
+ "score_mode": "min",
+ "dist": "cos",
+ "images": {},
+ "goals_root": "data/plangoals-v1",
+ "per_seed": [
+  {
+   "seed": 0,
+   "n": 100,
+   "success": 0.0,
+   "mean_decisions_when_success": 0.0,
+   "fidelity_by_decision": {},
+   "episodes": [
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/95",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/3e",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/6e",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/30",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/tabset",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/gdb/auto-load",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/sbin",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/cc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/06",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/bf",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/src",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/a8",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/librepo",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/python3-pip-wheel",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64/fipscheck",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/keyutils-libs",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/sysusers.d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/zoneinfo/Australia",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/rpm/macros.d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64/python3.9/xmlrpc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/65",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/81",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/var/lib/rpm",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/40",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/locale/en_US",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/04",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/64",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/terminfo",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/etc/pki/tls",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/56",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/p11-kit",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/9d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/libdnf",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/24",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/35",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/openssl",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/f4",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/terminfo/k",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/eb",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/locale",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/popt",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/libexec/utempter",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/pki",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/4d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/89",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/passwd",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/etc/crypto-policies/back-ends",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/73",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/0d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/zlib1g",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libzstd1",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/perl5/Debian",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Atlantic",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/base-files",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/tabset",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libcrypt1",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/login",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/ca-certificates/mozilla",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libsemanage-common",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libp11-kit0",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zsh/vendor-completions",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/keyrings",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libtinfo6",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/menu",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libdb5.3t64",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/init",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Australia",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/terminfo/h",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libcap-ng0",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libattr1",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/systemd/deb-systemd-helper-enabled",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/systemd",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/cache/apt/archives",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/gzip",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/lsb/init-functions.d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/aarch64-linux-gnu/ossl-modules",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ca-certificates",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/apt/mirrors",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Pacific",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libuuid1",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libnettle8t64",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libc6",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/mount",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/bash-completion/completions",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/spool",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/local/apache2",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libacl1",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/util-linux",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/perl-base",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/systemd/system",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ssl/certs",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libtasn1-6",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ssl",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/terminfo/m",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Antarctica",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libgnutls30t64",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zsh",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/America",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/pam",
+     "seed": 0
+    }
+   ]
+  },
+  {
+   "seed": 1,
+   "n": 100,
+   "success": 0.0,
+   "mean_decisions_when_success": 0.0,
+   "fidelity_by_decision": {},
+   "episodes": [
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/95",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/3e",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/6e",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/30",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/tabset",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/gdb/auto-load",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/sbin",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/cc",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/06",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/bf",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/src",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/a8",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/librepo",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/python3-pip-wheel",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64/fipscheck",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/keyutils-libs",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/sysusers.d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/zoneinfo/Australia",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/rpm/macros.d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64/python3.9/xmlrpc",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/65",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/81",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/var/lib/rpm",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/40",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/locale/en_US",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/04",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/64",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/terminfo",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/etc/pki/tls",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/56",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/p11-kit",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/9d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/libdnf",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/24",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/35",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/openssl",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/f4",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/terminfo/k",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/eb",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/locale",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/popt",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/libexec/utempter",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/pki",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/4d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/89",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/passwd",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/etc/crypto-policies/back-ends",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/73",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/0d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/zlib1g",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libzstd1",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/perl5/Debian",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Atlantic",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/base-files",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/tabset",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libcrypt1",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/login",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/ca-certificates/mozilla",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libsemanage-common",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libp11-kit0",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zsh/vendor-completions",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/keyrings",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libtinfo6",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/menu",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libdb5.3t64",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/init",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Australia",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/terminfo/h",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libcap-ng0",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libattr1",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/systemd/deb-systemd-helper-enabled",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/systemd",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/cache/apt/archives",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/gzip",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/lsb/init-functions.d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/aarch64-linux-gnu/ossl-modules",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ca-certificates",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/apt/mirrors",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Pacific",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libuuid1",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libnettle8t64",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libc6",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/mount",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/bash-completion/completions",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/spool",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/local/apache2",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libacl1",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/util-linux",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/perl-base",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/systemd/system",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ssl/certs",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libtasn1-6",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ssl",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/terminfo/m",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Antarctica",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libgnutls30t64",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zsh",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/America",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/pam",
+     "seed": 1
+    }
+   ]
+  },
+  {
+   "seed": 2,
+   "n": 100,
+   "success": 0.0,
+   "mean_decisions_when_success": 0.0,
+   "fidelity_by_decision": {},
+   "episodes": [
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/95",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/3e",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/6e",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/30",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/tabset",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/gdb/auto-load",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/sbin",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/cc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/06",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/bf",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/src",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/a8",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/librepo",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/python3-pip-wheel",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64/fipscheck",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/keyutils-libs",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/sysusers.d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/zoneinfo/Australia",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/rpm/macros.d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64/python3.9/xmlrpc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/65",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/81",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/var/lib/rpm",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/40",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/locale/en_US",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/04",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/64",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/terminfo",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/etc/pki/tls",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/56",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/p11-kit",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/9d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/libdnf",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/24",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/35",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/openssl",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/f4",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/terminfo/k",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/eb",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/locale",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/popt",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/libexec/utempter",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib64",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/pki",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/4d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/89",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/share/licenses/passwd",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/etc/crypto-policies/back-ends",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/73",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "rockylinux:9",
+     "goal": "/usr/lib/.build-id/0d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/zlib1g",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libzstd1",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/perl5/Debian",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Atlantic",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/base-files",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/tabset",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libcrypt1",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/login",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/ca-certificates/mozilla",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libsemanage-common",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libp11-kit0",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zsh/vendor-completions",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/keyrings",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libtinfo6",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/menu",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libdb5.3t64",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/init",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Australia",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/terminfo/h",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libcap-ng0",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libattr1",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/systemd/deb-systemd-helper-enabled",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/systemd",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/cache/apt/archives",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/gzip",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/lsb/init-functions.d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/lib/aarch64-linux-gnu/ossl-modules",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ca-certificates",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/apt/mirrors",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Pacific",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libuuid1",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libnettle8t64",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libc6",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/mount",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/bash-completion/completions",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/spool",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/local/apache2",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libacl1",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/util-linux",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/perl-base",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/systemd/system",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ssl/certs",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libtasn1-6",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/etc/ssl",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/terminfo/m",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/Antarctica",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/doc/libgnutls30t64",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zsh",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/usr/share/zoneinfo/America",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "httpd:2.4",
+     "goal": "/var/lib/pam",
+     "seed": 2
+    }
+   ]
+  }
+ ],
+ "success_mean": 0.0
+}

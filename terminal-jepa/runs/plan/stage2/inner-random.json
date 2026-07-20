@@ -1,0 +1,3038 @@
+{
+ "planner": "random",
+ "write_policy": "write",
+ "score_mode": "min",
+ "dist": "cos",
+ "images": {},
+ "goals_root": "data/plangoals-v1",
+ "per_seed": [
+  {
+   "seed": 0,
+   "n": 100,
+   "success": 0.0,
+   "mean_decisions_when_success": 0.0,
+   "fidelity_by_decision": {},
+   "episodes": [
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/lt",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libmount",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/es_GT",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/bzip2",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/5f",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/rar",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/75",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/9b",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/zam",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/e2",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/eb",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/cgg",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/ee",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/88",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/bc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/bas",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/en_NZ",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/tpm2-tss",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/ig",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/44",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/sr",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/elfutils-libelf",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/ka_GE",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/90",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libtirpc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/sga",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fr_CH",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fy",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/chp",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/pap",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/en_ZA",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/vim-data",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/0d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib64/dnf5",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/setup",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/mad",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/69",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/arc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fat",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libsolv",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/dnf5/aliases.d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/21",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/zstd",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/no",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/afa",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/etc/ssl",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/nn_NO",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/art",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/42",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/85",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/ssl/certs",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/ukrainian",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/cache/apt",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/pt",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/polkit-1/actions",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/terminfo/p",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/mariadb-client-core",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/zh_TW",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/italian",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libtinfo6",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/adduser",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/perl-base",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/procps",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/iproute2/rt_tables.d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/georgian",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/sv",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/apport",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/terminfo/h",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/readline-common",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ca",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libmd0",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/debianutils/shells.d",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libffi8",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libpam-modules",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/estonian",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/zoneinfo/Etc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/bin",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/ncurses-bin",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ga",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/oc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ne",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/diffutils",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libudev1",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/lib/systemd/system",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ia",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libcap2",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libgdbm6t64",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/zh_TW",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/ru",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/lib/dpkg/info",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/hu",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libnettle8t64",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/sv",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/mariadb-client",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/zoneinfo/Indian",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/lib/ssl/misc",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/lib/pam",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/systemd/system/multi-user.target.wants",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/common-licenses",
+     "seed": 0
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/ncurses-base",
+     "seed": 0
+    }
+   ]
+  },
+  {
+   "seed": 1,
+   "n": 100,
+   "success": 0.01,
+   "mean_decisions_when_success": 2.0,
+   "fidelity_by_decision": {},
+   "episodes": [
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/lt",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libmount",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/es_GT",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/bzip2",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/5f",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/rar",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/75",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/9b",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/zam",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/e2",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/eb",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/cgg",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/ee",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/88",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/bc",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/bas",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/en_NZ",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/tpm2-tss",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/ig",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/44",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/sr",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/elfutils-libelf",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/ka_GE",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/90",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libtirpc",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/sga",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fr_CH",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fy",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/chp",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/pap",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/en_ZA",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/vim-data",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/0d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib64/dnf5",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/setup",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/mad",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/69",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/arc",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fat",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libsolv",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/dnf5/aliases.d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/21",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/zstd",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/no",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/afa",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/etc/ssl",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/nn_NO",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/art",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/42",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/85",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/ssl/certs",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/ukrainian",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/cache/apt",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/pt",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/polkit-1/actions",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/terminfo/p",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/mariadb-client-core",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/zh_TW",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/italian",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libtinfo6",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/adduser",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/perl-base",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/procps",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/iproute2/rt_tables.d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/georgian",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/sv",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/apport",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/terminfo/h",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/readline-common",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ca",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libmd0",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/debianutils/shells.d",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libffi8",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libpam-modules",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/estonian",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/zoneinfo/Etc",
+     "seed": 1
+    },
+    {
+     "success": true,
+     "decisions": 2,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/bin",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/ncurses-bin",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ga",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/oc",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ne",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/diffutils",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libudev1",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/lib/systemd/system",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ia",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libcap2",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libgdbm6t64",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/zh_TW",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/ru",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/lib/dpkg/info",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/hu",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libnettle8t64",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/sv",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/mariadb-client",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/zoneinfo/Indian",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/lib/ssl/misc",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/lib/pam",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/systemd/system/multi-user.target.wants",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/common-licenses",
+     "seed": 1
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/ncurses-base",
+     "seed": 1
+    }
+   ]
+  },
+  {
+   "seed": 2,
+   "n": 100,
+   "success": 0.0,
+   "mean_decisions_when_success": 0.0,
+   "fidelity_by_decision": {},
+   "episodes": [
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/lt",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libmount",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/es_GT",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/bzip2",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/5f",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/rar",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/75",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/9b",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/zam",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/e2",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/eb",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/cgg",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/ee",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/88",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/bc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/bas",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/en_NZ",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/tpm2-tss",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/ig",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/44",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/sr",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/elfutils-libelf",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/ka_GE",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/90",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libtirpc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/sga",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fr_CH",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fy",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/chp",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/pap",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/en_ZA",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/vim-data",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/0d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib64/dnf5",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/setup",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/mad",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/69",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/arc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/fat",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/libsolv",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/dnf5/aliases.d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/21",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/licenses/zstd",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/no",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/afa",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/etc/ssl",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/nn_NO",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/share/locale/art",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/42",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "fedora:latest",
+     "goal": "/usr/lib/.build-id/85",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/ssl/certs",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/ukrainian",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/cache/apt",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/pt",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/polkit-1/actions",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/terminfo/p",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/mariadb-client-core",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/zh_TW",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/italian",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libtinfo6",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/adduser",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/perl-base",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/procps",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/iproute2/rt_tables.d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/georgian",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/sv",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/apport",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/terminfo/h",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/readline-common",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ca",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libmd0",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/debianutils/shells.d",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libffi8",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libpam-modules",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/mariadb/estonian",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/zoneinfo/Etc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 5,
+     "H": 5,
+     "depth": 2,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/bin",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/ncurses-bin",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ga",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/oc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ne",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/diffutils",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libudev1",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/lib/systemd/system",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/ia",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libcap2",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libgdbm6t64",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/zh_TW",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/ru",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/lib/dpkg/info",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/locale/hu",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/libnettle8t64",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/man/sv",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/mariadb-client",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/zoneinfo/Indian",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/lib/ssl/misc",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/var/lib/pam",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/etc/systemd/system/multi-user.target.wants",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 6,
+     "H": 6,
+     "depth": 3,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/common-licenses",
+     "seed": 2
+    },
+    {
+     "success": false,
+     "decisions": 7,
+     "H": 7,
+     "depth": 4,
+     "fidelity": [],
+     "image": "mariadb:latest",
+     "goal": "/usr/share/doc/ncurses-base",
+     "seed": 2
+    }
+   ]
+  }
+ ],
+ "success_mean": 0.0033
+}
