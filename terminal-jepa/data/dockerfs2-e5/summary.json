@@ -1,0 +1,529 @@
+{
+ "seed": 0,
+ "seqs_per_image": 600,
+ "seq_len": 24,
+ "train_images": [
+  "alpine:latest",
+  "ubuntu:latest",
+  "debian:stable-slim",
+  "python:3.12-slim",
+  "redis:7-alpine",
+  "nginx:stable-alpine",
+  "postgres:16-alpine",
+  "node:22-slim"
+ ],
+ "val_images_heldout": [
+  "fedora:latest",
+  "rockylinux:9",
+  "mariadb:latest",
+  "httpd:2.4"
+ ],
+ "train_steps": 115073,
+ "val_steps": 57630,
+ "policy": "v2",
+ "bench_version": "dockerfs2-v2.0",
+ "verb_classes": {
+  "content": [
+   "ls",
+   "cat",
+   "head",
+   "tail",
+   "find",
+   "grep"
+  ],
+  "grep_mode_rule": "exit!=0 or empty output => miss (excluded)",
+  "semi_echo": [
+   "stat"
+  ],
+  "excluded": [
+   "uname",
+   "cd"
+  ]
+ },
+ "v2": {
+  "lexicon_version": "v2.0",
+  "query_lexicon_sha256": "bcf0cac76869420d3ad63a11aa0334f942d5dadea4ee1c579511519b2c54da59",
+  "miss_lexicon_sha256": "c076ac9a94451399ae2093e7034bc1ecd8222fced62b20854148a9268bb35b9b",
+  "glob_lexicon_sha256": "15e449a060177d1ff982da6ff56e6a826c21780a8daf15d80f9fc61accd4e109",
+  "headtail_ks": [
+   3,
+   5,
+   10,
+   20
+  ],
+  "verb_weights": {
+   "cd": 0.17,
+   "ls": 0.23,
+   "cat": 0.16,
+   "config": 0.04,
+   "head": 0.08,
+   "tail": 0.07,
+   "stat": 0.07,
+   "find": 0.08,
+   "grep": 0.1
+  },
+  "bench_version": "dockerfs2-v2.0",
+  "verb_classes": {
+   "content": [
+    "ls",
+    "cat",
+    "head",
+    "tail",
+    "find",
+    "grep"
+   ],
+   "grep_mode_rule": "exit!=0 or empty output => miss (excluded)",
+   "semi_echo": [
+    "stat"
+   ],
+   "excluded": [
+    "uname",
+    "cd"
+   ]
+  },
+  "images": {
+   "train": {
+    "alpine:latest": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2898,
+      "ls": 4288,
+      "find": 973,
+      "grep": 1147,
+      "stat": 794,
+      "cd": 1983,
+      "head": 918,
+      "tail": 806
+     },
+     "linked_counts": {
+      "stat": 570,
+      "head": 326,
+      "grep": 777,
+      "tail": 267,
+      "cd": 367
+     },
+     "intended_miss": 152,
+     "intended_empty": 193,
+     "steps": 14407,
+     "find_pool": {
+      "hits": 14,
+      "empties": 46
+     }
+    },
+    "ubuntu:latest": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2890,
+      "ls": 4193,
+      "head": 920,
+      "tail": 792,
+      "grep": 1186,
+      "find": 962,
+      "stat": 798,
+      "cd": 1945
+     },
+     "linked_counts": {
+      "head": 524,
+      "tail": 446,
+      "grep": 804,
+      "cd": 389,
+      "stat": 499
+     },
+     "intended_miss": 179,
+     "intended_empty": 185,
+     "steps": 14286,
+     "find_pool": {
+      "hits": 25,
+      "empties": 35
+     }
+    },
+    "debian:stable-slim": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2879,
+      "ls": 4206,
+      "stat": 783,
+      "tail": 804,
+      "cd": 2027,
+      "grep": 1168,
+      "head": 990,
+      "find": 934
+     },
+     "linked_counts": {
+      "stat": 507,
+      "cd": 355,
+      "grep": 777,
+      "head": 476,
+      "tail": 399
+     },
+     "intended_miss": 152,
+     "intended_empty": 215,
+     "steps": 14391,
+     "find_pool": {
+      "hits": 23,
+      "empties": 37
+     }
+    },
+    "python:3.12-slim": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2869,
+      "ls": 4256,
+      "cd": 1986,
+      "tail": 830,
+      "stat": 776,
+      "grep": 1182,
+      "find": 901,
+      "head": 877
+     },
+     "linked_counts": {
+      "tail": 381,
+      "grep": 786,
+      "head": 421,
+      "cd": 385,
+      "stat": 530
+     },
+     "intended_miss": 168,
+     "intended_empty": 187,
+     "steps": 14277,
+     "find_pool": {
+      "hits": 30,
+      "empties": 30
+     }
+    },
+    "redis:7-alpine": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 3024,
+      "ls": 4156,
+      "head": 910,
+      "cd": 1956,
+      "stat": 821,
+      "find": 908,
+      "tail": 872,
+      "grep": 1232
+     },
+     "linked_counts": {
+      "cd": 362,
+      "stat": 568,
+      "tail": 353,
+      "grep": 792,
+      "head": 353
+     },
+     "intended_miss": 176,
+     "intended_empty": 143,
+     "steps": 14479,
+     "find_pool": {
+      "hits": 15,
+      "empties": 45
+     }
+    },
+    "nginx:stable-alpine": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2925,
+      "ls": 4315,
+      "tail": 852,
+      "cd": 1996,
+      "find": 924,
+      "stat": 804,
+      "grep": 1197,
+      "head": 918
+     },
+     "linked_counts": {
+      "cd": 368,
+      "tail": 355,
+      "stat": 577,
+      "grep": 817,
+      "head": 366
+     },
+     "intended_miss": 147,
+     "intended_empty": 173,
+     "steps": 14531,
+     "find_pool": {
+      "hits": 20,
+      "empties": 40
+     }
+    },
+    "postgres:16-alpine": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2909,
+      "ls": 4275,
+      "grep": 1145,
+      "tail": 828,
+      "cd": 1950,
+      "stat": 818,
+      "head": 907,
+      "find": 914
+     },
+     "linked_counts": {
+      "cd": 388,
+      "stat": 580,
+      "head": 314,
+      "grep": 755,
+      "tail": 317
+     },
+     "intended_miss": 148,
+     "intended_empty": 201,
+     "steps": 14346,
+     "find_pool": {
+      "hits": 16,
+      "empties": 44
+     }
+    },
+    "node:22-slim": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2880,
+      "ls": 4213,
+      "grep": 1151,
+      "cd": 1968,
+      "stat": 827,
+      "find": 982,
+      "tail": 800,
+      "head": 935
+     },
+     "linked_counts": {
+      "grep": 767,
+      "stat": 564,
+      "cd": 395,
+      "head": 434,
+      "tail": 391
+     },
+     "intended_miss": 156,
+     "intended_empty": 188,
+     "steps": 14356,
+     "find_pool": {
+      "hits": 22,
+      "empties": 38
+     }
+    }
+   },
+   "val": {
+    "fedora:latest": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2944,
+      "ls": 4320,
+      "cd": 1933,
+      "head": 918,
+      "stat": 801,
+      "grep": 1146,
+      "tail": 807,
+      "find": 933
+     },
+     "linked_counts": {
+      "stat": 531,
+      "grep": 739,
+      "head": 386,
+      "tail": 359,
+      "cd": 395
+     },
+     "intended_miss": 170,
+     "intended_empty": 181,
+     "steps": 14402,
+     "find_pool": {
+      "hits": 30,
+      "empties": 30
+     }
+    },
+    "rockylinux:9": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2910,
+      "ls": 4224,
+      "cd": 2048,
+      "tail": 814,
+      "head": 914,
+      "stat": 865,
+      "find": 905,
+      "grep": 1219
+     },
+     "linked_counts": {
+      "tail": 327,
+      "cd": 400,
+      "head": 341,
+      "grep": 812,
+      "stat": 626
+     },
+     "intended_miss": 174,
+     "intended_empty": 178,
+     "steps": 14499,
+     "find_pool": {
+      "hits": 28,
+      "empties": 32
+     }
+    },
+    "mariadb:latest": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2966,
+      "ls": 4260,
+      "grep": 1124,
+      "head": 898,
+      "find": 939,
+      "cd": 1963,
+      "tail": 807,
+      "stat": 775
+     },
+     "linked_counts": {
+      "grep": 751,
+      "head": 523,
+      "tail": 471,
+      "stat": 466,
+      "cd": 400
+     },
+     "intended_miss": 158,
+     "intended_empty": 201,
+     "steps": 14332,
+     "find_pool": {
+      "hits": 34,
+      "empties": 26
+     }
+    },
+    "httpd:2.4": {
+     "avail": {
+      "head": true,
+      "tail": true,
+      "stat": true,
+      "find": true,
+      "grep": true
+     },
+     "skipped_verbs": [],
+     "verb_counts": {
+      "uname": 600,
+      "cat": 2894,
+      "ls": 4286,
+      "grep": 1117,
+      "find": 957,
+      "head": 918,
+      "stat": 856,
+      "cd": 1961,
+      "tail": 808
+     },
+     "linked_counts": {
+      "grep": 743,
+      "head": 432,
+      "stat": 562,
+      "cd": 403,
+      "tail": 373
+     },
+     "intended_miss": 157,
+     "intended_empty": 194,
+     "steps": 14397,
+     "find_pool": {
+      "hits": 31,
+      "empties": 29
+     }
+    }
+   }
+  }
+ },
+ "image_digests": {
+  "alpine:latest": "alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b",
+  "ubuntu:latest": "ubuntu@sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb",
+  "debian:stable-slim": "debian@sha256:328d16499860ae6cb9b345e2e4cebca08c2a36e4f7278482c7bd1f39d71e5bfd",
+  "python:3.12-slim": "python@sha256:57cd7c3a7a273101a6485ba99423ee568157882804b1124b4dd04266317710de",
+  "redis:7-alpine": "redis@sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+  "nginx:stable-alpine": "nginx@sha256:ec664813a30459a8e7176315268a623f6b31abc370eeac51c7de81cd4ec4d451",
+  "postgres:16-alpine": "postgres@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777",
+  "node:22-slim": "node@sha256:6c74791e557ce11fc957704f6d4fe134a7bc8d6f5ca4403205b2966bd488f6b3",
+  "fedora:latest": "fedora@sha256:6c75d5bf57cb0fa5aa4b92c6a83c86c791644496d9ac230de7711f5b8ec3b898",
+  "rockylinux:9": "rockylinux@sha256:d7be1c094cc5845ee815d4632fe377514ee6ebcf8efaed6892889657e5ddaaa6",
+  "mariadb:latest": "mariadb@sha256:628f228f0fd5913a220438693576b29b6fe4dc1fa0a1298c0e98579fae28635f",
+  "httpd:2.4": "httpd@sha256:305fd8326a27a137fedb8900f26375699ab233cc37793f35cf5d7c65671fb252"
+ },
+ "artifact_sha256": {
+  "train.jsonl": "a960b52c63d6f829c6b721044af54664a39b67fa26cedd6abe6ed1efc6f0fa29",
+  "val.jsonl": "fba9ccde7e8c5d14b3e4adfc2339d556e2e9f9e43ee8fcce68169d2bb9b53153"
+ }
+}
