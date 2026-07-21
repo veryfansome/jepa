@@ -13,6 +13,7 @@ Safety: containers are ephemeral (--rm --network none), read-only exploration of
 images; each exec has a timeout; nothing touches the host.
 """
 
+import re
 import subprocess
 
 
@@ -29,23 +30,37 @@ def _q(s):
     return "'" + str(s).replace("'", "'\\''") + "'"
 
 
+def hostname_for(image):
+    """Review-B F4: fixed, image-derived container hostname (docker's default is the 12-hex
+    container ID — a fresh per-run nonce that leaks into /etc/hostname, hostname(1), \\h
+    prompts, etc., breaking byte-reproducibility of observations)."""
+    h = re.sub(r"[^a-zA-Z0-9-]+", "-", "box-" + str(image)).strip("-")
+    return h[:63] or "box"
+
+
 class DockerBox:
-    def __init__(self, image, mem="512m", cmd_timeout=8):
+    def __init__(self, image, mem="512m", cmd_timeout=8, hostname=None):
         self.image = image
         self.cmd_timeout = cmd_timeout
         self.cwd = "/"
         self.cid = subprocess.run(
-            ["docker", "run", "-d", "--rm", "--network", "none", "-m", mem, "--cpus", "1",
-             image, "sleep", "7200"],
+            ["docker", "run", "-d", "--rm", "--network", "none",
+             "--hostname", hostname or hostname_for(image), "-m", mem, "--cpus", "1",
+             image, "sleep", "86400"],
             capture_output=True, text=True).stdout.strip()
         if not self.cid:
             raise RuntimeError(f"could not start container for {image}")
 
     def _exec(self, script):
+        """Run a script in the container; returns (stdout, stderr, returncode) as STRINGS.
+        Review-B F1: capture BYTES and decode with errors="replace" — binary content becomes
+        replacement-char mojibake (as a real terminal shows), never a host-side
+        "executor error: 'utf-8' codec ..." artifact in an observation."""
         try:
             r = subprocess.run(["docker", "exec", self.cid, "/bin/sh", "-c", script],
-                               capture_output=True, text=True, timeout=self.cmd_timeout)
-            return r.stdout, r.stderr, r.returncode
+                               capture_output=True, timeout=self.cmd_timeout)
+            return (r.stdout.decode("utf-8", errors="replace"),
+                    r.stderr.decode("utf-8", errors="replace"), r.returncode)
         except subprocess.TimeoutExpired:
             return "", "command timed out", 124
         except Exception as e:  # noqa: BLE001

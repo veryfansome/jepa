@@ -44,8 +44,11 @@ FAKE_FS = {
     "/var/log/boot.log": _mk_content("bootlog", 45),
     "/etc/hostname": "fakebox\n",              # 1 line: must be REJECTED from head/tail pool
     "/etc/shells": _mk_content("shells", 5),   # 5 lines < 2K+1 for every K: rejected too
-    # marker token past the render-visible prefix: must NEVER be mined (review-A fix)
-    "/etc/late.conf": ("aa\n" * 400) + "ZZLATEMARKER hidden\n",
+    # marker token past the render-visible mining prefix (V2_MINE_CAP=500 output chars, F7):
+    # must NEVER be mined into a query pool. Two lines (one long first line) so the 2K+1
+    # floor rejects the file from the head/tail pool — a tail would legitimately SHOW the
+    # marker inside its own visible prefix, which is not what this guard tests.
+    "/etc/late.conf": ("aa " * 200) + "\n" + "ZZLATEMARKER hidden\n",
 }
 
 
@@ -67,6 +70,15 @@ class FakeBox:
     def _exec(self, script):
         if script.startswith("for t in head tail stat find grep"):
             return "head\ntail\nstat\nfind\ngrep\n", "", 0
+        if script.startswith("for g in "):   # F2 find-pair probe: `glob|first-hit` per hit
+            d = re.search(r"find '([^']*)' -maxdepth 3", script).group(1)
+            lines = []
+            for g in C.GLOB_LEXICON:
+                r = self.run(f"find {d} -maxdepth 3 -name '{g}'")
+                hit = r["output"].split("\n")[0] if r["output"] else ""
+                if hit:
+                    lines.append(f"{g}|{hit}")
+            return ("\n".join(lines) + "\n") if lines else "", "", 0
         paths = [p for p in re.findall(r"'([^']*)'", script) if p.startswith("/")]
         if script.startswith(("stat -c '%s %n' ", "wc -c ")):
             out = "".join(f"{len(self.fs[p])} {p}\n" for p in paths if p in self.fs)
@@ -163,18 +175,19 @@ def _gen(seed=0, length=28):
 # ------------------------------------------------------------------ (a) _exec contract
 
 def test_exec_contract():
-    """Review-B item 6: DockerBox._exec returns (stdout, stderr, returncode), and the
-    timeout path returns ("", "command timed out", 124)."""
+    """Review-B item 6: DockerBox._exec returns (stdout, stderr, returncode) as STRINGS
+    (decoded from captured bytes), and the timeout path returns ("", "command timed out", 124)."""
     box = DE.DockerBox.__new__(DE.DockerBox)
     box.cid, box.cmd_timeout = "fakecid", 8
 
     class R:
-        stdout, stderr, returncode = "out", "err", 3
+        stdout, stderr, returncode = b"out", b"err", 3
 
     calls = {}
 
     def fake_run(argv, **kw):
         calls["argv"] = argv
+        assert "text" not in kw and "encoding" not in kw, "F1: must capture bytes"
         return R
 
     orig = DE.subprocess.run
@@ -191,6 +204,29 @@ def test_exec_contract():
         assert box._exec("sleep 99") == ("", "command timed out", 124)
     finally:
         DE.subprocess.run = orig
+
+
+def test_exec_binary_decodes_with_replacement():
+    """Review-B F1 (BLOCKER): binary exec output becomes replacement-char mojibake (as a
+    real terminal shows), never the host-side "executor error: 'utf-8' codec ..." artifact."""
+    box = DE.DockerBox.__new__(DE.DockerBox)
+    box.cid, box.cmd_timeout = "fakecid", 8
+
+    class R:
+        stdout = b"\x7fELF\xff\xfe\x00binary\x89tail"
+        stderr = b"warn\xc3("
+        returncode = 0
+
+    orig = DE.subprocess.run
+    DE.subprocess.run = lambda argv, **kw: R
+    try:
+        out, err, code = box._exec("cat /bin/busybox")
+    finally:
+        DE.subprocess.run = orig
+    assert code == 0
+    assert "executor error" not in out and "executor error" not in err
+    assert "�" in out and out.startswith("\x7fELF") and out.endswith("tail")
+    assert err.startswith("warn") and "�" in err
 
 
 # ------------------------------------------------------------------ (b) pure-helper determinism
@@ -304,3 +340,117 @@ def test_image_report_counters():
     assert rep["linked_counts"] == dict(Counter(s["meta"]["verb"] for s in steps
                                                 if s["meta"]["linked"]))
     assert rep["intended_miss"] == sum(1 for s in steps if s["meta"].get("intended_miss"))
+    assert rep["intended_empty"] == sum(1 for s in steps if s["meta"].get("intended_empty"))
+    assert rep["find_pool"]["hits"] >= 1 and rep["find_pool"]["empties"] >= 1
+
+
+# ------------------------------------------------------------------ (d) review-B fixes
+
+def test_find_pool_verified_pairs_and_empty_rate():
+    """Review-B F2 (BLOCKER): every find command draws a probe-verified (dir, glob) pair —
+    hit-pool draws realize hits, the deliberate-empty arm realizes empties — with an
+    intended-empty rate near the controlled 0.2."""
+    box = FakeBox()
+    st = C._v2_probe(box, box.dirs, box.files)
+    hit_pairs = {(d, g) for d, g, _mds, _t in st["find_hits"]}
+    empty_pairs = set(st["find_empties"])
+    assert hit_pairs and empty_pairs
+    for d, g, mds, _t in st["find_hits"]:   # probe ground truth at every verified depth
+        for md in mds:
+            assert box.run(f"find {d} -maxdepth {md} -name '{g}'")["output"], (d, g, md)
+    n_find = n_empty = 0
+    for seed in range(30):
+        b = FakeBox()
+        steps = C.gen_sequence_v2(b, b.dirs, b.files, random.Random(seed), 30)
+        for s in steps:
+            m = s["meta"]
+            if m["verb"] != "find":
+                continue
+            n_find += 1
+            args = shlex.split(s["cmd"])
+            d, g = args[1], args[args.index("-name") + 1]
+            if m["intended_empty"]:
+                n_empty += 1
+                assert (d, g) in empty_pairs, f"empty draw outside verified pool: {s['cmd']}"
+                assert s["output"] == "" and m["hit"] is False
+            else:
+                assert (d, g) in hit_pairs, f"hit draw outside verified pool: {s['cmd']}"
+                assert s["output"] and m["hit"] is True
+    assert n_find >= 40, f"too few find steps to audit ({n_find})"
+    rate = n_empty / n_find
+    assert 0.08 <= rate <= 0.35, f"intended-empty rate {rate:.3f} not ~0.2"
+
+
+def test_meta_hit_recorded_for_grep_and_find():
+    """Review-B F8: meta.hit == (exit == 0 and non-empty output) on every grep and find
+    step (labels recoverable from the jsonl without re-execution); other verbs carry none."""
+    n = 0
+    for seed in range(8):
+        _, steps = _gen(seed=seed, length=30)
+        for s in steps:
+            m = s["meta"]
+            if m["verb"] in ("grep", "find"):
+                n += 1
+                assert m["hit"] == (s["exit"] == 0 and bool(s["output"])), s["cmd"]
+            else:
+                assert "hit" not in m
+    assert n, "no grep/find steps generated"
+
+
+def _fake_collect_image(image, n_seqs, seq_len, seed, policy="baseline", ref=None):
+    steps = [{"cmd": "ls", "output": "etc", "exit": 0, "cwd": "/",
+              "meta": {"verb": "ls", "linked": False, "query_src": "cwd"}}]
+    return image, [{"image": image, "system_id": "fake", "steps": steps}], "fake", {}
+
+
+def test_train_only_never_truncates_val():
+    """Review-B F6: an empty val list must not open (truncate) val.jsonl. Also checks the
+    F9 summary block (frozen class table + bench_version) and deterministic submitted-image
+    order in the jsonl."""
+    import tempfile
+    out = pathlib.Path(tempfile.mkdtemp())
+    (out / "val.jsonl").write_text('{"keep": 1}\n')
+    orig = C.collect_image
+    C.collect_image = _fake_collect_image
+    try:
+        summary = C.collect(out, ["img-a", "img-b"], [], 1, 4, 0, 2, policy="v2")
+    finally:
+        C.collect_image = orig
+    assert (out / "val.jsonl").read_text() == '{"keep": 1}\n', "val.jsonl was truncated"
+    assert summary["val_steps"] == 0
+    imgs = [json.loads(ln)["image"] for ln in (out / "train.jsonl").read_text().splitlines()]
+    assert imgs == ["img-a", "img-b"], f"jsonl not in submitted-image order: {imgs}"
+    assert summary["bench_version"] == C.BENCH_VERSION == "dockerfs2-v2.0"
+    assert summary["verb_classes"] == C.V2_VERB_CLASSES == summary["v2"]["verb_classes"]
+    assert summary["verb_classes"]["content"] == ["ls", "cat", "head", "tail", "find", "grep"]
+    assert summary["verb_classes"]["semi_echo"] == ["stat"]
+    assert summary["verb_classes"]["grep_mode_rule"] == "exit!=0 => miss (excluded)"
+    written = json.loads((out / "summary.json").read_text())
+    assert written["verb_classes"] == C.V2_VERB_CLASSES
+
+
+def test_v2_mint_aborts_on_failed_image():
+    """Review-B mint integrity: a v2-policy run must RAISE (not skip) when an image fails —
+    a preregistered one-run mint must never silently produce a partial dataset."""
+    import tempfile
+    out = pathlib.Path(tempfile.mkdtemp())
+
+    def failing(image, *a, **kw):
+        if image == "img-bad":
+            return image, None, "could not pull img-bad", {}
+        return _fake_collect_image(image, *a, **kw)
+
+    orig = C.collect_image
+    C.collect_image = failing
+    try:
+        try:
+            C.collect(out, ["img-a", "img-bad"], [], 1, 4, 0, 1, policy="v2")
+            raised = False
+        except RuntimeError as e:
+            raised = True
+            assert "img-bad" in str(e)
+        assert raised, "v2 collect() did not raise on a skipped image"
+        # v1 policies keep the old skip behavior
+        C.collect(out, ["img-a", "img-bad"], [], 1, 4, 0, 1, policy="baseline")
+    finally:
+        C.collect_image = orig

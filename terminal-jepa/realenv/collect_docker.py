@@ -25,7 +25,7 @@ import re
 import subprocess
 import zlib
 
-from realenv.docker_env import DockerBox, image_present, pull
+from realenv.docker_env import DockerBox, hostname_for, image_present, pull
 
 TRAIN_IMAGES = ["alpine:latest", "ubuntu:latest", "debian:stable-slim", "python:3.12-slim"]
 VAL_IMAGES = ["fedora:latest", "redis:alpine", "nginx:alpine"]  # held-out system types
@@ -248,7 +248,21 @@ GLOB_LEXICON = [
 
 HEADTAIL_KS = (3, 5, 10, 20)
 V2_NEW_VERBS = ("head", "tail", "stat", "find", "grep")
-V2_MINE_CAP = 1000  # review-A fix: linkage pools mined ONLY from the render-visible prefix
+# Review-B F7: linkage evidence must survive the e5 256-token encoder window — roughly the
+# first ~1000 chars of the RENDER, which prefixes cwd/exit before the output. Mining only
+# output[:500] keeps every mined fact safely inside what the encoder actually sees.
+V2_MINE_CAP = 500
+
+BENCH_VERSION = "dockerfs2-v2.0"
+# Frozen verb-class table (constitution §4; dockerfs2-prereg Amendment 2 AS AMENDED BY
+# Amendment 3 — stat reclassified semi-echo). Written verbatim into summary.json's v2 block
+# by collect(); evolve/bench_versions.py asserts a root's recorded classes match (F9).
+V2_VERB_CLASSES = {
+    "content": ["ls", "cat", "head", "tail", "find", "grep"],
+    "grep_mode_rule": "exit!=0 => miss (excluded)",
+    "semi_echo": ["stat"],
+    "excluded": ["uname", "cd"],
+}
 
 # 9-verb loop mix. Old loop mass = .17+.23+.16+.04 = .60; plus 3 forced old opener steps,
 # realized old-verb mass ~ (3 + (L-3)*.60)/L = 65% at L=24 (>= 60%). Unavailable new verbs
@@ -262,6 +276,7 @@ _PROBE_SIZE_CAP = 65536   # line-count only files <= 64 KB (8s timeout headroom)
 _PROBE_MAX_STAT = 3000
 _PROBE_MAX_WC = 1200
 _PROBE_CHUNK = 200
+_PROBE_MAX_FIND_DIRS = 16  # F2 find-pair probe budget: one exec per dir (all globs in-shell)
 
 
 def _stable(s):
@@ -297,6 +312,16 @@ def lexicon_hashes():
             "glob_lexicon_sha256": h(GLOB_LEXICON),
             "headtail_ks": list(HEADTAIL_KS),
             "verb_weights": V2_WEIGHTS}
+
+
+def _find_probe_script(d):
+    """F2: one in-band probe script per candidate dir — for every glob in GLOB_LEXICON, run
+    the loosest mint-form find (-maxdepth 3, no -type) and echo `glob|first-hit` when it
+    hits. `head -1` short-circuits; never a recorded step."""
+    globs = " ".join(_sq(g) for g in GLOB_LEXICON)
+    return ("for g in " + globs + "; do h=$(find " + _sq(d)
+            + " -maxdepth 3 -name \"$g\" 2>/dev/null | head -1); "
+            + "[ -n \"$h\" ] && echo \"$g|$h\"; done")
 
 
 def _stratum(p):
@@ -407,11 +432,41 @@ def _v2_probe(box, dirs, files):
 
     small_files = [p for p in cand if 0 < sizes.get(p, -1) <= _PROBE_SIZE_CAP]
 
+    # -- find-pair probe (review-B F2): verify (dir, glob) hit/empty pairs per image so the
+    # find arm draws from ground truth instead of an independent dir x glob product
+    # (365/374 pilot finds were empty). The first hit's depth bounds which -maxdepth values
+    # are hit-verified (a hit at depth <= 2 hits at both 2 and 3); no output at -maxdepth 3
+    # verifies empty at both. Deterministic: no rng, crc32-sorted dirs, lexicon-order globs.
+    find_hits, find_empties = [], []   # (dir, glob, verified_mds, hit_type) / (dir, glob)
+    files_set, dirs_set = set(files), set(dirs)
+    probe_dirs = sorted(dirs, key=_stable)[:_PROBE_MAX_FIND_DIRS] if avail["find"] else []
+    for d in probe_dirs:
+        out, _, _ = box._exec(_find_probe_script(d))
+        hit_by_glob = {}
+        for ln in out.split("\n"):
+            if "|" not in ln:
+                continue
+            g, hit = ln.split("|", 1)
+            if g in GLOB_LEXICON and g not in hit_by_glob and hit.startswith("/"):
+                hit_by_glob[g] = hit
+        base = d.rstrip("/")
+        for g in GLOB_LEXICON:
+            hit = hit_by_glob.get(g)
+            if hit is None:
+                find_empties.append((d, g))
+                continue
+            rel = hit[len(base):].strip("/") if hit.startswith(base) else hit.strip("/")
+            depth = rel.count("/") + 1 if rel else 0
+            htype = "f" if hit in files_set else ("d" if hit in dirs_set else None)
+            find_hits.append((d, g, (2, 3) if depth <= 2 else (3,), htype))
+
     st = {"avail": avail, "skipped": skipped, "sizes": sizes, "lines": lines,
           "kmap": kmap, "k_buckets": {k: v for k, v in k_buckets.items() if v},
           "cat_bands": {b: v for b, v in bands.items() if v},
           "small_files": small_files,
-          "counters": {"verbs": {}, "linked": {}, "intended_miss": 0, "steps": 0}}
+          "find_hits": find_hits, "find_empties": find_empties,
+          "counters": {"verbs": {}, "linked": {}, "intended_miss": 0, "intended_empty": 0,
+                       "steps": 0, "daemon_errs": 0}}
     box._v2_state = st
     return st
 
@@ -424,7 +479,9 @@ def v2_image_report(box):
     c = st["counters"]
     return {"avail": dict(st["avail"]), "skipped_verbs": list(st["skipped"]),
             "verb_counts": dict(c["verbs"]), "linked_counts": dict(c["linked"]),
-            "intended_miss": c["intended_miss"], "steps": c["steps"]}
+            "intended_miss": c["intended_miss"], "intended_empty": c["intended_empty"],
+            "steps": c["steps"],
+            "find_pool": {"hits": len(st["find_hits"]), "empties": len(st["find_empties"])}}
 
 
 def gen_sequence_v2(box, dirs, files, rng, length):
@@ -459,6 +516,10 @@ def gen_sequence_v2(box, dirs, files, rng, length):
 
     def do(cmd, meta):
         s = box.run(cmd)
+        if meta["verb"] in ("grep", "find"):
+            # F8: record the REALIZED outcome at step-record time (authoritative rule:
+            # exit != 0 => miss) so labels are recoverable from the jsonl alone.
+            meta["hit"] = s["exit"] == 0 and bool(s["output"])
         s["meta"] = meta
         steps.append(s)
         c = st["counters"]
@@ -467,7 +528,18 @@ def gen_sequence_v2(box, dirs, files, rng, length):
             c["linked"][meta["verb"]] = c["linked"].get(meta["verb"], 0) + 1
         if meta.get("intended_miss"):
             c["intended_miss"] += 1
+        if meta.get("intended_empty"):
+            c["intended_empty"] += 1
         c["steps"] += 1
+        # F5 fail-fast: a dead container answers every exec with a daemon error — abort the
+        # image rather than silently minting host-artifact observations.
+        if s["output"].startswith("Error response from daemon"):
+            c["daemon_errs"] += 1
+            if c["daemon_errs"] >= 5:
+                raise RuntimeError(f"dead container ({getattr(box, 'image', '?')}): "
+                                   f"5 consecutive daemon errors, last cmd {cmd!r}")
+        else:
+            c["daemon_errs"] = 0
         return s
 
     def mine_ls(base, text, idx):
@@ -529,6 +601,8 @@ def gen_sequence_v2(box, dirs, files, rng, length):
         for v in ("head", "tail"):
             if v in w:
                 w["cat"] += w.pop(v)
+    if not st["find_hits"] and not st["find_empties"] and "find" in w:
+        w["cat"] += w.pop("find")           # F2: no probe-verified pairs -> find untargetable
     verbs, weights = list(w), [w[v] for v in w]
 
     for _ in range(max(0, length - 3)):
@@ -636,19 +710,33 @@ def gen_sequence_v2(box, dirs, files, rng, length):
                {"verb": "stat", "linked": linked, "query_src": src})
 
         elif act == "find":
+            # F2: draw from the probe-verified pools — hit pairs by default, a deliberate-
+            # empty arm at a controlled ~20% (mirrors the grep-miss design: absence is an
+            # outcome; meta records intended_empty). -maxdepth comes only from the pair's
+            # hit-verified depths; -type only matches the verified hit's type (empty pairs
+            # take any modifier: subsets of empty stay empty).
+            hits, empties = st["find_hits"], st["find_empties"]
+            intended_empty = (rng.random() < 0.20 and bool(empties)) or not hits
+            pool = empties if intended_empty else hits
             key = None
             for _try in range(6):
-                d = dir_cyc() or "/etc"
-                md = rng.choice((2, 3))
-                ty = rng.choice(("", "-type f", "-type d"))
-                g = rng.choice(GLOB_LEXICON)
+                if intended_empty:
+                    d, g = rng.choice(pool)
+                    md = rng.choice((2, 3))
+                    ty = rng.choice(("", "-type f", "-type d"))
+                else:
+                    d, g, mds, htype = rng.choice(pool)
+                    md = rng.choice(mds)
+                    ty = rng.choice(("", f"-type {htype}")) if htype else ""
                 key = (d, md, ty, g)
                 if key not in used["find"]:
                     break
             used["find"].add(key)
             d, md, ty, g = key
             cmd = f"find {d} -maxdepth {md}" + (f" {ty}" if ty else "") + f" -name {_sq(g)}"
-            s = do(cmd, {"verb": "find", "linked": False, "query_src": f"glob:{g}"})
+            s = do(cmd, {"verb": "find", "linked": False, "query_src": f"glob:{g}",
+                         "pool": "empty" if intended_empty else "hit",
+                         "intended_empty": bool(intended_empty)})
             if s["exit"] == 0 and s["output"]:
                 mine_find(s["output"], idx)
 
@@ -733,7 +821,9 @@ def collect_image(image, n_seqs, seq_len, seed, policy="baseline", ref=None):
     if not image_present(ref) and not pull(ref):
         return image, None, f"could not pull {ref}", {}
     try:
-        box = DockerBox(ref)
+        # F4: fixed hostname from the image TAG (not the digest ref) — stable across pinned
+        # and unpinned runs; kills the per-run 12-hex container-ID nonce in observations.
+        box = DockerBox(ref, hostname=hostname_for(image))
         sysid = box.system_id()
         dirs, files = box.enumerate()
         if not dirs:
@@ -777,13 +867,20 @@ def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, polic
     reports = {}  # split -> image -> v2 availability/skip/verb/linkage counters
 
     def run_split(images, path, split):
+        if not images:
+            return 0  # F6: --train-only must never open (truncate) the other split's file
         n_steps = 0
         with open(path, "w") as fh, cf.ThreadPoolExecutor(max_workers=workers) as ex:
-            futs = {ex.submit(collect_image, im, n_seqs, seq_len, seed, policy,
-                              digests.get(im)): im for im in images}
-            for fut in cf.as_completed(futs):
+            # futures kept in submitted-image order -> deterministic jsonl layout
+            futs = [ex.submit(collect_image, im, n_seqs, seq_len, seed, policy,
+                              digests.get(im)) for im in images]
+            for fut in futs:
                 image, seqs, info, report = fut.result()
                 if seqs is None:
+                    if policy.startswith("v2"):
+                        # mint integrity: a preregistered one-run mint must never silently
+                        # produce a partial dataset
+                        raise RuntimeError(f"[{split}] {image} failed ({info}) — aborting v2 mint")
                     print(f"  [{split}] SKIP {image}: {info}", flush=True)
                     continue
                 if report:
@@ -800,7 +897,13 @@ def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, polic
                "train_images": train_imgs, "val_images_heldout": val_imgs,
                "train_steps": tr_steps, "val_steps": va_steps, "policy": policy}
     if policy.startswith("v2"):
-        summary["v2"] = dict(lexicon_hashes(), images=reports)
+        # F9 (constitution §4): the frozen class table + version identity, verbatim from
+        # prereg Amendment 2 as amended by Amendment 3. Top-level copies are what
+        # evolve/bench_versions.resolve() reads and asserts against.
+        summary["bench_version"] = BENCH_VERSION
+        summary["verb_classes"] = V2_VERB_CLASSES
+        summary["v2"] = dict(lexicon_hashes(), bench_version=BENCH_VERSION,
+                             verb_classes=V2_VERB_CLASSES, images=reports)
     if digests:
         summary["image_digests"] = digests
     (out / "summary.json").write_text(json.dumps(summary, indent=1))
