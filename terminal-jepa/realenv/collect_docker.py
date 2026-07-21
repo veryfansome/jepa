@@ -336,7 +336,7 @@ def _p_link(counter, target):
     lk, tot = counter
     if tot == 0:
         return target
-    return min(0.97, max(0.20, target + (target - lk / tot) * 1.5))
+    return min(0.97, max(0.20, target + (target - lk / tot) * 2.5))
 
 
 def _v2_probe(box, dirs, files):
@@ -667,7 +667,7 @@ def gen_sequence_v2(box, dirs, files, rng, length):
                         tok = rng.choice(tpool)
                         path = fp
                         linked, src = True, file_tokens[fp][tok]
-            if tok is None and r < p_hit + 0.20 and tokens_global and st["small_files"]:
+            if tok is None and r < p_hit + 0.12 and tokens_global and st["small_files"]:
                 # deliberate near-miss (PRIMARY miss arm): transplant a token OBSERVED in
                 # file A into file B (token->file binding attack: plausible, file-absent)
                 for _try in range(8):
@@ -678,9 +678,19 @@ def gen_sequence_v2(box, dirs, files, rng, length):
                         tok, path, miss = t, b, True
                         src = f"miss_transplant:{tokens_global[t][1]}"
                         break
+            if tok is None and tokens_global and rng.random() < 0.50:
+                # self-binding hit: grep a mined token in its OWN source file (entailed by
+                # the earlier observation that surfaced it -> linked, guaranteed-hit-biased)
+                for _try in range(8):
+                    t = rng.choice(list(tokens_global))
+                    b = tokens_global[t][0]
+                    if (t, b) not in used["grep"]:
+                        tok, path, linked = t, b, True
+                        src = f"token_selfbind:{tokens_global[t][1]}"
+                        break
             if tok is None and st["small_files"]:
                 # lexicon probe (natural hit-or-miss) or the small lexicon-miss arm
-                lex, tag = (MISS_LEXICON, "miss_lexicon") if rng.random() < 0.25 \
+                lex, tag = (MISS_LEXICON, "miss_lexicon") if rng.random() < 0.10 \
                     else (QUERY_LEXICON, "lexicon")
                 for _try in range(8):
                     t = rng.choice(lex)

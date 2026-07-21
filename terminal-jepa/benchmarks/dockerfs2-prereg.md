@@ -93,3 +93,25 @@ obs text; (2) per-IMAGE linked-rate floors; (3) collector meta threading end-to-
 (4) realized (not intended) grep miss rates per image; (5) per-verb near-dup-after-render
 rates incl. head/tail; (6) DockerBox._exec contract pinned by a test; plus the six original
 audit items (echo transfer, dup, availability, truncation, cmd-render leakage, linkage).
+
+---
+## Amendment 2 (2026-07-21, pilot audit → CLASS FREEZE; final pre-mint state)
+
+**Frozen verb-class table (v2.0 fitness):**
+- **content (fitness):** ls, cat, head, tail, stat, find, grep-HIT.
+- **excluded:** uname (axis-1 rbc 0.791), cd (constitutional echo; render containment 0.98
+  on v1, mode-mixed 0.625 on v2), grep-MISS (near-constant empty renders).
+Evidence (pilot, 12 images, 5.7–5.8K steps, e5 space): axis-2 rendered containment — all
+new verbs < 0.656 (head 0.253 / tail 0.158 / stat 0.472 / find 0.028 / grep 0.140); axis-1
+per-verb cmd-only predictability (same-verb foils) — head 0.327 / tail 0.338 / stat 0.393
+≈ cat 0.398 (content-like); find 0.136 / grep 0.172 vs **within_traj 0.400 / 0.442** — the
+constitutional baseline (in the margin max) is what makes find/grep honestly creditable.
+**Tuned-pilot stats (policy as of commit after tuning; the mint's policy identity):** grep
+realized-miss 0.302 (arm windows 0.12 transplant / 0.10 lexicon-miss / 0.50 self-bind);
+grep linked 0.686; old-verb mass 0.669. **Target deviation disclosed:** hts linkage
+achieves 0.507 vs the ~0.60 design aim (pool-limited — 2K+1 floor + availability; the
+controller saturates). 0.50±0.05 is ADOPTED as the v2.0 spec value (report slices are
+unaffected; ~16K linked hts steps at mint scale). Per-image floors remain review-B checks.
+**Dup-after-render (200-char prefix) rates recorded:** find 0.636 (shared-prefix listings —
+a same-verb foil-ambiguity report for the find slice), grep 0.312, ls 0.334, cat 0.296,
+head 0.128, tail 0.067, stat 0.023. Truncation >1000ch: cat 0.233, ls 0.169, others ≤ 0.04.
