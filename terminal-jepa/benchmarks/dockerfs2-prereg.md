@@ -115,3 +115,33 @@ unaffected; ~16K linked hts steps at mint scale). Per-image floors remain review
 **Dup-after-render (200-char prefix) rates recorded:** find 0.636 (shared-prefix listings —
 a same-verb foil-ambiguity report for the find slice), grep 0.312, ls 0.334, cat 0.296,
 head 0.128, tail 0.067, stat 0.023. Truncation >1000ch: cat 0.233, ls 0.169, others ≤ 0.04.
+
+---
+## Amendment 3 (2026-07-21, review B → NO-GO fixes; supersedes Amendment 2's class table)
+
+Review B (3 empirical reviewers + synthesizer) returned NO-GO with three verified blockers.
+Dispositions, all applied BEFORE any mint step:
+- **F1 binary-decode artifact (blocker):** 5.9% of pilot steps (19.4% of cat, 18.4% of head,
+  12.5% of tail) recorded the host-side Python string "executor error: 'utf-8' codec ..." as
+  the observation. Fixed in DockerBox._exec (bytes + errors="replace"). All Amendment-2
+  frozen-class numbers are re-verified on the post-fix re-pilot before GO.
+- **F2 degenerate find arm (blocker):** 97.6% of pilot find outputs empty (glob independent
+  of root). Fixed: probe-verified (dir, glob) hit pairs + a controlled ~20% deliberate-empty
+  arm (meta.intended_empty), mirroring the grep-miss design.
+- **F3 stat echo channel (blocker):** %n echoes the full path into 362/362 outputs (46.8% of
+  chars; zero-parameter echo predictor top-1 0.81–0.85 vs best baseline 0.377). **stat is
+  reclassified SEMI-ECHO** (the constitutional borderline default; Amendment 2's own original
+  prediction). Frozen v2.0 table: **content = {ls, cat, head, tail, find, grep-hit}**;
+  semi-echo = {stat}; excluded = {uname, cd, grep-miss}. grep/find mode label rule pinned:
+  **exit != 0 or empty output ⇔ miss** (recoverable from the jsonl; meta.hit recorded).
+- Further applied: fixed per-image --hostname (kills the container-ID nonce; restores
+  same-seed reproducibility), container lifetime 86400 + fail-fast on daemon errors,
+  --train-only val-truncation guard, V2_MINE_CAP 1000→500 (encoded-visible linkage),
+  class table + bench_version written into summary.json (constitution §4 assert now binds),
+  mint aborts on any skipped image, deterministic jsonl image order.
+- **Axis-1 protocol committed:** benchmarks/axis1_measure.py (frozen protocol incl.
+  grep-hit-only within-traj comparison for review C).
+- **Environment note:** the local plumbing constant moved 0.3869 → 0.3844 with the
+  uv/torch-2.13 migration (bisect-verified: predates all v2 eval edits; edited and pristine
+  code agree at 0.3844 exactly). Within-environment bit-identity remains the standard.
+GO decision deferred to the post-fix re-pilot audit (F11).

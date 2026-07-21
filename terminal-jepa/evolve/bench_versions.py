@@ -15,9 +15,10 @@ VERSIONS = {
         "ok_masked_verbs": (),          # no step-level exclusions
         "within_traj_in_max": False,
     },
-    # dockerfs2-prereg.md Amendment 2 (frozen 2026-07-21)
+    # dockerfs2-prereg.md Amendment 2 as amended by Amendment 3 (stat → semi-echo:
+    # the %n path-echo channel scores 0.81-0.85 for a zero-parameter echo predictor)
     "dockerfs2-v2.0": {
-        "content": ("ls", "cat", "head", "tail", "stat", "find", "grep"),
+        "content": ("ls", "cat", "head", "tail", "find", "grep"),
         "ok_masked_verbs": ("grep",),   # grep-MISS (exit!=0 or empty) excluded from fitness
         "within_traj_in_max": True,
     },
