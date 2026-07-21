@@ -19,42 +19,67 @@ import torch
 from realenv import seq_worldmodel as M
 from evolve import genome as G
 from evolve.splits import split_val
+from evolve import bench_versions as BV
 
 D = M.D
 CHANCE_SLACK = 0.05  # predict-mean top-1 must stay below this (chance ~1/64=0.016)
 BASE_CACHE = pathlib.Path(__file__).resolve().parent / "archive" / "base_cache.json"
 
 
-def _data_tensors(evalset):
+def _data_tensors(evalset, spec=None):
     """Model-INDEPENDENT eval tensors (true/prev/verbs/cmd-embeddings) in flatten_predictions'
-    step order — lets the objective-independent baselines be computed and cached once."""
-    trues, prevs, cmds = [], [], []
+    step order — lets the objective-independent baselines be computed and cached once.
+    spec (bench_versions.resolve): v2 roots mask ok_masked_verbs' failed steps out of the
+    content pool by rewriting their verb to the excluded pseudo-verb "<verb>-miss"."""
+    trues, prevs, cmds, oks = [], [], [], []
     for sq in evalset:
+        ok = sq.get("ok")
         for t in range(sq["z_obs"].shape[0]):
             trues.append(sq["z_obs"][t])
             prevs.append(sq["z_obs"][t - 1] if t > 0 else torch.zeros(D))
             cmds.append(sq["cmds"][t])
+            oks.append(True if ok is None else bool(ok[t]))
+    verbs = [M.verb_of(c) for c in cmds]
+    if spec and spec["ok_masked_verbs"]:
+        verbs = [f"{v}-miss" if (v in spec["ok_masked_verbs"] and not k) else v
+                 for v, k in zip(verbs, oks)]
     cmd_embs = torch.stack([sq["z_cmd"][t] for sq in evalset for t in range(sq["z_obs"].shape[0])])
+    # within-traj baseline predictions (constitution §5): nearest earlier cmd BY EMBEDDING in
+    # the same trajectory -> that step's obs; zeros (predict_mean) when no earlier step.
+    wt = []
+    for sq in evalset:
+        n = sq["z_obs"].shape[0]
+        for t in range(n):
+            if t == 0:
+                wt.append(torch.zeros(D))
+            else:
+                d = ((sq["z_cmd"][:t] - sq["z_cmd"][t]) ** 2).sum(-1)
+                wt.append(sq["z_obs"][int(d.argmin())])
     return {"true": torch.stack(trues), "prev": torch.stack(prevs),
-            "verbs": [M.verb_of(c) for c in cmds], "_cmd_embs": cmd_embs}
+            "verbs": verbs, "_cmd_embs": cmd_embs, "_within_traj": torch.stack(wt)}
 
 
 def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerfs"):
     """max-baseline content-top1 (retrieve_by_cmd / no_history MLP / copy_prev) + predict-mean
     calibration for a (data_root, split, seed, steps) — objective-independent, so computed once and
     cached. Returns (base, predict_mean). Halves per-genome cost (skips retraining the baseline)."""
-    key = f"{data_root}|{split}|{seed}|{steps}"
+    spec = evaldata.get("_spec") or {"content": ("ls", "cat"), "within_traj_in_max": False}
+    vtag = "" if not spec.get("within_traj_in_max") else "|v2"
+    key = f"{data_root}|{split}|{seed}|{steps}{vtag}"
     cache = json.loads(BASE_CACHE.read_text()) if BASE_CACHE.exists() else {}
     if key in cache:
         return cache[key]["base"], cache[key]["predict_mean"]
     mlp = M.train_cmd_only(fit, device, steps=steps, seed=seed)
     with torch.no_grad():
         nohist = mlp(evaldata["_cmd_embs"].to(device)).cpu()
-    ct = lambda p: M.content_retrieval(p, evaldata["true"], evaldata["verbs"], seed=seed)["top1_sameverb"]
+    ct = lambda p: M.content_retrieval(p, evaldata["true"], evaldata["verbs"],
+                                       content=spec["content"], seed=seed)["top1_sameverb"]
     rbc, noh = ct(M.retrieve_by_cmd_baseline(fit, evaldata)), ct(nohist)
     cpy, mean = ct(evaldata["prev"]), ct(torch.zeros_like(evaldata["true"]))
-    entry = {"base": max(rbc, noh, cpy), "predict_mean": mean,
-             "retrieve_by_cmd": rbc, "no_history": noh, "copy_prev": cpy}
+    arms = {"retrieve_by_cmd": rbc, "no_history": noh, "copy_prev": cpy}
+    if spec.get("within_traj_in_max"):
+        arms["within_traj"] = ct(evaldata["_within_traj"])   # constitution §5 (v2+)
+    entry = {"base": max(arms.values()), "predict_mean": mean, **arms}
     cache[key] = entry
     BASE_CACHE.parent.mkdir(parents=True, exist_ok=True)
     BASE_CACHE.write_text(json.dumps(cache, indent=1))
@@ -129,6 +154,7 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     M.apply_stats(train_seqs, mo, so, mc, sc)
     M.apply_stats(val_seqs, mo, so, mc, sc)
     inner = split_val(val_seqs, split)
+    spec = BV.resolve(data)
 
     loss_fn = G.load_objective(genome)
     target_mod = G.load_target(genome)
@@ -139,7 +165,8 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
                      [0] if mode == "proxy" else [0, 1, 2], 0, split, [])
     seeds = [0] if mode == "proxy" else [0, 1, 2]
     steps = proxy_steps if mode == "proxy" else genome["chunks"]["optim"].get("steps", 4000)
-    evaldata = _data_tensors(inner)  # model-independent; base + wm both score against it
+    evaldata = _data_tensors(inner, spec)  # model-independent; base + wm score against it
+    evaldata["_spec"] = spec
 
     per_seed = []
     for s in seeds:
@@ -158,7 +185,8 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
                     pred_obs = tmod.cpu().to_obs(flat["pred"], flat["prev"])
                 else:
                     pred_obs = target_mod.to_obs(flat["pred"], flat["prev"])  # reconstruct next-obs for retrieval
-            wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"], seed=s)["top1_sameverb"]
+            wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"],
+                                     content=spec["content"], seed=s)["top1_sameverb"]
             per_seed.append({"seed": s, "wm": round(wm, 4), "base": round(base, 4),
                              "margin": round(wm - base, 4), "predict_mean": round(mean, 4)})
             if save_dir:

@@ -115,7 +115,11 @@ def encode_split(path, model, tok, device, bs=96):
     out = []
     for (a, b), sq in zip(spans, seqs):
         out.append({"z_obs": z_obs[a:b], "z_cmd": z_cmd[a:b],
-                    "cmds": [s["cmd"] for s in sq["steps"]], "image": sq["image"]})
+                    "cmds": [s["cmd"] for s in sq["steps"]], "image": sq["image"],
+                    # per-step success flag (exit 0 + non-empty output) — v2 class slicing
+                    # (grep-miss exclusion); absent in v1 caches, consumers default all-True
+                    "ok": [s.get("exit", 0) == 0 and bool((s.get("output") or "").strip())
+                           for s in sq["steps"]]})
     return out
 
 
