@@ -46,13 +46,16 @@ def resolve(data_root):
             with open(tj) as f:
                 first = f.readline()
             if '"meta"' in first:
-                raise ValueError(f"{data_root}: train.jsonl carries v2 step meta but summary.json "
+                raise ValueError(f"{data_root}: {split}.jsonl carries v2 step meta but summary.json "
                                  f"is missing — refusing the silent v1 fallback (constitution §4). "
                                  f"Re-encode with the summary-copying reencode/mv_encode.")
     if ver not in VERSIONS:
         raise ValueError(f"unknown bench_version '{ver}' in {s} — register it in bench_versions.py "
                          f"(a new version requires its own ratified prereg)")
     spec = VERSIONS[ver]
+    if recorded is None and ver != "v1":
+        raise ValueError(f"{data_root}: bench_version {ver} but summary.json records no "
+                         f"verb_classes — malformed v2 root (constitution §4)")
     if recorded is not None and ver != "v1":
         # full-table mirror check (round-3 fix): content AND semi_echo/excluded/mode rule
         ref = {"content": sorted(spec["content"]), "semi_echo": ["stat"],

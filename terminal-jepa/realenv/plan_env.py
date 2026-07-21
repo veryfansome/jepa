@@ -94,13 +94,35 @@ def harvest(args):
     outdir = pathlib.Path(args.out)
     outdir.mkdir(parents=True, exist_ok=True)
     summary = {"seed": args.seed, "per_image": args.per_image, "depths": [2, 4],
-               "probe": LS_PROBE, "images": {}}
+               "probe": LS_PROBE, "stratified": bool(getattr(args, "stratify", False)),
+               "images": {}}
     for image in args.images.split(","):
         box = DockerBox(image)
         rng = torch.Generator().manual_seed(args.seed)
         dirs, _ = box.enumerate()
         elig = [d for d in dirs if 2 <= depth_of(d) <= 4]
-        order = torch.randperm(len(elig), generator=rng).tolist()
+        if getattr(args, "stratify", False):
+            # constitution §6 (R11 composition lesson): round-robin over
+            # (depth, first-path-component) strata instead of a flat randperm — the v1 set
+            # was 91% depth-4 / 93% first-move-/usr, too skewed for mechanism claims
+            strata = {}
+            for d in elig:
+                key = (depth_of(d), "/" + d.split("/")[1])
+                strata.setdefault(key, []).append(d)
+            for key in strata:
+                pool = strata[key]
+                perm = torch.randperm(len(pool), generator=rng).tolist()
+                strata[key] = [pool[i] for i in perm]
+            keys = sorted(strata)
+            order_paths, ki = [], 0
+            while any(strata[k] for k in keys):
+                k = keys[ki % len(keys)]
+                if strata[k]:
+                    order_paths.append(strata[k].pop())
+                ki += 1
+            order = [elig.index(d) for d in order_paths]
+        else:
+            order = torch.randperm(len(elig), generator=rng).tolist()
         goals = []
         for i in order:
             d = elig[i]
@@ -289,6 +311,8 @@ def main(argv=None):
     h.add_argument("--images", required=True)
     h.add_argument("--per-image", type=int, default=50)
     h.add_argument("--seed", type=int, default=0)
+    h.add_argument("--stratify", action="store_true",
+                   help="round-robin (depth x first-path-component) strata (constitution §6, v2+)")
     h.set_defaults(fn=harvest)
     r = sub.add_parser("run")
     r.add_argument("--goals", required=True)

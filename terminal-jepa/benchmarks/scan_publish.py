@@ -16,8 +16,9 @@ import sys
 # deliberately NOT flagged — certificates are public documents (v1 published the same
 # content); only PRIVATE KEY material blocks publication.
 PATTERNS = [
-    ("private-key-block", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP )?PRIVATE KEY")),
-    ("crypt-hash", re.compile(r"\$(?:1|2[aby]|5|6|y)\$[./A-Za-z0-9]{8,}\$")),
+    ("private-key-block", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH |DSA |PGP |ENCRYPTED )?PRIVATE KEY")),
+    ("crypt-hash", re.compile(r"\$(?:1|2[aby]|5|6|7|y|gy)\$[^:\s]{3,}\$[./A-Za-z0-9]{8,}")),
+    ("crypt-rounds", re.compile(r"\$(?:5|6)\$rounds=\d+\$")),
     ("aws-akid", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
     ("github-token", re.compile(r"\bgh[pousr]_[A-Za-z0-9]{20,}\b")),
     ("openai-key", re.compile(r"\bsk-[A-Za-z0-9]{20,}\b")),
@@ -45,10 +46,18 @@ def main(argv=None):
     ap.add_argument("--out", default=None)
     args = ap.parse_args(argv)
     root = pathlib.Path(args.root)
+    if not root.is_dir():
+        print(f"SCAN FAIL-CLOSED: root {root} does not exist", file=sys.stderr)
+        sys.exit(2)
     findings = []
-    files = sorted(root.glob("*.jsonl")) + sorted(root.glob("*.json"))
+    files = sorted(root.rglob("*.jsonl")) + sorted(root.rglob("*.json"))
+    if not any(f.name == "train.jsonl" for f in files):
+        print(f"SCAN FAIL-CLOSED: no train.jsonl under {root} — scanned nothing publishable "
+              f"({len(files)} files matched)", file=sys.stderr)
+        sys.exit(2)
     for f in files:
         scan_file(f, findings)
+    print(f"scanned {len(files)} files")
     report = {"root": str(root), "files_scanned": [str(f) for f in files],
               "n_findings": len(findings), "findings": findings[:200]}
     print(json.dumps({k: report[k] for k in ("root", "n_findings")}, indent=1))

@@ -878,9 +878,10 @@ def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, polic
             pin_digests=False, expect_digests=None):
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    stale = out / "summary.json"
-    if stale.exists():
-        stale.unlink()   # an aborted run must never leave a resolvable stale summary
+    for stale_name in ("summary.json", "emb-seq-train.pt", "emb-seq-val.pt"):
+        stale = out / stale_name
+        if stale.exists():
+            stale.unlink()   # aborted/reused dirs must never leave resolvable stale artifacts
     digests = resolve_digests(train_imgs + val_imgs) if pin_digests else {}
     if expect_digests:
         want = json.loads(pathlib.Path(expect_digests).read_text())
@@ -931,6 +932,14 @@ def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, polic
                              verb_classes=V2_VERB_CLASSES, images=reports)
     if digests:
         summary["image_digests"] = digests
+        # constitution §9: bind the published bytes to the audited mint bytes
+        summary["artifact_sha256"] = {
+            f"{s}.jsonl": hashlib.sha256((out / f"{s}.jsonl").read_bytes()).hexdigest()
+            for s in ("train", "val") if (out / f"{s}.jsonl").exists()}
+        # a full-scale v2 mint must run digest-gated (Amendment 5; prose rule made code)
+        if policy == "v2" and n_seqs >= 100 and not expect_digests:
+            raise SystemExit("v2 full mint requires --expect-digests "
+                             "benchmarks/dockerfs2-digests.json (prereg Amendment 5/6)")
     (out / "summary.json").write_text(json.dumps(summary, indent=1))
     return summary
 

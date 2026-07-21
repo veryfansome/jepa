@@ -190,3 +190,24 @@ Round 3 found 1 NEW serious + 6 NEW minors. Dispositions, all applied:
 - Deferred (known-open minors): probe anchor-count constant (deterministic + conservative);
   ls -l runtime-mount timestamp jitter; per-image hts floors.
 Round 4 review follows per the convergence rule.
+
+---
+## Amendment 6 (2026-07-21, review round 4 → ITERATE; fix batch applied)
+
+Round 4 verified the entire round-3 batch by execution and found 2 NEW serious + 6 minors —
+all in review/publication infrastructure, none in the collector, policy, or frozen numbers.
+Dispositions, all applied:
+- **SERIOUS — scanner vacuous pass:** scan_publish now FAILS CLOSED (exit 2) on a missing
+  root or when no train.jsonl is among the scanned files; recursive rglob; scanned-file
+  count printed. Verified: pilot-4 clean (exit 0), nonexistent root (exit 2), planted
+  private-key/crypt/token fixture detected 3/3 (exit 1).
+- **SERIOUS — runbook committed:** `benchmarks/mint-runbook.md` (the one-command mint with
+  both digest flags, scan, encode, verify, publish steps + the abort disposition); and the
+  prose rule is now CODE: a full-scale v2 mint without --expect-digests raises.
+- Minors: resolve() raises on a v2 summary lacking verb_classes; sniff message names the
+  triggering split; stale-unlink extends to emb-seq-*.pt; artifact sha256 manifest
+  (train/val.jsonl) written into summary at mint (constitution §9 binding); scanner regexes
+  extended (yescrypt, $rounds=, ENCRYPTED PRIVATE KEY — pilot 4 re-verified clean);
+  stratified plangoals-v2 harvester implemented (plan_env harvest --stratify, round-robin
+  depth × first-component strata; review-C precondition).
+Round 5 (focused) follows per the convergence rule.
