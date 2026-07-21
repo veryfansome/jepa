@@ -28,16 +28,25 @@ VERSIONS = {
 def resolve(data_root):
     """Version spec for a data root: reads bench_version from summary.json (absent → v1),
     and for v2 roots asserts the recorded verb_classes match the frozen table."""
-    s = pathlib.Path(data_root) / "summary.json"
+    root = pathlib.Path(data_root)
+    s = root / "summary.json"
     ver = "v1"
     recorded = None
     if s.exists():
-        try:
-            js = json.loads(s.read_text())
-            ver = js.get("bench_version", "v1")
-            recorded = js.get("verb_classes")
-        except Exception:
-            ver = "v1"
+        js = json.loads(s.read_text())   # unparseable summary must FAIL, never fall back to v1
+        ver = js.get("bench_version", "v1")
+        recorded = js.get("verb_classes")
+    else:
+        # fail-closed sniff (review-B2 blocker): v2 jsonl steps always carry `meta`; a root
+        # with meta-bearing data but no summary must never silently score under v1 classes
+        tj = root / "train.jsonl"
+        if tj.exists():
+            with open(tj) as f:
+                first = f.readline()
+            if '"meta"' in first:
+                raise ValueError(f"{data_root}: train.jsonl carries v2 step meta but summary.json "
+                                 f"is missing — refusing the silent v1 fallback (constitution §4). "
+                                 f"Re-encode with the summary-copying reencode/mv_encode.")
     if ver not in VERSIONS:
         raise ValueError(f"unknown bench_version '{ver}' in {s} — register it in bench_versions.py "
                          f"(a new version requires its own ratified prereg)")

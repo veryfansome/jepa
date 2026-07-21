@@ -145,3 +145,24 @@ Dispositions, all applied BEFORE any mint step:
   uv/torch-2.13 migration (bisect-verified: predates all v2 eval edits; edited and pristine
   code agree at 0.3844 exactly). Within-environment bit-identity remains the standard.
 GO decision deferred to the post-fix re-pilot audit (F11).
+
+---
+## Amendment 4 (2026-07-21, review round 2 → ITERATE; dispositions)
+
+Round 2 (2 fresh reviewers + convergence judge) confirmed all 13 register items fixed and
+every frozen number reproduced on pilot 3, then found: 1 NEW blocker, 1 NEW serious, 3 NEW
+minors. Dispositions, all applied:
+- **BLOCKER — derived roots lost version identity:** reencode/mv_encode never copied
+  summary.json; the primary scoring root would silently resolve v1 (demonstrated end-to-end).
+  Fixed: both encoders copy summary.json; resolve() now FAILS CLOSED (unparseable summary
+  raises; meta-bearing train.jsonl without summary raises). v1 roots unaffected (verified).
+- **SERIOUS — find-probe pool collapse on glob-sparse images** (fedora inner-val: 1 hit pair
+  → 1 distinct observation for all find-hits). Fixed: anchor dirs (/etc, /usr/share,
+  /usr/lib) probed first, budget 16 → 64 dirs, early-stop at ≥ 10 distinct hit pairs.
+- **Minors:** stored-output cap 64KB + meta.trunc_stored (binary payloads were ~60% of mint
+  bytes; render window unaffected) — a policy-identity change, hence this amendment;
+  grep_mode_rule string corrected to "exit!=0 or empty output => miss (excluded)";
+  aborted-mint roots now unresolvable rather than silently v1.
+- Register carry-over (minor, open): ls -l runtime-mount timestamp jitter across container
+  starts. Pilot 4 (post-fix) re-verifies all frozen numbers; round 3 review follows per the
+  convergence rule.

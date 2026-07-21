@@ -424,7 +424,7 @@ def test_train_only_never_truncates_val():
     assert summary["verb_classes"] == C.V2_VERB_CLASSES == summary["v2"]["verb_classes"]
     assert summary["verb_classes"]["content"] == ["ls", "cat", "head", "tail", "find", "grep"]
     assert summary["verb_classes"]["semi_echo"] == ["stat"]
-    assert summary["verb_classes"]["grep_mode_rule"] == "exit!=0 => miss (excluded)"
+    assert summary["verb_classes"]["grep_mode_rule"] == "exit!=0 or empty output => miss (excluded)"
     written = json.loads((out / "summary.json").read_text())
     assert written["verb_classes"] == C.V2_VERB_CLASSES
 

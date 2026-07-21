@@ -88,6 +88,11 @@ def main(argv=None):
     outdir.mkdir(parents=True, exist_ok=True)
     for split in ("train", "val"):
         shutil.copy(pathlib.Path(args.src) / f"{split}.jsonl", outdir / f"{split}.jsonl")
+        # bench-version identity MUST travel with derived roots (review-B2 blocker:
+        # a missing summary silently resolves as v1 and disengages v2 classes)
+        _s = pathlib.Path(args.src) / 'summary.json'
+        if _s.exists():
+            shutil.copy(_s, pathlib.Path(args.out) / 'summary.json')
         seqs = encode_split(pathlib.Path(args.src) / f"{split}.jsonl", percep, tok, model, device)
         torch.save(seqs, outdir / f"emb-seq-{split}.pt")
         print(f"encoded {split}: {len(seqs)} seqs -> {outdir}/emb-seq-{split}.pt", flush=True)

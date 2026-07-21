@@ -73,6 +73,11 @@ def main(argv=None):
 
     for split in ("train", "val"):
         shutil.copy(src / f"{split}.jsonl", out / f"{split}.jsonl")
+        # bench-version identity MUST travel with derived roots (review-B2 blocker:
+        # a missing summary silently resolves as v1 and disengages v2 classes)
+        _s = pathlib.Path(args.src) / 'summary.json'
+        if _s.exists():
+            shutil.copy(_s, pathlib.Path(args.out) / 'summary.json')
         seqs = torch.load(src / f"emb-seq-{split}.pt", weights_only=False)
         raws = [json.loads(l) for l in open(src / f"{split}.jsonl")]
         assert len(raws) == len(seqs), f"{split}: raw {len(raws)} != cached {len(seqs)}"

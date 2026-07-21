@@ -259,7 +259,7 @@ BENCH_VERSION = "dockerfs2-v2.0"
 # by collect(); evolve/bench_versions.py asserts a root's recorded classes match (F9).
 V2_VERB_CLASSES = {
     "content": ["ls", "cat", "head", "tail", "find", "grep"],
-    "grep_mode_rule": "exit!=0 => miss (excluded)",
+    "grep_mode_rule": "exit!=0 or empty output => miss (excluded)",
     "semi_echo": ["stat"],
     "excluded": ["uname", "cd"],
 }
@@ -276,7 +276,9 @@ _PROBE_SIZE_CAP = 65536   # line-count only files <= 64 KB (8s timeout headroom)
 _PROBE_MAX_STAT = 3000
 _PROBE_MAX_WC = 1200
 _PROBE_CHUNK = 200
-_PROBE_MAX_FIND_DIRS = 16  # F2 find-pair probe budget: one exec per dir (all globs in-shell)
+_PROBE_MAX_FIND_DIRS = 64   # review-B2 hard budget (was 16: collapsed glob-sparse images)
+_PROBE_MIN_HIT_PAIRS = 10   # iterate probe dirs until this floor of distinct (dir,glob) hits
+_PROBE_ANCHOR_DIRS = ("/etc", "/usr/share", "/usr/lib")  # always probed first (glob-rich)
 
 
 def _stable(s):
@@ -439,8 +441,13 @@ def _v2_probe(box, dirs, files):
     # verifies empty at both. Deterministic: no rng, crc32-sorted dirs, lexicon-order globs.
     find_hits, find_empties = [], []   # (dir, glob, verified_mds, hit_type) / (dir, glob)
     files_set, dirs_set = set(files), set(dirs)
-    probe_dirs = sorted(dirs, key=_stable)[:_PROBE_MAX_FIND_DIRS] if avail["find"] else []
+    probe_order = ([d for d in _PROBE_ANCHOR_DIRS if d in dirs_set]
+                   + [d for d in sorted(dirs, key=_stable) if d not in _PROBE_ANCHOR_DIRS])
+    probe_dirs = probe_order[:_PROBE_MAX_FIND_DIRS] if avail["find"] else []
     for d in probe_dirs:
+        if len({(hd, hg) for hd, hg, _m, _t in find_hits}) >= _PROBE_MIN_HIT_PAIRS \
+                and probe_dirs.index(d) >= len(_PROBE_ANCHOR_DIRS):
+            break  # floor met after anchors — stop spending execs
         out, _, _ = box._exec(_find_probe_script(d))
         hit_by_glob = {}
         for ln in out.split("\n"):
@@ -484,6 +491,10 @@ def v2_image_report(box):
             "find_pool": {"hits": len(st["find_hits"]), "empties": len(st["find_empties"])}}
 
 
+V2_STORE_CAP = 65536  # stored-output cap (review-B2: binary cats were ~60% of bytes at
+                      # mint scale; render sees ~1KB — 64KB keeps fidelity far above the window)
+
+
 def gen_sequence_v2(box, dirs, files, rng, length):
     """dockerfs2 mint policy (prereg Amendment 1 synthesis).
 
@@ -520,6 +531,10 @@ def gen_sequence_v2(box, dirs, files, rng, length):
             # F8: record the REALIZED outcome at step-record time (authoritative rule:
             # exit != 0 => miss) so labels are recoverable from the jsonl alone.
             meta["hit"] = s["exit"] == 0 and bool(s["output"])
+        if len(s["output"]) > V2_STORE_CAP:
+            # Amendment 4: stored-output cap (binary payloads); render window unaffected
+            s["output"] = s["output"][:V2_STORE_CAP]
+            meta["trunc_stored"] = True
         s["meta"] = meta
         steps.append(s)
         c = st["counters"]
