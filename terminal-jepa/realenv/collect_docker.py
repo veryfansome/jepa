@@ -875,10 +875,20 @@ def resolve_digests(images):
 
 
 def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, policy="baseline",
-            pin_digests=False):
+            pin_digests=False, expect_digests=None):
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
+    stale = out / "summary.json"
+    if stale.exists():
+        stale.unlink()   # an aborted run must never leave a resolvable stale summary
     digests = resolve_digests(train_imgs + val_imgs) if pin_digests else {}
+    if expect_digests:
+        want = json.loads(pathlib.Path(expect_digests).read_text())
+        drift = {i: (want.get(i), digests.get(i)) for i in set(want) | set(digests)
+                 if want.get(i) != digests.get(i)}
+        if drift:
+            raise SystemExit(f"DIGEST DRIFT vs {expect_digests} — the mint must run on the "
+                             f"audited bytes (prereg Amendment 5): {drift}")
     reports = {}  # split -> image -> v2 availability/skip/verb/linkage counters
 
     def run_split(images, path, split):
@@ -938,11 +948,13 @@ def main(argv=None):
     ap.add_argument("--train-only", action="store_true", help="collect train split only (reuse existing val)")
     ap.add_argument("--pin-digests", action="store_true",
                     help="resolve image tags to sha256 digests (recorded in summary.json; collection runs by digest)")
+    ap.add_argument("--expect-digests", default=None,
+                    help="JSON {image: digest} table; abort on drift (mint gate, prereg Amendment 5)")
     args = ap.parse_args(argv)
     summary = collect(args.out, args.train_images.split(","),
                       [] if args.train_only else args.val_images.split(","),
                       args.seqs_per_image, args.seq_len, args.seed, args.workers, args.policy,
-                      pin_digests=args.pin_digests)
+                      pin_digests=args.pin_digests, expect_digests=args.expect_digests)
     print(json.dumps(summary, indent=1))
 
 

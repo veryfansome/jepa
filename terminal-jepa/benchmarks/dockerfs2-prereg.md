@@ -166,3 +166,27 @@ minors. Dispositions, all applied:
 - Register carry-over (minor, open): ls -l runtime-mount timestamp jitter across container
   starts. Pilot 4 (post-fix) re-verifies all frozen numbers; round 3 review follows per the
   convergence rule.
+
+---
+## Amendment 5 (2026-07-21, review round 3 → ITERATE; fix batch applied)
+
+Round 3 found 1 NEW serious + 6 NEW minors. Dispositions, all applied:
+- **SERIOUS — digest-pinning commitment fulfilled:** the ratification promise ("table
+  appended") is discharged: `benchmarks/dockerfs2-digests.json` (tracked) carries the
+  12-image sha256 table measured at pilot 4 (0/12 drift vs local at commit time), and the
+  mint runbook command REQUIRES `--expect-digests benchmarks/dockerfs2-digests.json` —
+  collect() aborts on any drift, binding the mint to the audited bytes.
+- resolve() sniff extended to val.jsonl; class-table mirror check now compares the FULL
+  recorded table (content, semi_echo, excluded, grep_mode_rule); collect() unlinks any
+  stale summary.json at start (aborted-into-reused-dir roots stay unresolvable).
+- **Abort disposition pre-committed:** on ANY mint abort, delete the output dir wholesale
+  and re-run the single one-command mint; the completed run is the version's sole
+  collection event (constitution §1/§3). No splicing, no resume.
+- **Publication scan committed:** `benchmarks/scan_publish.py` — mandatory runbook step
+  between mint and HF upload; publication requires exit 0. Public CA CERTIFICATE blocks
+  are deliberately not flagged (public documents; v1 precedent); private-key material,
+  crypt hashes, cloud/API tokens, JWTs, secret assignments, host-path leakage block.
+  Pilot 4 scan: clean (0 findings).
+- Deferred (known-open minors): probe anchor-count constant (deterministic + conservative);
+  ls -l runtime-mount timestamp jitter; per-image hts floors.
+Round 4 review follows per the convergence rule.

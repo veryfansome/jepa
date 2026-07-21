@@ -39,8 +39,10 @@ def resolve(data_root):
     else:
         # fail-closed sniff (review-B2 blocker): v2 jsonl steps always carry `meta`; a root
         # with meta-bearing data but no summary must never silently score under v1 classes
-        tj = root / "train.jsonl"
-        if tj.exists():
+        for split in ("train", "val"):
+            tj = root / f"{split}.jsonl"
+            if not tj.exists():
+                continue
             with open(tj) as f:
                 first = f.readline()
             if '"meta"' in first:
@@ -52,6 +54,17 @@ def resolve(data_root):
                          f"(a new version requires its own ratified prereg)")
     spec = VERSIONS[ver]
     if recorded is not None and ver != "v1":
+        # full-table mirror check (round-3 fix): content AND semi_echo/excluded/mode rule
+        ref = {"content": sorted(spec["content"]), "semi_echo": ["stat"],
+               "excluded": ["cd", "uname"],
+               "grep_mode_rule": "exit!=0 or empty output => miss (excluded)"}
+        got_full = {"content": sorted(recorded.get("content", [])),
+                    "semi_echo": sorted(recorded.get("semi_echo", [])),
+                    "excluded": sorted(recorded.get("excluded", [])),
+                    "grep_mode_rule": recorded.get("grep_mode_rule", "")}
+        if got_full != ref:
+            raise ValueError(f"class-table mismatch for {data_root}: prereg {ref} vs recorded "
+                             f"{got_full} — the prereg is authoritative (constitution §4)")
         want = sorted(spec["content"])
         got = sorted(recorded.get("content", []))
         if want != got:

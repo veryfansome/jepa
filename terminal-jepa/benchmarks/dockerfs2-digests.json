@@ -1,0 +1,14 @@
+{
+ "alpine:latest": "alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b",
+ "ubuntu:latest": "ubuntu@sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb",
+ "debian:stable-slim": "debian@sha256:328d16499860ae6cb9b345e2e4cebca08c2a36e4f7278482c7bd1f39d71e5bfd",
+ "python:3.12-slim": "python@sha256:57cd7c3a7a273101a6485ba99423ee568157882804b1124b4dd04266317710de",
+ "redis:7-alpine": "redis@sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+ "nginx:stable-alpine": "nginx@sha256:ec664813a30459a8e7176315268a623f6b31abc370eeac51c7de81cd4ec4d451",
+ "postgres:16-alpine": "postgres@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777",
+ "node:22-slim": "node@sha256:6c74791e557ce11fc957704f6d4fe134a7bc8d6f5ca4403205b2966bd488f6b3",
+ "fedora:latest": "fedora@sha256:6c75d5bf57cb0fa5aa4b92c6a83c86c791644496d9ac230de7711f5b8ec3b898",
+ "rockylinux:9": "rockylinux@sha256:d7be1c094cc5845ee815d4632fe377514ee6ebcf8efaed6892889657e5ddaaa6",
+ "mariadb:latest": "mariadb@sha256:628f228f0fd5913a220438693576b29b6fe4dc1fa0a1298c0e98579fae28635f",
+ "httpd:2.4": "httpd@sha256:305fd8326a27a137fedb8900f26375699ab233cc37793f35cf5d7c65671fb252"
+}
