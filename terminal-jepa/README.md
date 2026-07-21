@@ -8,7 +8,7 @@ The JEPA shell world model (Phase R4) + the ShinkaEvolve evolutionary search ove
 
 - `realenv/seq_worldmodel.py` — **R4, the foundation**: a causal transformer over interleaved `cmd,obs,cmd,obs,…` frozen-encoder embeddings; the hidden state at each command position predicts that command's next-observation embedding (latent, standardized). Owns the eval the search reuses — next-obs retrieval with hard same-verb foils, the honest baselines (predict-mean / copy-prev / retrieve-by-command), the content-verb margin — plus the optional generative twin and the history ablation.
 - `realenv/docker_env.py` — `DockerBox`: per-command `docker exec` with tracked `cd`, path enumeration, system-id readers.
-- `realenv/collect_docker.py` — sequence generator + parallel collection over Docker images; held-out-*image* split → `data/dockerfs/`; exploration policies.
+- `realenv/collect_docker.py` — sequence generator + parallel collection over Docker images; held-out-*image* split → `data/dockerfs/`; exploration policies incl. the 9-verb dockerfs2 mint policy `v2` (history-linked targets with per-step `meta`, content-hashed lexicons, availability probes, `--pin-digests`; spec: `benchmarks/dockerfs2-prereg.md` Amendment 1); guards in `tests/test_collect_v2.py`.
 - `evolve/` — the chunk-based evolutionary design search over the R4 model. See `evolve/CLAUDE.md` (working context + replication manual).
 - `realenv/plan_eval.py` — Phase-0 planning probe (Stage 1): goal-conditioned action ranking by predicted-latent distance on the frozen champion; prereg in `benchmarks/plan-probe-v1-prereg.md`; guards in `tests/test_plan_eval.py`.
 - `tests/test_seq_worldmodel.py` — no-future-leakage + retrieval-calibration guards for the R4 model.
