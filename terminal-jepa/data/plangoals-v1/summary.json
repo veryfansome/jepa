@@ -1,0 +1,43 @@
+{
+ "seed": 0,
+ "per_image": 50,
+ "depths": [
+  2,
+  4
+ ],
+ "probe": "ls -la",
+ "images": {
+  "fedora:latest": {
+   "n": 50,
+   "depth_hist": {
+    "2": 1,
+    "3": 1,
+    "4": 48
+   }
+  },
+  "mariadb:latest": {
+   "n": 50,
+   "depth_hist": {
+    "2": 1,
+    "3": 6,
+    "4": 43
+   }
+  },
+  "rockylinux:9": {
+   "n": 50,
+   "depth_hist": {
+    "2": 3,
+    "3": 10,
+    "4": 37
+   }
+  },
+  "httpd:2.4": {
+   "n": 50,
+   "depth_hist": {
+    "2": 3,
+    "3": 10,
+    "4": 37
+   }
+  }
+ }
+}
