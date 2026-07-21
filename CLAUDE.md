@@ -13,6 +13,7 @@ Research program testing whether Yann LeCun's **JEPA** world-model recipe (predi
 | `BACKLOG.md` | deferred ideas (forward-looking) — meta-evolution, un-adopted ShinkaEvolve mechanisms, research directions | current |
 | `terminal-jepa/README.md` | module/file inventory + reproduction commands | current |
 | `JEPA.md` | background: LeCun's JEPA research program (2022–2026) | external reference (stable) |
+| `other_world_models.md` | background: the **non-JEPA** world-model landscape (Dreamer/TD-MPC, Genie/DIAMOND/Sora, WebDreamer, MuZero/value-equivalence, probing) mapped onto JEPA's axes | external reference (survey) |
 | `ShinkaEvolve.md` | background: LLM-driven evolutionary program search | external reference (stable) |
 
 Cross-session working **state** (per-genome result stats, user preferences) lives in Claude Code's per-user **auto-memory** store (indexed by its `MEMORY.md`), not in these docs. Rule of thumb: **versioned repo facts → CLAUDE.md / docs; evolving cross-session state → auto-memory.** The `evolve-insights` memory is the neutral running stat ledger.
