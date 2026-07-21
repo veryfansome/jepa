@@ -1,0 +1,3099 @@
+{
+ "version": "path-battery-v1",
+ "opener_cmds": [
+  "uname -a",
+  "cat /etc/os-release"
+ ],
+ "probe": "ls -la",
+ "images": {
+  "fedora:latest": {
+   "opener": [
+    {
+     "cmd": "uname -a",
+     "output": "Linux bd76bab27cf0 6.6.65-0-virt #1-Alpine SMP PREEMPT_DYNAMIC 2024-12-12 12:13:04 aarch64 GNU/Linux",
+     "exit": 0,
+     "cwd": "/"
+    },
+    {
+     "cmd": "cat /etc/os-release",
+     "output": "NAME=\"Fedora Linux\"\nVERSION=\"44 (Container Image)\"\nRELEASE_TYPE=stable\nID=fedora\nVERSION_ID=44\nVERSION_CODENAME=\"\"\nPRETTY_NAME=\"Fedora Linux 44 (Container Image)\"\nANSI_COLOR=\"0;38;2;60;110;180\"\nLOGO=fedora-logo-icon\nCPE_NAME=\"cpe:/o:fedoraproject:fedora:44\"\nDEFAULT_HOSTNAME=\"fedora\"\nHOME_URL=\"https://fedoraproject.org/\"\nDOCUMENTATION_URL=\"https://docs.fedoraproject.org/en-US/fedora/f44/\"\nSUPPORT_URL=\"https://ask.fedoraproject.org/\"\nBUG_REPORT_URL=\"https://bugzilla.redhat.com/\"\nREDHAT_BUGZILLA_PRODUCT=\"Fedora\"\nREDHAT_BUGZILLA_PRODUCT_VERSION=44\nREDHAT_SUPPORT_PRODUCT=\"Fedora\"\nREDHAT_SUPPORT_PRODUCT_VERSION=44\nSUPPORT_END=2027-05-19\nVARIANT=\"Container Image\"\nVARIANT_ID=container",
+     "exit": 0,
+     "cwd": "/"
+    }
+   ],
+   "nodes": {
+    "/": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 64\ndrwxr-xr-x   1 root root 4096 Jul 21 01:40 .\ndrwxr-xr-x   1 root root 4096 Jul 21 01:40 ..\n-rwxr-xr-x   1 root root    0 Jul 21 01:40 .dockerenv\n-rw-r--r--   1 root root 1038 May 27 06:48 .profile\ndr-xr-xr-x   2 root root 4096 Jan 16  2026 afs\nlrwxrwxrwx   1 root root    7 Jan 16  2026 bin -> usr/bin\ndr-xr-xr-x   2 root root 4096 Jan 16  2026 boot\ndrwxr-xr-x   5 root root  320 Jul 21 01:40 dev\ndrwxr-xr-x   1 root root 4096 Jul 21 01:40 etc\ndrwxr-xr-x   2 root root 4096 Jan 16  2026 home\nlrwxrwxrwx   1 root root    7 Jan 16  2026 lib -> usr/lib\nlrwxrwxrwx   1 root root    9 Jan 16  2026 lib64 -> usr/lib64\ndrwxr-xr-x   2 root root 4096 Jan 16  2026 media\ndrwxr-xr-x   2 root root 4096 Jan 16  2026 mnt\ndrwxr-xr-x   2 root root 4096 Jan 16  2026 opt\ndr-xr-xr-x 187 root root    0 Jul 21 01:40 proc\ndr-xr-x---   2 root root 4096 May 27 06:48 root\ndrwxr-xr-x   2 root root 4096 May 27 06:47 run\nlrwxrwxrwx   1 root root    8 Jan 16  2026 sbin -> usr/sbin\ndrwxr-xr-x   2 root root 4096 Jan 16  2026 srv\ndr-xr-xr-x  12 root root    0 Jul 18 21:08 sys\ndrwxrwxrwt   2 root root 4096 Jan 16  2026 tmp\ndrwxr-xr-x  11 root root 4096 May 27 06:47 usr\ndrwxr-xr-x  18 root root 4096 May 27 06:48 var",
+      "exit": 0,
+      "cwd": "/"
+     },
+     "cands": [
+      "afs",
+      "boot",
+      "dev",
+      "etc",
+      "home",
+      "media",
+      "mnt",
+      "opt",
+      "proc",
+      "root",
+      "run",
+      "srv",
+      "sys",
+      "tmp",
+      "usr",
+      "var"
+     ]
+    },
+    "/etc": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 1060\ndrwxr-xr-x 1 root root   4096 Jul 21 01:40 .\ndrwxr-xr-x 1 root root   4096 Jul 21 01:40 ..\n-rw------- 1 root root      0 May 27 06:47 .pwd.lock\n-rw-r--r-- 1 root root      0 May 27 06:47 .updated\n-rw-r--r-- 1 root root   5977 Mar  5 00:00 DIR_COLORS\n-rw-r--r-- 1 root root   6059 Mar  5 00:00 DIR_COLORS.lightbgcolor\n-rw-r--r-- 1 root root     94 Jan 16  2026 GREP_COLORS\ndrwxr-xr-x 5 root root   4096 May 27 06:47 X11\n-rw-r--r-- 1 root root   1529 Jan 17  2026 aliases\ndrwxr-xr-x 2 root root   4096 May 27 06:47 alternatives\ndrwxr-xr-x 3 root root   4096 May 27 06:47 authselect\ndrwxr-xr-x 2 root root   4096 May 27 06:47 bash_completion.d\n-rw-r--r-- 1 root root   2709 Jan 17  2026 bashrc\n-rw-r--r-- 1 root root    535 Jan 16  2026 bindresvport.blacklist\ndrwxr-xr-x 6 root root   4096 May 27 06:47 crypto-policies\n-rw-r--r-- 1 root root   1401 Jan 17  2026 csh.cshrc\n-rw-r--r-- 1 root root   1569 Jan 17  2026 csh.login\ndrwxr-xr-x 3 root root   4096 May 27 06:47 dconf\ndrwxr-xr-x 2 root root   4096 May 27 06:47 default\ndrwxr-xr-x 9 root root   4096 May 27 06:47 dnf\n-rw-r--r-- 1 root root      0 Jan 17  2026 environment\n-rw-r--r-- 1 root root   1362 Jan 17  2026 ethertypes\n-rw-r--r-- 1 root root      0 Jan 17  2026 exports\nlrwxrwxrwx 1 root root     25 May 13 00:00 fedora-release -> ../usr/lib/fedora-release\n-rw-r--r-- 1 root root     66 Jan 17  2026 filesystems\n-rw-r--r-- 1 root root     43 May 27 06:48 fstab\n-rwxr-xr-x 1 root root    209 May 27 06:47 fstab.script\ndrwxr-xr-x 2 root root   4096 Apr 16 00:00 gcrypt\ndrwxr-xr-x 2 root root   4096 Apr 22 00:00 gnupg\n-rw-r--r-- 1 root root    346 May 27 06:47 group\n-rw-r--r-- 1 root root    336 Jan 17  2026 group-\n---------- 1 root root    317 May 27 06:47 gshadow\n---------- 1 root root    308 Jan 17  2026 gshadow-\ndrwxr-xr-x 3 root root   4096 May 27 06:47 gss\n-rw-r--r-- 1 root root      9 Jan 17  2026 host.conf\n-rw-r--r-- 1 root root     13 Jul 21 01:40 hostname\n-rw-r--r-- 1 root root    150 Jul 21 01:40 hosts\n-rw-r--r-- 1 root root    943 Jan 17  2026 inputrc\nlrwxrwxrwx 1 root root     16 May 13 00:00 issue -> ../usr/lib/issue\ndrwxr-xr-x 2 root root   4096 May 13 00:00 issue.d\nlrwxrwxrwx 1 root root     20 May 13 00:00 issue.net -> ../usr/lib/issue.net\ndrwxr-xr-x 3 root root   4096 Jan 16  2026 keys\n-rw-r--r-- 1 root root    880 Apr 28 00:00 krb5.conf\ndrwxr-xr-x 2 root root   4096 May 27 06:47 krb5.conf.d\n-rw-r--r-- 1 root root   8131 May 27 06:48 ld.so.cache\n-rw-r--r-- 1 root root     28 May 12 00:00 ld.so.conf\ndrwxr-xr-x 2 root root   4096 May 12 00:00 ld.so.conf.d\n-rw-r----- 1 root root    191 Mar 23 00:00 libaudit.conf\ndrwxr-xr-x 2 root root   4096 May 27 06:47 libssh\n-rw-r--r-- 1 root root     15 May 27 06:48 locale.conf\nlrwxrwxrwx 1 root root     27 May 27 06:48 localtime -> /usr/share/zoneinfo/Etc/UTC\n-rw-r--r-- 1 root root   8888 Apr 29 00:00 login.defs\n-rw-r--r-- 1 root root      0 May 27 06:48 machine-id\n-rw-r--r-- 1 root root      0 Jan 17  2026 motd\ndrwxr-xr-x 2 root root   4096 Jan 17  2026 motd.d\nlrwxrwxrwx 1 root root     12 Jul 21 01:40 mtab -> /proc/mounts\n-rw-r--r-- 1 root root    767 Jan 16  2026 netconfig\n-rw-r--r-- 1 root root     58 Jan 17  2026 networks\nlrwxrwxrwx 1 root root     29 May 27 06:47 nsswitch.conf -> /etc/authselect/nsswitch.conf\ndrwxr-xr-x 3 root root   4096 May 27 06:47 openldap\ndrwxr-xr-x 2 root root   4096 Jan 16  2026 opt\nlrwxrwxrwx 1 root root     21 May 13 00:00 os-release -> ../usr/lib/os-release\ndrwxr-xr-x 2 root root   4096 May 27 06:47 pam.d\n-rw-r--r-- 1 root root    635 May 27 06:47 passwd\n-rw-r--r-- 1 root root    575 Jan 17  2026 passwd-\ndrwxr-xr-x 3 root root   4096 May 27 06:47 pkcs11\ndrwxr-xr-x 6 root root   4096 May 27 06:47 pki\ndrwxr-xr-x 5 root root   4096 May 27 06:47 pm\ndrwxr-xr-x 2 root root   4096 Jan 17  2026 popt.d\n-rw-r--r-- 1 root root    233 Jan 17  2026 printcap\n-rw-r--r-- 1 root root   2058 Jan 17  2026 profile\ndrwxr-xr-x 2 root root   4096 May 27 06:47 profile.d\n-rw-r--r-- 1 root root   6963 Jan 17  2026 protocols\nlrwxrwxrwx 1 root root     14 May 13 00:00 redhat-release -> fedora-release\n-rw-r--r-- 1 root root    221 Jul 21 01:40 resolv.conf\n-rw-r--r-- 1 root root   1634 May  9 09:16 rpc\ndrwxr-xr-x 2 root root   4096 May 27 06:48 rpm\ndrwxr-xr-x 2 root root   4096 Jan 16  2026 rwtab.d\ndrwxr-xr-x 2 root root   4096 Jan 16  2026 sasl2\n-rw-r--r-- 1 root root      9 May 27 06:48 securetty\ndrwxr-xr-x 5 root root   4096 May 27 06:47 security\ndrwxr-xr-x 2 root root   4096 May 27 06:47 selinux\n-rw-r--r-- 1 root root 701707 Jan 17  2026 services\n---------- 1 root root    299 May 27 06:47 shadow\n---------- 1 root root    280 Jan 17  2026 shadow-\n-rw-r--r-- 1 root root     44 Jan 17  2026 shells\ndrwxr-xr-x 2 root root   4096 May 27 06:47 skel\ndrwxr-xr-x 3 root root   4096 May 27 06:47 ssl\ndrwxr-xr-x 2 root root   4096 Jan 16  2026 statetab.d\n-rw-r--r-- 1 root root      0 Jan 17  2026 subgid\n-rw-r--r-- 1 root root      0 Jan 17  2026 subuid\n-rw-r----- 1 root root   4333 Apr 14 00:00 sudo.conf\n-r--r----- 1 root root   4375 Apr 14 00:00 sudoers\ndrwxr-x--- 2 root root   4096 Apr 14 00:00 sudoers.d\ndrwxr-xr-x 3 root root   4096 May 27 06:47 swid\ndrwxr-xr-x 2 root root   4096 Jan 16  2026 sysconfig\nlrwxrwxrwx 1 root root     14 May 13 00:00 system-release -> fedora-release\nlrwxrwxrwx 1 root root     29 May 13 00:00 system-release-cpe -> ../usr/lib/system-release-cpe\ndrwxr-xr-x 2 root root   4096 Feb  3 00:00 terminfo\ndrwxr-xr-x 3 root root   4096 May 27 06:47 tpm2-tss\n-rw-r--r-- 1 root root   1183 May 25 00:00 virc\n-rw-r--r-- 1 root root    817 Jan 16  2026 xattr.conf\ndrwxr-xr-x 3 root root   4096 May 27 06:47 xdg\ndrwxr-xr-x 2 root root   4096 May 27 06:47 yum.repos.d",
+      "exit": 0,
+      "cwd": "/etc"
+     },
+     "cands": [
+      "X11",
+      "alternatives",
+      "authselect",
+      "bash_completion.d",
+      "crypto-policies",
+      "dconf",
+      "default",
+      "dnf",
+      "gcrypt",
+      "gnupg",
+      "gss",
+      "issue.d",
+      "keys",
+      "krb5.conf.d",
+      "ld.so.conf.d",
+      "libssh",
+      "motd.d",
+      "openldap",
+      "opt",
+      "pam.d",
+      "pkcs11",
+      "pki",
+      "pm",
+      "popt.d",
+      "profile.d",
+      "rpm",
+      "rwtab.d",
+      "sasl2",
+      "security",
+      "selinux",
+      "skel",
+      "ssl",
+      "statetab.d",
+      "sudoers.d",
+      "swid",
+      "sysconfig",
+      "terminfo",
+      "tpm2-tss",
+      "xdg",
+      "yum.repos.d"
+     ]
+    },
+    "/usr": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 68\ndrwxr-xr-x 11 root root  4096 May 27 06:47 .\ndrwxr-xr-x  1 root root  4096 Jul 21 01:40 ..\ndr-xr-xr-x  2 root root 12288 May 27 06:48 bin\ndrwxr-xr-x  2 root root  4096 Jan 16  2026 games\ndrwxr-xr-x  2 root root  4096 Jan 16  2026 include\ndr-xr-xr-x 16 root root  4096 May 27 06:47 lib\ndr-xr-xr-x 23 root root 20480 May 27 06:47 lib64\ndrwxr-xr-x  9 root root  4096 May 27 06:47 libexec\ndrwxr-xr-x 11 root root  4096 May 27 06:47 local\nlrwxrwxrwx  1 root root     3 May 27 06:47 sbin -> bin\ndrwxr-xr-x 58 root root  4096 May 27 06:47 share\ndrwxr-xr-x  4 root root  4096 May 27 06:47 src\nlrwxrwxrwx  1 root root    10 Jan 16  2026 tmp -> ../var/tmp",
+      "exit": 0,
+      "cwd": "/usr"
+     },
+     "cands": [
+      "bin",
+      "games",
+      "include",
+      "lib",
+      "lib64",
+      "libexec",
+      "local",
+      "share",
+      "src"
+     ]
+    },
+    "/usr/lib": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 928\ndr-xr-xr-x  16 root root   4096 May 27 06:47 .\ndrwxr-xr-x  11 root root   4096 May 27 06:47 ..\ndrwxr-xr-x 224 root root   4096 Mar 13 00:00 .build-id\ndrwxr-xr-x   4 root root   4096 May 27 06:47 debug\n-rw-r--r--   1 root root     31 May 13 00:00 fedora-release\ndr-xr-xr-x   2 root root   4096 Jan 16  2026 games\n-rw-r--r--   1 root root     25 May 13 00:00 issue\n-rw-r--r--   1 root root     24 May 13 00:00 issue.net\n-rwxr-xr-x   1 root root 862960 May 12 00:00 ld-linux-aarch64.so.1\ndrwxr-xr-x   3 root root   4096 May 27 06:47 locale\ndrwxr-xr-x   2 root root   4096 Jan 16  2026 modules\n-rw-r--r--   1 root root      0 Jan 17  2026 motd\ndrwxr-xr-x   2 root root   4096 Jan 17  2026 motd.d\n-rw-r--r--   1 root root    686 May 13 00:00 os-release\ndrwxr-xr-x   6 root root   4096 May 27 06:47 rpm\ndrwxr-xr-x   3 root root   4096 Jan 16  2026 swidtag\ndrwxr-xr-x   2 root root   4096 May 27 06:47 sysctl.d\ndrwxr-xr-x   4 root root   4096 May 27 06:48 sysimage\n-rw-r--r--   1 root root     31 May 13 00:00 system-release-cpe\ndrwxr-xr-x   6 root root   4096 May 27 06:47 systemd\ndrwxr-xr-x   2 root root   4096 May 27 06:47 sysusers.d\ndrwxr-xr-x   2 root root   4096 May 27 06:47 tmpfiles.d\ndrwxr-xr-x   3 root root   4096 May 27 06:47 udev",
+      "exit": 0,
+      "cwd": "/usr/lib"
+     },
+     "cands": [
+      ".build-id",
+      "debug",
+      "games",
+      "locale",
+      "modules",
+      "motd.d",
+      "rpm",
+      "swidtag",
+      "sysctl.d",
+      "sysimage",
+      "systemd",
+      "sysusers.d",
+      "tmpfiles.d",
+      "udev"
+     ]
+    },
+    "/usr/lib/.build-id": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 896\ndrwxr-xr-x 224 root root 4096 Mar 13 00:00 .\ndr-xr-xr-x  16 root root 4096 May 27 06:47 ..\ndrwxr-xr-x   2 root root 4096 May 27 06:47 00\ndrwxr-xr-x   2 root root 4096 May 27 06:47 01\ndrwxr-xr-x   2 root root 4096 May 27 06:47 02\ndrwxr-xr-x   2 root root 4096 May 27 06:47 04\ndrwxr-xr-x   2 root root 4096 May 27 06:47 05\ndrwxr-xr-x   2 root root 4096 May 27 06:47 06\ndrwxr-xr-x   2 root root 4096 May 27 06:47 07\ndrwxr-xr-x   2 root root 4096 May 27 06:47 08\ndrwxr-xr-x   2 root root 4096 May 27 06:47 0a\ndrwxr-xr-x   2 root root 4096 May 27 06:47 0b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 0d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 0e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 0f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 10\ndrwxr-xr-x   2 root root 4096 May 27 06:47 11\ndrwxr-xr-x   2 root root 4096 May 27 06:47 12\ndrwxr-xr-x   2 root root 4096 May 27 06:47 13\ndrwxr-xr-x   2 root root 4096 May 27 06:47 16\ndrwxr-xr-x   2 root root 4096 May 27 06:47 17\ndrwxr-xr-x   2 root root 4096 May 27 06:47 18\ndrwxr-xr-x   2 root root 4096 May 27 06:47 19\ndrwxr-xr-x   2 root root 4096 May 27 06:47 1a\ndrwxr-xr-x   2 root root 4096 May 27 06:47 1b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 1c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 1d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 1e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 1f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 20\ndrwxr-xr-x   2 root root 4096 May 27 06:47 21\ndrwxr-xr-x   2 root root 4096 May 27 06:48 22\ndrwxr-xr-x   2 root root 4096 May 27 06:47 23\ndrwxr-xr-x   2 root root 4096 May 27 06:47 24\ndrwxr-xr-x   2 root root 4096 May 27 06:47 25\ndrwxr-xr-x   2 root root 4096 May 27 06:47 26\ndrwxr-xr-x   2 root root 4096 May 27 06:47 27\ndrwxr-xr-x   2 root root 4096 May 27 06:47 28\ndrwxr-xr-x   2 root root 4096 May 27 06:47 29\ndrwxr-xr-x   2 root root 4096 May 27 06:47 2a\ndrwxr-xr-x   2 root root 4096 May 27 06:47 2c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 2e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 2f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 30\ndrwxr-xr-x   2 root root 4096 May 27 06:47 31\ndrwxr-xr-x   2 root root 4096 May 27 06:47 32\ndrwxr-xr-x   2 root root 4096 May 27 06:47 33\ndrwxr-xr-x   2 root root 4096 May 27 06:47 34\ndrwxr-xr-x   2 root root 4096 May 27 06:47 35\ndrwxr-xr-x   2 root root 4096 May 27 06:47 36\ndrwxr-xr-x   2 root root 4096 May 27 06:47 37\ndrwxr-xr-x   2 root root 4096 May 27 06:47 38\ndrwxr-xr-x   2 root root 4096 May 27 06:47 39\ndrwxr-xr-x   2 root root 4096 May 27 06:47 3b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 3c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 3d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 3e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 3f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 40\ndrwxr-xr-x   2 root root 4096 May 27 06:47 41\ndrwxr-xr-x   2 root root 4096 May 27 06:47 42\ndrwxr-xr-x   2 root root 4096 May 27 06:47 44\ndrwxr-xr-x   2 root root 4096 May 27 06:47 46\ndrwxr-xr-x   2 root root 4096 May 27 06:47 47\ndrwxr-xr-x   2 root root 4096 May 27 06:47 48\ndrwxr-xr-x   2 root root 4096 May 27 06:47 49\ndrwxr-xr-x   2 root root 4096 May 27 06:47 4a\ndrwxr-xr-x   2 root root 4096 May 27 06:47 4b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 4c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 4d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 4e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 4f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 50\ndrwxr-xr-x   2 root root 4096 May 27 06:47 51\ndrwxr-xr-x   2 root root 4096 May 27 06:47 52\ndrwxr-xr-x   2 root root 4096 May 27 06:47 53\ndrwxr-xr-x   2 root root 4096 May 27 06:47 54\ndrwxr-xr-x   2 root root 4096 May 27 06:47 55\ndrwxr-xr-x   2 root root 4096 May 27 06:47 56\ndrwxr-xr-x   2 root root 4096 May 27 06:47 57\ndrwxr-xr-x   2 root root 4096 May 27 06:47 58\ndrwxr-xr-x   2 root root 4096 May 27 06:47 59\ndrwxr-xr-x   2 root root 4096 May 27 06:47 5a\ndrwxr-xr-x   2 root root 4096 May 27 06:47 5b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 5c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 5d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 5e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 5f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 60\ndrwxr-xr-x   2 root root 4096 May 27 06:47 61\ndrwxr-xr-x   2 root root 4096 May 27 06:47 62\ndrwxr-xr-x   2 root root 4096 May 27 06:47 63\ndrwxr-xr-x   2 root root 4096 May 27 06:47 64\ndrwxr-xr-x   2 root root 4096 May 27 06:47 65\ndrwxr-xr-x   2 root root 4096 May 27 06:47 66\ndrwxr-xr-x   2 root root 4096 May 27 06:47 67\ndrwxr-xr-x   2 root root 4096 May 27 06:47 69\ndrwxr-xr-x   2 root root 4096 May 27 06:47 6b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 6d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 6e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 6f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 70\ndrwxr-xr-x   2 root root 4096 May 27 06:47 71\ndrwxr-xr-x   2 root root 4096 May 27 06:47 72\ndrwxr-xr-x   2 root root 4096 May 27 06:47 73\ndrwxr-xr-x   2 root root 4096 May 27 06:47 74\ndrwxr-xr-x   2 root root 4096 May 27 06:47 75\ndrwxr-xr-x   2 root root 4096 May 27 06:47 76\ndrwxr-xr-x   2 root root 4096 May 27 06:47 79\ndrwxr-xr-x   2 root root 4096 May 27 06:47 7a\ndrwxr-xr-x   2 root root 4096 May 27 06:47 7c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 7d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 7e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 7f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 80\ndrwxr-xr-x   2 root root 4096 May 27 06:47 81\ndrwxr-xr-x   2 root root 4096 May 27 06:47 83\ndrwxr-xr-x   2 root root 4096 May 27 06:47 84\ndrwxr-xr-x   2 root root 4096 May 27 06:47 85\ndrwxr-xr-x   2 root root 4096 May 27 06:47 86\ndrwxr-xr-x   2 root root 4096 May 27 06:47 87\ndrwxr-xr-x   2 root root 4096 May 27 06:47 88\ndrwxr-xr-x   2 root root 4096 May 27 06:47 89\ndrwxr-xr-x   2 root root 4096 May 27 06:47 8b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 8c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 8d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 8e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 8f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 90\ndrwxr-xr-x   2 root root 4096 May 27 06:47 91\ndrwxr-xr-x   2 root root 4096 May 27 06:47 93\ndrwxr-xr-x   2 root root 4096 May 27 06:47 94\ndrwxr-xr-x   2 root root 4096 May 27 06:47 95\ndrwxr-xr-x   2 root root 4096 May 27 06:47 96\ndrwxr-xr-x   2 root root 4096 May 27 06:47 97\ndrwxr-xr-x   2 root root 4096 May 27 06:47 98\ndrwxr-xr-x   2 root root 4096 May 27 06:47 99\ndrwxr-xr-x   2 root root 4096 May 27 06:47 9a\ndrwxr-xr-x   2 root root 4096 May 27 06:47 9b\ndrwxr-xr-x   2 root root 4096 May 27 06:47 9c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 9d\ndrwxr-xr-x   2 root root 4096 May 27 06:47 9e\ndrwxr-xr-x   2 root root 4096 May 27 06:47 9f\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a0\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a1\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a3\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a4\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a6\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a7\ndrwxr-xr-x   2 root root 4096 May 27 06:47 a9\ndrwxr-xr-x   2 root root 4096 May 27 06:47 aa\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ab\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ac\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ad\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ae\ndrwxr-xr-x   2 root root 4096 May 27 06:47 af\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b0\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b1\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b4\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b5\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b6\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b7\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b8\ndrwxr-xr-x   2 root root 4096 May 27 06:47 b9\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ba\ndrwxr-xr-x   2 root root 4096 May 27 06:47 bc\ndrwxr-xr-x   2 root root 4096 May 27 06:47 bd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c1\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c3\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c4\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c5\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c6\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c7\ndrwxr-xr-x   2 root root 4096 May 27 06:47 c8\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ca\ndrwxr-xr-x   2 root root 4096 May 27 06:47 cc\ndrwxr-xr-x   2 root root 4096 May 27 06:47 cd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ce\ndrwxr-xr-x   2 root root 4096 May 27 06:47 cf\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d0\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d1\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d3\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d4\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d5\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d6\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d7\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d8\ndrwxr-xr-x   2 root root 4096 May 27 06:47 d9\ndrwxr-xr-x   2 root root 4096 May 27 06:47 da\ndrwxr-xr-x   2 root root 4096 May 27 06:47 dd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 de\ndrwxr-xr-x   2 root root 4096 May 27 06:47 df\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e0\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e1\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e3\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e4\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e5\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e6\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e8\ndrwxr-xr-x   2 root root 4096 May 27 06:47 e9\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ea\ndrwxr-xr-x   2 root root 4096 May 27 06:47 eb\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ec\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ed\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ee\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ef\ndrwxr-xr-x   2 root root 4096 May 27 06:47 f0\ndrwxr-xr-x   2 root root 4096 May 27 06:47 f3\ndrwxr-xr-x   2 root root 4096 May 27 06:47 f4\ndrwxr-xr-x   2 root root 4096 May 27 06:47 f5\ndrwxr-xr-x   2 root root 4096 May 27 06:47 f7\ndrwxr-xr-x   2 root root 4096 May 27 06:47 f8\ndrwxr-xr-x   2 root root 4096 May 27 06:47 f9\ndrwxr-xr-x   2 root root 4096 May 27 06:47 fa\ndrwxr-xr-x   2 root root 4096 May 27 06:47 fb\ndrwxr-xr-x   2 root root 4096 May 27 06:47 fc\ndrwxr-xr-x   2 root root 4096 May 27 06:47 fd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 fe\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ff",
+      "exit": 0,
+      "cwd": "/usr/lib/.build-id"
+     },
+     "cands": [
+      "00",
+      "01",
+      "02",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "0a",
+      "0b",
+      "0d",
+      "0e",
+      "0f",
+      "10",
+      "11",
+      "12",
+      "13",
+      "16",
+      "17",
+      "18",
+      "19",
+      "1a",
+      "1b",
+      "1c",
+      "1d",
+      "1e",
+      "1f",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "2a",
+      "2c",
+      "2e",
+      "2f",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "3b",
+      "3c",
+      "3d",
+      "3e",
+      "3f",
+      "40",
+      "41",
+      "42",
+      "44",
+      "46",
+      "47",
+      "48",
+      "49",
+      "4a",
+      "4b",
+      "4c",
+      "4d",
+      "4e",
+      "4f",
+      "50",
+      "51",
+      "52",
+      "53",
+      "54",
+      "55",
+      "56",
+      "57",
+      "58",
+      "59",
+      "5a",
+      "5b",
+      "5c",
+      "5d",
+      "5e",
+      "5f",
+      "60",
+      "61",
+      "62",
+      "63",
+      "64",
+      "65",
+      "66",
+      "67",
+      "69",
+      "6b",
+      "6d",
+      "6e",
+      "6f",
+      "70",
+      "71",
+      "72",
+      "73",
+      "74",
+      "75",
+      "76",
+      "79",
+      "7a",
+      "7c",
+      "7d",
+      "7e",
+      "7f",
+      "80",
+      "81",
+      "83",
+      "84",
+      "85",
+      "86",
+      "87",
+      "88",
+      "89",
+      "8b",
+      "8c",
+      "8d",
+      "8e",
+      "8f",
+      "90",
+      "91",
+      "93",
+      "94",
+      "95",
+      "96",
+      "97",
+      "98",
+      "99",
+      "9a",
+      "9b",
+      "9c",
+      "9d",
+      "9e",
+      "9f",
+      "a0",
+      "a1",
+      "a2",
+      "a3",
+      "a4",
+      "a6",
+      "a7",
+      "a9",
+      "aa",
+      "ab",
+      "ac",
+      "ad",
+      "ae",
+      "af",
+      "b0",
+      "b1",
+      "b2",
+      "b4",
+      "b5",
+      "b6",
+      "b7",
+      "b8",
+      "b9",
+      "ba",
+      "bc",
+      "bd",
+      "c1",
+      "c2",
+      "c3",
+      "c4",
+      "c5",
+      "c6",
+      "c7",
+      "c8",
+      "ca",
+      "cc",
+      "cd",
+      "ce",
+      "cf",
+      "d0",
+      "d1",
+      "d2",
+      "d3",
+      "d4",
+      "d5",
+      "d6",
+      "d7",
+      "d8",
+      "d9",
+      "da",
+      "dd",
+      "de",
+      "df",
+      "e0",
+      "e1",
+      "e2",
+      "e3",
+      "e4",
+      "e5",
+      "e6",
+      "e8",
+      "e9",
+      "ea",
+      "eb",
+      "ec",
+      "ed",
+      "ee",
+      "ef",
+      "f0",
+      "f3",
+      "f4",
+      "f5",
+      "f7",
+      "f8",
+      "f9",
+      "fa",
+      "fb",
+      "fc",
+      "fd",
+      "fe",
+      "ff"
+     ]
+    },
+    "/usr/lib64": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 64360\ndr-xr-xr-x 23 root root   20480 May 27 06:47 .\ndrwxr-xr-x 11 root root    4096 May 27 06:47 ..\n-rw-r--r--  1 root root      65 Jan 16  2026 .libgmp.so.10.5.0.hmac\nlrwxrwxrwx  1 root root      22 Jan 16  2026 .libgmp.so.10.hmac -> .libgmp.so.10.5.0.hmac\n-rw-r--r--  1 root root     527 May  4 00:00 .libgnutls.so.30.42.0.hmac\nlrwxrwxrwx  1 root root      26 May  4 00:00 .libgnutls.so.30.hmac -> .libgnutls.so.30.42.0.hmac\n-rw-r--r--  1 root root      65 Jan 16  2026 .libhogweed.so.6.10.hmac\nlrwxrwxrwx  1 root root      24 Jan 16  2026 .libhogweed.so.6.hmac -> .libhogweed.so.6.10.hmac\n-rw-r--r--  1 root root      65 Jan 16  2026 .libnettle.so.8.10.hmac\nlrwxrwxrwx  1 root root      23 Jan 16  2026 .libnettle.so.8.hmac -> .libnettle.so.8.10.hmac\ndr-xr-xr-x  2 root root    4096 Jan 16  2026 X11\ndrwxr-xr-x  2 root root    4096 May 27 06:47 audit\ndr-xr-xr-x  2 root root    4096 Jan 16  2026 bpf\ndrwxr-xr-x  3 root root    4096 May 27 06:47 dnf5\ndrwxr-xr-x  2 root root    4096 May 27 06:47 engines-3\ndrwxr-xr-x  2 root root    4096 May 27 06:47 fipscheck\ndr-xr-xr-x  2 root root    4096 Jan 16  2026 games\ndrwxr-xr-x  2 root root    4096 May 27 06:47 gawk\ndrwxr-xr-x  3 root root    4096 May 27 06:47 gconv\ndrwxr-xr-x  3 root root    4096 May 27 06:47 gio\ndrwxr-xr-x  2 root root    4096 May 27 06:47 girepository-1.0\ndrwxr-xr-x  3 root root    4096 May 27 06:47 krb5\n-rwxr-xr-x  1 root root   68760 May 12 00:00 libBrokenLocale.so.1\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libacl.so.1 -> libacl.so.1.1.2302\n-rwxr-xr-x  1 root root   69368 Jan 16  2026 libacl.so.1.1.2302\n-rwxr-xr-x  1 root root   68656 May 12 00:00 libanl.so.1\nlrwxrwxrwx  1 root root      20 Apr 13 00:00 libarchive.so.13 -> libarchive.so.13.8.7\n-rwxr-xr-x  1 root root  931520 Apr 13 00:00 libarchive.so.13.8.7\n-rwxr-xr-x  1 root root   69344 Apr 22 00:00 libasm-0.195.so\nlrwxrwxrwx  1 root root      15 Apr 22 00:00 libasm.so.1 -> libasm-0.195.so\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libassuan.so.0 -> libassuan.so.0.8.7\n-rwxr-xr-x  1 root root  136112 Jan 16  2026 libassuan.so.0.8.7\nlrwxrwxrwx  1 root root      19 Jan 16  2026 libattr.so.1 -> libattr.so.1.1.2502\n-rwxr-xr-x  1 root root   69080 Jan 16  2026 libattr.so.1.1.2502\nlrwxrwxrwx  1 root root      17 Mar 23 00:00 libaudit.so.1 -> libaudit.so.1.0.0\n-rwxr-xr-x  1 root root  200496 Mar 23 00:00 libaudit.so.1.0.0\nlrwxrwxrwx  1 root root      19 Mar 23 00:00 libauparse.so.0 -> libauparse.so.0.0.0\n-rwxr-xr-x  1 root root  201272 Mar 23 00:00 libauparse.so.0.0.0\nlrwxrwxrwx  1 root root      20 Mar 23 00:00 libauplugin.so.1 -> libauplugin.so.1.0.0\n-rwxr-xr-x  1 root root   69120 Mar 23 00:00 libauplugin.so.1.0.0\nlrwxrwxrwx  1 root root      22 Jan 20 00:00 libauthselect.so.5 -> libauthselect.so.5.2.0\n-rwxr-xr-x  1 root root  137432 Jan 20 00:00 libauthselect.so.5.2.0\nlrwxrwxrwx  1 root root      17 May 20 00:00 libblkid.so.1 -> libblkid.so.1.1.0\n-rwxr-xr-x  1 root root  270736 May 20 00:00 libblkid.so.1.1.0\nlrwxrwxrwx  1 root root      24 Jan 16  2026 libbrotlicommon.so.1 -> libbrotlicommon.so.1.2.0\n-rwxr-xr-x  1 root root  199760 Jan 16  2026 libbrotlicommon.so.1.2.0\nlrwxrwxrwx  1 root root      21 Jan 16  2026 libbrotlidec.so.1 -> libbrotlidec.so.1.2.0\n-rwxr-xr-x  1 root root   69064 Jan 16  2026 libbrotlidec.so.1.2.0\nlrwxrwxrwx  1 root root      21 Jan 16  2026 libbrotlienc.so.1 -> libbrotlienc.so.1.2.0\n-rwxr-xr-x  1 root root  660768 Jan 16  2026 libbrotlienc.so.1.2.0\nlrwxrwxrwx  1 root root      15 Jan 16  2026 libbz2.so.1 -> libbz2.so.1.0.8\n-rwxr-xr-x  1 root root   72280 Jan 16  2026 libbz2.so.1.0.8\n-rwxr-xr-x  1 root root 2303912 May 12 00:00 libc.so.6\nlrwxrwxrwx  1 root root      18 Apr  9 00:00 libcap-ng.so.0 -> libcap-ng.so.0.0.0\n-rwxr-xr-x  1 root root   69160 Apr  9 00:00 libcap-ng.so.0.0.0\nlrwxrwxrwx  1 root root      14 Apr  6 00:00 libcap.so.2 -> libcap.so.2.78\n-rwxr-xr-x  1 root root   69552 Apr  6 00:00 libcap.so.2.78\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libcbor.so.0.13 -> libcbor.so.0.13.0\n-rwxr-xr-x  1 root root  135928 Jan 16  2026 libcbor.so.0.13.0\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libcom_err.so.2 -> libcom_err.so.2.1\n-rwxr-xr-x  1 root root   69032 Jan 16  2026 libcom_err.so.2.1\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libcrack.so.2 -> libcrack.so.2.9.0\n-rwxr-xr-x  1 root root   68976 Jan 16  2026 libcrack.so.2.9.0\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libcrypt.so.2 -> libcrypt.so.2.0.0\n-rwxr-xr-x  1 root root  201128 Jan 16  2026 libcrypt.so.2.0.0\nlrwxrwxrwx  1 root root      18 Apr 20 00:00 libcrypto.so.3 -> libcrypto.so.3.5.5\n-rwxr-xr-x  1 root root 4783928 Apr 20 00:00 libcrypto.so.3.5.5\nlrwxrwxrwx  1 root root      16 Apr 10 00:00 libcurl.so.4 -> libcurl.so.4.8.0\n-rwxr-xr-x  1 root root 1003288 Apr 10 00:00 libcurl.so.4.8.0\n-rwxr-xr-x  1 root root   68656 May 12 00:00 libdl.so.2\ndrwxr-xr-x  3 root root    4096 May 27 06:47 libdnf5\n-rwxr-xr-x  1 root root  737456 May  6 00:00 libdnf5-cli.so.3\n-rwxr-xr-x  1 root root 3065192 May  6 00:00 libdnf5.so.2\nlrwxrwxrwx  1 root root      24 Apr  9 00:00 libdrop_ambient.so.0 -> libdrop_ambient.so.0.0.0\n-rwxr-xr-x  1 root root   68576 Apr  9 00:00 libdrop_ambient.so.0.0.0\n-rwxr-xr-x  1 root root  669256 Apr 22 00:00 libdw-0.195.so\nlrwxrwxrwx  1 root root      14 Apr 22 00:00 libdw.so.1 -> libdw-0.195.so\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libeconf.so.0 -> libeconf.so.0.7.9\n-rwxr-xr-x  1 root root   69648 Jan 16  2026 libeconf.so.0.7.9\n-rwxr-xr-x  1 root root  136464 Apr 22 00:00 libelf-0.195.so\nlrwxrwxrwx  1 root root      15 Apr 22 00:00 libelf.so.1 -> libelf-0.195.so\nlrwxrwxrwx  1 root root      21 Jan 16  2026 libevent-2.1.so.7 -> libevent-2.1.so.7.0.1\n-rwxr-xr-x  1 root root  402320 Jan 16  2026 libevent-2.1.so.7.0.1\nlrwxrwxrwx  1 root root      26 Jan 16  2026 libevent_core-2.1.so.7 -> libevent_core-2.1.so.7.0.1\n-rwxr-xr-x  1 root root  268808 Jan 16  2026 libevent_core-2.1.so.7.0.1\nlrwxrwxrwx  1 root root      27 Jan 16  2026 libevent_extra-2.1.so.7 -> libevent_extra-2.1.so.7.0.1\n-rwxr-xr-x  1 root root  202328 Jan 16  2026 libevent_extra-2.1.so.7.0.1\nlrwxrwxrwx  1 root root      29 Jan 16  2026 libevent_openssl-2.1.so.7 -> libevent_openssl-2.1.so.7.0.1\n-rwxr-xr-x  1 root root   69056 Jan 16  2026 libevent_openssl-2.1.so.7.0.1\nlrwxrwxrwx  1 root root      30 Jan 16  2026 libevent_pthreads-2.1.so.7 -> libevent_pthreads-2.1.so.7.0.1\n-rwxr-xr-x  1 root root   68816 Jan 16  2026 libevent_pthreads-2.1.so.7.0.1\nlrwxrwxrwx  1 root root      15 Jan 16  2026 libffi.so.8 -> libffi.so.8.2.0\n-rwxr-xr-x  1 root root  135280 Jan 16  2026 libffi.so.8.2.0\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libfido2.so.1 -> libfido2.so.1.16.0\n-rwxr-xr-x  1 root root  268224 Jan 16  2026 libfido2.so.1.16.0\nlrwxrwxrwx  1 root root      16 Jan 16  2026 libfmt.so.11 -> libfmt.so.11.2.0\n-rwxr-xr-x  1 root root  136288 Jan 16  2026 libfmt.so.11.2.0\nlrwxrwxrwx  1 root root      14 Feb  3 00:00 libform.so.6 -> libform.so.6.6\n-rwxr-xr-x  1 root root  137312 Feb  3 00:00 libform.so.6.6\nlrwxrwxrwx  1 root root      15 Feb  3 00:00 libformw.so.6 -> libformw.so.6.6\n-rwxr-xr-x  1 root root  137456 Feb  3 00:00 libformw.so.6.6\n-rwxr-xr-x  1 root root   68888 Jan 16  2026 libfsverity.so.0\n-rwxr-xr-x  1 root root  137000 May 15 00:00 libgcc_s-16-20260515.so.1\nlrwxrwxrwx  1 root root      25 May 15 00:00 libgcc_s.so.1 -> libgcc_s-16-20260515.so.1\nlrwxrwxrwx  1 root root      19 Apr 16 00:00 libgcrypt.so.20 -> libgcrypt.so.20.7.2\n-rwxr-xr-x  1 root root 1146200 Apr 16 00:00 libgcrypt.so.20.7.2\nlrwxrwxrwx  1 root root      16 Jan 16  2026 libgdbm.so.6 -> libgdbm.so.6.0.0\n-rwxr-xr-x  1 root root  135480 Jan 16  2026 libgdbm.so.6.0.0\nlrwxrwxrwx  1 root root      23 Jan 16  2026 libgdbm_compat.so.4 -> libgdbm_compat.so.4.0.0\n-rwxr-xr-x  1 root root   68608 Jan 16  2026 libgdbm_compat.so.4.0.0\nlrwxrwxrwx  1 root root      22 May  2 00:00 libgio-2.0.so.0 -> libgio-2.0.so.0.8800.1\n-rwxr-xr-x  1 root root 2135776 May  2 00:00 libgio-2.0.so.0.8800.1\nlrwxrwxrwx  1 root root      31 May  2 00:00 libgirepository-2.0.so.0 -> libgirepository-2.0.so.0.8800.1\n-rwxr-xr-x  1 root root  202032 May  2 00:00 libgirepository-2.0.so.0.8800.1\nlrwxrwxrwx  1 root root      23 May  2 00:00 libglib-2.0.so.0 -> libglib-2.0.so.0.8800.1\n-rwxr-xr-x  1 root root 1469752 May  2 00:00 libglib-2.0.so.0.8800.1\nlrwxrwxrwx  1 root root      26 May  2 00:00 libgmodule-2.0.so.0 -> libgmodule-2.0.so.0.8800.1\n-rwxr-xr-x  1 root root   68904 May  2 00:00 libgmodule-2.0.so.0.8800.1\nlrwxrwxrwx  1 root root      16 Jan 16  2026 libgmp.so.10 -> libgmp.so.10.5.0\n-rwxr-xr-x  1 root root  533496 Jan 16  2026 libgmp.so.10.5.0\nlrwxrwxrwx  1 root root      20 May  4 00:00 libgnutls.so.30 -> libgnutls.so.30.42.0\n-rwxr-xr-x  1 root root 2737832 May  4 00:00 libgnutls.so.30.42.0\nlrwxrwxrwx  1 root root      26 May  2 00:00 libgobject-2.0.so.0 -> libgobject-2.0.so.0.8800.1\n-rwxr-xr-x  1 root root  472344 May  2 00:00 libgobject-2.0.so.0.8800.1\nlrwxrwxrwx  1 root root      16 May 15 00:00 libgomp.so.1 -> libgomp.so.1.0.0\n-rwxr-xr-x  1 root root  406312 May 15 00:00 libgomp.so.1.0.0\nlrwxrwxrwx  1 root root      22 Jan 16  2026 libgpg-error.so.0 -> libgpg-error.so.0.41.1\n-rwxr-xr-x  1 root root  203496 Jan 16  2026 libgpg-error.so.0.41.1\nlrwxrwxrwx  1 root root      21 Apr 28 00:00 libgssapi_krb5.so.2 -> libgssapi_krb5.so.2.2\n-rwxr-xr-x  1 root root  338080 Apr 28 00:00 libgssapi_krb5.so.2.2\nlrwxrwxrwx  1 root root      16 Apr 28 00:00 libgssrpc.so.4 -> libgssrpc.so.4.2\n-rwxr-xr-x  1 root root  138072 Apr 28 00:00 libgssrpc.so.4.2\nlrwxrwxrwx  1 root root      26 May  2 00:00 libgthread-2.0.so.0 -> libgthread-2.0.so.0.8800.1\n-rwxr-xr-x  1 root root   68480 May  2 00:00 libgthread-2.0.so.0.8800.1\nlrwxrwxrwx  1 root root      17 Jan 17  2026 libhistory.so.8 -> libhistory.so.8.3\n-rwxr-xr-x  1 root root   69456 Jan 17  2026 libhistory.so.8.3\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libhogweed.so.6 -> libhogweed.so.6.10\n-rwxr-xr-x  1 root root  268800 Jan 16  2026 libhogweed.so.6.10\nlrwxrwxrwx  1 root root      16 Jan 16  2026 libidn2.so.0 -> libidn2.so.0.4.0\n-rwxr-xr-x  1 root root  331400 Jan 16  2026 libidn2.so.0.4.0\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libimaevm.so.5 -> libimaevm.so.5.0.0\n-rwxr-xr-x  1 root root   69024 Jan 16  2026 libimaevm.so.5.0.0\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libjson-c.so.5 -> libjson-c.so.5.4.0\n-rwxr-xr-x  1 root root  136520 Jan 16  2026 libjson-c.so.5.4.0\nlrwxrwxrwx  1 root root      18 Apr 28 00:00 libk5crypto.so.3 -> libk5crypto.so.3.1\n-rwxr-xr-x  1 root root  136144 Apr 28 00:00 libk5crypto.so.3.1\nlrwxrwxrwx  1 root root      15 Apr 28 00:00 libkdb5.so.10 -> libkdb5.so.10.0\n-rwxr-xr-x  1 root root  136264 Apr 28 00:00 libkdb5.so.10.0\nlrwxrwxrwx  1 root root      19 Jan 16  2026 libkeyutils.so.1 -> libkeyutils.so.1.10\n-rwxr-xr-x  1 root root   69256 Jan 16  2026 libkeyutils.so.1.10\nlrwxrwxrwx  1 root root      14 Apr 28 00:00 libkrad.so.0 -> libkrad.so.0.0\n-rwxr-xr-x  1 root root   69312 Apr 28 00:00 libkrad.so.0.0\nlrwxrwxrwx  1 root root      14 Apr 28 00:00 libkrb5.so.3 -> libkrb5.so.3.3\n-rwxr-xr-x  1 root root  873296 Apr 28 00:00 libkrb5.so.3.3\nlrwxrwxrwx  1 root root      21 Apr 28 00:00 libkrb5support.so.0 -> libkrb5support.so.0.1\n-rwxr-xr-x  1 root root   70392 Apr 28 00:00 libkrb5support.so.0.1\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libksba.so.8 -> libksba.so.8.14.7\n-rwxr-xr-x  1 root root  268680 Jan 16  2026 libksba.so.8.14.7\nlrwxrwxrwx  1 root root      18 Mar 17 00:00 liblber.so.2 -> liblber.so.2.0.200\n-rwxr-xr-x  1 root root   70392 Mar 17 00:00 liblber.so.2.0.200\nlrwxrwxrwx  1 root root      18 Mar 17 00:00 libldap.so.2 -> libldap.so.2.0.200\n-rwxr-xr-x  1 root root  470536 Mar 17 00:00 libldap.so.2.0.200\nlrwxrwxrwx  1 root root      16 Jan 16  2026 libltdl.so.7 -> libltdl.so.7.3.3\n-rwxr-xr-x  1 root root   69640 Jan 16  2026 libltdl.so.7.3.3\n-rwxr-xr-x  1 root root  336600 Jan 16  2026 liblua-5.4.so\nlrwxrwxrwx  1 root root      16 Jan 16  2026 liblz4.so.1 -> liblz4.so.1.10.0\n-rwxr-xr-x  1 root root  200640 Jan 16  2026 liblz4.so.1.10.0\nlrwxrwxrwx  1 root root      16 Jan 17  2026 liblzma.so.5 -> liblzma.so.5.8.2\n-rwxr-xr-x  1 root root  268584 Jan 17  2026 liblzma.so.5.8.2\n-rwxr-xr-x  1 root root  737816 May 12 00:00 libm.so.6\nlrwxrwxrwx  1 root root      17 Mar 24 00:00 libmagic.so.1 -> libmagic.so.1.0.0\n-rwxr-xr-x  1 root root  201704 Mar 24 00:00 libmagic.so.1.0.0\nlrwxrwxrwx  1 root root      14 Feb  3 00:00 libmenu.so.6 -> libmenu.so.6.6\n-rwxr-xr-x  1 root root   69664 Feb  3 00:00 libmenu.so.6.6\nlrwxrwxrwx  1 root root      15 Feb  3 00:00 libmenuw.so.6 -> libmenuw.so.6.6\n-rwxr-xr-x  1 root root   69688 Feb  3 00:00 libmenuw.so.6.6\nlrwxrwxrwx  1 root root      21 Feb 24 00:00 libmodulemd.so.2 -> libmodulemd.so.2.15.2\n-rwxr-xr-x  1 root root  595752 Feb 24 00:00 libmodulemd.so.2.15.2\nlrwxrwxrwx  1 root root      17 May 20 00:00 libmount.so.1 -> libmount.so.1.1.0\n-rwxr-xr-x  1 root root  403624 May 20 00:00 libmount.so.1.1.0\nlrwxrwxrwx  1 root root      16 Jan 16  2026 libmpfr.so.6 -> libmpfr.so.6.2.2\n-rwxr-xr-x  1 root root  699856 Jan 16  2026 libmpfr.so.6.2.2\n-rwxr-xr-x  1 root root  267848 May 12 00:00 libmvec.so.1\nlrwxrwxrwx  1 root root      17 Feb  3 00:00 libncurses.so.6 -> libncurses.so.6.6\n-rwxr-xr-x  1 root root  203904 Feb  3 00:00 libncurses.so.6.6\nlrwxrwxrwx  1 root root      18 Feb  3 00:00 libncursesw.so.6 -> libncursesw.so.6.6\n-rwxr-xr-x  1 root root  270608 Feb  3 00:00 libncursesw.so.6.6\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libnettle.so.8 -> libnettle.so.8.10\n-rwxr-xr-x  1 root root  336752 Jan 16  2026 libnettle.so.8.10\nlrwxrwxrwx  1 root root      21 May 15 00:00 libnghttp2.so.14 -> libnghttp2.so.14.29.2\n-rwxr-xr-x  1 root root  201464 May 15 00:00 libnghttp2.so.14.29.2\nlrwxrwxrwx  1 root root      19 Jan 22 00:00 libnghttp3.so.9 -> libnghttp3.so.9.6.1\n-rwxr-xr-x  1 root root  208464 Jan 22 00:00 libnghttp3.so.9.6.1\nlrwxrwxrwx  1 root root      19 Apr 20 00:00 libngtcp2.so.16 -> libngtcp2.so.16.8.1\n-rwxr-xr-x  1 root root  334608 Apr 20 00:00 libngtcp2.so.16.8.1\nlrwxrwxrwx  1 root root      30 Apr 20 00:00 libngtcp2_crypto_ossl.so.0 -> libngtcp2_crypto_ossl.so.0.2.0\n-rwxr-xr-x  1 root root   69032 Apr 20 00:00 libngtcp2_crypto_ossl.so.0.2.0\nlrwxrwxrwx  1 root root      16 Jan 16  2026 libnpth.so.0 -> libnpth.so.0.3.0\n-rwxr-xr-x  1 root root   69008 Jan 16  2026 libnpth.so.0.3.0\nlrwxrwxrwx  1 root root      15 Jan 16  2026 libnsl.so.3 -> libnsl.so.3.0.0\n-rwxr-xr-x  1 root root   69424 Jan 16  2026 libnsl.so.3.0.0\n-rwxr-xr-x  1 root root   69832 May 12 00:00 libnss_compat.so.2\n-rwxr-xr-x  1 root root   68624 May 12 00:00 libnss_dns.so.2\n-rwxr-xr-x  1 root root   68632 May 12 00:00 libnss_files.so.2\n-rwxr-xr-x  1 root root  203200 Mar 13 00:00 libnss_myhostname.so.2\n-rwxr-xr-x  1 root root  269056 Mar 13 00:00 libnss_resolve.so.2\n-rwxr-xr-x  1 root root  469760 Mar 13 00:00 libnss_systemd.so.2\nlrwxrwxrwx  1 root root      31 May 27 06:47 libnssckbi.so -> /etc/alternatives/libnssckbi.so\nlrwxrwxrwx  1 root root      19 Feb 10 00:00 libp11-kit.so.0 -> libp11-kit.so.0.4.8\n-rwxr-xr-x  1 root root 1893200 Feb 10 00:00 libp11-kit.so.0.4.8\nlrwxrwxrwx  1 root root      16 Jan 23 00:00 libpam.so.0 -> libpam.so.0.85.1\n-rwxr-xr-x  1 root root   69736 Jan 23 00:00 libpam.so.0.85.1\nlrwxrwxrwx  1 root root      21 Jan 23 00:00 libpam_misc.so.0 -> libpam_misc.so.0.82.1\n-rwxr-xr-x  1 root root   68968 Jan 23 00:00 libpam_misc.so.0.82.1\nlrwxrwxrwx  1 root root      17 Jan 23 00:00 libpamc.so.0 -> libpamc.so.0.82.1\n-rwxr-xr-x  1 root root   68880 Jan 23 00:00 libpamc.so.0.82.1\nlrwxrwxrwx  1 root root      15 Feb  3 00:00 libpanel.so.6 -> libpanel.so.6.6\n-rwxr-xr-x  1 root root   68736 Feb  3 00:00 libpanel.so.6.6\nlrwxrwxrwx  1 root root      16 Feb  3 00:00 libpanelw.so.6 -> libpanelw.so.6.6\n-rwxr-xr-x  1 root root   68744 Feb  3 00:00 libpanelw.so.6.6\n-rwxr-xr-x  1 root root   68664 May 12 00:00 libpcprofile.so\nlrwxrwxrwx  1 root root      20 Jan 16  2026 libpcre2-8.so.0 -> libpcre2-8.so.0.15.0\n-rwxr-xr-x  1 root root  662528 Jan 16  2026 libpcre2-8.so.0.15.0\nlrwxrwxrwx  1 root root      23 Jan 16  2026 libpcre2-posix.so.3 -> libpcre2-posix.so.3.0.7\n-rwxr-xr-x  1 root root   68768 Jan 16  2026 libpcre2-posix.so.3.0.7\nlrwxrwxrwx  1 root root      16 Jan 17  2026 libpopt.so.0 -> libpopt.so.0.0.2\n-rwxr-xr-x  1 root root   70208 Jan 17  2026 libpopt.so.0.0.2\nlrwxrwxrwx  1 root root      15 Jan 16  2026 libpsl.so.5 -> libpsl.so.5.3.5\n-rwxr-xr-x  1 root root  134400 Jan 16  2026 libpsl.so.5.3.5\nlrwxrwxrwx  1 root root      14 Apr  6 00:00 libpsx.so.2 -> libpsx.so.2.78\n-rwxr-xr-x  1 root root   68856 Apr  6 00:00 libpsx.so.2.78\n-rwxr-xr-x  1 root root   68672 May 12 00:00 libpthread.so.0\nlrwxrwxrwx  1 root root      21 Jan 16  2026 libpwquality.so.1 -> libpwquality.so.1.0.2\n-rwxr-xr-x  1 root root   69024 Jan 16  2026 libpwquality.so.1.0.2\nlrwxrwxrwx  1 root root      18 Jan 17  2026 libreadline.so.8 -> libreadline.so.8.3\n-rwxr-xr-x  1 root root  423112 Jan 17  2026 libreadline.so.8.3\n-rwxr-xr-x  1 root root  268008 Jan 16  2026 librepo.so.0\n-rwxr-xr-x  1 root root   70032 May 12 00:00 libresolv.so.2\nlrwxrwxrwx  1 root root      16 Jan 17  2026 librpm.so.10 -> librpm.so.10.7.0\n-rwxr-xr-x  1 root root  680920 Jan 17  2026 librpm.so.10.7.0\n-rwxr-xr-x  1 root root 2300208 May 11 00:00 librpm_sequoia.so.1\nlrwxrwxrwx  1 root root      21 Jan 17  2026 librpmbuild.so.10 -> librpmbuild.so.10.7.0\n-rwxr-xr-x  1 root root  270288 Jan 17  2026 librpmbuild.so.10.7.0\nlrwxrwxrwx  1 root root      18 Jan 17  2026 librpmio.so.10 -> librpmio.so.10.7.0\n-rwxr-xr-x  1 root root  337840 Jan 17  2026 librpmio.so.10.7.0\nlrwxrwxrwx  1 root root      20 Jan 17  2026 librpmsign.so.10 -> librpmsign.so.10.7.0\n-rwxr-xr-x  1 root root   69184 Jan 17  2026 librpmsign.so.10.7.0\n-rwxr-xr-x  1 root root   68808 May 12 00:00 librt.so.1\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libsasl2.so.3 -> libsasl2.so.3.0.0\n-rwxr-xr-x  1 root root  136920 Jan 16  2026 libsasl2.so.3.0.0\nlrwxrwxrwx  1 root root      21 Jan 17  2026 libsdbus-c++.so.2 -> libsdbus-c++.so.2.2.1\n-rwxr-xr-x  1 root root  335784 Jan 17  2026 libsdbus-c++.so.2.2.1\n-rwxr-xr-x  1 root root  204696 Feb  2 00:00 libselinux.so.1\n-rwxr-xr-x  1 root root  336824 Feb  2 00:00 libsemanage.so.2\n-rwxr-xr-x  1 root root  802944 Feb  2 00:00 libsepol.so.2\nlrwxrwxrwx  1 root root      19 Mar 17 00:00 libslapi.so.2 -> libslapi.so.2.0.200\n-rwxr-xr-x  1 root root  201720 Mar 17 00:00 libslapi.so.2.0.200\nlrwxrwxrwx  1 root root      21 May 20 00:00 libsmartcols.so.1 -> libsmartcols.so.1.1.0\n-rwxr-xr-x  1 root root  203176 May 20 00:00 libsmartcols.so.1.1.0\n-rwxr-xr-x  1 root root  669056 Apr 28 00:00 libsolv.so.1\n-rwxr-xr-x  1 root root  340304 Apr 28 00:00 libsolvext.so.1\nlrwxrwxrwx  1 root root      20 Jan 20 00:00 libsqlite3.so.0 -> libsqlite3.so.3.51.2\n-rwxr-xr-x  1 root root 1617064 Jan 20 00:00 libsqlite3.so.3.51.2\nlrwxrwxrwx  1 root root      16 Feb 10 00:00 libssh.so.4 -> libssh.so.4.11.0\n-rwxr-xr-x  1 root root  674488 Feb 10 00:00 libssh.so.4.11.0\nlrwxrwxrwx  1 root root      16 Feb 10 00:00 libssh_threads.so.4 -> libssh.so.4.11.0\nlrwxrwxrwx  1 root root      16 Feb 10 00:00 libssh_threads.so.4.11.0 -> libssh.so.4.11.0\nlrwxrwxrwx  1 root root      15 Apr 20 00:00 libssl.so.3 -> libssl.so.3.5.5\n-rwxr-xr-x  1 root root 1019392 Apr 20 00:00 libssl.so.3.5.5\nlrwxrwxrwx  1 root root      19 May 15 00:00 libstdc++.so.6 -> libstdc++.so.6.0.35\n-rwxr-xr-x  1 root root 2760912 May 15 00:00 libstdc++.so.6.0.35\nlrwxrwxrwx  1 root root      20 Mar 13 00:00 libsystemd.so.0 -> libsystemd.so.0.42.0\n-rwxr-xr-x  1 root root 1272872 Mar 13 00:00 libsystemd.so.0.42.0\nlrwxrwxrwx  1 root root      17 Mar 13 00:00 libtasn1.so.6 -> libtasn1.so.6.6.5\n-rwxr-xr-x  1 root root  135280 Mar 13 00:00 libtasn1.so.6.6.5\n-rwxr-xr-x  1 root root   69968 May 12 00:00 libthread_db.so.1\nlrwxrwxrwx  1 root root      13 Feb  3 00:00 libtic.so.6 -> libtic.so.6.6\n-rwxr-xr-x  1 root root   69288 Feb  3 00:00 libtic.so.6.6\nlrwxrwxrwx  1 root root      15 Feb  3 00:00 libtinfo.so.6 -> libtinfo.so.6.6\n-rwxr-xr-x  1 root root  203624 Feb  3 00:00 libtinfo.so.6.6\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libtirpc.so.3 -> libtirpc.so.3.0.0\n-rwxr-xr-x  1 root root  204392 Jan 16  2026 libtirpc.so.3.0.0\nlrwxrwxrwx  1 root root      21 Jan 17  2026 libtss2-esys.so.0 -> libtss2-esys.so.0.0.1\n-rwxr-xr-x  1 root root  596048 Jan 17  2026 libtss2-esys.so.0.0.1\nlrwxrwxrwx  1 root root      19 Jan 17  2026 libtss2-mu.so.0 -> libtss2-mu.so.0.0.1\n-rwxr-xr-x  1 root root  331040 Jan 17  2026 libtss2-mu.so.0.0.1\nlrwxrwxrwx  1 root root      23 Jan 17  2026 libtss2-policy.so.0 -> libtss2-policy.so.0.0.0\n-rwxr-xr-x  1 root root  270552 Jan 17  2026 libtss2-policy.so.0.0.0\nlrwxrwxrwx  1 root root      19 Jan 17  2026 libtss2-rc.so.0 -> libtss2-rc.so.0.0.0\n-rwxr-xr-x  1 root root   78056 Jan 17  2026 libtss2-rc.so.0.0.0\nlrwxrwxrwx  1 root root      20 Jan 17  2026 libtss2-sys.so.1 -> libtss2-sys.so.1.0.1\n-rwxr-xr-x  1 root root  200760 Jan 17  2026 libtss2-sys.so.1.0.1\nlrwxrwxrwx  1 root root      25 Jan 17  2026 libtss2-tcti-cmd.so.0 -> libtss2-tcti-cmd.so.0.0.0\n-rwxr-xr-x  1 root root   68984 Jan 17  2026 libtss2-tcti-cmd.so.0.0.0\nlrwxrwxrwx  1 root root      28 Jan 17  2026 libtss2-tcti-device.so.0 -> libtss2-tcti-device.so.0.0.0\n-rwxr-xr-x  1 root root   68992 Jan 17  2026 libtss2-tcti-device.so.0.0.0\nlrwxrwxrwx  1 root root      32 Jan 17  2026 libtss2-tcti-i2c-helper.so.0 -> libtss2-tcti-i2c-helper.so.0.0.0\n-rwxr-xr-x  1 root root   69040 Jan 17  2026 libtss2-tcti-i2c-helper.so.0.0.0\nlrwxrwxrwx  1 root root      27 Jan 17  2026 libtss2-tcti-mssim.so.0 -> libtss2-tcti-mssim.so.0.0.0\n-rwxr-xr-x  1 root root   69120 Jan 17  2026 libtss2-tcti-mssim.so.0.0.0\nlrwxrwxrwx  1 root root      26 Jan 17  2026 libtss2-tcti-pcap.so.0 -> libtss2-tcti-pcap.so.0.0.0\n-rwxr-xr-x  1 root root   69072 Jan 17  2026 libtss2-tcti-pcap.so.0.0.0\nlrwxrwxrwx  1 root root      32 Jan 17  2026 libtss2-tcti-spi-helper.so.0 -> libtss2-tcti-spi-helper.so.0.0.0\n-rwxr-xr-x  1 root root   69048 Jan 17  2026 libtss2-tcti-spi-helper.so.0.0.0\nlrwxrwxrwx  1 root root      32 Jan 17  2026 libtss2-tcti-spi-ltt2go.so.0 -> libtss2-tcti-spi-ltt2go.so.0.0.0\n-rwxr-xr-x  1 root root   68880 Jan 17  2026 libtss2-tcti-spi-ltt2go.so.0.0.0\nlrwxrwxrwx  1 root root      28 Jan 17  2026 libtss2-tcti-spidev.so.0 -> libtss2-tcti-spidev.so.0.0.0\n-rwxr-xr-x  1 root root   68936 Jan 17  2026 libtss2-tcti-spidev.so.0.0.0\nlrwxrwxrwx  1 root root      27 Jan 17  2026 libtss2-tcti-swtpm.so.0 -> libtss2-tcti-swtpm.so.0.0.0\n-rwxr-xr-x  1 root root   69104 Jan 17  2026 libtss2-tcti-swtpm.so.0.0.0\nlrwxrwxrwx  1 root root      24 Jan 17  2026 libtss2-tctildr.so.0 -> libtss2-tctildr.so.0.0.0\n-rwxr-xr-x  1 root root   69056 Jan 17  2026 libtss2-tctildr.so.0.0.0\nlrwxrwxrwx  1 root root      17 Mar 13 00:00 libudev.so.1 -> libudev.so.1.7.12\n-rwxr-xr-x  1 root root  336080 Mar 13 00:00 libudev.so.1.7.12\nlrwxrwxrwx  1 root root      21 Jan 16  2026 libunistring.so.5 -> libunistring.so.5.0.0\n-rwxr-xr-x  1 root root 1776192 Jan 16  2026 libunistring.so.5.0.0\nlrwxrwxrwx  1 root root      19 May 20 00:00 libusb-1.0.so.0 -> libusb-1.0.so.0.6.0\n-rwxr-xr-x  1 root root  136072 May 20 00:00 libusb-1.0.so.0.6.0\n-rwxr-xr-x  1 root root   68656 May 12 00:00 libutil.so.1\nlrwxrwxrwx  1 root root      16 May 20 00:00 libuuid.so.1 -> libuuid.so.1.3.0\n-rwxr-xr-x  1 root root   69544 May 20 00:00 libuuid.so.1.3.0\nlrwxrwxrwx  1 root root      17 Jan 16  2026 libverto.so.1 -> libverto.so.1.0.0\n-rwxr-xr-x  1 root root   69032 Jan 16  2026 libverto.so.1.0.0\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libxml2.so.2 -> libxml2.so.2.12.10\n-rwxr-xr-x  1 root root 1539440 Jan 16  2026 libxml2.so.2.12.10\nlrwxrwxrwx  1 root root      18 Jan 16  2026 libyaml-0.so.2 -> libyaml-0.so.2.0.9\n-rwxr-xr-x  1 root root  135296 Jan 16  2026 libyaml-0.so.2.0.9\nlrwxrwxrwx  1 root root      21 Mar 16 00:00 libz.so.1 -> libz.so.1.3.1.zlib-ng\n-rwxr-xr-x  1 root root  136560 Mar 16 00:00 libz.so.1.3.1.zlib-ng\nlrwxrwxrwx  1 root root      15 Jan 17  2026 libzck.so.1 -> libzck.so.1.5.1\n-rwxr-xr-x  1 root root  135560 Jan 17  2026 libzck.so.1.5.1\nlrwxrwxrwx  1 root root      16 Jan 17  2026 libzstd.so.1 -> libzstd.so.1.5.7\n-rwxr-xr-x  1 root root  861176 Jan 17  2026 libzstd.so.1.5.7\ndrwxr-xr-x  3 root root    4096 May 27 06:47 lua\ndrwxr-xr-x  2 root root    4096 May 27 06:47 ossl-modules\nlrwxrwxrwx  1 root root      15 Feb 10 00:00 p11-kit-proxy.so -> libp11-kit.so.0\ndrwxr-xr-x  2 root root    4096 May 27 06:47 pkcs11\ndrwxr-xr-x  2 root root    4096 Jan 16  2026 pkgconfig\ndr-xr-xr-x  5 root root    4096 May 27 06:47 pm-utils\ndrwxr-xr-x  2 root root    4096 Jan 17  2026 rpm-plugins\ndrwxr-xr-x  2 root root    4096 May 27 06:47 sasl2\ndrwxr-xr-x  3 root root    4096 May 27 06:47 security",
+      "exit": 0,
+      "cwd": "/usr/lib64"
+     },
+     "cands": [
+      "X11",
+      "audit",
+      "bpf",
+      "dnf5",
+      "engines-3",
+      "fipscheck",
+      "games",
+      "gawk",
+      "gconv",
+      "gio",
+      "girepository-1.0",
+      "krb5",
+      "libdnf5",
+      "lua",
+      "ossl-modules",
+      "pkcs11",
+      "pkgconfig",
+      "pm-utils",
+      "rpm-plugins",
+      "sasl2",
+      "security"
+     ]
+    },
+    "/usr/share": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 248\ndrwxr-xr-x  58 root root  4096 May 27 06:47 .\ndrwxr-xr-x  11 root root  4096 May 27 06:47 ..\ndrwxr-xr-x   3 root root  4096 May 27 06:47 X11\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 aclocal\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 appdata\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 applications\ndrwxr-xr-x   3 root root  4096 May 27 06:47 augeas\ndrwxr-xr-x   4 root root  4096 May 27 06:47 authselect\ndrwxr-xr-x   2 root root  4096 May 27 06:47 awk\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 backgrounds\ndrwxr-xr-x   4 root root  4096 May  6 00:00 bash-completion\ndrwxr-xr-x   2 root root  4096 May 27 06:47 cracklib\ndrwxr-xr-x   9 root root  4096 May 27 06:47 crypto-policies\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 desktop-directories\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 dict\ndrwxr-xr-x  10 root root  4096 Apr 14 00:00 dnf5\ndrwxr-xr-x   3 root root  4096 May 27 06:47 doc\ndr-xr-xr-x   2 root root  4096 Jan 16  2026 empty\ndrwxr-xr-x   2 root root  4096 May 27 06:47 file\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fish\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 games\nlrwxrwxrwx   1 root root    14 Jan 16  2026 gawk -> /usr/share/awk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gcc-16\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gdb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 glib-2.0\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 gnome\ndrwxr-xr-x   2 root root  4096 May 27 06:47 gnupg\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 help\ndrwxr-xr-x   4 root root  4096 May 27 06:47 i18n\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 icons\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 idl\ndrwxr-xr-x   2 root root  4096 May 27 06:47 ima\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 info\ndrwxr-xr-x   2 root root  4096 May 27 06:47 libgpg-error\ndrwxr-xr-x 116 root root  4096 May 27 06:47 licenses\ndrwxr-xr-x 689 root root 20480 May 27 06:47 locale\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lua\nlrwxrwxrwx   1 root root    10 Mar 24 00:00 magic -> misc/magic\ndrwxr-xr-x  24 root root  4096 May 27 06:47 man\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 metainfo\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 mime-info\ndrwxr-xr-x   2 root root  4096 May 27 06:47 misc\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 modulefiles\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 omf\ndrwxr-xr-x   3 root root  4096 May 27 06:47 p11-kit\ndrwxr-xr-x   2 root root  4096 Jan 23 00:00 pam.d\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 pixmaps\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 pkgconfig\ndrwxr-xr-x   4 root root  4096 May 27 06:47 pki\ndrwxr-xr-x   2 root root  4096 May 27 06:47 publicsuffix\ndrwxr-xr-x   2 root root  4096 May 27 06:47 rootfiles\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 sounds\ndrwxr-xr-x   2 root root  4096 May 27 06:47 tabset\ndrwxr-xr-x  24 root root  4096 May 27 06:47 terminfo\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 themes\ndrwxr-xr-x   4 root root  4096 May 27 06:47 vim\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 wayland-sessions\ndrwxr-xr-x   2 root root  4096 Jan 16  2026 xsessions\ndrwxr-xr-x  20 root root  4096 May 27 06:47 zoneinfo\ndrwxr-xr-x   3 root root  4096 Apr 10 00:00 zsh",
+      "exit": 0,
+      "cwd": "/usr/share"
+     },
+     "cands": [
+      "X11",
+      "aclocal",
+      "appdata",
+      "applications",
+      "augeas",
+      "authselect",
+      "awk",
+      "backgrounds",
+      "bash-completion",
+      "cracklib",
+      "crypto-policies",
+      "desktop-directories",
+      "dict",
+      "dnf5",
+      "doc",
+      "empty",
+      "file",
+      "fish",
+      "games",
+      "gcc-16",
+      "gdb",
+      "glib-2.0",
+      "gnome",
+      "gnupg",
+      "help",
+      "i18n",
+      "icons",
+      "idl",
+      "ima",
+      "info",
+      "libgpg-error",
+      "licenses",
+      "locale",
+      "lua",
+      "man",
+      "metainfo",
+      "mime-info",
+      "misc",
+      "modulefiles",
+      "omf",
+      "p11-kit",
+      "pam.d",
+      "pixmaps",
+      "pkgconfig",
+      "pki",
+      "publicsuffix",
+      "rootfiles",
+      "sounds",
+      "tabset",
+      "terminfo",
+      "themes",
+      "vim",
+      "wayland-sessions",
+      "xsessions",
+      "zoneinfo",
+      "zsh"
+     ]
+    },
+    "/usr/share/dnf5": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 40\ndrwxr-xr-x 10 root root 4096 Apr 14 00:00 .\ndrwxr-xr-x 58 root root 4096 May 27 06:47 ..\ndrwxr-xr-x  2 root root 4096 May 27 06:47 aliases.d\ndrwxr-xr-x  2 root root 4096 May  6 00:00 dnf5-plugins\ndrwxr-xr-x  2 root root 4096 May 27 06:47 libdnf.conf.d\ndrwxr-xr-x  2 root root 4096 May  6 00:00 libdnf.plugins.conf.d\ndrwxr-xr-x  2 root root 4096 May  6 00:00 repos.d\ndrwxr-xr-x  2 root root 4096 May  6 00:00 repos.override.d\ndrwxr-xr-x  2 root root 4096 May  6 00:00 vars.d\ndrwxr-xr-x  2 root root 4096 May  6 00:00 vendors.d",
+      "exit": 0,
+      "cwd": "/usr/share/dnf5"
+     },
+     "cands": [
+      "aliases.d",
+      "dnf5-plugins",
+      "libdnf.conf.d",
+      "libdnf.plugins.conf.d",
+      "repos.d",
+      "repos.override.d",
+      "vars.d",
+      "vendors.d"
+     ]
+    },
+    "/usr/share/licenses": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 464\ndrwxr-xr-x 116 root root 4096 May 27 06:47 .\ndrwxr-xr-x  58 root root 4096 May 27 06:47 ..\ndrwxr-xr-x   2 root root 4096 May 27 06:47 alternatives\ndrwxr-xr-x   2 root root 4096 May 27 06:47 audit-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 authselect-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 bash\ndrwxr-xr-x   2 root root 4096 May 27 06:47 bzip2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 bzip2-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 coreutils-common\ndrwxr-xr-x   2 root root 4096 May 27 06:47 cracklib\ndrwxr-xr-x   2 root root 4096 May 27 06:47 crypto-policies\ndrwxr-xr-x   2 root root 4096 May 27 06:47 cyrus-sasl-lib\ndrwxr-xr-x   2 root root 4096 May 27 06:47 dnf5\ndrwxr-xr-x   2 root root 4096 May 27 06:47 elfutils-libelf\ndrwxr-xr-x   2 root root 4096 May 27 06:47 elfutils-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 fedora-release-common\ndrwxr-xr-x   2 root root 4096 May 27 06:47 file-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 findutils\ndrwxr-xr-x   2 root root 4096 May 27 06:47 fmt\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gawk\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gdbm-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 glib2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 glibc\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gmp\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnulib-l10n\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnupg2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnupg2-dirmngr\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnupg2-gpg-agent\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnupg2-gpgconf\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnupg2-keyboxd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnupg2-verify\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gnutls\ndrwxr-xr-x   2 root root 4096 May 27 06:47 grep\ndrwxr-xr-x   2 root root 4096 May 27 06:47 gzip\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ima-evm-utils-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 json-c\ndrwxr-xr-x   2 root root 4096 May 27 06:47 keyutils-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 krb5-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libarchive\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libassuan\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libblkid\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libbrotli\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libcap\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libcap-ng\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libcbor\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libcom_err\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libcurl\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libdnf5\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libdnf5-cli\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libeconf\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libevent\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libffi\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libfido2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libfsverity\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libgcc\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libgcrypt\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libgpg-error\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libidn2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libksba\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libmodulemd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libmount\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libnghttp2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libnghttp3\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libnsl2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libpsl\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libpwquality\ndrwxr-xr-x   2 root root 4096 May 27 06:47 librepo\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libselinux\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libsemanage\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libsepol\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libsmartcols\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libsolv\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libssh\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libtasn1\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libtirpc\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libtool-ltdl\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libunistring\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libusb1\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libuuid\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libverto\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libxcrypt\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libxml2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libyaml\ndrwxr-xr-x   2 root root 4096 May 27 06:47 libzstd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 lua-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 mpfr\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ncurses-base\ndrwxr-xr-x   2 root root 4096 May 27 06:47 nettle\ndrwxr-xr-x   2 root root 4096 May 27 06:47 ngtcp2\ndrwxr-xr-x   2 root root 4096 May 27 06:47 npth\ndrwxr-xr-x   2 root root 4096 May 27 06:47 openldap\ndrwxr-xr-x   2 root root 4096 May 27 06:47 openssl-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 p11-kit\ndrwxr-xr-x   2 root root 4096 May 27 06:47 pam\ndrwxr-xr-x   2 root root 4096 May 27 06:47 pam-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 pcre2-syntax\ndrwxr-xr-x   2 root root 4096 May 27 06:47 popt\ndrwxr-xr-x   2 root root 4096 May 27 06:47 publicsuffix-list-dafsa\ndrwxr-xr-x   2 root root 4096 May 27 06:47 readline\ndrwxr-xr-x   2 root root 4096 May 27 06:47 rpm\ndrwxr-xr-x   2 root root 4096 May 27 06:47 rpm-sequoia\ndrwxr-xr-x   2 root root 4096 May 27 06:47 sed\ndrwxr-xr-x   2 root root 4096 May 27 06:47 setup\ndrwxr-xr-x   2 root root 4096 May 27 06:47 shadow-utils\ndrwxr-xr-x   2 root root 4096 May 27 06:47 sqlite-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 sudo\ndrwxr-xr-x   2 root root 4096 May 27 06:47 systemd\ndrwxr-xr-x   2 root root 4096 May 27 06:47 tar\ndrwxr-xr-x   2 root root 4096 May 27 06:47 tpm2-tss\ndrwxr-xr-x   2 root root 4096 May 27 06:47 tzdata\ndrwxr-xr-x   2 root root 4096 May 27 06:47 util-linux-core\ndrwxr-xr-x   2 root root 4096 May 27 06:47 vim-data\ndrwxr-xr-x   2 root root 4096 May 27 06:47 xz\ndrwxr-xr-x   2 root root 4096 May 27 06:47 xz-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 zchunk-libs\ndrwxr-xr-x   2 root root 4096 May 27 06:47 zstd",
+      "exit": 0,
+      "cwd": "/usr/share/licenses"
+     },
+     "cands": [
+      "alternatives",
+      "audit-libs",
+      "authselect-libs",
+      "bash",
+      "bzip2",
+      "bzip2-libs",
+      "coreutils-common",
+      "cracklib",
+      "crypto-policies",
+      "cyrus-sasl-lib",
+      "dnf5",
+      "elfutils-libelf",
+      "elfutils-libs",
+      "fedora-release-common",
+      "file-libs",
+      "findutils",
+      "fmt",
+      "gawk",
+      "gdbm-libs",
+      "glib2",
+      "glibc",
+      "gmp",
+      "gnulib-l10n",
+      "gnupg2",
+      "gnupg2-dirmngr",
+      "gnupg2-gpg-agent",
+      "gnupg2-gpgconf",
+      "gnupg2-keyboxd",
+      "gnupg2-verify",
+      "gnutls",
+      "grep",
+      "gzip",
+      "ima-evm-utils-libs",
+      "json-c",
+      "keyutils-libs",
+      "krb5-libs",
+      "libarchive",
+      "libassuan",
+      "libblkid",
+      "libbrotli",
+      "libcap",
+      "libcap-ng",
+      "libcbor",
+      "libcom_err",
+      "libcurl",
+      "libdnf5",
+      "libdnf5-cli",
+      "libeconf",
+      "libevent",
+      "libffi",
+      "libfido2",
+      "libfsverity",
+      "libgcc",
+      "libgcrypt",
+      "libgpg-error",
+      "libidn2",
+      "libksba",
+      "libmodulemd",
+      "libmount",
+      "libnghttp2",
+      "libnghttp3",
+      "libnsl2",
+      "libpsl",
+      "libpwquality",
+      "librepo",
+      "libselinux",
+      "libsemanage",
+      "libsepol",
+      "libsmartcols",
+      "libsolv",
+      "libssh",
+      "libtasn1",
+      "libtirpc",
+      "libtool-ltdl",
+      "libunistring",
+      "libusb1",
+      "libuuid",
+      "libverto",
+      "libxcrypt",
+      "libxml2",
+      "libyaml",
+      "libzstd",
+      "lua-libs",
+      "mpfr",
+      "ncurses-base",
+      "nettle",
+      "ngtcp2",
+      "npth",
+      "openldap",
+      "openssl-libs",
+      "p11-kit",
+      "pam",
+      "pam-libs",
+      "pcre2-syntax",
+      "popt",
+      "publicsuffix-list-dafsa",
+      "readline",
+      "rpm",
+      "rpm-sequoia",
+      "sed",
+      "setup",
+      "shadow-utils",
+      "sqlite-libs",
+      "sudo",
+      "systemd",
+      "tar",
+      "tpm2-tss",
+      "tzdata",
+      "util-linux-core",
+      "vim-data",
+      "xz",
+      "xz-libs",
+      "zchunk-libs",
+      "zstd"
+     ]
+    },
+    "/usr/share/locale": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 2776\ndrwxr-xr-x 689 root root 20480 May 27 06:47 .\ndrwxr-xr-x  58 root root  4096 May 27 06:47 ..\ndrwxr-xr-x   3 root root  4096 May 27 06:47 aa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ab\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ace\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ach\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ada\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ady\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ae\ndrwxr-xr-x   4 root root  4096 May 27 06:47 af\ndrwxr-xr-x   3 root root  4096 May 27 06:47 af_ZA\ndrwxr-xr-x   3 root root  4096 May 27 06:47 afa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 afh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 agr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ain\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ak\ndrwxr-xr-x   3 root root  4096 May 27 06:47 akk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ale\ndrwxr-xr-x   3 root root  4096 May 27 06:47 alg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 aln\ndrwxr-xr-x   3 root root  4096 May 27 06:47 alt\ndrwxr-xr-x   3 root root  4096 May 27 06:47 am\ndrwxr-xr-x   3 root root  4096 May 27 06:47 an\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ang\ndrwxr-xr-x   3 root root  4096 May 27 06:47 anp\ndrwxr-xr-x   3 root root  4096 May 27 06:47 apa\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ar\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ar_DZ\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ar_SY\ndrwxr-xr-x   3 root root  4096 May 27 06:47 arc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 arn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 arp\ndrwxr-xr-x   3 root root  4096 May 27 06:47 art\ndrwxr-xr-x   3 root root  4096 May 27 06:47 arw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 as\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ast\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ath\ndrwxr-xr-x   3 root root  4096 May 27 06:47 aus\ndrwxr-xr-x   3 root root  4096 May 27 06:47 av\ndrwxr-xr-x   3 root root  4096 May 27 06:47 awa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ay\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ayc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 aym\ndrwxr-xr-x   3 root root  4096 May 27 06:47 az\ndrwxr-xr-x   3 root root  4096 May 27 06:47 az_AZ\ndrwxr-xr-x   3 root root  4096 May 27 06:47 az_IR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ba\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bad\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bal\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ban\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bas\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bat\ndrwxr-xr-x   4 root root  4096 May 27 06:47 be\ndrwxr-xr-x   3 root root  4096 May 27 06:47 be@latin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bej\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bem\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ber\ndrwxr-xr-x   4 root root  4096 May 27 06:47 bg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bg_BG\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bho\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bih\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bik\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bla\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bm\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bn_BD\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bn_IN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bnt\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 br\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bra\ndrwxr-xr-x   3 root root  4096 May 27 06:47 brx\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bs\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bs_BA\ndrwxr-xr-x   3 root root  4096 May 27 06:47 btk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bua\ndrwxr-xr-x   3 root root  4096 May 27 06:47 bug\ndrwxr-xr-x   3 root root  4096 May 27 06:47 byn\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ca\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ca.us-ascii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ca@valencia\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ca_AD\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ca_ES\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ca_FR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ca_IT\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cad\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 car\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cau\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ce\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ceb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cel\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cgg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ch\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chm\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cho\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chp\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 chy\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ckb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cmc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cmn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cnr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 co\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cop\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cpe\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cpf\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cpp\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 crh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 crp\ndrwxr-xr-x   4 root root  4096 May 27 06:47 cs\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cs.cp1250\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cs_CZ\ndrwxr-xr-x   3 root root  4096 May 27 06:47 csb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cus\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 cy\ndrwxr-xr-x   4 root root  4096 May 27 06:47 da\ndrwxr-xr-x   3 root root  4096 May 27 06:47 da_DK\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dak\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dar\ndrwxr-xr-x   3 root root  4096 May 27 06:47 day\ndrwxr-xr-x   4 root root  4096 May 27 06:47 de\ndrwxr-xr-x   3 root root  4096 May 27 06:47 de-CH\ndrwxr-xr-x   3 root root  4096 May 27 06:47 de.us-ascii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 de@hebrew\ndrwxr-xr-x   3 root root  4096 May 27 06:47 de_AT\ndrwxr-xr-x   3 root root  4096 May 27 06:47 de_CH\ndrwxr-xr-x   3 root root  4096 May 27 06:47 de_DE\ndrwxr-xr-x   3 root root  4096 May 27 06:47 del\ndrwxr-xr-x   3 root root  4096 May 27 06:47 den\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dgr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 din\ndrwxr-xr-x   3 root root  4096 May 27 06:47 doi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dra\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dsb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dua\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dum\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dyu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 dz\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ee\ndrwxr-xr-x   3 root root  4096 May 27 06:47 efi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 egy\ndrwxr-xr-x   3 root root  4096 May 27 06:47 eka\ndrwxr-xr-x   4 root root  4096 May 27 06:47 el\ndrwxr-xr-x   3 root root  4096 May 27 06:47 el_GR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 elx\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@arabic\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@boldquot\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@cyrillic\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@greek\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@hebrew\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@piglatin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@quot\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en@shaw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_AU\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_CA\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_CZ\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_GB\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_IE\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_NZ\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_US\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_US@piglatin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 en_ZA\ndrwxr-xr-x   3 root root  4096 May 27 06:47 enm\ndrwxr-xr-x   4 root root  4096 May 27 06:47 eo\ndrwxr-xr-x   4 root root  4096 May 27 06:47 es\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es.us-ascii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_AR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_CL\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_CO\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_CR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_DO\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_EC\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_ES\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_GT\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_HN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_MX\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_NI\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_PA\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_PE\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_PR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_PY\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_SV\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_US\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_UY\ndrwxr-xr-x   3 root root  4096 May 27 06:47 es_VE\ndrwxr-xr-x   4 root root  4096 May 27 06:47 et\ndrwxr-xr-x   3 root root  4096 May 27 06:47 et_EE\ndrwxr-xr-x   4 root root  4096 May 27 06:47 eu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 eu_ES\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ewo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fa_AF\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fa_IR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fan\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fat\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ff\ndrwxr-xr-x   4 root root  4096 May 27 06:47 fi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fi_FI\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fil\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fiu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fj\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fon\ndrwxr-xr-x   4 root root  4096 May 27 06:47 fr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fr.us-ascii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fr_CA\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fr_CH\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fr_FR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 frm\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fro\ndrwxr-xr-x   3 root root  4096 May 27 06:47 frp\ndrwxr-xr-x   3 root root  4096 May 27 06:47 frr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 frs\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fur\ndrwxr-xr-x   3 root root  4096 May 27 06:47 fy\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ga\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gaa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gay\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gba\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gd\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gem\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gez\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gil\ndrwxr-xr-x   4 root root  4096 May 27 06:47 gl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gl_ES\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gmh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 goh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gom\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gon\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gor\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gos\ndrwxr-xr-x   3 root root  4096 May 27 06:47 got\ndrwxr-xr-x   3 root root  4096 May 27 06:47 grb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 grc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gsw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 guc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 gwi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ha\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 haw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 he\ndrwxr-xr-x   3 root root  4096 May 27 06:47 he_IL\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hi_IN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hil\ndrwxr-xr-x   3 root root  4096 May 27 06:47 him\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hit\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hmn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hne\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ho\ndrwxr-xr-x   4 root root  4096 May 27 06:47 hr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hr_HR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hsb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ht\ndrwxr-xr-x   4 root root  4096 May 27 06:47 hu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hu_HU\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hup\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hus\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hy\ndrwxr-xr-x   3 root root  4096 May 27 06:47 hz\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ia\ndrwxr-xr-x   3 root root  4096 May 27 06:47 iba\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ibo\ndrwxr-xr-x   4 root root  4096 May 27 06:47 id\ndrwxr-xr-x   3 root root  4096 May 27 06:47 id_ID\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ie\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ig\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ijo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ik\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ilo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 inc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ine\ndrwxr-xr-x   3 root root  4096 May 27 06:47 inh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 io\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ira\ndrwxr-xr-x   3 root root  4096 May 27 06:47 iro\ndrwxr-xr-x   3 root root  4096 May 27 06:47 is\ndrwxr-xr-x   4 root root  4096 May 27 06:47 it\ndrwxr-xr-x   3 root root  4096 May 27 06:47 it_IT\ndrwxr-xr-x   3 root root  4096 May 27 06:47 iu\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ja\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ja.euc-jp\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ja_JP\ndrwxr-xr-x   3 root root  4096 May 27 06:47 jbo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 jpr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 jrb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 jv\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ka\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ka_GE\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kaa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kab\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kac\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kam\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kar\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kaw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kbd\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kha\ndrwxr-xr-x   3 root root  4096 May 27 06:47 khi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kho\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ki\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kj\ndrwxr-xr-x   4 root root  4096 May 27 06:47 kk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 km\ndrwxr-xr-x   3 root root  4096 May 27 06:47 km_KH\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kmb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kn\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ko\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ko_KR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kok\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kok@latin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kos\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kpe\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 krc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 krl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kro\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kru\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ks\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ks@aran\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ks@devanagari\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ksw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ku\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ku_IQ\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kum\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kut\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kw@kkcor\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kw@uccor\ndrwxr-xr-x   3 root root  4096 May 27 06:47 kw_GB\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ky\ndrwxr-xr-x   3 root root  4096 May 27 06:47 l10n\ndrwxr-xr-x   3 root root  4096 May 27 06:47 la\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lad\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lah\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lam\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lez\ndrwxr-xr-x   4 root root  4096 May 27 06:47 lg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 li\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ln\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lo_LA\n-rw-r--r--   1 root root  2998 May 12 00:00 locale.alias\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lol\ndrwxr-xr-x   3 root root  4096 May 27 06:47 loz\ndrwxr-xr-x   4 root root  4096 May 27 06:47 lt\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lt_LT\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ltg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lua\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lui\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lun\ndrwxr-xr-x   3 root root  4096 May 27 06:47 luo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lus\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 lv_LV\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mad\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mag\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mak\ndrwxr-xr-x   3 root root  4096 May 27 06:47 man\ndrwxr-xr-x   3 root root  4096 May 27 06:47 map\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mas\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mdf\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mdr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 men\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mga\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mhr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mic\ndrwxr-xr-x   3 root root  4096 May 27 06:47 min\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mis\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mk_MK\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mkh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ml\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ml_IN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mnc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mni\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mni@beng\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mni@bengali\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mni@meiteimayek\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mnk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mno\ndrwxr-xr-x   3 root root  4096 May 27 06:47 moh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mos\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mr_IN\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ms\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ms_MY\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mt\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mul\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mun\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mus\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mvo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mwl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 mwr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 my\ndrwxr-xr-x   3 root root  4096 May 27 06:47 my_MM\ndrwxr-xr-x   3 root root  4096 May 27 06:47 myn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 myv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 na\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nah\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nan\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nap\ndrwxr-xr-x   4 root root  4096 May 27 06:47 nb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nb_NO\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nd\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nds\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ne\ndrwxr-xr-x   3 root root  4096 May 27 06:47 new\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ng\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nia\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nic\ndrwxr-xr-x   3 root root  4096 May 27 06:47 niu\ndrwxr-xr-x   4 root root  4096 May 27 06:47 nl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nl.us-ascii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nl_BE\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nl_NL\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nn_NO\ndrwxr-xr-x   3 root root  4096 May 27 06:47 no\ndrwxr-xr-x   3 root root  4096 May 27 06:47 no.us-ascii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 no_NO\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nog\ndrwxr-xr-x   3 root root  4096 May 27 06:47 non\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nqo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nso\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nub\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nwc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ny\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nym\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nyn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nyo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 nzi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 oc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 oj\ndrwxr-xr-x   3 root root  4096 May 27 06:47 om\ndrwxr-xr-x   3 root root  4096 May 27 06:47 or\ndrwxr-xr-x   3 root root  4096 May 27 06:47 or_IN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 os\ndrwxr-xr-x   3 root root  4096 May 27 06:47 osa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ota\ndrwxr-xr-x   3 root root  4096 May 27 06:47 oto\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 paa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pag\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pal\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pam\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pap\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pau\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pbs\ndrwxr-xr-x   3 root root  4096 May 27 06:47 peo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 phi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 phn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pis\ndrwxr-xr-x   4 root root  4096 May 27 06:47 pl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pl_PL\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pms\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pon\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pra\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pro\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ps\ndrwxr-xr-x   4 root root  4096 May 27 06:47 pt\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pt.us-ascii\ndrwxr-xr-x   4 root root  4096 May 27 06:47 pt_BR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pt_BR.us-ascii\ndrwxr-xr-x   3 root root  4096 May 27 06:47 pt_PT\ndrwxr-xr-x   3 root root  4096 May 27 06:47 qaa-qtz\ndrwxr-xr-x   3 root root  4096 May 27 06:47 qu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 quy\ndrwxr-xr-x   3 root root  4096 May 27 06:47 quz\ndrwxr-xr-x   3 root root  4096 May 27 06:47 raj\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rap\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rar\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rm\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rn\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ro\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ro_RO\ndrwxr-xr-x   3 root root  4096 May 27 06:47 roa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rom\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ru\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ru_RU\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ru_RU.KOI8-R\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rue\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rup\ndrwxr-xr-x   3 root root  4096 May 27 06:47 rw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sad\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sah\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sal\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sam\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sas\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sat\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sat@deva\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sat@olchiki\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 scn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sco\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sd\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sd@deva\ndrwxr-xr-x   3 root root  4096 May 27 06:47 se\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sel\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sem\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sga\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sgn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 shn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 shs\ndrwxr-xr-x   3 root root  4096 May 27 06:47 si\ndrwxr-xr-x   3 root root  4096 May 27 06:47 si_LK\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sid\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sio\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sit\ndrwxr-xr-x   4 root root  4096 May 27 06:47 sk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sk.cp1250\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sk_SK\ndrwxr-xr-x   4 root root  4096 May 27 06:47 sl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sl_SI\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sla\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sm\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sma\ndrwxr-xr-x   3 root root  4096 May 27 06:47 smi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 smj\ndrwxr-xr-x   3 root root  4096 May 27 06:47 smn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sms\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 snk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 so\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sog\ndrwxr-xr-x   3 root root  4096 May 27 06:47 son\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sp\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sq\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sq_AL\ndrwxr-xr-x   4 root root  4096 May 27 06:47 sr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr@Latn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr@ije\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr@ijekavian\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr@ijekavianlatin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr@latin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr_ME\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr_RS\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sr_RS@latin\ndrwxr-xr-x   3 root root  4096 May 27 06:47 srd\ndrwxr-xr-x   3 root root  4096 May 27 06:47 srn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 srr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ss\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ssa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 st\ndrwxr-xr-x   3 root root  4096 May 27 06:47 su\ndrwxr-xr-x   3 root root  4096 May 27 06:47 suk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sus\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sux\ndrwxr-xr-x   4 root root  4096 May 27 06:47 sv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sv_SE\ndrwxr-xr-x   3 root root  4096 May 27 06:47 sw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 syc\ndrwxr-xr-x   3 root root  4096 May 27 06:47 syr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 szl\ndrwxr-xr-x   4 root root  4096 May 27 06:47 ta\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ta_IN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ta_LK\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 te\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tem\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ter\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tet\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tg\ndrwxr-xr-x   3 root root  4096 May 27 06:47 th\ndrwxr-xr-x   3 root root  4096 May 27 06:47 th_TH\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ti\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tig\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tiv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tkl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tl_PH\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tlh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tli\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tmh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 to\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tog\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ton\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tpi\ndrwxr-xr-x   4 root root  4096 May 27 06:47 tr\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tr_TR\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ts\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tsi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tt\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tt@iqtelif\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tt_RU\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tum\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tup\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tut\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tvl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tw\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ty\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tyv\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tzm\ndrwxr-xr-x   3 root root  4096 May 27 06:47 tzo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ua\ndrwxr-xr-x   3 root root  4096 May 27 06:47 udm\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ug\ndrwxr-xr-x   3 root root  4096 May 27 06:47 uga\ndrwxr-xr-x   4 root root  4096 May 27 06:47 uk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 uk_UA\ndrwxr-xr-x   3 root root  4096 May 27 06:47 umb\ndrwxr-xr-x   3 root root  4096 May 27 06:47 und\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ur\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ur_PK\ndrwxr-xr-x   3 root root  4096 May 27 06:47 uz\ndrwxr-xr-x   3 root root  4096 May 27 06:47 uz@Cyrl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 uz@Latn\ndrwxr-xr-x   3 root root  4096 May 27 06:47 uz@cyrillic\ndrwxr-xr-x   3 root root  4096 May 27 06:47 vai\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ve\ndrwxr-xr-x   3 root root  4096 May 27 06:47 vec\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ven\ndrwxr-xr-x   4 root root  4096 May 27 06:47 vi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 vi_VN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 vo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 vot\ndrwxr-xr-x   3 root root  4096 May 27 06:47 wa\ndrwxr-xr-x   3 root root  4096 May 27 06:47 wae\ndrwxr-xr-x   3 root root  4096 May 27 06:47 wak\ndrwxr-xr-x   3 root root  4096 May 27 06:47 wal\ndrwxr-xr-x   3 root root  4096 May 27 06:47 war\ndrwxr-xr-x   3 root root  4096 May 27 06:47 was\ndrwxr-xr-x   3 root root  4096 May 27 06:47 wba\ndrwxr-xr-x   3 root root  4096 May 27 06:47 wen\ndrwxr-xr-x   3 root root  4096 May 27 06:47 wo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 xal\ndrwxr-xr-x   3 root root  4096 May 27 06:47 xh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 yao\ndrwxr-xr-x   3 root root  4096 May 27 06:47 yap\ndrwxr-xr-x   3 root root  4096 May 27 06:47 yi\ndrwxr-xr-x   3 root root  4096 May 27 06:47 yo\ndrwxr-xr-x   3 root root  4096 May 27 06:47 ypk\ndrwxr-xr-x   3 root root  4096 May 27 06:47 yue\ndrwxr-xr-x   3 root root  4096 May 27 06:47 za\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zam\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zap\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zbl\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zen\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zgh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh-Hans\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh-Hant\ndrwxr-xr-x   4 root root  4096 May 27 06:47 zh_CN\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh_CN.GB2312\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh_HK\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh_Hans\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh_Hant\ndrwxr-xr-x   4 root root  4096 May 27 06:47 zh_TW\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zh_TW.Big5\ndrwxr-xr-x   3 root root  4096 May 27 06:47 znd\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zu\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zun\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zxx\ndrwxr-xr-x   3 root root  4096 May 27 06:47 zza",
+      "exit": 0,
+      "cwd": "/usr/share/locale"
+     },
+     "cands": [
+      "aa",
+      "ab",
+      "ace",
+      "ach",
+      "ada",
+      "ady",
+      "ae",
+      "af",
+      "af_ZA",
+      "afa",
+      "afh",
+      "agr",
+      "ain",
+      "ak",
+      "akk",
+      "ale",
+      "alg",
+      "aln",
+      "alt",
+      "am",
+      "an",
+      "ang",
+      "anp",
+      "apa",
+      "ar",
+      "ar_DZ",
+      "ar_SY",
+      "arc",
+      "arn",
+      "arp",
+      "art",
+      "arw",
+      "as",
+      "ast",
+      "ath",
+      "aus",
+      "av",
+      "awa",
+      "ay",
+      "ayc",
+      "aym",
+      "az",
+      "az_AZ",
+      "az_IR",
+      "ba",
+      "bad",
+      "bai",
+      "bal",
+      "ban",
+      "bas",
+      "bat",
+      "be",
+      "be@latin",
+      "bej",
+      "bem",
+      "ber",
+      "bg",
+      "bg_BG",
+      "bho",
+      "bi",
+      "bih",
+      "bik",
+      "bin",
+      "bla",
+      "bm",
+      "bn",
+      "bn_BD",
+      "bn_IN",
+      "bnt",
+      "bo",
+      "br",
+      "bra",
+      "brx",
+      "bs",
+      "bs_BA",
+      "btk",
+      "bua",
+      "bug",
+      "byn",
+      "ca",
+      "ca.us-ascii",
+      "ca@valencia",
+      "ca_AD",
+      "ca_ES",
+      "ca_FR",
+      "ca_IT",
+      "cad",
+      "cai",
+      "car",
+      "cau",
+      "ce",
+      "ceb",
+      "cel",
+      "cgg",
+      "ch",
+      "chb",
+      "chg",
+      "chk",
+      "chm",
+      "chn",
+      "cho",
+      "chp",
+      "chr",
+      "chy",
+      "ckb",
+      "cmc",
+      "cmn",
+      "cn",
+      "cnr",
+      "co",
+      "cop",
+      "cpe",
+      "cpf",
+      "cpp",
+      "cr",
+      "crh",
+      "crp",
+      "cs",
+      "cs.cp1250",
+      "cs_CZ",
+      "csb",
+      "cu",
+      "cus",
+      "cv",
+      "cy",
+      "da",
+      "da_DK",
+      "dak",
+      "dar",
+      "day",
+      "de",
+      "de-CH",
+      "de.us-ascii",
+      "de@hebrew",
+      "de_AT",
+      "de_CH",
+      "de_DE",
+      "del",
+      "den",
+      "dgr",
+      "din",
+      "doi",
+      "dra",
+      "dsb",
+      "dua",
+      "dum",
+      "dv",
+      "dyu",
+      "dz",
+      "ee",
+      "efi",
+      "egy",
+      "eka",
+      "el",
+      "el_GR",
+      "elx",
+      "en",
+      "en@arabic",
+      "en@boldquot",
+      "en@cyrillic",
+      "en@greek",
+      "en@hebrew",
+      "en@piglatin",
+      "en@quot",
+      "en@shaw",
+      "en_AU",
+      "en_CA",
+      "en_CZ",
+      "en_GB",
+      "en_IE",
+      "en_NZ",
+      "en_US",
+      "en_US@piglatin",
+      "en_ZA",
+      "enm",
+      "eo",
+      "es",
+      "es.us-ascii",
+      "es_AR",
+      "es_CL",
+      "es_CO",
+      "es_CR",
+      "es_DO",
+      "es_EC",
+      "es_ES",
+      "es_GT",
+      "es_HN",
+      "es_MX",
+      "es_NI",
+      "es_PA",
+      "es_PE",
+      "es_PR",
+      "es_PY",
+      "es_SV",
+      "es_US",
+      "es_UY",
+      "es_VE",
+      "et",
+      "et_EE",
+      "eu",
+      "eu_ES",
+      "ewo",
+      "fa",
+      "fa_AF",
+      "fa_IR",
+      "fan",
+      "fat",
+      "ff",
+      "fi",
+      "fi_FI",
+      "fil",
+      "fiu",
+      "fj",
+      "fo",
+      "fon",
+      "fr",
+      "fr.us-ascii",
+      "fr_CA",
+      "fr_CH",
+      "fr_FR",
+      "frm",
+      "fro",
+      "frp",
+      "frr",
+      "frs",
+      "fur",
+      "fy",
+      "ga",
+      "gaa",
+      "gay",
+      "gba",
+      "gd",
+      "gem",
+      "gez",
+      "gil",
+      "gl",
+      "gl_ES",
+      "gmh",
+      "gn",
+      "goh",
+      "gom",
+      "gon",
+      "gor",
+      "gos",
+      "got",
+      "grb",
+      "grc",
+      "gsw",
+      "gu",
+      "guc",
+      "gv",
+      "gwi",
+      "ha",
+      "hai",
+      "haw",
+      "he",
+      "he_IL",
+      "hi",
+      "hi_IN",
+      "hil",
+      "him",
+      "hit",
+      "hmn",
+      "hne",
+      "ho",
+      "hr",
+      "hr_HR",
+      "hsb",
+      "ht",
+      "hu",
+      "hu_HU",
+      "hup",
+      "hus",
+      "hy",
+      "hz",
+      "ia",
+      "iba",
+      "ibo",
+      "id",
+      "id_ID",
+      "ie",
+      "ig",
+      "ii",
+      "ijo",
+      "ik",
+      "ilo",
+      "inc",
+      "ine",
+      "inh",
+      "io",
+      "ira",
+      "iro",
+      "is",
+      "it",
+      "it_IT",
+      "iu",
+      "ja",
+      "ja.euc-jp",
+      "ja_JP",
+      "jbo",
+      "jpr",
+      "jrb",
+      "jv",
+      "ka",
+      "ka_GE",
+      "kaa",
+      "kab",
+      "kac",
+      "kam",
+      "kar",
+      "kaw",
+      "kbd",
+      "kg",
+      "kha",
+      "khi",
+      "kho",
+      "ki",
+      "kj",
+      "kk",
+      "kl",
+      "km",
+      "km_KH",
+      "kmb",
+      "kn",
+      "ko",
+      "ko_KR",
+      "kok",
+      "kok@latin",
+      "kos",
+      "kpe",
+      "kr",
+      "krc",
+      "krl",
+      "kro",
+      "kru",
+      "ks",
+      "ks@aran",
+      "ks@devanagari",
+      "ksw",
+      "ku",
+      "ku_IQ",
+      "kum",
+      "kut",
+      "kv",
+      "kw",
+      "kw@kkcor",
+      "kw@uccor",
+      "kw_GB",
+      "ky",
+      "l10n",
+      "la",
+      "lad",
+      "lah",
+      "lam",
+      "lb",
+      "lez",
+      "lg",
+      "li",
+      "ln",
+      "lo",
+      "lo_LA",
+      "lol",
+      "loz",
+      "lt",
+      "lt_LT",
+      "ltg",
+      "lu",
+      "lua",
+      "lui",
+      "lun",
+      "luo",
+      "lus",
+      "lv",
+      "lv_LV",
+      "mad",
+      "mag",
+      "mai",
+      "mak",
+      "man",
+      "map",
+      "mas",
+      "mdf",
+      "mdr",
+      "men",
+      "mg",
+      "mga",
+      "mh",
+      "mhr",
+      "mi",
+      "mic",
+      "min",
+      "mis",
+      "mk",
+      "mk_MK",
+      "mkh",
+      "ml",
+      "ml_IN",
+      "mn",
+      "mnc",
+      "mni",
+      "mni@beng",
+      "mni@bengali",
+      "mni@meiteimayek",
+      "mnk",
+      "mno",
+      "moh",
+      "mos",
+      "mr",
+      "mr_IN",
+      "ms",
+      "ms_MY",
+      "mt",
+      "mul",
+      "mun",
+      "mus",
+      "mvo",
+      "mwl",
+      "mwr",
+      "my",
+      "my_MM",
+      "myn",
+      "myv",
+      "na",
+      "nah",
+      "nai",
+      "nan",
+      "nap",
+      "nb",
+      "nb_NO",
+      "nd",
+      "nds",
+      "ne",
+      "new",
+      "ng",
+      "nia",
+      "nic",
+      "niu",
+      "nl",
+      "nl.us-ascii",
+      "nl_BE",
+      "nl_NL",
+      "nn",
+      "nn_NO",
+      "no",
+      "no.us-ascii",
+      "no_NO",
+      "nog",
+      "non",
+      "nqo",
+      "nr",
+      "nso",
+      "nub",
+      "nv",
+      "nwc",
+      "ny",
+      "nym",
+      "nyn",
+      "nyo",
+      "nzi",
+      "oc",
+      "oj",
+      "om",
+      "or",
+      "or_IN",
+      "os",
+      "osa",
+      "ota",
+      "oto",
+      "pa",
+      "paa",
+      "pag",
+      "pal",
+      "pam",
+      "pap",
+      "pau",
+      "pbs",
+      "peo",
+      "phi",
+      "phn",
+      "pi",
+      "pis",
+      "pl",
+      "pl_PL",
+      "pms",
+      "pon",
+      "pra",
+      "pro",
+      "ps",
+      "pt",
+      "pt.us-ascii",
+      "pt_BR",
+      "pt_BR.us-ascii",
+      "pt_PT",
+      "qaa-qtz",
+      "qu",
+      "quy",
+      "quz",
+      "raj",
+      "rap",
+      "rar",
+      "rm",
+      "rn",
+      "ro",
+      "ro_RO",
+      "roa",
+      "rom",
+      "ru",
+      "ru_RU",
+      "ru_RU.KOI8-R",
+      "rue",
+      "rup",
+      "rw",
+      "sa",
+      "sad",
+      "sah",
+      "sai",
+      "sal",
+      "sam",
+      "sas",
+      "sat",
+      "sat@deva",
+      "sat@olchiki",
+      "sc",
+      "scn",
+      "sco",
+      "sd",
+      "sd@deva",
+      "se",
+      "sel",
+      "sem",
+      "sg",
+      "sga",
+      "sgn",
+      "shn",
+      "shs",
+      "si",
+      "si_LK",
+      "sid",
+      "sio",
+      "sit",
+      "sk",
+      "sk.cp1250",
+      "sk_SK",
+      "sl",
+      "sl_SI",
+      "sla",
+      "sm",
+      "sma",
+      "smi",
+      "smj",
+      "smn",
+      "sms",
+      "sn",
+      "snk",
+      "so",
+      "sog",
+      "son",
+      "sp",
+      "sq",
+      "sq_AL",
+      "sr",
+      "sr@Latn",
+      "sr@ije",
+      "sr@ijekavian",
+      "sr@ijekavianlatin",
+      "sr@latin",
+      "sr_ME",
+      "sr_RS",
+      "sr_RS@latin",
+      "srd",
+      "srn",
+      "srr",
+      "ss",
+      "ssa",
+      "st",
+      "su",
+      "suk",
+      "sus",
+      "sux",
+      "sv",
+      "sv_SE",
+      "sw",
+      "syc",
+      "syr",
+      "szl",
+      "ta",
+      "ta_IN",
+      "ta_LK",
+      "tai",
+      "te",
+      "tem",
+      "ter",
+      "tet",
+      "tg",
+      "th",
+      "th_TH",
+      "ti",
+      "tig",
+      "tiv",
+      "tk",
+      "tkl",
+      "tl",
+      "tl_PH",
+      "tlh",
+      "tli",
+      "tmh",
+      "tn",
+      "to",
+      "tog",
+      "ton",
+      "tpi",
+      "tr",
+      "tr_TR",
+      "ts",
+      "tsi",
+      "tt",
+      "tt@iqtelif",
+      "tt_RU",
+      "tum",
+      "tup",
+      "tut",
+      "tvl",
+      "tw",
+      "ty",
+      "tyv",
+      "tzm",
+      "tzo",
+      "ua",
+      "udm",
+      "ug",
+      "uga",
+      "uk",
+      "uk_UA",
+      "umb",
+      "und",
+      "ur",
+      "ur_PK",
+      "uz",
+      "uz@Cyrl",
+      "uz@Latn",
+      "uz@cyrillic",
+      "vai",
+      "ve",
+      "vec",
+      "ven",
+      "vi",
+      "vi_VN",
+      "vo",
+      "vot",
+      "wa",
+      "wae",
+      "wak",
+      "wal",
+      "war",
+      "was",
+      "wba",
+      "wen",
+      "wo",
+      "xal",
+      "xh",
+      "yao",
+      "yap",
+      "yi",
+      "yo",
+      "ypk",
+      "yue",
+      "za",
+      "zam",
+      "zap",
+      "zbl",
+      "zen",
+      "zgh",
+      "zh",
+      "zh-Hans",
+      "zh-Hant",
+      "zh_CN",
+      "zh_CN.GB2312",
+      "zh_HK",
+      "zh_Hans",
+      "zh_Hant",
+      "zh_TW",
+      "zh_TW.Big5",
+      "znd",
+      "zu",
+      "zun",
+      "zxx",
+      "zza"
+     ]
+    }
+   },
+   "goals": [
+    {
+     "dir": "/usr/share/locale/lt",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/lt"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/libmount",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/libmount"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/es_GT",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/es_GT"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/bzip2",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/bzip2"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/5f",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/5f"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/rar",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/rar"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/75",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/75"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/9b",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/9b"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/zam",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/zam"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/e2",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/e2"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/eb",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/eb"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/cgg",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/cgg"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/ee",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/ee"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/88",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/88"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/bc",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/bc"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/bas",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/bas"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/en_NZ",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/en_NZ"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/tpm2-tss",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/tpm2-tss"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/ig",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/ig"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/44",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/44"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/sr",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/sr"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/elfutils-libelf",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/elfutils-libelf"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/ka_GE",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/ka_GE"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/90",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/90"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/libtirpc",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/libtirpc"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/sga",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/sga"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/fr_CH",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/fr_CH"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/fy",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/fy"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/chp",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/chp"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/pap",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/pap"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/en_ZA",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/en_ZA"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/vim-data",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/vim-data"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/0d",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/0d"
+     ]
+    },
+    {
+     "dir": "/usr/lib64/dnf5",
+     "depth": 3,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib64",
+      "/usr/lib64/dnf5"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/setup",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/setup"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/mad",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/mad"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/69",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/69"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/arc",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/arc"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/fat",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/fat"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/libsolv",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/libsolv"
+     ]
+    },
+    {
+     "dir": "/usr/share/dnf5/aliases.d",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/dnf5",
+      "/usr/share/dnf5/aliases.d"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/21",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/21"
+     ]
+    },
+    {
+     "dir": "/usr/share/licenses/zstd",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/licenses",
+      "/usr/share/licenses/zstd"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/no",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/no"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/afa",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/afa"
+     ]
+    },
+    {
+     "dir": "/etc/ssl",
+     "depth": 2,
+     "path": [
+      "/",
+      "/etc",
+      "/etc/ssl"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/nn_NO",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/nn_NO"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/art",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/art"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/42",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/42"
+     ]
+    },
+    {
+     "dir": "/usr/lib/.build-id/85",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/.build-id",
+      "/usr/lib/.build-id/85"
+     ]
+    }
+   ]
+  },
+  "mariadb:latest": {
+   "opener": [
+    {
+     "cmd": "uname -a",
+     "output": "Linux 4fa31a3a0234 6.6.65-0-virt #1-Alpine SMP PREEMPT_DYNAMIC 2024-12-12 12:13:04 aarch64 aarch64 aarch64 GNU/Linux",
+     "exit": 0,
+     "cwd": "/"
+    },
+    {
+     "cmd": "cat /etc/os-release",
+     "output": "PRETTY_NAME=\"Ubuntu 24.04.4 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.4 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo",
+     "exit": 0,
+     "cwd": "/"
+    }
+   ],
+   "nodes": {
+    "/": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 68\ndrwxr-xr-x   1 root root 4096 Jul 21 01:40 .\ndrwxr-xr-x   1 root root 4096 Jul 21 01:40 ..\n-rwxr-xr-x   1 root root    0 Jul 21 01:40 .dockerenv\nlrwxrwxrwx   1 root root    7 Apr 22  2024 bin -> usr/bin\ndrwxr-xr-x   2 root root 4096 Apr 15 06:53 bin.usr-is-merged\ndrwxr-xr-x   2 root root 4096 Apr 22  2024 boot\ndrwxr-xr-x   5 root root  320 Jul 21 01:40 dev\ndrwxr-xr-x   2 root root 4096 Jul  2 02:29 docker-entrypoint-initdb.d\ndrwxr-xr-x   1 root root 4096 Jul 21 01:40 etc\ndrwxr-xr-x   1 root root 4096 Jul  2 02:29 home\nlrwxrwxrwx   1 root root    7 Apr 22  2024 lib -> usr/lib\ndrwxr-xr-x   2 root root 4096 Jun 10 02:09 media\ndrwxr-xr-x   2 root root 4096 Jun 10 02:09 mnt\ndrwxr-xr-x   2 root root 4096 Jun 10 02:09 opt\ndr-xr-xr-x 189 root root    0 Jul 21 01:40 proc\ndrwx------   1 root root 4096 Jul  2 02:29 root\ndrwxr-xr-x   1 root root 4096 Jul  2 02:29 run\nlrwxrwxrwx   1 root root    8 Apr 22  2024 sbin -> usr/sbin\ndrwxr-xr-x   2 root root 4096 Apr 15 06:53 sbin.usr-is-merged\ndrwxr-xr-x   2 root root 4096 Jun 10 02:09 srv\ndr-xr-xr-x  12 root root    0 Jul 18 21:08 sys\ndrwxrwxrwt   2 root root 4096 Jun 10 02:16 tmp\ndrwxr-xr-x   1 root root 4096 Jun 10 02:09 usr\ndrwxr-xr-x   1 root root 4096 Jun 10 02:16 var",
+      "exit": 0,
+      "cwd": "/"
+     },
+     "cands": [
+      "bin.usr-is-merged",
+      "boot",
+      "dev",
+      "docker-entrypoint-initdb.d",
+      "etc",
+      "home",
+      "media",
+      "mnt",
+      "opt",
+      "proc",
+      "root",
+      "run",
+      "sbin.usr-is-merged",
+      "srv",
+      "sys",
+      "tmp",
+      "usr",
+      "var"
+     ]
+    },
+    "/etc": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 364\ndrwxr-xr-x 1 root root    4096 Jul 21 01:40 .\ndrwxr-xr-x 1 root root    4096 Jul 21 01:40 ..\n-rw------- 1 root root       0 Jun 10 02:09 .pwd.lock\n-rw-r--r-- 1 root root    3444 Jul  5  2023 adduser.conf\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 alternatives\ndrwxr-xr-x 2 root root    4096 Jul  2 02:29 apparmor.d\ndrwxr-xr-x 1 root root    4096 Jun 10 02:09 apt\n-rw-r--r-- 1 root root    2319 Mar 31  2024 bash.bashrc\n-rw-r--r-- 1 root root     367 Aug  2  2022 bindresvport.blacklist\ndrwxr-xr-x 3 root root    4096 Jul  2 02:29 ca-certificates\n-rw-r--r-- 1 root root    5287 Jul  2 02:29 ca-certificates.conf\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 cloud\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 cron.d\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 cron.daily\n-rw-r--r-- 1 root root    2967 Apr 12  2024 debconf.conf\n-rw-r--r-- 1 root root      11 Apr 22  2024 debian_version\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 default\n-rw-r--r-- 1 root root    1706 Jul  5  2023 deluser.conf\ndrwxr-xr-x 4 root root    4096 Jun 10 02:16 dpkg\n-rw-r--r-- 1 root root     685 Apr  8  2024 e2scrub.conf\n-rw-r--r-- 1 root root     106 Jun 10 02:09 environment\n-rw-r--r-- 1 root root      37 Jun 10 02:09 fstab\n-rw-r--r-- 1 root root    2584 Jan 31  2024 gai.conf\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 gnutls\n-rw-r--r-- 1 root root     447 Jul  2 02:29 group\n-rw-r--r-- 1 root root     516 Jul  2 02:29 group-\n-rw-r----- 1 root shadow   374 Jul  2 02:29 gshadow\n-rw-r----- 1 root shadow   439 Jul  2 02:29 gshadow-\ndrwxr-xr-x 3 root root    4096 Jul  2 02:29 gss\n-rw-r--r-- 1 root root      92 Apr 22  2024 host.conf\n-rw-r--r-- 1 root root      13 Jul 21 01:40 hostname\n-rw-r--r-- 1 root root     150 Jul 21 01:40 hosts\n-rw-r--r-- 1 root root     411 Jul  2 02:29 hosts.allow\n-rw-r--r-- 1 root root     711 Jul  2 02:29 hosts.deny\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 init.d\n-rw-r--r-- 1 root root    1875 Mar 31  2024 inputrc\ndrwxr-xr-x 4 root root    4096 Jul  2 02:29 iproute2\n-rw-r--r-- 1 root root      26 Feb  6 07:23 issue\n-rw-r--r-- 1 root root      19 Feb  6 07:23 issue.net\ndrwxr-xr-x 3 root root    4096 Jun 10 02:09 kernel\n-rw-r--r-- 1 root root    7387 Jul  2 02:29 ld.so.cache\n-rw-r--r-- 1 root root      34 Aug  2  2022 ld.so.conf\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 ld.so.conf.d\n-rw-r--r-- 1 root root     267 Apr 22  2024 legal\n-rw-r--r-- 1 root root     191 Mar 31  2024 libaudit.conf\nlrwxrwxrwx 1 root root      27 Jul  2 02:29 localtime -> /usr/share/zoneinfo/Etc/UTC\ndrwxr-xr-x 5 root root    4096 Jul  2 02:29 logcheck\n-rw-r--r-- 1 root root   12345 Feb 22  2024 login.defs\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 logrotate.d\n-rw-r--r-- 1 root root     104 Feb  6 07:22 lsb-release\n-rw-r--r-- 1 root root       0 Jun 10 02:16 machine-id\n-rw-r--r-- 1 root root     744 Apr  8  2024 mke2fs.conf\nlrwxrwxrwx 1 root root      12 Jul 21 01:40 mtab -> /proc/mounts\ndrwxr-xr-x 4 root root    4096 Jul  2 02:29 mysql\n-rw-r--r-- 1 root root     767 Mar 31  2024 netconfig\n-rw-r--r-- 1 root root      91 Apr 22  2024 networks\n-rw-r--r-- 1 root root     494 Aug  2  2022 nsswitch.conf\ndrwxr-xr-x 2 root root    4096 Jun 10 02:09 opt\nlrwxrwxrwx 1 root root      21 Feb  6 07:23 os-release -> ../usr/lib/os-release\n-rw-r--r-- 1 root root     552 Oct 13  2022 pam.conf\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 pam.d\n-rw-r--r-- 1 root root     879 Jul  2 02:29 passwd\n-rw-r--r-- 1 root root     928 Jul  2 02:29 passwd-\ndrwxr-xr-x 3 root root    4096 Jul  2 02:29 perl\n-rw-r--r-- 1 root root     582 Apr 22  2024 profile\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 profile.d\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 rc0.d\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 rc1.d\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 rc2.d\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 rc3.d\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 rc4.d\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 rc5.d\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 rc6.d\ndrwxr-xr-x 2 root root    4096 Jun 10 02:09 rcS.d\n-rw-r--r-- 1 root root     221 Jul 21 01:40 resolv.conf\nlrwxrwxrwx 1 root root      13 Apr  8  2024 rmt -> /usr/sbin/rmt\ndrwxr-xr-x 1 root root    4096 Jul  2 02:29 security\ndrwxr-xr-x 2 root root    4096 Jun 10 02:13 selinux\n-rw-r----- 1 root shadow   494 Jul  2 02:29 shadow\n-rw-r----- 1 root shadow   522 Jul  2 02:29 shadow-\n-rw-r--r-- 1 root root     118 Jun 10 02:10 shells\ndrwxr-xr-x 2 root root    4096 Jun 10 02:10 skel\ndrwxr-xr-x 4 root root    4096 Jul  2 02:29 ssl\n-rw-r--r-- 1 root root       0 Jul  2 02:29 subgid\n-rw-r--r-- 1 root root      20 Jun 10 02:16 subgid-\n-rw-r--r-- 1 root root       0 Jul  2 02:29 subuid\n-rw-r--r-- 1 root root      20 Jun 10 02:16 subuid-\n-rw-r--r-- 1 root root    2209 Mar 24  2024 sysctl.conf\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 sysctl.d\ndrwxr-xr-x 1 root root    4096 Dec  6  2023 systemd\ndrwxr-xr-x 2 root root    4096 Jun 10 02:15 terminfo\n-rw-r--r-- 1 root root       8 Jul  2 02:29 timezone\ndrwxr-xr-x 2 root root    4096 Jun 10 02:16 update-motd.d\n-rw-r--r-- 1 root root     681 Apr  8  2024 xattr.conf",
+      "exit": 0,
+      "cwd": "/etc"
+     },
+     "cands": [
+      "alternatives",
+      "apparmor.d",
+      "apt",
+      "ca-certificates",
+      "cloud",
+      "cron.d",
+      "cron.daily",
+      "default",
+      "dpkg",
+      "gnutls",
+      "gss",
+      "init.d",
+      "iproute2",
+      "kernel",
+      "ld.so.conf.d",
+      "logcheck",
+      "logrotate.d",
+      "mysql",
+      "opt",
+      "pam.d",
+      "perl",
+      "profile.d",
+      "rc0.d",
+      "rc1.d",
+      "rc2.d",
+      "rc3.d",
+      "rc4.d",
+      "rc5.d",
+      "rc6.d",
+      "rcS.d",
+      "security",
+      "selinux",
+      "skel",
+      "ssl",
+      "sysctl.d",
+      "systemd",
+      "terminfo",
+      "update-motd.d"
+     ]
+    },
+    "/etc/iproute2": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 52\ndrwxr-xr-x 4 root root 4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root 4096 Jul 21 01:40 ..\n-rw-r--r-- 1 root root   85 Dec 14  2022 bpf_pinning\n-rw-r--r-- 1 root root   81 Dec 14  2022 ematch_map\n-rw-r--r-- 1 root root   31 Dec 14  2022 group\n-rw-r--r-- 1 root root  262 Dec 14  2022 nl_protos\n-rw-r--r-- 1 root root  331 Dec 14  2022 rt_dsfield\n-rw-r--r-- 1 root root  219 Dec 14  2022 rt_protos\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 rt_protos.d\n-rw-r--r-- 1 root root  112 Dec 14  2022 rt_realms\n-rw-r--r-- 1 root root   92 Dec 14  2022 rt_scopes\n-rw-r--r-- 1 root root   87 Dec 14  2022 rt_tables\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 rt_tables.d",
+      "exit": 0,
+      "cwd": "/etc/iproute2"
+     },
+     "cands": [
+      "rt_protos.d",
+      "rt_tables.d"
+     ]
+    },
+    "/etc/ssl": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 40\ndrwxr-xr-x 4 root root  4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root  4096 Jul 21 01:40 ..\ndrwxr-xr-x 2 root root 12288 Jul  2 02:29 certs\n-rw-r--r-- 1 root root 12324 Jun  2 19:33 openssl.cnf\ndrwx------ 2 root root  4096 Jun  2 19:33 private",
+      "exit": 0,
+      "cwd": "/etc/ssl"
+     },
+     "cands": [
+      "certs",
+      "private"
+     ]
+    },
+    "/etc/systemd": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 16\ndrwxr-xr-x 1 root root 4096 Dec  6  2023 .\ndrwxr-xr-x 1 root root 4096 Jul 21 01:40 ..\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 system\ndrwxr-xr-x 2 root root 4096 Dec  6  2023 user",
+      "exit": 0,
+      "cwd": "/etc/systemd"
+     },
+     "cands": [
+      "system",
+      "user"
+     ]
+    },
+    "/etc/systemd/system": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 20\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root 4096 Dec  6  2023 ..\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb.service.d\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 multi-user.target.wants\ndrwxr-xr-x 2 root root 4096 Jun 10 02:09 timers.target.wants",
+      "exit": 0,
+      "cwd": "/etc/systemd/system"
+     },
+     "cands": [
+      "mariadb.service.d",
+      "multi-user.target.wants",
+      "timers.target.wants"
+     ]
+    },
+    "/usr": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 44\ndrwxr-xr-x 1 root root 4096 Jun 10 02:09 .\ndrwxr-xr-x 1 root root 4096 Jul 21 01:40 ..\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 bin\ndrwxr-xr-x 2 root root 4096 Apr 22  2024 games\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 include\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 lib\ndrwxr-xr-x 4 root root 4096 Jun 10 02:09 libexec\ndrwxr-xr-x 1 root root 4096 Jun 10 02:09 local\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 sbin\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 share\ndrwxr-xr-x 2 root root 4096 Apr 22  2024 src",
+      "exit": 0,
+      "cwd": "/usr"
+     },
+     "cands": [
+      "bin",
+      "games",
+      "include",
+      "lib",
+      "libexec",
+      "local",
+      "sbin",
+      "share",
+      "src"
+     ]
+    },
+    "/usr/lib": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 33252\ndrwxr-xr-x 1 root root     4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root     4096 Jun 10 02:09 ..\ndrwxr-xr-x 1 root root     4096 Jul  2 02:29 aarch64-linux-gnu\ndrwxr-xr-x 5 root root     4096 Jun 10 02:16 apt\ndrwxr-xr-x 3 root root     4096 Jun 10 02:09 dpkg\ndrwxr-xr-x 2 root root     4096 Jul  2 02:29 galera\ndrwxr-xr-x 2 root root     4096 Jun 10 02:15 init\nlrwxrwxrwx 1 root root       39 Jan 30 08:27 ld-linux-aarch64.so.1 -> aarch64-linux-gnu/ld-linux-aarch64.so.1\n-rw-r--r-- 1 root root 33977384 May 22 03:32 libgalera_smm.so\ndrwxr-xr-x 3 root root     4096 Mar 30  2024 locale\ndrwxr-xr-x 3 root root     4096 Jun 10 02:15 lsb\ndrwxr-xr-x 3 root root     4096 Feb  4  2024 mime\ndrwxr-xr-x 3 root root     4096 Jul  2 02:29 mysql\n-rw-r--r-- 1 root root      400 Feb  6 07:23 os-release\ndrwxr-xr-x 3 root root     4096 Jul  2 02:29 ssl\ndrwxr-xr-x 2 root root     4096 Jun 10 02:16 sysctl.d\ndrwxr-xr-x 1 root root     4096 Jul  2 02:29 systemd\ndrwxr-xr-x 1 root root     4096 Jul  2 02:29 tmpfiles.d\ndrwxr-xr-x 3 root root     4096 Apr  8  2024 udev",
+      "exit": 0,
+      "cwd": "/usr/lib"
+     },
+     "cands": [
+      "aarch64-linux-gnu",
+      "apt",
+      "dpkg",
+      "galera",
+      "init",
+      "locale",
+      "lsb",
+      "mime",
+      "mysql",
+      "ssl",
+      "sysctl.d",
+      "systemd",
+      "tmpfiles.d",
+      "udev"
+     ]
+    },
+    "/usr/lib/ssl": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 12\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 ..\nlrwxrwxrwx 1 root root   34 Jun  2 19:33 cert.pem -> /etc/ssl/certs/ca-certificates.crt\nlrwxrwxrwx 1 root root   14 Jun  2 19:33 certs -> /etc/ssl/certs\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 misc\nlrwxrwxrwx 1 root root   20 Jun  2 19:33 openssl.cnf -> /etc/ssl/openssl.cnf\nlrwxrwxrwx 1 root root   16 Jun  2 19:33 private -> /etc/ssl/private",
+      "exit": 0,
+      "cwd": "/usr/lib/ssl"
+     },
+     "cands": [
+      "misc"
+     ]
+    },
+    "/usr/lib/systemd": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 12\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 ..\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 system",
+      "exit": 0,
+      "cwd": "/usr/lib/systemd"
+     },
+     "cands": [
+      "system"
+     ]
+    },
+    "/usr/share": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 208\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 .\ndrwxr-xr-x  1 root root 4096 Jun 10 02:09 ..\ndrwxr-xr-x  1 root root 4096 Apr  9  2024 apport\ndrwxr-xr-x  2 root root 4096 Jul  2 02:29 awk\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 base-files\ndrwxr-xr-x  2 root root 4096 Jun 10 02:10 base-passwd\ndrwxr-xr-x  1 root root 4096 Apr  9  2024 bash-completion\ndrwxr-xr-x  5 root root 4096 Jun 10 02:16 bug\ndrwxr-xr-x  3 root root 4096 Jul  2 02:29 ca-certificates\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 common-licenses\ndrwxr-xr-x  2 root root 4096 Jun 10 02:10 debconf\ndrwxr-xr-x  3 root root 4096 Jun 10 02:10 debianutils\ndrwxr-xr-x  2 root root 4096 Apr 22  2024 dict\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 doc\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 doc-base\n-rw-r--r--  1 root root 3106 Oct 10  2025 dot.bashrc\n-rw-r--r--  1 root root  161 Feb  6 07:19 dot.profile\n-rw-r--r--  1 root root   72 Feb  6 07:19 dot.profile.md5sums\ndrwxr-xr-x  3 root root 4096 Jun 10 02:16 dpkg\ndrwxr-xr-x  3 root root 4096 Jun 10 02:09 gcc\ndrwxr-xr-x  3 root root 4096 Jun 10 02:09 gdb\ndrwxr-xr-x  2 root root 4096 Jul  2 02:29 gnupg\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 info\n-rw-r--r--  1 root root  771 Oct 10  2025 info.dir\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 keyrings\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 libc-bin\ndrwxr-xr-x  2 root root 4096 Jul  2 02:29 libdbi-perl\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 libgcrypt20\ndrwxr-xr-x  1 root root 4096 Jun 10 02:09 lintian\ndrwxr-xr-x 61 root root 4096 Jun 10 02:09 locale\ndrwxr-xr-x 27 root root 4096 Jun 10 02:15 man\ndrwxr-xr-x 31 root root 4096 Jul  2 02:29 mariadb\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 menu\ndrwxr-xr-x  2 root root 4096 Apr 22  2024 misc\n-rw-r--r--  1 root root  284 Jan 30  2025 motd\n-rw-r--r--  1 root root   91 Oct 10  2025 networks\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 pam\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 pam-configs\ndrwxr-xr-x  3 root root 4096 Jul  2 02:29 perl\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 perl5\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 pixmaps\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 polkit-1\n-rw-r--r--  1 root root  582 Feb  6 07:19 profile\n-rw-r--r--  1 root root  396 Feb  6 07:19 profile.md5sums\ndrwxr-xr-x  2 root root 4096 Jul  2 02:29 readline\ndrwxr-xr-x  3 root root 4096 Jul  2 02:29 rsync\ndrwxr-xr-x  3 root root 4096 Feb  4  2024 sensible-utils\n-rw-r--r--  1 root root  772 Feb  6 07:19 staff-group-for-usr-local\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 tabset\ndrwxr-xr-x 16 root root 4096 Apr  8  2024 terminfo\ndrwxr-xr-x  3 root root 4096 Apr  9  2024 util-linux\ndrwxr-xr-x 13 root root 4096 Jul  2 02:29 zoneinfo",
+      "exit": 0,
+      "cwd": "/usr/share"
+     },
+     "cands": [
+      "apport",
+      "awk",
+      "base-files",
+      "base-passwd",
+      "bash-completion",
+      "bug",
+      "ca-certificates",
+      "common-licenses",
+      "debconf",
+      "debianutils",
+      "dict",
+      "doc",
+      "doc-base",
+      "dpkg",
+      "gcc",
+      "gdb",
+      "gnupg",
+      "info",
+      "keyrings",
+      "libc-bin",
+      "libdbi-perl",
+      "libgcrypt20",
+      "lintian",
+      "locale",
+      "man",
+      "mariadb",
+      "menu",
+      "misc",
+      "pam",
+      "pam-configs",
+      "perl",
+      "perl5",
+      "pixmaps",
+      "polkit-1",
+      "readline",
+      "rsync",
+      "sensible-utils",
+      "tabset",
+      "terminfo",
+      "util-linux",
+      "zoneinfo"
+     ]
+    },
+    "/usr/share/debianutils": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 16\ndrwxr-xr-x 3 root root 4096 Jun 10 02:10 .\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 ..\n-rw-r--r-- 1 root root   42 Feb 28  2024 shells\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 shells.d",
+      "exit": 0,
+      "cwd": "/usr/share/debianutils"
+     },
+     "cands": [
+      "shells.d"
+     ]
+    },
+    "/usr/share/doc": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 600\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 ..\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 adduser\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 apt\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 base-files\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 base-passwd\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 bash\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 bsdutils\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 ca-certificates\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 coreutils\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 dash\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 debconf\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 debianutils\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 diffutils\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 dpkg\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 e2fsprogs\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 findutils\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 galera-4\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 gawk\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 gcc-14-base\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 gpg\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 gpgconf\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 gpgv\ndrwxr-xr-x 2 root root 4096 Jun 10 02:10 grep\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 gzip\ndrwxr-xr-x 2 root root 4096 Jun 10 02:11 hostname\ndrwxr-xr-x 2 root root 4096 Jun 10 02:11 init-system-helpers\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 iproute2\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libacl1\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libaio1t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libapt-pkg6.0t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:11 libassuan0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libattr1\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libaudit-common\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libaudit1\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libblkid1\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libbpf1\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libbsd0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libbz2-1.0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libc-bin\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libc6\ndrwxr-xr-x 2 root root 4096 Jun 10 02:12 libcap-ng0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libcap2\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libcap2-bin\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libcom-err2\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libconfig-inifiles-perl\ndrwxr-xr-x 2 root root 4096 Jun 10 02:12 libcrypt1\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libdb5.3t64\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 libdbi-perl\ndrwxr-xr-x 2 root root 4096 Jun 10 02:12 libdebconfclient0\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libedit2\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libelf1t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libext2fs2t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:12 libffi8\nlrwxrwxrwx 1 root root   11 Apr 12  2024 libgcc-s1 -> gcc-14-base\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libgcrypt20\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libgdbm-compat4t64\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libgdbm6t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libgmp10\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libgnutls30t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libgpg-error0\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libgssapi-krb5-2\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libhogweed6t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libidn2-0\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libjemalloc2\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libk5crypto3\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libkeyutils1\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libkrb5-3\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libkrb5support0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 liblz4-1\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 liblzma5\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libmariadb3\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libmd0\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libmnl0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libmount1\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libmpfr6\nlrwxrwxrwx 1 root root    9 Apr  8  2024 libncurses6 -> libtinfo6\nlrwxrwxrwx 1 root root    9 Apr  8  2024 libncursesw6 -> libtinfo6\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libnettle8t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:13 libnpth0t64\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 libp11-kit0\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 libpam-modules\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libpam-modules-bin\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libpam-runtime\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libpam0g\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libpcre2-8-0\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libpcre2-posix3\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libperl5.38t64\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libpopt0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libproc2-0\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 libreadline8t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libseccomp2\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libselinux1\ndrwxr-xr-x 2 root root 4096 Jun 10 02:13 libsemanage-common\ndrwxr-xr-x 2 root root 4096 Jun 10 02:14 libsemanage2\ndrwxr-xr-x 2 root root 4096 Jun 10 02:14 libsepol2\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libsigsegv2\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libsmartcols1\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libsqlite3-0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libss2\ndrwxr-xr-x 2 root root 4096 Mar 31  2024 libssl3\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libssl3t64\nlrwxrwxrwx 1 root root   11 Apr 12  2024 libstdc++6 -> gcc-14-base\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libsystemd0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libtasn1-6\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libtcmalloc-minimal4t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:14 libtinfo6\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libtirpc-common\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libtirpc3t64\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libudev1\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libunistring5\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 liburing2\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libuuid1\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libwrap0\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 libxtables12\ndrwxr-xr-x 2 root root 4096 Jun 10 02:14 libxxhash0\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 libzstd1\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 login\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 logsave\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 lsof\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb-backup\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb-client\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb-client-core\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb-common\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb-server\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb-server-core\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mariadb-server-galera\ndrwxr-xr-x 3 root root 4096 Jun 10 02:15 mawk\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 mount\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 mysql-common\ndrwxr-xr-x 2 root root 4096 Jun 10 02:15 ncurses-base\ndrwxr-xr-x 2 root root 4096 Jun 10 02:15 ncurses-bin\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 openssl\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 passwd\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 perl\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 perl-base\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 perl-modules-5.38\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 procps\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 psmisc\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 pwgen\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 readline-common\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 rsync\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 sed\ndrwxr-xr-x 2 root root 4096 Jun 10 02:15 sensible-utils\ndrwxr-xr-x 3 root root 4096 Jul  2 02:29 socat\ndrwxr-xr-x 2 root root 4096 Jun 10 02:15 sysvinit-utils\ndrwxr-xr-x 2 root root 4096 Jun 10 02:15 tar\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 tzdata\ndrwxr-xr-x 2 root root 4096 Jun 10 02:15 ubuntu-keyring\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 unminimize\ndrwxr-xr-x 4 root root 4096 Jun 10 02:16 util-linux\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 xz-utils\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 zlib1g\ndrwxr-xr-x 2 root root 4096 Jul  2 02:29 zstd",
+      "exit": 0,
+      "cwd": "/usr/share/doc"
+     },
+     "cands": [
+      "adduser",
+      "apt",
+      "base-files",
+      "base-passwd",
+      "bash",
+      "bsdutils",
+      "ca-certificates",
+      "coreutils",
+      "dash",
+      "debconf",
+      "debianutils",
+      "diffutils",
+      "dpkg",
+      "e2fsprogs",
+      "findutils",
+      "galera-4",
+      "gawk",
+      "gcc-14-base",
+      "gpg",
+      "gpgconf",
+      "gpgv",
+      "grep",
+      "gzip",
+      "hostname",
+      "init-system-helpers",
+      "iproute2",
+      "libacl1",
+      "libaio1t64",
+      "libapt-pkg6.0t64",
+      "libassuan0",
+      "libattr1",
+      "libaudit-common",
+      "libaudit1",
+      "libblkid1",
+      "libbpf1",
+      "libbsd0",
+      "libbz2-1.0",
+      "libc-bin",
+      "libc6",
+      "libcap-ng0",
+      "libcap2",
+      "libcap2-bin",
+      "libcom-err2",
+      "libconfig-inifiles-perl",
+      "libcrypt1",
+      "libdb5.3t64",
+      "libdbi-perl",
+      "libdebconfclient0",
+      "libedit2",
+      "libelf1t64",
+      "libext2fs2t64",
+      "libffi8",
+      "libgcrypt20",
+      "libgdbm-compat4t64",
+      "libgdbm6t64",
+      "libgmp10",
+      "libgnutls30t64",
+      "libgpg-error0",
+      "libgssapi-krb5-2",
+      "libhogweed6t64",
+      "libidn2-0",
+      "libjemalloc2",
+      "libk5crypto3",
+      "libkeyutils1",
+      "libkrb5-3",
+      "libkrb5support0",
+      "liblz4-1",
+      "liblzma5",
+      "libmariadb3",
+      "libmd0",
+      "libmnl0",
+      "libmount1",
+      "libmpfr6",
+      "libnettle8t64",
+      "libnpth0t64",
+      "libp11-kit0",
+      "libpam-modules",
+      "libpam-modules-bin",
+      "libpam-runtime",
+      "libpam0g",
+      "libpcre2-8-0",
+      "libpcre2-posix3",
+      "libperl5.38t64",
+      "libpopt0",
+      "libproc2-0",
+      "libreadline8t64",
+      "libseccomp2",
+      "libselinux1",
+      "libsemanage-common",
+      "libsemanage2",
+      "libsepol2",
+      "libsigsegv2",
+      "libsmartcols1",
+      "libsqlite3-0",
+      "libss2",
+      "libssl3",
+      "libssl3t64",
+      "libsystemd0",
+      "libtasn1-6",
+      "libtcmalloc-minimal4t64",
+      "libtinfo6",
+      "libtirpc-common",
+      "libtirpc3t64",
+      "libudev1",
+      "libunistring5",
+      "liburing2",
+      "libuuid1",
+      "libwrap0",
+      "libxtables12",
+      "libxxhash0",
+      "libzstd1",
+      "login",
+      "logsave",
+      "lsof",
+      "mariadb-backup",
+      "mariadb-client",
+      "mariadb-client-core",
+      "mariadb-common",
+      "mariadb-server",
+      "mariadb-server-core",
+      "mariadb-server-galera",
+      "mawk",
+      "mount",
+      "mysql-common",
+      "ncurses-base",
+      "ncurses-bin",
+      "openssl",
+      "passwd",
+      "perl",
+      "perl-base",
+      "perl-modules-5.38",
+      "procps",
+      "psmisc",
+      "pwgen",
+      "readline-common",
+      "rsync",
+      "sed",
+      "sensible-utils",
+      "socat",
+      "sysvinit-utils",
+      "tar",
+      "tzdata",
+      "ubuntu-keyring",
+      "unminimize",
+      "util-linux",
+      "xz-utils",
+      "zlib1g",
+      "zstd"
+     ]
+    },
+    "/usr/share/locale": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 244\ndrwxr-xr-x 61 root root 4096 Jun 10 02:09 .\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 ..\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 af\ndrwxr-xr-x  3 root root 4096 Jun 10 02:09 ar\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 ast\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 be\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 bg\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 bs\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 ca\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 cs\ndrwxr-xr-x  3 root root 4096 Jun 10 02:09 cy\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 da\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 de\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 dz\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 el\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 eo\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 es\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 et\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 eu\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 fi\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 fr\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 ga\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 gl\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 hr\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 hu\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 ia\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 id\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 it\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 ja\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 ka\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 kk\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 km\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 ko\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 ku\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 lg\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 lt\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 mr\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 ms\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 nb\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 ne\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 nl\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 nn\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 oc\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 pa\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 pl\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 pt\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 pt_BR\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 ro\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 ru\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 sk\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 sl\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 sr\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 sv\ndrwxr-xr-x  3 root root 4096 Apr  5  2024 ta\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 th\ndrwxr-xr-x  3 root root 4096 Mar 30  2024 tl\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 tr\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 uk\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 vi\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 zh_CN\ndrwxr-xr-x  4 root root 4096 Jun 10 02:09 zh_TW",
+      "exit": 0,
+      "cwd": "/usr/share/locale"
+     },
+     "cands": [
+      "af",
+      "ar",
+      "ast",
+      "be",
+      "bg",
+      "bs",
+      "ca",
+      "cs",
+      "cy",
+      "da",
+      "de",
+      "dz",
+      "el",
+      "eo",
+      "es",
+      "et",
+      "eu",
+      "fi",
+      "fr",
+      "ga",
+      "gl",
+      "hr",
+      "hu",
+      "ia",
+      "id",
+      "it",
+      "ja",
+      "ka",
+      "kk",
+      "km",
+      "ko",
+      "ku",
+      "lg",
+      "lt",
+      "mr",
+      "ms",
+      "nb",
+      "ne",
+      "nl",
+      "nn",
+      "oc",
+      "pa",
+      "pl",
+      "pt",
+      "pt_BR",
+      "ro",
+      "ru",
+      "sk",
+      "sl",
+      "sr",
+      "sv",
+      "ta",
+      "th",
+      "tl",
+      "tr",
+      "uk",
+      "vi",
+      "zh_CN",
+      "zh_TW"
+     ]
+    },
+    "/usr/share/man": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 108\ndrwxr-xr-x 27 root root 4096 Jun 10 02:15 .\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 ..\ndrwxr-xr-x  4 root root 4096 Jun 10 02:15 cs\ndrwxr-xr-x  4 root root 4096 Jun 10 02:15 da\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 de\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 es\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 fr\ndrwxr-xr-x  3 root root 4096 Jun 10 02:15 hu\ndrwxr-xr-x  3 root root 4096 Jun 10 02:15 id\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 it\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 ja\ndrwxr-xr-x  3 root root 4096 Jun 10 02:15 ko\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 man1\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 man5\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 man7\ndrwxr-xr-x  2 root root 4096 Jun 10 02:16 man8\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 nl\ndrwxr-xr-x  5 root root 4096 Jun 10 02:15 pl\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 pt\ndrwxr-xr-x  5 root root 4096 Apr  9  2024 pt_BR\ndrwxr-xr-x  5 root root 4096 Jun 10 02:09 ru\ndrwxr-xr-x  3 root root 4096 Jun 10 02:10 sl\ndrwxr-xr-x  5 root root 4096 Jun 10 02:15 sv\ndrwxr-xr-x  3 root root 4096 Jun 10 02:15 tr\ndrwxr-xr-x  5 root root 4096 Jun 10 02:15 uk\ndrwxr-xr-x  5 root root 4096 Apr  9  2024 zh_CN\ndrwxr-xr-x  3 root root 4096 Jun 10 02:15 zh_TW",
+      "exit": 0,
+      "cwd": "/usr/share/man"
+     },
+     "cands": [
+      "cs",
+      "da",
+      "de",
+      "es",
+      "fr",
+      "hu",
+      "id",
+      "it",
+      "ja",
+      "ko",
+      "man1",
+      "man5",
+      "man7",
+      "man8",
+      "nl",
+      "pl",
+      "pt",
+      "pt_BR",
+      "ru",
+      "sl",
+      "sv",
+      "tr",
+      "uk",
+      "zh_CN",
+      "zh_TW"
+     ]
+    },
+    "/usr/share/mariadb": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 2940\ndrwxr-xr-x 31 root root    4096 Jul  2 02:29 .\ndrwxr-xr-x  1 root root    4096 Jul  2 02:29 ..\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 bulgarian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 charsets\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 chinese\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 czech\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 danish\n-rwxr-xr-x  1 root root    1385 May 26 19:21 debian-start.inc.sh\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 dutch\n-rwxr-xr-x  1 root root      27 May 26 19:21 echo_stderr\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 english\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 estonian\n-rw-r--r--  1 root root 2165288 May 26 19:21 fill_help_tables.sql\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 french\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 georgian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 german\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 greek\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 hindi\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 hungarian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 italian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 japanese\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 korean\n-rw-r--r--  1 root root    1683 May 26 19:50 maria_add_gis_sp_bootstrap.sql\n-rw-r--r--  1 root root    2030 May 26 19:21 mariadb_performance_tables.sql\n-rw-r--r--  1 root root  623577 May 26 19:50 mariadb_sys_schema.sql\n-rw-r--r--  1 root root   31244 May 26 19:21 mariadb_system_tables.sql\n-rw-r--r--  1 root root    3372 May 26 19:21 mariadb_system_tables_data.sql\n-rw-r--r--  1 root root   10506 May 26 19:21 mariadb_test_data_timezone.sql\n-rw-r--r--  1 root root    1841 May 26 19:21 mariadb_test_db.sql\n-rwxr-xr-x  1 root root    9838 May 26 19:50 mini-benchmark\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 norwegian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 norwegian-ny\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 polish\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 portuguese\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 romanian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 russian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 serbian\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 slovak\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 spanish\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 swahili\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 swedish\ndrwxr-xr-x  2 root root    4096 Jul  2 02:29 ukrainian\n-rwxr-xr-x  1 root root    4980 May 26 19:50 wsrep_notify",
+      "exit": 0,
+      "cwd": "/usr/share/mariadb"
+     },
+     "cands": [
+      "bulgarian",
+      "charsets",
+      "chinese",
+      "czech",
+      "danish",
+      "dutch",
+      "english",
+      "estonian",
+      "french",
+      "georgian",
+      "german",
+      "greek",
+      "hindi",
+      "hungarian",
+      "italian",
+      "japanese",
+      "korean",
+      "norwegian",
+      "norwegian-ny",
+      "polish",
+      "portuguese",
+      "romanian",
+      "russian",
+      "serbian",
+      "slovak",
+      "spanish",
+      "swahili",
+      "swedish",
+      "ukrainian"
+     ]
+    },
+    "/usr/share/polkit-1": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 12\ndrwxr-xr-x 3 root root 4096 Mar 30  2024 .\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 ..\ndrwxr-xr-x 2 root root 4096 Jun 10 02:16 actions",
+      "exit": 0,
+      "cwd": "/usr/share/polkit-1"
+     },
+     "cands": [
+      "actions"
+     ]
+    },
+    "/usr/share/terminfo": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 64\ndrwxr-xr-x 16 root root 4096 Apr  8  2024 .\ndrwxr-xr-x  1 root root 4096 Jul  2 02:29 ..\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 E\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 a\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 c\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 d\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 h\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 l\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 m\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 p\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 r\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 s\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 t\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 v\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 w\ndrwxr-xr-x  2 root root 4096 Jun 10 02:15 x",
+      "exit": 0,
+      "cwd": "/usr/share/terminfo"
+     },
+     "cands": [
+      "E",
+      "a",
+      "c",
+      "d",
+      "h",
+      "l",
+      "m",
+      "p",
+      "r",
+      "s",
+      "t",
+      "v",
+      "w",
+      "x"
+     ]
+    },
+    "/usr/share/zoneinfo": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 284\ndrwxr-xr-x 13 root root   4096 Jul  2 02:29 .\ndrwxr-xr-x  1 root root   4096 Jul  2 02:29 ..\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Africa\ndrwxr-xr-x  6 root root   4096 Jul  2 02:29 America\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Antarctica\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Arctic\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Asia\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Atlantic\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Australia\n-rw-r--r--  1 root root   2094 Mar 18 15:32 CET\n-rw-r--r--  1 root root   2310 Mar 18 15:32 CST6CDT\n-rw-r--r--  1 root root   1908 Mar 18 15:32 EET\n-rw-r--r--  1 root root    114 Mar 18 15:32 EST\n-rw-r--r--  1 root root   2310 Mar 18 15:32 EST5EDT\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Etc\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Europe\n-rw-r--r--  1 root root    116 Mar 18 15:32 Factory\nlrwxrwxrwx  1 root root      7 Mar 18 15:32 GMT -> Etc/GMT\n-rw-r--r--  1 root root    115 Mar 18 15:32 HST\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Indian\n-rw-r--r--  1 root root   2094 Mar 18 15:32 MET\n-rw-r--r--  1 root root    114 Mar 18 15:32 MST\n-rw-r--r--  1 root root   2310 Mar 18 15:32 MST7MDT\n-rw-r--r--  1 root root   2310 Mar 18 15:32 PST8PDT\ndrwxr-xr-x  2 root root   4096 Jul  2 02:29 Pacific\nlrwxrwxrwx  1 root root      7 Mar 18 15:32 UTC -> Etc/UTC\n-rw-r--r--  1 root root   1905 Mar 18 15:32 WET\n-rw-r--r--  1 root root   4841 Aug 30  2025 iso3166.tab\n-rw-r--r--  1 root root   5069 Jan  6  2026 leap-seconds.list\n-rw-r--r--  1 root root   3698 Mar 18 15:32 leapseconds\nlrwxrwxrwx  1 root root     14 Mar 18 15:32 localtime -> /etc/localtime\nlrwxrwxrwx  1 root root     16 Mar 18 15:32 posixrules -> America/New_York\n-rw-r--r--  1 root root 116612 Mar 18 15:32 tzdata.zi\n-rw-r--r--  1 root root  18822 Mar 20  2025 zone.tab\n-rw-r--r--  1 root root  17605 Aug 30  2025 zone1970.tab\n-rw-r--r--  1 root root   7926 Feb 24 08:59 zonenow.tab",
+      "exit": 0,
+      "cwd": "/usr/share/zoneinfo"
+     },
+     "cands": [
+      "Africa",
+      "America",
+      "Antarctica",
+      "Arctic",
+      "Asia",
+      "Atlantic",
+      "Australia",
+      "Etc",
+      "Europe",
+      "Indian",
+      "Pacific"
+     ]
+    },
+    "/var": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 44\ndrwxr-xr-x 1 root root  4096 Jun 10 02:16 .\ndrwxr-xr-x 1 root root  4096 Jul 21 01:40 ..\ndrwxr-xr-x 2 root root  4096 Apr 22  2024 backups\ndrwxr-xr-x 1 root root  4096 Jul  2 02:29 cache\ndrwxr-xr-x 1 root root  4096 Jul  2 02:29 lib\ndrwxrwsr-x 2 root staff 4096 Apr 22  2024 local\nlrwxrwxrwx 1 root root     9 Jun 10 02:09 lock -> /run/lock\ndrwxr-xr-x 1 root root  4096 Jul  2 02:29 log\ndrwxrwsr-x 2 root mail  4096 Jun 10 02:09 mail\ndrwxr-xr-x 2 root root  4096 Jun 10 02:09 opt\nlrwxrwxrwx 1 root root     4 Jun 10 02:09 run -> /run\ndrwxr-xr-x 2 root root  4096 Jun 10 02:09 spool\ndrwxrwxrwt 2 root root  4096 Jun 10 02:16 tmp",
+      "exit": 0,
+      "cwd": "/var"
+     },
+     "cands": [
+      "backups",
+      "cache",
+      "lib",
+      "local",
+      "log",
+      "mail",
+      "opt",
+      "spool",
+      "tmp"
+     ]
+    },
+    "/var/cache": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 24\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root 4096 Jun 10 02:16 ..\ndrwxr-xr-x 2 root root 4096 Jul  5  2023 adduser\ndrwxr-xr-x 3 root root 4096 Jun 10 02:16 apt\ndrwxr-xr-x 1 root root 4096 Jul  2 02:29 debconf\ndrwx------ 1 root root 4096 Jul  2 02:29 ldconfig",
+      "exit": 0,
+      "cwd": "/var/cache"
+     },
+     "cands": [
+      "adduser",
+      "apt",
+      "debconf",
+      "ldconfig"
+     ]
+    },
+    "/var/lib": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 36\ndrwxr-xr-x 1 root  root  4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root  root  4096 Jun 10 02:16 ..\ndrwxr-xr-x 1 root  root  4096 Jul  2 02:29 apt\ndrwxr-xr-x 1 root  root  4096 Jul  2 02:29 dpkg\ndrwxr-xr-x 2 root  root  4096 Apr 22  2024 misc\ndrwxr-xr-x 2 mysql mysql 4096 Jul  2 02:29 mysql\ndrwxr-xr-x 2 root  root  4096 Jun 10 02:16 pam\n-rw-r--r-- 1 root  root    84 Jun 10 02:10 shells.state\ndrwxr-xr-x 1 root  root  4096 Jul  2 02:29 systemd",
+      "exit": 0,
+      "cwd": "/var/lib"
+     },
+     "cands": [
+      "apt",
+      "dpkg",
+      "misc",
+      "mysql",
+      "pam",
+      "systemd"
+     ]
+    },
+    "/var/lib/dpkg": {
+     "ls_step": {
+      "cmd": "ls -la",
+      "output": "total 464\ndrwxr-xr-x 1 root root   4096 Jul  2 02:29 .\ndrwxr-xr-x 1 root root   4096 Jul  2 02:29 ..\ndrwxr-xr-x 1 root root   4096 Jul  2 02:29 alternatives\n-rw-r--r-- 1 root root  96316 Jun 10 02:09 available\n-rw-r--r-- 1 root root      8 Jun 10 02:09 cmethopt\n-rw-r--r-- 1 root root   1437 Jul  2 02:29 diversions\n-rw-r--r-- 1 root root   1328 Jul  2 02:29 diversions-old\ndrwxr-xr-x 1 root root  12288 Jul  2 02:29 info\n-rw-r----- 1 root root      0 Jul  2 02:29 lock\n-rw-r----- 1 root root      0 Jun 10 02:09 lock-frontend\ndrwxr-xr-x 2 root root   4096 Mar 30  2024 parts\n-rw-r--r-- 1 root root 162998 Jul  2 02:29 status\n-rw-r--r-- 1 root root 162340 Jul  2 02:29 status-old\ndrwxr-xr-x 1 root root   4096 Jul  2 02:29 triggers\ndrwxr-xr-x 2 root root   4096 Jun 10 02:16 updates",
+      "exit": 0,
+      "cwd": "/var/lib/dpkg"
+     },
+     "cands": [
+      "alternatives",
+      "info",
+      "parts",
+      "triggers",
+      "updates"
+     ]
+    }
+   },
+   "goals": [
+    {
+     "dir": "/etc/ssl/certs",
+     "depth": 3,
+     "path": [
+      "/",
+      "/etc",
+      "/etc/ssl",
+      "/etc/ssl/certs"
+     ]
+    },
+    {
+     "dir": "/usr/share/mariadb/ukrainian",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/mariadb",
+      "/usr/share/mariadb/ukrainian"
+     ]
+    },
+    {
+     "dir": "/var/cache/apt",
+     "depth": 3,
+     "path": [
+      "/",
+      "/var",
+      "/var/cache",
+      "/var/cache/apt"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/pt",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/pt"
+     ]
+    },
+    {
+     "dir": "/usr/share/polkit-1/actions",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/polkit-1",
+      "/usr/share/polkit-1/actions"
+     ]
+    },
+    {
+     "dir": "/usr/share/terminfo/p",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/terminfo",
+      "/usr/share/terminfo/p"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/mariadb-client-core",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/mariadb-client-core"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/zh_TW",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/zh_TW"
+     ]
+    },
+    {
+     "dir": "/usr/share/mariadb/italian",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/mariadb",
+      "/usr/share/mariadb/italian"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libtinfo6",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libtinfo6"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/adduser",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/adduser"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/perl-base",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/perl-base"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/procps",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/procps"
+     ]
+    },
+    {
+     "dir": "/etc/iproute2/rt_tables.d",
+     "depth": 3,
+     "path": [
+      "/",
+      "/etc",
+      "/etc/iproute2",
+      "/etc/iproute2/rt_tables.d"
+     ]
+    },
+    {
+     "dir": "/usr/share/mariadb/georgian",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/mariadb",
+      "/usr/share/mariadb/georgian"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/sv",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/sv"
+     ]
+    },
+    {
+     "dir": "/usr/share/apport",
+     "depth": 3,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/apport"
+     ]
+    },
+    {
+     "dir": "/usr/share/terminfo/h",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/terminfo",
+      "/usr/share/terminfo/h"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/readline-common",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/readline-common"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/ca",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/ca"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libmd0",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libmd0"
+     ]
+    },
+    {
+     "dir": "/usr/share/debianutils/shells.d",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/debianutils",
+      "/usr/share/debianutils/shells.d"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libffi8",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libffi8"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libpam-modules",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libpam-modules"
+     ]
+    },
+    {
+     "dir": "/usr/share/mariadb/estonian",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/mariadb",
+      "/usr/share/mariadb/estonian"
+     ]
+    },
+    {
+     "dir": "/usr/share/zoneinfo/Etc",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/zoneinfo",
+      "/usr/share/zoneinfo/Etc"
+     ]
+    },
+    {
+     "dir": "/usr/bin",
+     "depth": 2,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/bin"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/ncurses-bin",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/ncurses-bin"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/ga",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/ga"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/oc",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/oc"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/ne",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/ne"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/diffutils",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/diffutils"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libudev1",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libudev1"
+     ]
+    },
+    {
+     "dir": "/usr/lib/systemd/system",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/systemd",
+      "/usr/lib/systemd/system"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/ia",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/ia"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libcap2",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libcap2"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libgdbm6t64",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libgdbm6t64"
+     ]
+    },
+    {
+     "dir": "/usr/share/man/zh_TW",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/man",
+      "/usr/share/man/zh_TW"
+     ]
+    },
+    {
+     "dir": "/usr/share/man/ru",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/man",
+      "/usr/share/man/ru"
+     ]
+    },
+    {
+     "dir": "/var/lib/dpkg/info",
+     "depth": 4,
+     "path": [
+      "/",
+      "/var",
+      "/var/lib",
+      "/var/lib/dpkg",
+      "/var/lib/dpkg/info"
+     ]
+    },
+    {
+     "dir": "/usr/share/locale/hu",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/locale",
+      "/usr/share/locale/hu"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/libnettle8t64",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/libnettle8t64"
+     ]
+    },
+    {
+     "dir": "/usr/share/man/sv",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/man",
+      "/usr/share/man/sv"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/mariadb-client",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/mariadb-client"
+     ]
+    },
+    {
+     "dir": "/usr/share/zoneinfo/Indian",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/zoneinfo",
+      "/usr/share/zoneinfo/Indian"
+     ]
+    },
+    {
+     "dir": "/usr/lib/ssl/misc",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/lib",
+      "/usr/lib/ssl",
+      "/usr/lib/ssl/misc"
+     ]
+    },
+    {
+     "dir": "/var/lib/pam",
+     "depth": 3,
+     "path": [
+      "/",
+      "/var",
+      "/var/lib",
+      "/var/lib/pam"
+     ]
+    },
+    {
+     "dir": "/etc/systemd/system/multi-user.target.wants",
+     "depth": 4,
+     "path": [
+      "/",
+      "/etc",
+      "/etc/systemd",
+      "/etc/systemd/system",
+      "/etc/systemd/system/multi-user.target.wants"
+     ]
+    },
+    {
+     "dir": "/usr/share/common-licenses",
+     "depth": 3,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/common-licenses"
+     ]
+    },
+    {
+     "dir": "/usr/share/doc/ncurses-base",
+     "depth": 4,
+     "path": [
+      "/",
+      "/usr",
+      "/usr/share",
+      "/usr/share/doc",
+      "/usr/share/doc/ncurses-base"
+     ]
+    }
+   ]
+  }
+ }
+}
