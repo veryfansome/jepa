@@ -876,6 +876,11 @@ def resolve_digests(images):
 
 def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, policy="baseline",
             pin_digests=False, expect_digests=None):
+    # Amendment 5/7 gate, at FUNCTION ENTRY (round-5 fix: the nested/late form was
+    # bypassable without --pin-digests and burned the collection hour before aborting)
+    if policy == "v2" and n_seqs >= 100 and not (pin_digests and expect_digests):
+        raise SystemExit("v2 full mint requires BOTH --pin-digests AND --expect-digests "
+                         "benchmarks/dockerfs2-digests.json (prereg Amendment 5/7)")
     out = pathlib.Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     for stale_name in ("summary.json", "emb-seq-train.pt", "emb-seq-val.pt"):
@@ -936,10 +941,6 @@ def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, polic
         summary["artifact_sha256"] = {
             f"{s}.jsonl": hashlib.sha256((out / f"{s}.jsonl").read_bytes()).hexdigest()
             for s in ("train", "val") if (out / f"{s}.jsonl").exists()}
-        # a full-scale v2 mint must run digest-gated (Amendment 5; prose rule made code)
-        if policy == "v2" and n_seqs >= 100 and not expect_digests:
-            raise SystemExit("v2 full mint requires --expect-digests "
-                             "benchmarks/dockerfs2-digests.json (prereg Amendment 5/6)")
     (out / "summary.json").write_text(json.dumps(summary, indent=1))
     return summary
 

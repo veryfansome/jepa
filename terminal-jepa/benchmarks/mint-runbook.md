@@ -18,7 +18,7 @@ uv run python -m benchmarks.scan_publish --root data/dockerfs2
 uv run python -m evolve.reencode --perception enc_e5_base --src data/dockerfs2 --out data/dockerfs2-e5
 
 # 4. VERIFY version binding + record encoded-artifact shas (append to summary via amendment)
-uv run python -c "import sys; sys.path.insert(0,'.'); from evolve import bench_versions as BV; print(BV.resolve('data/dockerfs2-e5'))"
+uv run python -c "import sys; sys.path.insert(0,'.'); from evolve import bench_versions as BV; s=BV.resolve('data/dockerfs2-e5'); assert s['version']=='dockerfs2-v2.0', s; print(s)"
 
 # 5. HF PUBLICATION (dockerfs2/ + dockerfs2-e5/ subtrees; HF is canonical thereafter)
 #    (uses HF_TOKEN from ~/.runpod.env; scan must have passed in step 2)

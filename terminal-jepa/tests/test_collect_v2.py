@@ -454,3 +454,25 @@ def test_v2_mint_aborts_on_failed_image():
         C.collect(out, ["img-a", "img-bad"], [], 1, 4, 0, 1, policy="baseline")
     finally:
         C.collect_image = orig
+
+
+def test_v2_full_mint_gate_at_entry():
+    """Round-5 regression: a full-scale v2 mint without BOTH digest flags must raise at
+    function entry — zero collection work, zero artifacts (Amendment 7)."""
+    import tempfile
+    out = pathlib.Path(tempfile.mkdtemp()) / "mintroot"
+    calls = []
+    orig = C.collect_image
+    C.collect_image = lambda *a, **k: calls.append(1) or None
+    try:
+        for pin, exp in ((False, None), (True, None), (False, "x.json")):
+            try:
+                C.collect(str(out), ["img-a"], ["img-b"], 600, 24, 0, 1, policy="v2",
+                          pin_digests=pin, expect_digests=exp)
+                raise AssertionError(f"gate did not raise (pin={pin}, exp={exp})")
+            except SystemExit:
+                pass
+        assert calls == [], f"collection work happened before the gate: {len(calls)} calls"
+        assert not out.exists() or not any(out.iterdir()), "artifacts created despite gate"
+    finally:
+        C.collect_image = orig

@@ -211,3 +211,19 @@ Dispositions, all applied:
   stratified plangoals-v2 harvester implemented (plan_env harvest --stratify, round-robin
   depth × first-component strata; review-C precondition).
 Round 5 (focused) follows per the convergence rule.
+
+---
+## Amendment 7 (2026-07-21, review round 5 → ITERATE on one finding; fixed)
+
+Round 5 executed the entire round-4 batch (all passes: scanner fail-closed 2/2 + planted
+secrets incl. yescrypt/ENCRYPTED 4/4; sha manifest verified on a tiny real 12-image gated
+collect; resolve() raise paths; stratified harvester deterministic with strata spread
+depth {2:5,3:4,4:3} × first-comp {/etc,/usr,/var} vs the flat {4:12}/{/usr:12}; runbook
+dry-parse; 25/25 tests) and found: 1 NEW serious + 1 minor, both in round-3/4 additions.
+- **SERIOUS — digest-gate placement:** the Amendment-5 code gate was nested under
+  `if digests:` (bypassed entirely when --pin-digests omitted) and ran post-collection.
+  Fixed: hoisted to collect() FUNCTION ENTRY requiring BOTH --pin-digests AND
+  --expect-digests for any full-scale v2 run; regression test asserts zero collection work
+  and zero artifacts on all three flag-omission paths.
+- Minor: runbook step 4 now ASSERTS version == dockerfs2-v2.0 instead of printing.
+Round 6 is verify-only on these two changes per the judge's scoping.
