@@ -28,3 +28,5 @@ terminal-jepa/cloud/jobs.tsv
 # plangoals-v1 is a FROZEN EVAL INSTRUMENT (both Phase-0 preregs reference it; image-tag
 # drift makes regeneration unfaithful) — exempt from the data/ ignore rules, track it whole
 !terminal-jepa/data/plangoals-v1/*.jsonl
+# path-battery encode caches (regenerable per root/recipe; repo was history-purged once for size)
+terminal-jepa/data/**/pbenc-*.pt

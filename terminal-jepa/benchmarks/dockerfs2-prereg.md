@@ -227,3 +227,13 @@ dry-parse; 25/25 tests) and found: 1 NEW serious + 1 minor, both in round-3/4 ad
   and zero artifacts on all three flag-omission paths.
 - Minor: runbook step 4 now ASSERTS version == dockerfs2-v2.0 instead of printing.
 Round 6 is verify-only on these two changes per the judge's scoping.
+
+---
+## GO (2026-07-21, review round 6 → CONVERGED-GO)
+
+The pre-committed convergence rule is satisfied: round 6 (verify-only) confirmed both
+round-5 fixes with independent judge corroboration and produced ZERO new blocker/serious
+findings. Trajectory over the loop: 3 blockers → 1B+1S → 1S → 2S → 1S → 0. Amendments 1–7
+constitute the findings register; new known-open minors from round 6 (gate-test artifact
+assert laxity; v2-predicate startswith inconsistency; pbenc cache gitignore) recorded with
+dispositions. The mint proceeds per benchmarks/mint-runbook.md at this commit.
