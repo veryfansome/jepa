@@ -5,7 +5,7 @@ description: Run one round (or a /loop of rounds) of the chunk-based evolutionar
 
 # evolve — chunk-based evolutionary design search (Claude-Code-native ShinkaEvolve)
 
-**`terminal-jepa/evolve/CLAUDE.md` is the manual and the single source of truth** — the 8 chunks + their contracts, the fitness + guardrails + 3-way split, the proxy→full ladder, the inventor-dispatch pattern, recombination/epistasis, and the full step-by-step "how to run a round" recipe live there and stay current. Read it, then run the round from it. This skill is the entry point + the decisions that are easy to get wrong. All commands run from `terminal-jepa/` as `uv run python -m …`; the current champion trains on `data/dockerfs-e5`.
+**`terminal-jepa/evolve/CLAUDE.md` is the manual and the single source of truth** — the 8 chunks + their contracts, the fitness + guardrails + 3-way split, the proxy→full ladder, the inventor-dispatch pattern, recombination/epistasis, and the full step-by-step "how to run a round" recipe live there and stay current. Read it, then run the round from it. This skill is the entry point + the decisions that are easy to get wrong. All commands run from `terminal-jepa/` as `uv run python -m …`; the current champion trains on `data/dockerfs2-e5`.
 
 ## The round, at a glance
 
