@@ -642,6 +642,21 @@ def run_history_ablation(train_seqs, val_seqs, device, steps, seeds, jepa_loss=N
         for name, no_hist in (("full", False), ("masked", True)):
             net = train_model("jepa", fit, device, steps=steps, seed=s, no_history=no_hist,
                               jepa_loss=jepa_loss)
+            if no_hist:
+                # LOUD self-only invariance assert (a CUDA fastpath once silently dropped the
+                # eye mask, making the "masked" arm attend to history and score above full):
+                # perturbing every non-self token must not move any cmd prediction.
+                net.eval()
+                probe = collate([fit[0]], device)
+                with torch.no_grad():
+                    p1, _ = net(probe["tok"], probe["types"], probe["key_pad"])
+                    tok2 = probe["tok"] + torch.randn_like(probe["tok"]) * 5.0
+                    tok2[0, 2] = probe["tok"][0, 2]   # keep one cmd position identical
+                    p2, _ = net(tok2, probe["types"], probe["key_pad"])
+                drift = (p1[0, 2] - p2[0, 2]).abs().max().item()
+                assert drift < 1e-4, (f"masked arm is NOT self-only on this backend "
+                                      f"(cmd pred moved {drift:.2e} under history perturbation) "
+                                      f"— the ablation is invalid here; run on a validated backend")
             flat = flatten_predictions(net, val_seqs, device)
             cv = content_retrieval(flat["pred"], flat["true"], flat["verbs"], seed=s)
             pv = per_verb_breakdown({"m": flat["pred"]}, flat["true"], flat["verbs"], seed=s)
@@ -659,6 +674,8 @@ def run_history_ablation(train_seqs, val_seqs, device, steps, seeds, jepa_loss=N
 
     def ms(f):
         v = [f(x) for x in rows]; v = [z for z in v if isinstance(z, (int, float)) and z == z]
+        if not v:   # a per-verb key can be absent on non-v1 verb mixes (v2+); report None
+            return None
         m = sum(v) / len(v)
         return {"mean": round(m, 4), "std": round((sum((z - m) ** 2 for z in v) / len(v)) ** 0.5, 4)}
     return {"seeds": seeds, "steps": steps, "n_val": val_seqs and sum(sq["z_obs"].shape[0] for sq in val_seqs),
