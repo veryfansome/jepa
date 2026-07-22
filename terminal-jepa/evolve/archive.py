@@ -10,6 +10,15 @@ import random
 ARCHIVE = pathlib.Path(__file__).resolve().parent / "archive" / "genomes.jsonl"
 NEG = float("-inf")
 
+# Margins are only comparable within one bench version (the fitness classes and baseline max
+# changed at the dockerfs2-v2.0 mint), so selection surfaces default to the active bench.
+# Records are assigned by their data root; pre-field records are all v1-era.
+ACTIVE_BENCH = "v2"
+
+
+def _bench_of(rec):
+    return "v2" if "dockerfs2" in str(rec.get("data", "")) else "v1"
+
 
 def append(record):
     ARCHIVE.parent.mkdir(parents=True, exist_ok=True)
@@ -23,12 +32,14 @@ def load():
     return [json.loads(l) for l in open(ARCHIVE) if l.strip()]
 
 
-def _valid(recs):
+def _valid(recs, bench=None):
     """Scored genomes that count as FITNESS: exclude final-test records — the final-test split is
     validation-only and must never drive parent selection / the leaderboard (else the optimization
-    leaks into the held-out-of-held-out set)."""
+    leaks into the held-out-of-held-out set). bench='v1'/'v2' keeps one bench version's records
+    (margins are not comparable across versions); None keeps all."""
     return [r for r in recs if isinstance(r.get("fitness"), (int, float)) and r["fitness"] > NEG
-            and r.get("split", "inner") != "final"]
+            and r.get("split", "inner") != "final"
+            and (bench is None or _bench_of(r) == bench)]
 
 
 def _best_per_id(recs):
@@ -41,22 +52,22 @@ def _best_per_id(recs):
     return [v[1] for v in by_id.values()]
 
 
-def leaderboard(top=10):
-    items = _best_per_id(_valid(load()))
+def leaderboard(top=10, bench=ACTIVE_BENCH):
+    items = _best_per_id(_valid(load(), bench=bench))
     items.sort(key=lambda r: (r.get("mode") == "full", r["fitness"]), reverse=True)
     return items[:top]
 
 
-def best():
-    lb = leaderboard(1)
+def best(bench=ACTIVE_BENCH):
+    lb = leaderboard(1, bench=bench)
     return lb[0] if lb else None
 
 
-def sample_parent(seed=0, lam=10.0):
+def sample_parent(seed=0, lam=10.0, bench=ACTIVE_BENCH):
     """p_i ∝ σ(λ·(F_i − median F)) · 1/(1 + offspring_i) — performance × novelty (ShinkaEvolve
     §4.1). Returns a genome-shaped dict (id/parent/generation/chunks/...) or None."""
     all_recs = load()
-    items = _best_per_id(_valid(all_recs))
+    items = _best_per_id(_valid(all_recs, bench=bench))
     if not items:
         return None
     fits = sorted(r["fitness"] for r in items)

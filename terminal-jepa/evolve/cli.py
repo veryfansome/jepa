@@ -66,7 +66,7 @@ def cmd_ingest(args):
 
 
 def cmd_leaderboard(args):
-    lb = A.leaderboard(args.top)
+    lb = A.leaderboard(args.top, bench=None if args.bench == "all" else args.bench)
     if not lb:
         print("(archive empty)")
         return
@@ -76,7 +76,7 @@ def cmd_leaderboard(args):
 
 
 def cmd_sample_parent(args):
-    p = A.sample_parent(seed=args.seed)
+    p = A.sample_parent(seed=args.seed, bench=None if args.bench == "all" else args.bench)
     print(json.dumps(p, indent=1) if p else "null")
 
 
@@ -102,8 +102,12 @@ def main(argv=None):
     s.add_argument("--result", required=True)
     s.add_argument("--env", default=None, help="environment tag recorded on the entry (e.g. 'runpod-4090')")
     s.set_defaults(fn=cmd_ingest)
-    s = sub.add_parser("leaderboard"); s.add_argument("--top", type=int, default=10); s.set_defaults(fn=cmd_leaderboard)
-    s = sub.add_parser("sample-parent"); s.add_argument("--seed", type=int, default=0); s.set_defaults(fn=cmd_sample_parent)
+    bench_kw = dict(default=A.ACTIVE_BENCH, choices=["v1", "v2", "all"],
+                    help="bench version to rank within (margins aren't cross-comparable); 'all' mixes")
+    s = sub.add_parser("leaderboard"); s.add_argument("--top", type=int, default=10)
+    s.add_argument("--bench", **bench_kw); s.set_defaults(fn=cmd_leaderboard)
+    s = sub.add_parser("sample-parent"); s.add_argument("--seed", type=int, default=0)
+    s.add_argument("--bench", **bench_kw); s.set_defaults(fn=cmd_sample_parent)
     s = sub.add_parser("impls"); s.add_argument("--chunk", default="objective"); s.set_defaults(fn=cmd_impls)
 
     args = ap.parse_args(argv)
