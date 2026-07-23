@@ -1,0 +1,3047 @@
+{
+ "status": "DRAFT",
+ "_draft_note": "PILOT DRAFT \u2014 NOT the frozen class table. The real dockerfs3-classes.json freeze is a dated amendment to dockerfs3-prereg.md appended AFTER reviews A/B/C (freeze-order step 7), on full-scale P3 data (60 seqs/image x 12 images), with every OPEN threshold (axis-1 theta1, axis-2/2' prior 0.656, axis-3 sim 0.90, ack) frozen by amendment on that data. This file was produced by benchmarks/class_measure.py over a 4-image / 40-seq/image class pilot to (a) prove the four-axis protocol runs end-to-end on real v3-collected data and (b) surface the honesty structure and threshold-calibration inputs. bench_versions.resolve() must NOT consume this file.",
+ "_pilot_provenance": {
+  "date": "2026-07-23",
+  "protocol": "benchmarks/class_measure.py (v3-4axis-1), freeze-order step 6 (P3 class+honesty)",
+  "images": [
+   "alpine:latest",
+   "debian:stable-slim",
+   "redis:7-alpine",
+   "fedora:latest"
+  ],
+  "seqs_per_image": 40,
+  "seq_len_band": [
+   24,
+   32
+  ],
+  "arm": "full",
+  "mint_seed": 0,
+  "n_seqs": 160,
+  "n_steps": 4512,
+  "image_digests": {
+   "alpine:latest": "alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b",
+   "debian:stable-slim": "debian@sha256:328d16499860ae6cb9b345e2e4cebca08c2a36e4f7278482c7bd1f39d71e5bfd",
+   "redis:7-alpine": "redis@sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+   "fedora:latest": "fedora@sha256:6c75d5bf57cb0fa5aa4b92c6a83c86c791644496d9ac230de7711f5b8ec3b898"
+  },
+  "train_artifact_sha256": {
+   "train.jsonl": "e36050aedbdfc2ed0d229dadc4081398759617e1e839f915b38308f59802a800",
+   "val.jsonl": "5985910f980245ea920d138906ef28d9cfb71232474e1e1fbe7e73c89df563d3"
+  },
+  "shell_dialects_covered": "busybox-ash (alpine, redis:7-alpine), dash (debian:stable-slim), bash (fedora)",
+  "ps_mix": "native-ps images (alpine,redis) + ps-less images (debian,fedora) \u2014 all via vendored tj3-ps (UD-9)",
+  "subset_of": "the 12-image mint (dockerfs3-digests.json); NOT the full battery",
+  "encoder_actual": "e5 (evolve.chunks.perception.enc_e5_base, the frozen production encoder, invoked via --encoder e5). NOTE: class_measure records encoder='custom' whenever it lazily instantiates its own e5 embedder \u2014 a metadata-label quirk, not a different encoder; axis-1 top1 columns are the real e5 numbers.",
+  "twin_root": null,
+  "axis4_note": "no twin mint collected in this pilot -> axis-4 ceiling defaults to 1.0 (deterministic-by-construction); rule-5 noisy-excluded cannot fire here. Twin determinism is separately covered by DG-3a/b (P1 amendment, twin byte-identity)."
+ },
+ "_thresholds_are_priors": true,
+ "tool": "class_measure",
+ "version": "v3-4axis-1",
+ "root": "/private/tmp/claude-501/-Users-fanzhu-PyCharmProjects-jepa/d198d7af-d892-4db5-b49e-72d82a05b137/scratchpad/v3/p3/pilot-root",
+ "splits": [
+  "train",
+  "val"
+ ],
+ "encoder": "custom",
+ "twin_root": null,
+ "thresholds": {
+  "coverage_floor": 30,
+  "min_images": 2,
+  "axis1_theta1": 0.59,
+  "axis2_thresh": 0.656,
+  "axis2p_thresh": 0.656,
+  "axis3_sim": 0.9,
+  "axis4_content": 0.8,
+  "axis4_report": 0.5,
+  "ack_dup": 0.95,
+  "ack_maxchars": 5
+ },
+ "n_cells_total": 69,
+ "n_cells_measured": 26,
+ "n_cells_under_floor": 43,
+ "n_steps": 4512,
+ "class_counts": {
+  "under-floor": 43,
+  "semi-echo": 6,
+  "content": 8,
+  "sim": 3,
+  "ack": 8,
+  "echo/const": 1
+ },
+ "rows": [
+  {
+   "cell": "after|ok|created",
+   "sig": "after",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 2,
+   "n_images": 2,
+   "coverage_pairs": 2,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 2
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 3
+   },
+   "axis1": {
+    "top1": null,
+    "n": 2
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cat|hit|created",
+   "sig": "cat",
+   "mode": "hit",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 13,
+   "n_images": 4,
+   "coverage_pairs": 13,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.4872,
+    "stat": 0.4872
+   },
+   "axis3": {
+    "exact_match": 0.1538,
+    "determined_coverage": 0.1538,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 2
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.1538,
+    "median_output_chars": 21
+   },
+   "axis1": {
+    "top1": null,
+    "n": 13
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cat|hit|created-obs",
+   "sig": "cat",
+   "mode": "hit",
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 106,
+   "n_images": 4,
+   "coverage_pairs": 106,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 106
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0377,
+    "median_output_chars": 7
+   },
+   "axis1": {
+    "top1": 0.0259,
+    "n": 106
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cat|hit|mutated",
+   "sig": "cat",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 152,
+   "n_images": 4,
+   "coverage_pairs": 152,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.3721,
+    "stat": 0.3721
+   },
+   "axis3": {
+    "exact_match": 0.0658,
+    "determined_coverage": 0.0658,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 10
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0197,
+    "median_output_chars": 439
+   },
+   "axis1": {
+    "top1": 0.2582,
+    "n": 152
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0658
+  },
+  {
+   "cell": "cat|hit|native",
+   "sig": "cat",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 595,
+   "n_images": 4,
+   "coverage_pairs": 595,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0004,
+    "prefix_containment": 0.0,
+    "stat": 0.0004
+   },
+   "axis2p": {
+    "history_containment": 0.1188,
+    "stat": 0.1188
+   },
+   "axis3": {
+    "exact_match": 0.0168,
+    "determined_coverage": 0.0168,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 10
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0487,
+    "median_output_chars": 523
+   },
+   "axis1": {
+    "top1": 0.4504,
+    "n": 595
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0168
+  },
+  {
+   "cell": "cat|miss|created",
+   "sig": "cat",
+   "mode": "miss",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 8,
+   "n_images": 4,
+   "coverage_pairs": 8,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.375,
+    "determined_coverage": 0.375,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 3
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 8
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cat|miss|mutated",
+   "sig": "cat",
+   "mode": "miss",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 186,
+   "n_images": 4,
+   "coverage_pairs": 186,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0434,
+    "prefix_containment": 0.0,
+    "stat": 0.0434
+   },
+   "axis2p": {
+    "history_containment": 0.4422,
+    "stat": 0.4422
+   },
+   "axis3": {
+    "exact_match": 0.9355,
+    "determined_coverage": 0.9355,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 174
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.043,
+    "median_output_chars": 65
+   },
+   "axis1": {
+    "top1": 0.2406,
+    "n": 186
+   },
+   "class": "sim",
+   "precedence_rule": 4,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cat|miss|native",
+   "sig": "cat",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 7,
+   "n_images": 2,
+   "coverage_pairs": 7,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.013,
+    "prefix_containment": 0.0,
+    "stat": 0.013
+   },
+   "axis2p": {
+    "history_containment": 0.0519,
+    "stat": 0.0519
+   },
+   "axis3": {
+    "exact_match": 0.1429,
+    "determined_coverage": 0.1429,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.8571,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 7
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cd|ok|native",
+   "sig": "cd",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 349,
+   "n_images": 4,
+   "coverage_pairs": 349,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.7106,
+    "stat": 0.7106
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.3868,
+    "determined_coverage": 0.3868,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 135
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.538,
+    "n": 349
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cond:cat|hit|native",
+   "sig": "cond:cat",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 4,
+   "n_images": 3,
+   "coverage_pairs": 4,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.145,
+    "stat": 0.145
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.25,
+    "median_output_chars": 307
+   },
+   "axis1": {
+    "top1": null,
+    "n": 4
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cond:cat|miss|native",
+   "sig": "cond:cat",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 4,
+   "n_images": 2,
+   "coverage_pairs": 4,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.45,
+    "stat": 0.45
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.25,
+    "median_output_chars": 35
+   },
+   "axis1": {
+    "top1": null,
+    "n": 4
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cond:head|hit|mutated",
+   "sig": "cond:head",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 1,
+   "n_images": 1,
+   "coverage_pairs": 0,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 155
+   },
+   "axis1": {
+    "top1": null,
+    "n": 1
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cond:head|hit|native",
+   "sig": "cond:head",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 6,
+   "n_images": 3,
+   "coverage_pairs": 6,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0556,
+    "prefix_containment": 0.0,
+    "stat": 0.0556
+   },
+   "axis2p": {
+    "history_containment": 0.3573,
+    "stat": 0.3573
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.1667,
+    "median_output_chars": 184
+   },
+   "axis1": {
+    "top1": null,
+    "n": 6
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cond:head|miss|native",
+   "sig": "cond:head",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 2,
+   "n_images": 2,
+   "coverage_pairs": 2,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0625,
+    "prefix_containment": 0.0,
+    "stat": 0.0625
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.5,
+    "median_output_chars": 41
+   },
+   "axis1": {
+    "top1": null,
+    "n": 2
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cond:ls|hit|native",
+   "sig": "cond:ls",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 10,
+   "n_images": 4,
+   "coverage_pairs": 10,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.6,
+    "prefix_containment": 0.0,
+    "stat": 0.6
+   },
+   "axis2p": {
+    "history_containment": 0.1063,
+    "stat": 0.1063
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.1,
+    "median_output_chars": 33
+   },
+   "axis1": {
+    "top1": null,
+    "n": 10
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "cond:ls|miss|native",
+   "sig": "cond:ls",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 2,
+   "n_images": 2,
+   "coverage_pairs": 2,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 2
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "echo|hit|native",
+   "sig": "echo",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 30,
+   "n_images": 4,
+   "coverage_pairs": 30,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 1.0,
+    "prefix_containment": 0.0,
+    "stat": 1.0
+   },
+   "axis2p": {
+    "history_containment": 0.4333,
+    "stat": 0.4333
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 30
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0333,
+    "median_output_chars": 6
+   },
+   "axis1": {
+    "top1": 0.0333,
+    "n": 30
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "find|hit|mutated",
+   "sig": "find",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 15,
+   "n_images": 4,
+   "coverage_pairs": 15,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0667,
+    "prefix_containment": 0.0667,
+    "stat": 0.1333
+   },
+   "axis2p": {
+    "history_containment": 0.1381,
+    "stat": 0.1381
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.1333,
+    "median_output_chars": 67
+   },
+   "axis1": {
+    "top1": null,
+    "n": 15
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "find|hit|native",
+   "sig": "find",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 115,
+   "n_images": 4,
+   "coverage_pairs": 115,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0293,
+    "prefix_containment": 0.0348,
+    "stat": 0.0641
+   },
+   "axis2p": {
+    "history_containment": 0.0602,
+    "stat": 0.0602
+   },
+   "axis3": {
+    "exact_match": 0.0087,
+    "determined_coverage": 0.0087,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0609,
+    "median_output_chars": 45
+   },
+   "axis1": {
+    "top1": 0.2717,
+    "n": 115
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0087
+  },
+  {
+   "cell": "find|miss|mutated",
+   "sig": "find",
+   "mode": "miss",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 6,
+   "n_images": 3,
+   "coverage_pairs": 6,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 6
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "find|miss|native",
+   "sig": "find",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 22,
+   "n_images": 4,
+   "coverage_pairs": 22,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 22
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "grep|hit|created-obs",
+   "sig": "grep",
+   "mode": "hit",
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 3,
+   "n_images": 2,
+   "coverage_pairs": 3,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 1.0,
+    "prefix_containment": 0.0,
+    "stat": 1.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 3
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.3333,
+    "median_output_chars": 6
+   },
+   "axis1": {
+    "top1": null,
+    "n": 3
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "grep|hit|mutated",
+   "sig": "grep",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 33,
+   "n_images": 4,
+   "coverage_pairs": 33,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.2524,
+    "prefix_containment": 0.0,
+    "stat": 0.2524
+   },
+   "axis2p": {
+    "history_containment": 0.9273,
+    "stat": 0.9273
+   },
+   "axis3": {
+    "exact_match": 0.0303,
+    "determined_coverage": 0.0303,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0909,
+    "median_output_chars": 28
+   },
+   "axis1": {
+    "top1": 0.1818,
+    "n": 33
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "grep|hit|native",
+   "sig": "grep",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 49,
+   "n_images": 4,
+   "coverage_pairs": 49,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.181,
+    "prefix_containment": 0.0,
+    "stat": 0.181
+   },
+   "axis2p": {
+    "history_containment": 0.8469,
+    "stat": 0.8469
+   },
+   "axis3": {
+    "exact_match": 0.3878,
+    "determined_coverage": 0.3878,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 19
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0612,
+    "median_output_chars": 32
+   },
+   "axis1": {
+    "top1": 0.25,
+    "n": 49
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "grep|miss|native",
+   "sig": "grep",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 84,
+   "n_images": 4,
+   "coverage_pairs": 84,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0119,
+    "determined_coverage": 0.0119,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.1429,
+    "n": 84
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "head|hit|mutated",
+   "sig": "head",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 4,
+   "n_images": 1,
+   "coverage_pairs": 0,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 0.25,
+    "determined_coverage": 0.25,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.25,
+    "median_output_chars": 99
+   },
+   "axis1": {
+    "top1": null,
+    "n": 4
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "head|hit|native",
+   "sig": "head",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 167,
+   "n_images": 4,
+   "coverage_pairs": 167,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0048,
+    "prefix_containment": 0.0,
+    "stat": 0.0048
+   },
+   "axis2p": {
+    "history_containment": 0.2354,
+    "stat": 0.2354
+   },
+   "axis3": {
+    "exact_match": 0.006,
+    "determined_coverage": 0.006,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0539,
+    "median_output_chars": 156
+   },
+   "axis1": {
+    "top1": 0.3937,
+    "n": 167
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.006
+  },
+  {
+   "cell": "kill|miss|native",
+   "sig": "kill",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 1,
+   "n_images": 1,
+   "coverage_pairs": 0,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.1111,
+    "prefix_containment": 0.0,
+    "stat": 0.1111
+   },
+   "axis2p": {
+    "history_containment": 0.5556,
+    "stat": 0.5556
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 41
+   },
+   "axis1": {
+    "top1": null,
+    "n": 1
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "ln|ok|native",
+   "sig": "ln",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 93,
+   "n_images": 4,
+   "coverage_pairs": 93,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.2688,
+    "determined_coverage": 0.2688,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 25
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.328,
+    "n": 93
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "ls|hit|created",
+   "sig": "ls",
+   "mode": "hit",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 30,
+   "n_images": 4,
+   "coverage_pairs": 30,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.5833,
+    "stat": 0.5833
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 30
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 4
+   },
+   "axis1": {
+    "top1": 0.3,
+    "n": 30
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "ls|hit|mutated",
+   "sig": "ls",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 200,
+   "n_images": 4,
+   "coverage_pairs": 200,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.4389,
+    "stat": 0.4389
+   },
+   "axis3": {
+    "exact_match": 0.235,
+    "determined_coverage": 0.235,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 47
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.025,
+    "median_output_chars": 79
+   },
+   "axis1": {
+    "top1": 0.1,
+    "n": 200
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.235
+  },
+  {
+   "cell": "ls|hit|native",
+   "sig": "ls",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 740,
+   "n_images": 4,
+   "coverage_pairs": 740,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0047,
+    "prefix_containment": 0.0,
+    "stat": 0.0047
+   },
+   "axis2p": {
+    "history_containment": 0.2235,
+    "stat": 0.2235
+   },
+   "axis3": {
+    "exact_match": 0.0284,
+    "determined_coverage": 0.0284,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 21
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0554,
+    "median_output_chars": 120
+   },
+   "axis1": {
+    "top1": 0.3561,
+    "n": 740
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0284
+  },
+  {
+   "cell": "ls|miss|created",
+   "sig": "ls",
+   "mode": "miss",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 12,
+   "n_images": 4,
+   "coverage_pairs": 12,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 12
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 12
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "ls|miss|native",
+   "sig": "ls",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 24,
+   "n_images": 4,
+   "coverage_pairs": 24,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0417,
+    "determined_coverage": 0.0417,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 24
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mkdir|ok|native",
+   "sig": "mkdir",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 42,
+   "n_images": 4,
+   "coverage_pairs": 42,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.1667,
+    "determined_coverage": 0.1667,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 7
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.4524,
+    "n": 42
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mv|miss|native",
+   "sig": "mv",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 1,
+   "n_images": 1,
+   "coverage_pairs": 0,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.125,
+    "prefix_containment": 0.0,
+    "stat": 0.125
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 50
+   },
+   "axis1": {
+    "top1": null,
+    "n": 1
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mv|ok|created",
+   "sig": "mv",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 27,
+   "n_images": 4,
+   "coverage_pairs": 27,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.2963,
+    "determined_coverage": 0.2963,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 8
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 27
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mv|ok|mutated",
+   "sig": "mv",
+   "mode": "ok",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 8,
+   "n_images": 4,
+   "coverage_pairs": 8,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 8
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mv|ok|native",
+   "sig": "mv",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 100,
+   "n_images": 4,
+   "coverage_pairs": 100,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.09,
+    "determined_coverage": 0.09,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 9
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.355,
+    "n": 100
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pipe:cat|grep|miss|native",
+   "sig": "pipe:cat|grep",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 8,
+   "n_images": 3,
+   "coverage_pairs": 8,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0875,
+    "stat": 0.0875
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.625,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 8
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pipe:cat|head|ok|native",
+   "sig": "pipe:cat|head",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 13,
+   "n_images": 4,
+   "coverage_pairs": 13,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0769,
+    "stat": 0.0769
+   },
+   "axis2p": {
+    "history_containment": 0.3141,
+    "stat": 0.3141
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.3077,
+    "median_output_chars": 58
+   },
+   "axis1": {
+    "top1": null,
+    "n": 13
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pipe:cat|tail|ok|native",
+   "sig": "pipe:cat|tail",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 15,
+   "n_images": 4,
+   "coverage_pairs": 15,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0013,
+    "prefix_containment": 0.0,
+    "stat": 0.0013
+   },
+   "axis2p": {
+    "history_containment": 0.3999,
+    "stat": 0.3999
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.2667,
+    "median_output_chars": 129
+   },
+   "axis1": {
+    "top1": null,
+    "n": 15
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pipe:ls|grep|miss|native",
+   "sig": "pipe:ls|grep",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 14,
+   "n_images": 4,
+   "coverage_pairs": 14,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 14
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pipe:ls|head|ok|native",
+   "sig": "pipe:ls|head",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 18,
+   "n_images": 4,
+   "coverage_pairs": 18,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.1222,
+    "stat": 0.1222
+   },
+   "axis3": {
+    "exact_match": 0.0556,
+    "determined_coverage": 0.0556,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.5,
+    "median_output_chars": 2
+   },
+   "axis1": {
+    "top1": null,
+    "n": 18
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pipe:ls|tail|ok|native",
+   "sig": "pipe:ls|tail",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 18,
+   "n_images": 4,
+   "coverage_pairs": 18,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.1296,
+    "stat": 0.1296
+   },
+   "axis3": {
+    "exact_match": 0.0556,
+    "determined_coverage": 0.0556,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.4444,
+    "median_output_chars": 5
+   },
+   "axis1": {
+    "top1": null,
+    "n": 18
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "ps|hit|native",
+   "sig": "ps",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 54,
+   "n_images": 4,
+   "coverage_pairs": 54,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.3848,
+    "stat": 0.3848
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 54
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 54
+   },
+   "axis1": {
+    "top1": 0.0556,
+    "n": 54
+   },
+   "class": "sim",
+   "precedence_rule": 4,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pwd|hit|native",
+   "sig": "pwd",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 112,
+   "n_images": 4,
+   "coverage_pairs": 112,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.5536,
+    "stat": 0.5536
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 112
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.5536,
+    "median_output_chars": 1
+   },
+   "axis1": {
+    "top1": 0.5536,
+    "n": 112
+   },
+   "class": "sim",
+   "precedence_rule": 4,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|hit|created",
+   "sig": "readlink",
+   "mode": "hit",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 14,
+   "n_images": 4,
+   "coverage_pairs": 14,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 14
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.1429,
+    "median_output_chars": 16
+   },
+   "axis1": {
+    "top1": null,
+    "n": 14
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|hit|created-obs",
+   "sig": "readlink",
+   "mode": "hit",
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 12,
+   "n_images": 4,
+   "coverage_pairs": 12,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 12
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.1667,
+    "median_output_chars": 16
+   },
+   "axis1": {
+    "top1": null,
+    "n": 12
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|hit|mutated",
+   "sig": "readlink",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 15,
+   "n_images": 4,
+   "coverage_pairs": 15,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 15
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.3333,
+    "median_output_chars": 12
+   },
+   "axis1": {
+    "top1": null,
+    "n": 15
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|hit|native",
+   "sig": "readlink",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 40,
+   "n_images": 4,
+   "coverage_pairs": 40,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 40
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.05,
+    "median_output_chars": 36
+   },
+   "axis1": {
+    "top1": 0.0562,
+    "n": 40
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|miss|mutated",
+   "sig": "readlink",
+   "mode": "miss",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 5,
+   "n_images": 3,
+   "coverage_pairs": 5,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 5
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 5
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "redir:echo>|ok|created-obs",
+   "sig": "redir:echo>",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 17,
+   "n_images": 4,
+   "coverage_pairs": 17,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 17
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 17
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "redir:echo>|ok|mutated",
+   "sig": "redir:echo>",
+   "mode": "ok",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 1,
+   "n_images": 1,
+   "coverage_pairs": 0,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 1
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "redir:echo>|ok|native",
+   "sig": "redir:echo>",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 117,
+   "n_images": 4,
+   "coverage_pairs": 117,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 117
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.3526,
+    "n": 117
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "redir:prod>|ok|native",
+   "sig": "redir:prod>",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 125,
+   "n_images": 4,
+   "coverage_pairs": 125,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.328,
+    "n": 125
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|miss|native",
+   "sig": "rm",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 2,
+   "n_images": 1,
+   "coverage_pairs": 0,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.125,
+    "prefix_containment": 0.0,
+    "stat": 0.125
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.5,
+    "median_output_chars": 47
+   },
+   "axis1": {
+    "top1": null,
+    "n": 2
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|created",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 26,
+   "n_images": 4,
+   "coverage_pairs": 26,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 26
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 26
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|created-obs",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 18,
+   "n_images": 4,
+   "coverage_pairs": 18,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 18
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 18
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|mutated",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 13,
+   "n_images": 4,
+   "coverage_pairs": 13,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 13
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 13
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|native",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 107,
+   "n_images": 4,
+   "coverage_pairs": 107,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0187,
+    "determined_coverage": 0.0187,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 2
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.1542,
+    "n": 107
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "sleep|ok|native",
+   "sig": "sleep",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 7,
+   "n_images": 4,
+   "coverage_pairs": 7,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 7
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 7
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "stat|hit|mutated",
+   "sig": "stat",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 2,
+   "n_images": 2,
+   "coverage_pairs": 2,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.225,
+    "prefix_containment": 0.0,
+    "stat": 0.225
+   },
+   "axis2p": {
+    "history_containment": 0.35,
+    "stat": 0.35
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.5,
+    "median_output_chars": 30
+   },
+   "axis1": {
+    "top1": null,
+    "n": 2
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "stat|hit|native",
+   "sig": "stat",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 136,
+   "n_images": 4,
+   "coverage_pairs": 136,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.2183,
+    "prefix_containment": 0.0074,
+    "stat": 0.2238
+   },
+   "axis2p": {
+    "history_containment": 0.2675,
+    "stat": 0.2675
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0294,
+    "median_output_chars": 38
+   },
+   "axis1": {
+    "top1": 0.3235,
+    "n": 136
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0
+  },
+  {
+   "cell": "tail|hit|mutated",
+   "sig": "tail",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 1,
+   "n_images": 1,
+   "coverage_pairs": 0,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 21
+   },
+   "axis1": {
+    "top1": null,
+    "n": 1
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "tail|hit|native",
+   "sig": "tail",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 139,
+   "n_images": 4,
+   "coverage_pairs": 139,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0068,
+    "prefix_containment": 0.0,
+    "stat": 0.0068
+   },
+   "axis2p": {
+    "history_containment": 0.1673,
+    "stat": 0.1673
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0576,
+    "median_output_chars": 166
+   },
+   "axis1": {
+    "top1": 0.4245,
+    "n": 139
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0
+  },
+  {
+   "cell": "touch|ok|native",
+   "sig": "touch",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 29,
+   "n_images": 4,
+   "coverage_pairs": 29,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 29
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 29
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "uname|hit|native",
+   "sig": "uname",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 160,
+   "n_images": 4,
+   "coverage_pairs": 160,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.2812,
+    "median_output_chars": 13
+   },
+   "axis1": {
+    "top1": 0.7891,
+    "n": 160
+   },
+   "class": "echo/const",
+   "precedence_rule": 3,
+   "tracker_top1": null
+  },
+  {
+   "cell": "uptime|hit|native",
+   "sig": "uptime",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 21,
+   "n_images": 4,
+   "coverage_pairs": 21,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.127,
+    "stat": 0.127
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 21
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0952,
+    "median_output_chars": 55
+   },
+   "axis1": {
+    "top1": null,
+    "n": 21
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  }
+ ],
+ "diagnostics": {
+  "out_of_universe": 0,
+  "out_of_universe_ex": [],
+  "bad_state_scope": 0
+ }
+}

@@ -65,7 +65,7 @@ Core = the 12 v2 images, re-pinned fresh (the :latest tags have drifted since do
 
 1. **Canonical-PID scheme** (100+10j vs seeded-stable arbitrary) — the watermark risk is priced by the DG-8b position probe; the cpid scheme freezes only after its watermark price is measured — by dated amendment on pilot data (P3).
 2. **DG-7 reference constant** — the v2 cross-split near-dup base rate; MUST be measured on dockerfs2 BEFORE any v3 work starts (freeze-order step 2); frozen by dated amendment.
-3. **Exact axis-2′ threshold** — rule committed: max-margin midpoint recalibrated on v2 known cases (linked-grep hits = content side, cd = echo side); 0.656 is the prior; the pilot freezes the number by dated amendment.
+3. **Exact axis-2′ threshold** — rule committed: max-margin midpoint recalibrated on v2 known cases (linked-grep hits = content side, cd = echo side); 0.656 is the prior; the pilot freezes the number by dated amendment. **P3 pilot pins it: axis-2p ≈ 0.96** — above linked-grep-hits (native 0.847 / mutated 0.927 ≈ 0.93) and below the true echo-loop readbacks (`cat|hit|created-obs`, `readlink|hit|native` = 1.000). At 0.656 grep is wrongly semi-echo (a content-surface gap, not a leak); at ~0.96 grep returns to content while genuine workspace-echo readbacks stay excluded. Freeze the number here.
 4. **uptime's slot and the hard-link LN-CONTRAST motif** — pilot-measured, dropped if invisible; retention decided by dated amendment on pilot data.
 5. **G-SEP separation margin δ** — the tracker-vs-within_traj gap under counterfactual foils, measured at P3 (both arms training-free); frozen by dated amendment.
 
@@ -194,6 +194,15 @@ A channel may be PROPOSED as v3.1 fitness iff, on the v3.0 champion at 3/3 seeds
 The SST reads OBS_CAP=1600-char renders; the encoder's 256-token window covers ~1000 chars — the asymmetry is conservative (it strengthens the baseline) and is DISCLOSED here rather than claimed away. Companion floors are gated (G-⊥: ≥40% SST-undetermined eval steps per content verb AND ≥15% determined per content verb — one denominator, mint-scale assert; joint satisfiability with ≥500 steps/verb arithmetic-checked at pilot). Freeze-then-audit: SST rules + template tables are authored from train-pilot renders + docs only, content-hashed, frozen pre-mint; post-freeze edits = dated amendment + re-baseline. Calibration-on-v2 (not v1) is a dated deviation note (§3.1).
 
 ---
+
+### 4.6 P3 CLASS-MEASUREMENT PILOT FINDINGS (2026-07-23) — calibrations to resolve at the class freeze (step 7)
+
+The P3 pilot (160 seqs / 4512 steps, 4 shells, `benchmarks/class_measure.py` + e5, DRAFT `benchmarks/dockerfs3-classes.json`, honesty-reviewed) confirms the world is HONEST: 8 content cells (2244 steps), the ≥40% SST-undetermined floor MET for all 6 content verbs (0.928–1.000), the workspace echo-loop caught by axis-2′ (`cat|hit|created-obs` uniformly 1.000 → semi-echo), DG-9 mut-affected content **15.7% PASS** (≥10%). Four calibrations, each frozen by dated amendment at step 7 (ideally re-measured at mint scale):
+
+1. **axis-2′ threshold → ~0.96** (§2 OPEN item 3, now pinned) — returns linked-grep-hits to content.
+2. **Per-step echo purge in content cells (Finding 1, a v2 command-echo-class recurrence).** Cell-MEAN aggregation lets a per-step minority of command-echo readbacks into content cells; the leak is concentrated where an `echo>`-created workspace file is later `mv`/`rm`-touched, flipping `state_scope` created→mutated and BYPASSING the ws_observed split → the echo readback lands in `cat|hit|mutated` content. Pooled command-uncovered leak = **8/2244 = 0.36%** (margin impact ≲0.004). FIX at freeze: the harness's classes.json→pseudo-verb rewrite (§9.5) additionally masks any content-cell STEP whose axis-2′ (recomputed at eval, incl. through-mutation echo propagation) ≥ the frozen threshold to an excluded `<cell>-echo` pseudo-verb (generalizing grep-miss) — a per-step purge, not per-cell-mean. Zero command-echo in content, by construction.
+3. **θ1 recalibration must stay ≥ ~0.46** — `cat|hit|native` axis-1 = 0.450, `tail|hit|native` = 0.424 sit nearest the echo/const gate (honest headroom, not a leak); confirm the recalibrated θ1 does not eject them and shrink content mass.
+4. **Composed content = 0% at pilot scale (DG-9 composed ≥6% not yet measurable).** Every G3 family is coverage-starved (<30 pairs) at 40 seqs/image; their axes are content-shaped. Re-check at the mint's 600 seqs/image; the §4.3 fallback fork applies if still breaching.
 
 ## 5. Scope: v3.0 vs v3.1 vs v4 (draft §15)
 
