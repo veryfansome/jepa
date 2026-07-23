@@ -2204,8 +2204,19 @@ def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, polic
             stale.unlink()   # aborted/reused dirs must never leave resolvable stale artifacts
     digests = resolve_digests(train_imgs + val_imgs) if pin_digests else {}
     if expect_digests:
-        want = json.loads(pathlib.Path(expect_digests).read_text())
-        drift = {i: (want.get(i), digests.get(i)) for i in set(want) | set(digests)
+        raw = json.loads(pathlib.Path(expect_digests).read_text())
+        # Accept BOTH the flat v2 form {image: digest} AND the v3 version-identity table
+        # {bench_version, note, images: {image: {digest, split, ...}}} — extract the flat
+        # {image: digest} map from the "images" sub-block if present.
+        if isinstance(raw.get("images"), dict):
+            want = {i: v.get("digest") if isinstance(v, dict) else v
+                    for i, v in raw["images"].items()}
+        else:
+            want = {i: d for i, d in raw.items() if isinstance(d, str)}
+        # only compare the images this mint actually collects (extra table entries — e.g. the
+        # not-yet-adopted train-only candidates — are ignored, not treated as drift).
+        minted = set(train_imgs) | set(val_imgs)
+        drift = {i: (want.get(i), digests.get(i)) for i in minted
                  if want.get(i) != digests.get(i)}
         if drift:
             raise SystemExit(f"DIGEST DRIFT vs {expect_digests} — the mint must run on the "
