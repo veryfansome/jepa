@@ -41,8 +41,12 @@ def cmd_seed(args):
 def cmd_score(args):
     gen = json.load(open(args.genome))
     res = score_genome(gen, mode=args.mode, proxy_steps=args.proxy_steps, split=args.split,
-                       data=args.data, save_dir=args.save_dir)
+                       data=args.data, save_dir=args.save_dir, val_data=args.val_data,
+                       stats_root=args.stats_root, subsample_seqs=args.subsample_seqs,
+                       subsample_seed=args.subsample_seed)
     res["data"] = args.data
+    if args.val_data:
+        res["val_data"] = args.val_data
     _record(gen, res)
     print(json.dumps(res, indent=1))
 
@@ -97,6 +101,12 @@ def main(argv=None):
     s.add_argument("--split", default="inner", choices=["inner", "final"])
     s.add_argument("--data", default="data/dockerfs")
     s.add_argument("--save-dir", default=None, help="checkpoint trained per-seed models here (plan-eval hook)")
+    # v3 §11.5 ablate plumbing (default-inert): score against a different val root, pin the
+    # standardization stats to another root, and/or seeded train-side per-image subsampling.
+    s.add_argument("--val-data", default=None, help="score against a different val root (train root != val root)")
+    s.add_argument("--stats-root", default=None, help="standardization stats from another root (canonical full-root stats for the ablate arm)")
+    s.add_argument("--subsample-seqs", type=int, default=None, help="train-side seeded per-image subsample to N seqs/image (§11.5)")
+    s.add_argument("--subsample-seed", type=int, default=0, help="seed for --subsample-seqs (feeds the §13.2 train descriptor)")
     add_mode(s); s.set_defaults(fn=cmd_score)
     s = sub.add_parser("ingest"); s.add_argument("--genome", required=True)
     s.add_argument("--result", required=True)

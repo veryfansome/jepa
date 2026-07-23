@@ -8,8 +8,10 @@ Fitness = mean over seeds of
 on ls+cat (content) verbs of the inner-val images. Never touches final-test.
 """
 
+import hashlib
 import json
 import pathlib
+import random
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))  # terminal-jepa root
@@ -24,6 +26,88 @@ from evolve import bench_versions as BV
 D = M.D
 CHANCE_SLACK = 0.05  # predict-mean top-1 must stay below this (chance ~1/64=0.016)
 BASE_CACHE = pathlib.Path(__file__).resolve().parent / "archive" / "base_cache.json"
+_ARTIFACT_SHA_CACHE = {}
+
+
+def _cached_encode(data_root, split, model, device):
+    """Harness-owned wrapper around M.cached_encode (§13.2 layering: the fail-closed gate consults
+    evolve-side concepts — bench_versions + cache_meta.json — so realenv stays evolve-free). On a
+    v3-policy root it REQUIRES the root-level cache_meta.json + perception stamp to match
+    expectations and RAISES otherwise (a stamp-less/stale v3 cache can never be scored); v1/v2 roots
+    pass straight through untouched (bit-identical). ALL harness cached_encode calls route here."""
+    if BV.is_v3_policy(data_root):
+        BV.require_v3_cache(data_root)
+    return M.cached_encode(data_root, split, model, device)
+
+
+def _strip_target_only(seqs):
+    """§8.2 strip seam. The two places genome stream code receives seq dicts (stream.collate,
+    stream.flatten_predictions) and the batcher's fit all receive a per-sequence shallow COPY with
+    the target-only keys (exit_cls, z_delta) REMOVED — so the v3 aux channels are structurally
+    invisible to genome code. Identity pass-through (returns the SAME list) when no seq carries
+    those keys: v1/v2 = zero-cost, bit-identical."""
+    keys = ("exit_cls", "z_delta")
+    if not any(k in s for s in seqs for k in keys):
+        return seqs
+    return [{k: v for k, v in s.items() if k not in keys} for s in seqs]
+
+
+def _subsample_per_image(seqs, n_per_image, seed):
+    """§11.5 train-side seeded per-image subsample to n_per_image seqs/image (the ablate comparison
+    arm: the champion trained on the FULL root subsampled, matched to the ablate train size).
+    Deterministic in `seed`; preserves original order within each image."""
+    by_img = {}
+    for i, s in enumerate(seqs):
+        by_img.setdefault(s["image"], []).append(i)
+    keep = set()
+    for img in sorted(by_img):
+        idxs = by_img[img]
+        if len(idxs) <= n_per_image:
+            keep.update(idxs)
+        else:
+            keep.update(random.Random(f"subsample:{seed}:{img}").sample(idxs, n_per_image))
+    return [s for i, s in enumerate(seqs) if i in keep]
+
+
+def _root_artifact_sha(root):
+    """sha256 over summary.json + the emb-seq caches of a root (§13.2 base_cache keying). Memoized
+    per path (the caches are large). Called only for v3-policy roots — v1/v2 keys never reach it."""
+    root = str(root)
+    if root in _ARTIFACT_SHA_CACHE:
+        return _ARTIFACT_SHA_CACHE[root]
+    h = hashlib.sha256()
+    rp = pathlib.Path(root)
+    for name in ["summary.json"] + sorted(p.name for p in rp.glob("emb-seq-*.pt")):
+        p = rp / name
+        if p.exists():
+            h.update(name.encode())
+            h.update(p.read_bytes())
+    sha = h.hexdigest()[:16]
+    _ARTIFACT_SHA_CACHE[root] = sha
+    return sha
+
+
+def _base_cache_key(data_root, split, seed, steps, spec, arms, val_root, stats_root, train_desc):
+    """base_cache.json key. v1/v2 roots keep the EXACT historical format (`root|split|seed|steps`
+    (+`|v2`)) so cached entries stay valid and scoring is bit-identical. v3-policy roots use the
+    extended key (§13.2): arm set + classes_sha + root artifact sha + train-set descriptor +
+    val/stats-root artifact shas (when they differ) — the baselines are fit-/val-/stats-dependent,
+    so a re-mint into the same path, or a subsampled arm, can never be served a stale baseline max.
+    Built now even though the v3 baseline arms (within_traj_mut/sst/sst_composite) join `arms`
+    later, so keying is correct the moment they land."""
+    if not BV.is_v3_policy(data_root):
+        vtag = "" if not spec.get("within_traj_in_max") else "|v2"
+        return f"{data_root}|{split}|{seed}|{steps}{vtag}"
+    parts = [data_root, split, str(seed), str(steps),
+             "arms=" + ",".join(sorted(arms)),
+             "classes=" + (BV.classes_sha(data_root) or "none"),
+             "art=" + _root_artifact_sha(data_root),
+             "train=" + train_desc]
+    if val_root and val_root != data_root:
+        parts.append("val=" + _root_artifact_sha(val_root))
+    if stats_root and stats_root != data_root:
+        parts.append("stats=" + _root_artifact_sha(stats_root))
+    return "|".join(parts)
 
 
 def _data_tensors(evalset, spec=None):
@@ -59,13 +143,19 @@ def _data_tensors(evalset, spec=None):
             "verbs": verbs, "_cmd_embs": cmd_embs, "_within_traj": torch.stack(wt)}
 
 
-def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerfs"):
+def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerfs",
+              val_root=None, stats_root=None, train_desc="full"):
     """max-baseline content-top1 (retrieve_by_cmd / no_history MLP / copy_prev) + predict-mean
     calibration for a (data_root, split, seed, steps) — objective-independent, so computed once and
-    cached. Returns (base, predict_mean). Halves per-genome cost (skips retraining the baseline)."""
+    cached. Returns (base, predict_mean). Halves per-genome cost (skips retraining the baseline).
+    val_root/stats_root/train_desc feed the v3 base_cache key (§13.2); ignored in the v1/v2 key."""
     spec = evaldata.get("_spec") or {"content": ("ls", "cat"), "within_traj_in_max": False}
-    vtag = "" if not spec.get("within_traj_in_max") else "|v2"
-    key = f"{data_root}|{split}|{seed}|{steps}{vtag}"
+    arm_names = ["retrieve_by_cmd", "no_history", "copy_prev"]
+    if spec.get("within_traj_in_max"):
+        arm_names.append("within_traj")
+    # (the v3 SST arms — within_traj_mut/sst/sst_composite — join arm_names when precompute_baselines
+    #  lands; the key builder already threads the arm set so no key change is needed then.)
+    key = _base_cache_key(data_root, split, seed, steps, spec, arm_names, val_root, stats_root, train_desc)
     cache = json.loads(BASE_CACHE.read_text()) if BASE_CACHE.exists() else {}
     if key in cache:
         return cache[key]["base"], cache[key]["predict_mean"]
@@ -109,12 +199,21 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream, head=N
     net = net.to(device)
     make_opt, bs = G.load_optim(genome)
     opt, sched = make_opt(net.parameters(), steps)
-    next_batch = G.load_batcher(genome)(fit, bs, seed)
+    # §8.2 strip seam: the batcher and stream.collate only ever see the stripped fit (target-only
+    # keys removed). Identity pass-through for v1/v2 (no such keys) -> bit-identical.
+    fit_stripped = _strip_target_only(fit)
+    aux_live = fit_stripped is not fit   # v3 aux channels present -> plumbing active (but dormant)
+    next_batch = G.load_batcher(genome)(fit_stripped, bs, seed)
     for step in range(1, steps + 1):
         idx = next_batch(step, steps)
-        if len(idx) != bs or min(idx) < 0 or max(idx) >= len(fit):
+        if len(idx) != bs or min(idx) < 0 or max(idx) >= len(fit_stripped):
             raise ValueError("batcher contract violation (len/bounds)")
-        b = stream.collate([fit[i] for i in idx], device)
+        b = stream.collate([fit_stripped[i] for i in idx], device)
+        if aux_live:
+            # DORMANT v3.1 aux-target plumbing (§8.2): the harness-held ORIGINAL (unstripped) seq
+            # dicts for this batch, indexed by the batcher's indices — the attach point for
+            # multi-channel aux targets (exit_cls/z_delta). No sanctioned consumer in v3.0.
+            _aux_originals = [fit[i] for i in idx]  # noqa: F841
         pred_full, _ = net(b["tok"], b["types"], b["key_pad"])
         cmd_pred = stream.extract_cmd_pred(pred_full, b)           # [B, maxn, D]
         tgt_full = b["tgt"]                                        # [B, maxn, D] = z_obs per step
@@ -141,20 +240,38 @@ def _train(genome, fit, device, loss_fn, seed, steps, target_mod, stream, head=N
 
 def score_genome(genome, mode="proxy", data="data/dockerfs",
                  model="answerdotai/ModernBERT-base", proxy_steps=1000, split="inner",
-                 save_dir=None):
+                 save_dir=None, val_data=None, stats_root=None,
+                 subsample_seqs=None, subsample_seed=0):
     """Return a fitness dict. mode='proxy' -> steps=proxy_steps, seeds=[0]; 'full' -> genome
     steps, seeds=[0,1,2]. split='inner' (fedora+mariadb, the optimization target) or 'final'
     (rockylinux+httpd, the untouched held-out-of-held-out test — champion validation only). Any
-    guardrail failure -> fitness=-inf with a reason."""
+    guardrail failure -> fitness=-inf with a reason.
+
+    v3 §11.5 ablate plumbing (all default-inert): val_data scores against a DIFFERENT val root than
+    the train root; stats_root pins the standardization stats to another root (both arms standardize
+    identically); subsample_seqs/subsample_seed do a train-side seeded per-image subsample feeding
+    the §13.2 train-set descriptor. Defaults reproduce the historical single-root path exactly."""
     G.validate(genome)
     device = M.pick_device()
-    train_seqs = M.cached_encode(data, "train", model, device)
-    val_seqs = M.cached_encode(data, "val", model, device)
-    mo, so, mc, sc = M.standardize_stats(train_seqs)
+    train_full = _cached_encode(data, "train", model, device)
+    val_root = val_data or data
+    val_seqs = _cached_encode(val_root, "val", model, device)
+    # standardization stats (§11.5): --stats-root pins the canonical full-root stats so an ablate/
+    # subsampled arm standardizes IDENTICALLY to the full arm; default = the train root (as today).
+    if stats_root and stats_root != data:
+        mo, so, mc, sc = M.standardize_stats(_cached_encode(stats_root, "train", model, device))
+    else:
+        mo, so, mc, sc = M.standardize_stats(train_full)   # full-root stats (pre-subsample)
+    # train-side seeded per-image subsample (§11.5) + the §13.2 train-set descriptor
+    if subsample_seqs:
+        train_seqs = _subsample_per_image(train_full, subsample_seqs, subsample_seed)
+        train_desc = f"sub{subsample_seqs}:{subsample_seed}"
+    else:
+        train_seqs, train_desc = train_full, "full"
     M.apply_stats(train_seqs, mo, so, mc, sc)
     M.apply_stats(val_seqs, mo, so, mc, sc)
     inner = split_val(val_seqs, split)
-    spec = BV.resolve(data)
+    spec = BV.resolve(val_root)   # eval-side classes/content track the VAL root (== data by default)
 
     loss_fn = G.load_objective(genome)
     target_mod = G.load_target(genome)
@@ -177,8 +294,9 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
                 return _fail("train_diverged (NaN/inf loss)", mode, seeds, steps, split, per_seed)
             if not stream.leakage_ok(net, device):
                 return _fail("leakage_fail (cmd_t prediction moved when obs_t corrupted)", mode, seeds, steps, split, per_seed)
-            base, mean = _base_for(split, s, steps, fit, evaldata, device, data_root=data)  # cached, objective-independent
-            flat = stream.flatten_predictions(net, inner, device)
+            base, mean = _base_for(split, s, steps, fit, evaldata, device, data_root=data,
+                                   val_root=val_root, stats_root=stats_root, train_desc=train_desc)
+            flat = stream.flatten_predictions(net, _strip_target_only(inner), device)
             tmod = getattr(net, "target_module", None)
             with torch.no_grad():  # learned to_obs runs on cpu tensors from flatten
                 if tmod is not None:

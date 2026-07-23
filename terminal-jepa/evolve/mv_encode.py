@@ -19,6 +19,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 import torch
 
 from realenv.seq_worldmodel import D, pick_device
+from evolve.reencode import _content_sha, _write_cache_meta
 
 
 @torch.no_grad()
@@ -72,12 +73,12 @@ def main(argv=None):
     model = AutoModel.from_pretrained(percep.MODEL).to(device).eval()
 
     for split in ("train", "val"):
+        if not (src / f"{split}.jsonl").exists() or not (src / f"emb-seq-{split}.pt").exists():
+            # TRAIN-ONLY root tolerance (F6): a train-only src (ablate) has no val split — skip it
+            # instead of raising (required to build the multi-vector ablate root).
+            print(f"skip absent split '{split}' (train-only root, F6)", flush=True)
+            continue
         shutil.copy(src / f"{split}.jsonl", out / f"{split}.jsonl")
-        # bench-version identity MUST travel with derived roots (review-B2 blocker:
-        # a missing summary silently resolves as v1 and disengages v2 classes)
-        _s = pathlib.Path(args.src) / 'summary.json'
-        if _s.exists():
-            shutil.copy(_s, pathlib.Path(args.out) / 'summary.json')
         seqs = torch.load(src / f"emb-seq-{split}.pt", weights_only=False)
         raws = [json.loads(l) for l in open(src / f"{split}.jsonl")]
         assert len(raws) == len(seqs), f"{split}: raw {len(raws)} != cached {len(seqs)}"
@@ -108,6 +109,18 @@ def main(argv=None):
             s["obs_valid"] = valid
         torch.save(seqs, out / f"emb-seq-{split}.pt")
         print(f"[{split}] wrote {out}/emb-seq-{split}.pt", flush=True)
+
+    # bench-version identity travels with the derived root. The mv root's eval space (z_obs/z_cmd)
+    # is copied VERBATIM from the single-vector src, so it PROPAGATES the src's perception stamp
+    # UNCHANGED — load_perception_for_root must resolve the src's dual-surface recipe, never mv's
+    # render_obs_multi-only recipe (§13.2). mv's own recipe is recorded separately as mv_recipe.
+    _s = pathlib.Path(args.src) / "summary.json"
+    summ = json.loads(_s.read_text()) if _s.exists() else {}
+    summ["mv_recipe"] = {"impl": args.perception, "model": percep.MODEL,
+                         "content_sha": _content_sha(percep)}
+    (out / "summary.json").write_text(json.dumps(summ, indent=1))
+    _write_cache_meta(args.src, args.out)
+    print("MV_ENCODE DONE", flush=True)
 
 
 if __name__ == "__main__":

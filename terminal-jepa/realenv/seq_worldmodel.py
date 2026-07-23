@@ -123,7 +123,31 @@ def encode_split(path, model, tok, device, bs=96):
     return out
 
 
+def _v3_cache_guard(data_root):
+    """Universal fail-closed staleness guard (dockerfs3 §13.2). Fires ONLY when a cache_meta.json
+    sits beside the root — which is true for v3 derived roots and NOTHING else, so v1/v2 roots are
+    byte-untouched. Self-contained (no evolve import; realenv stays evolve-free): requires
+    cache_format==3 and that the root's current summary.json still hashes to the built_summary_sha
+    recorded at encode time. A re-mint into an occupied path rewrites summary.json -> the emb-seq
+    caches are stale -> this RAISES, so every caller (harness AND the direct realenv/sanity
+    callers) is protected, making §13.2's 'impossible by construction' invariant actually hold."""
+    import hashlib
+    cm_path = pathlib.Path(data_root) / "cache_meta.json"
+    if not cm_path.exists():
+        return  # v1/v2 root (or a raw root) — no guard, unchanged behavior
+    cm = json.loads(cm_path.read_text())
+    if cm.get("cache_format") != 3:
+        raise RuntimeError(f"stale/unknown cache_format in {cm_path}: {cm.get('cache_format')}")
+    summ = pathlib.Path(data_root) / "summary.json"
+    cur = hashlib.sha256(summ.read_bytes()).hexdigest() if summ.exists() else None
+    if cur != cm.get("built_summary_sha"):
+        raise RuntimeError(
+            f"stale v3 cache at {data_root}: summary.json sha {cur} != built {cm.get('built_summary_sha')} "
+            f"(re-mint into an occupied path; delete emb-seq-*.pt + cache_meta.json and re-encode)")
+
+
 def cached_encode(data_root, split, model_name, device):
+    _v3_cache_guard(data_root)
     cache = pathlib.Path(data_root) / f"emb-seq-{split}.pt"
     if cache.exists():
         print(f"  using cache {cache}", flush=True)
@@ -388,16 +412,39 @@ def _rank_stats(pred, true, foil_idx, blk=1024):
     return top1 / N, mrr / N
 
 
-def retrieval(pred, true, verbs, n_foils=63, rounds=4, seed=0):
+def _inject_forced(f_h, forced):
+    """Replace the FIRST m same-verb foil slots with pre-registered forced foils (§8.1 UD-4(b)
+    counterfactual injection). `forced` [N,m] holds indices INTO `true` (same index space as f_h);
+    −1 = no forced foil for that slot (keep the sampled foil). Only the same-verb arm is injected;
+    the random arm stays pure. Returns a fresh tensor — `f_h` is untouched."""
+    out = f_h.clone()
+    m = min(forced.shape[1], out.shape[1])
+    seg = out[:, :m]                       # a view into out
+    fv = forced[:, :m]
+    valid = fv >= 0
+    seg[valid] = fv[valid].to(seg.dtype)
+    return out
+
+
+def retrieval(pred, true, verbs, n_foils=63, rounds=4, seed=0, forced_foils=None):
     """For each step, rank the TRUE next obs against foils by distance to `pred`: random foils
     AND hard same-verb foils. top-1 acc + MRR, averaged over rounds. `pred` is any prediction
     aligned with `true` (model output, z_prev for copy, zeros for predict-mean, ...). Ties are
-    not counted as beating the true candidate, so predict-mean -> ~chance by construction."""
+    not counted as beating the true candidate, so predict-mean -> ~chance by construction.
+
+    forced_foils (default None = the exact historical code path, byte-identical): an [N,m] index
+    tensor (values index into `true`; −1 = none). When given, the surviving forced indices REPLACE
+    the first m of the n_foils SAMPLED same-verb foils in EVERY round, before _rank_stats (which is
+    unchanged). The random-foil arm is never injected. Indices must already be in `true`'s space —
+    content_retrieval owns the full→subset seam translation (§8.1)."""
     N = true.shape[0]
     gen = torch.Generator().manual_seed(seed)
     t1s = mrrs = t1r = mrrr = 0.0
     for _ in range(rounds):
-        f_h = _foils_sameverb(verbs, n_foils, gen); a, b = _rank_stats(pred, true, f_h)
+        f_h = _foils_sameverb(verbs, n_foils, gen)
+        if forced_foils is not None:
+            f_h = _inject_forced(f_h, forced_foils)
+        a, b = _rank_stats(pred, true, f_h)
         t1s += a; mrrs += b
         f_r = _foils_random(N, n_foils, gen); a, b = _rank_stats(pred, true, f_r)
         t1r += a; mrrr += b
@@ -425,14 +472,39 @@ def per_verb_breakdown(preds, true, verbs, seed, verbset=VERBSET):
     return out
 
 
-def content_retrieval(pred, true, verbs, content=("ls", "cat"), seed=0):
+def content_retrieval(pred, true, verbs, content=("ls", "cat"), seed=0, forced_foils=None):
     """Retrieval restricted to CONTENT verbs (ls/cat) — the observations that are NOT lexically
     echoable from the command (unlike cd's `cwd=<target>`). This is the honest headline: can the
     model predict a listing / file content on an unseen system? Foils are same-verb within the
-    content subset."""
+    content subset.
+
+    forced_foils (default None = the exact historical path, byte-identical): an [N,m] index tensor
+    of counterfactual foils in FULL-array step positions. content_retrieval owns the §8.1 SUBSET-SEAM
+    TRANSLATION: (a) row-subset forced_foils to the content rows `ii`; (b) remap each forced VALUE
+    from full-array position to CONTENT-SUBSET position; (c) DROP any forced target outside the
+    content subset (its embedding is absent from the subset `true`), counting it in `cf_dropped`
+    (returned in the result) — a dropped slot falls back to a sampled foil in retrieval()."""
     idx = [i for i, v in enumerate(verbs) if v in content]
     ii = torch.tensor(idx)
-    return retrieval(pred[ii], true[ii], [verbs[i] for i in idx], seed=seed)
+    if forced_foils is None:
+        return retrieval(pred[ii], true[ii], [verbs[i] for i in idx], seed=seed)
+    full2sub = {full: sub for sub, full in enumerate(idx)}
+    ff_rows = forced_foils[ii]                       # [N_sub, m] — row-subset to content rows
+    sub_forced = torch.full_like(ff_rows, -1)
+    cf_dropped = 0
+    for r in range(ff_rows.shape[0]):
+        for c in range(ff_rows.shape[1]):
+            val = int(ff_rows[r, c])
+            if val < 0:
+                continue
+            s = full2sub.get(val)
+            if s is None:
+                cf_dropped += 1                      # forced target outside the content subset
+            else:
+                sub_forced[r, c] = s
+    res = retrieval(pred[ii], true[ii], [verbs[i] for i in idx], seed=seed, forced_foils=sub_forced)
+    res["cf_dropped"] = cf_dropped
+    return res
 
 
 def latent_mse(pred, true):

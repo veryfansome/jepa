@@ -10,6 +10,7 @@ original dockerfs cache.
 """
 
 import argparse
+import hashlib
 import importlib
 import json
 import pathlib
@@ -21,6 +22,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 import torch
 
 from realenv.seq_worldmodel import D, pick_device
+from evolve import bench_versions as BV
 
 
 def load_perception(name):
@@ -29,6 +31,49 @@ def load_perception(name):
         if not hasattr(mod, fn):
             raise AttributeError(f"perception impl '{name}' missing {fn}")
     return mod
+
+
+def _content_sha(mod):
+    """sha256 of a perception impl's source file (the perception stamp's content_sha, §13.1)."""
+    return hashlib.sha256(pathlib.Path(mod.__file__).read_bytes()).hexdigest()
+
+
+def _write_cache_meta(src, out):
+    """Root-level cache_meta.json {cache_format:3, bench_version, policy_sha, classes_sha,
+    built_summary_sha} — the fail-closed format guard (§13.1/§13.2). Written ONLY when the SRC
+    root is v3-policy; v1/v2 rebuilds write no cache_meta.json, so their byte behavior (and
+    scoring) is unchanged. `built_summary_sha` is the sha256 of the OUT summary.json at build
+    time — the universal staleness key that seq_worldmodel.cached_encode re-checks so EVERY
+    caller (incl. the direct realenv callers) fails closed on a re-mint into an occupied path."""
+    if not BV.is_v3_policy(src):
+        return
+    ssum = pathlib.Path(src) / "summary.json"
+    js = json.loads(ssum.read_text()) if ssum.exists() else {}
+    out_summary = (pathlib.Path(out) / "summary.json").read_bytes()
+    cm = {"cache_format": 3, "bench_version": js.get("bench_version"),
+          "policy_sha": js.get("policy_sha"), "classes_sha": js.get("classes_sha"),
+          "built_summary_sha": hashlib.sha256(out_summary).hexdigest()}
+    (pathlib.Path(out) / "cache_meta.json").write_text(json.dumps(cm, indent=1))
+
+
+def load_perception_for_root(root):
+    """Resolve the perception impl a DERIVED root was built with, from its summary.json perception
+    stamp {perception:{impl,model,content_sha}} (§10.3/§13.1) — used to render/encode the SST &
+    within_traj_mut predicted texts in the root's OWN embedding space. Fail-closed on a v3-policy
+    root that lacks the stamp (its SST/wtm precompute could not otherwise be render-parity-correct).
+    Back-compat: a stamp-less v1/v2 root (e.g. the pre-stamp data/dockerfs-e5) falls back to the
+    enc_e5_base default — the recipe every pre-stamp e5 root was in fact built with."""
+    summ = pathlib.Path(root) / "summary.json"
+    stamp = None
+    if summ.exists():
+        stamp = json.loads(summ.read_text()).get("perception") or None
+    if stamp and stamp.get("impl"):
+        return load_perception(stamp["impl"])
+    if BV.is_v3_policy(root):
+        raise ValueError(f"{root}: v3-policy root without a perception stamp — cannot resolve the "
+                         f"root's render/pool recipe for SST/wtm precompute (fail-closed, §10.3)")
+    # stamp-less v1/v2 root: the historical default recipe (all pre-stamp e5 roots used it)
+    return load_perception("enc_e5_base")
 
 
 @torch.no_grad()
@@ -87,15 +132,27 @@ def main(argv=None):
     outdir = pathlib.Path(args.out)
     outdir.mkdir(parents=True, exist_ok=True)
     for split in ("train", "val"):
-        shutil.copy(pathlib.Path(args.src) / f"{split}.jsonl", outdir / f"{split}.jsonl")
-        # bench-version identity MUST travel with derived roots (review-B2 blocker:
-        # a missing summary silently resolves as v1 and disengages v2 classes)
-        _s = pathlib.Path(args.src) / 'summary.json'
-        if _s.exists():
-            shutil.copy(_s, pathlib.Path(args.out) / 'summary.json')
-        seqs = encode_split(pathlib.Path(args.src) / f"{split}.jsonl", percep, tok, model, device)
+        src_jsonl = pathlib.Path(args.src) / f"{split}.jsonl"
+        if not src_jsonl.exists():
+            # TRAIN-ONLY root tolerance (F6): the ablate raw root ships no val.jsonl — skip the
+            # absent split instead of raising (required to build dockerfs3-ablate-e5).
+            print(f"skip absent split '{split}' (train-only root, F6)", flush=True)
+            continue
+        shutil.copy(src_jsonl, outdir / f"{split}.jsonl")
+        seqs = encode_split(src_jsonl, percep, tok, model, device)
         torch.save(seqs, outdir / f"emb-seq-{split}.pt")
         print(f"encoded {split}: {len(seqs)} seqs -> {outdir}/emb-seq-{split}.pt", flush=True)
+
+    # bench-version identity MUST travel with derived roots (review-B2 blocker: a missing summary
+    # silently resolves as v1 and disengages v2 classes). Copy the src summary and ADD the
+    # perception stamp (harmless/additive on v1/v2; the SST/wtm resolver reads it, §10.3). The
+    # cache_format-3 guard is written ONLY for v3-policy src roots (v1/v2 byte behavior unchanged).
+    _s = pathlib.Path(args.src) / "summary.json"
+    summ = json.loads(_s.read_text()) if _s.exists() else {}
+    summ["perception"] = {"impl": args.perception, "model": model_name,
+                          "content_sha": _content_sha(percep)}
+    (outdir / "summary.json").write_text(json.dumps(summ, indent=1))
+    _write_cache_meta(args.src, args.out)
     print("REENCODE DONE", flush=True)
 
 
