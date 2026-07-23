@@ -506,6 +506,49 @@ def test_v3_collect_writes_timing_side_channel_and_ablate_flag():
     assert timing and all("dur_ms" in r and "image" in r for r in timing)
 
 
+def test_v3_mint_stamps_classes_and_policy_sha_and_resolves():
+    """B1: the v3 mint stamps summary['classes_sha'] (== the pinned frozen-table sha) and
+    summary['policy_sha'] (the lexicon_hashes content hash), and evolve.bench_versions.resolve()
+    round-trips the minted root to a NON-EMPTY content-cell set. This closes the exact gap that
+    made every v3 genome score crash on the mint's own unstamped output (resolve fail-closes on a
+    missing classes_sha)."""
+    from evolve import bench_versions as BV
+    out = pathlib.Path(tempfile.mkdtemp())
+    orig = C.collect_image_v3
+    C.collect_image_v3 = _fake_collect_image_v3
+    try:
+        summary = C.collect(str(out), ["img-a", "img-b"], [], 4, 28, 0, 2, policy="v3", arm="full")
+    finally:
+        C.collect_image_v3 = orig
+    assert summary["classes_sha"] == C.V3_CLASSES_SHA_PIN == \
+        "08b31deeb16269c2a9d2df338c35d6a6a2f6e733c36d34c7ee5e1c853a2c24e4"
+    assert summary["policy_sha"] and len(summary["policy_sha"]) == 64
+    assert summary["policy_sha"] == C._v3_policy_sha()
+    # resolve() no longer crashes on the mint's own output — it returns the content-cell set
+    spec = BV.resolve(str(out))
+    assert spec.get("cell_based") and spec["content"] and len(spec["content"]) > 0
+    assert spec["classes_sha"] == summary["classes_sha"]
+
+
+def test_v3_classes_sha_fail_closed_on_drift():
+    """B1: the mint fail-closes if the frozen class table drifts from the pin (a v3 root can never
+    be minted against an unpinned/edited class table)."""
+    good = C._V3_CLASSES_JSON
+    bad = pathlib.Path(tempfile.mkdtemp()) / "drift.json"
+    bad.write_text('{"rows": []}')          # different bytes -> different sha
+    C._V3_CLASSES_JSON = bad
+    try:
+        C._v3_classes_sha()
+    except SystemExit as e:
+        assert "drifted" in str(e) and C.V3_CLASSES_SHA_PIN in str(e)
+    else:
+        raise AssertionError("drifted classes.json did not abort the mint")
+    finally:
+        C._V3_CLASSES_JSON = good
+    # the real (pinned) table still passes
+    assert C._v3_classes_sha() == C.V3_CLASSES_SHA_PIN
+
+
 def test_step_record_strips_dur_ms_and_v1_byte_identical():
     # a v3 box.run step carries dur_ms at top level; _step_record must drop it
     s = {"cmd": "pwd", "output": "/", "exit": 0, "cwd": "/", "dur_ms": 7,

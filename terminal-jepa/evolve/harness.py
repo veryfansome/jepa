@@ -28,6 +28,28 @@ CHANCE_SLACK = 0.05  # predict-mean top-1 must stay below this (chance ~1/64=0.0
 BASE_CACHE = pathlib.Path(__file__).resolve().parent / "archive" / "base_cache.json"
 _ARTIFACT_SHA_CACHE = {}
 
+# S2 (prereg §4.3 / G-COV): per-split content-cell coverage floor. A content cell with fewer
+# than this many SURVIVING content steps in the CURRENT eval split is under-powered — demoted
+# out of the pooled fitness margin into the §9.3 report battery (see _demote_lowcov). Pinned
+# scoring-time floor; the frozen class table is never touched.
+_V3_GCOV_FLOOR = 500
+
+
+def _demote_lowcov(verbs, content, floor=_V3_GCOV_FLOOR):
+    """S2/G-COV per-split coverage-demotion (prereg §4.3). Given the per-step cell pseudo-verbs
+    and the frozen content-cell set, count each content cell's surviving steps IN THIS split and
+    rewrite EVERY step of any content cell below `floor` to the excluded "<cell>-lowcov" pseudo-
+    verb — generalizing the -echo/-miss rewrites, so an under-covered cell leaves the fitness
+    pool (its own excluded verb group) and lands in the report battery. Per-split by construction
+    (a cell content in inner may be low-cov in final). The frozen classes.json is untouched.
+    Returns (new_verbs, lowcov) where lowcov = {demoted_cell: pre-demotion step count}."""
+    from collections import Counter
+    counts = Counter(v for v in verbs if v in content)
+    lowcov = {c: n for c, n in counts.items() if n < floor}
+    if lowcov:
+        verbs = [(v + "-lowcov") if v in lowcov else v for v in verbs]
+    return verbs, lowcov
+
 
 def _cached_encode(data_root, split, model, device):
     """Harness-owned wrapper around M.cached_encode (§13.2 layering: the fail-closed gate consults
@@ -186,8 +208,14 @@ def _v3_cell_verbs(evalset, raw_seqs, spec):
                 row[0] = seq_start + pos       # pre-mutation twin, full-array position (§8.1)
             forced_rows.append(row)
         n_total += n
+    # S2 (§4.3 / G-COV): per-split coverage-demotion AFTER the echo purge — a content cell with
+    # < _V3_GCOV_FLOOR surviving content steps in THIS split is demoted to "<cell>-lowcov" (out of
+    # the pooled margin, into the report battery). At mint scale this demotes the held-out grep|hit
+    # cells + any composed-pipe family that misses the floor. Frozen classes.json untouched.
+    verbs, lowcov = _demote_lowcov(verbs, content)
     forced = torch.tensor(forced_rows, dtype=torch.long) if forced_rows else torch.zeros(0, 8, dtype=torch.long)
-    diag = {"purged": purged, "oou": oou, "n_forced": int((forced[:, 0] >= 0).sum()) if len(forced) else 0}
+    diag = {"purged": purged, "oou": oou, "lowcov": lowcov,
+            "n_forced": int((forced[:, 0] >= 0).sum()) if len(forced) else 0}
     return verbs, forced, diag
 
 
@@ -484,10 +512,15 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     def mean(k):
         return round(sum(p[k] for p in per_seed) / len(per_seed), 4)
 
-    return {"fitness": mean("margin"), "guardrail": "pass", "mode": mode, "seeds": seeds,
-            "steps": steps, "split": split, "wm_content_top1": mean("wm"),
-            "base_content_top1": mean("base"), "eval_images": sorted({s["image"] for s in inner}),
-            "per_seed": per_seed}
+    result = {"fitness": mean("margin"), "guardrail": "pass", "mode": mode, "seeds": seeds,
+              "steps": steps, "split": split, "wm_content_top1": mean("wm"),
+              "base_content_top1": mean("base"), "eval_images": sorted({s["image"] for s in inner}),
+              "per_seed": per_seed}
+    # S2/§4.6 diagnostic: surface the v3 per-step purge + coverage-demotion for the report battery
+    # (v3-only key; v1/v2 result dicts are byte-identical — no _v3diag present).
+    if evaldata.get("_v3diag") is not None:
+        result["v3_diag"] = evaldata["_v3diag"]
+    return result
 
 
 def _fail(reason, mode, seeds, steps, split, per_seed):

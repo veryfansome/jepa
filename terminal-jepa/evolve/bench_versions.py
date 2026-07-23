@@ -218,9 +218,16 @@ def require_v3_cache(data_root):
         raise ValueError(f"{data_root}: cache_meta.json cache_format={cm.get('cache_format')!r} != 3 "
                          f"(fail-closed, §13.1)")
     for fld in ("bench_version", "policy_sha", "classes_sha"):
-        if cm.get(fld) != js.get(fld):
-            raise ValueError(f"{data_root}: cache_meta.json {fld}={cm.get(fld)!r} != summary.json "
-                             f"{js.get(fld)!r} — stale/mismatched v3 cache (fail-closed, §13.2)")
+        cv, jv = cm.get(fld), js.get(fld)
+        # B1: reject FALSY stamps, not only mismatched — a pre-B1 root (or a hand-edited cache)
+        # carrying no policy_sha/classes_sha would otherwise pass this guard vacuously (None==None),
+        # exactly the gap that let an unstamped v3 root reach scoring. A v3 root MUST pin all three.
+        if not cv or not jv:
+            raise ValueError(f"{data_root}: v3 {fld} is empty (cache_meta={cv!r}, summary={jv!r}) "
+                             f"— a v3 root MUST carry a non-empty {fld} (fail-closed, §13.2)")
+        if cv != jv:
+            raise ValueError(f"{data_root}: cache_meta.json {fld}={cv!r} != summary.json "
+                             f"{jv!r} — stale/mismatched v3 cache (fail-closed, §13.2)")
     if not ((js.get("perception") or {}).get("content_sha")):
         raise ValueError(f"{data_root}: v3-policy root lacking the perception stamp "
                          f"{{perception:{{impl,model,content_sha}}}} (fail-closed, §10.3/§13.1)")

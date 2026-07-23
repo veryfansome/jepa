@@ -2155,6 +2155,38 @@ def _v3_weight_sha():
         json.dumps(V3_WEIGHTS, sort_keys=True).encode()).hexdigest()
 
 
+# --- B1: the mint stamps the frozen class-table + policy content hashes into summary.json ---
+# The frozen v3 class table is version identity (prereg §1.1). Its sha is PINNED here; the mint
+# fail-closes if the on-disk table has drifted, so a v3 root can never be minted against an
+# unpinned/edited class table, and evolve/bench_versions.resolve() enforces the SAME sha at
+# scoring time (mint-vs-scoring class-table match). reencode copies both stamps forward into
+# cache_meta.json (§13.2), where require_v3_cache asserts they are present and consistent.
+V3_CLASSES_SHA_PIN = "08b31deeb16269c2a9d2df338c35d6a6a2f6e733c36d34c7ee5e1c853a2c24e4"
+_V3_CLASSES_JSON = (pathlib.Path(__file__).resolve().parent.parent
+                    / "benchmarks" / "dockerfs3-classes.json")
+
+
+def _v3_classes_sha():
+    """sha256 of the frozen dockerfs3-classes.json bytes, fail-closed asserted == the pinned
+    V3_CLASSES_SHA_PIN (B1). A drifted class table aborts the mint before any trajectory is
+    written (the F5/daemon-errs fail-fast precedent: a preregistered one-run mint must never
+    silently produce a root that scoring cannot pin)."""
+    sha = hashlib.sha256(_V3_CLASSES_JSON.read_bytes()).hexdigest()
+    if sha != V3_CLASSES_SHA_PIN:
+        raise SystemExit(
+            f"dockerfs3-classes.json sha {sha} != pinned {V3_CLASSES_SHA_PIN} — the frozen "
+            f"class table drifted; refusing to mint a v3 root against an unpinned table (B1)")
+    return sha
+
+
+def _v3_policy_sha():
+    """Policy content-hash (prereg §1: `lexicon_hashes()` keys the probe cache and is stamped as
+    `policy_sha`). sha256 over the canonical lexicon_hashes() dict — the v3 policy's lexicon
+    version identity, copied forward by reencode into cache_meta.json (§13.2 staleness key)."""
+    return hashlib.sha256(
+        json.dumps(lexicon_hashes(), sort_keys=True).encode()).hexdigest()
+
+
 def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, policy="baseline",
             pin_digests=False, expect_digests=None, arm="full"):
     # Amendment 5/7 gate, at FUNCTION ENTRY (round-5 fix: the nested/late form was
@@ -2242,6 +2274,12 @@ def collect(out_dir, train_imgs, val_imgs, n_seqs, seq_len, seed, workers, polic
         summary["bench_version"] = BENCH_VERSION_V3
         summary["arm"] = arm
         summary["ablate"] = (arm == "ablate")
+        # B1: pin the frozen class table + policy content hash into the root (top-level, where
+        # bench_versions.resolve/_write_cache_meta read them). _v3_classes_sha() fail-closes if
+        # the on-disk table drifted from the pin, so an unscorable/undecidable v3 root can never
+        # be minted; reencode copies both forward into cache_meta.json (§13.2).
+        summary["classes_sha"] = _v3_classes_sha()
+        summary["policy_sha"] = _v3_policy_sha()
         summary["v3"] = {"bench_version": BENCH_VERSION_V3, "arm": arm,
                          "weight_sha256": _v3_weight_sha(), "weights": V3_WEIGHTS,
                          "seq_len_band": [V3_SEQ_LEN - 4, V3_SEQ_MAX], "images": reports,
