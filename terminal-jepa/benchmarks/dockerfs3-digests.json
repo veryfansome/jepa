@@ -1,0 +1,118 @@
+{
+ "bench_version": "dockerfs3-v3.0",
+ "note": "v3 mint image set \u2014 version-identity element #1 (constitution \u00a71). 12 v2-continuity images (splits unchanged from v2) + 2 P0-surviving TRAIN-ONLY candidates (debian:stable, opensuse/leap; archlinux excluded, no arm64). Digests re-pinned from the P0 audit 2026-07-23; the candidates' final adoption + these digests freeze by dated amendment at the class-freeze (P3). ps-less images run the vendored tj3-ps (UD-9).",
+ "images": {
+  "alpine:latest": {
+   "digest": "alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": true,
+   "ps_kind": "busybox_or_other",
+   "candidate": false
+  },
+  "ubuntu:latest": {
+   "digest": "ubuntu@sha256:3131b4cc82a783df6c9df078f86e01819a13594b865c2cad47bd1bca2b7063bb",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": true,
+   "ps_kind": "procps",
+   "candidate": false
+  },
+  "debian:stable-slim": {
+   "digest": "debian@sha256:328d16499860ae6cb9b345e2e4cebca08c2a36e4f7278482c7bd1f39d71e5bfd",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": false,
+   "ps_kind": "none",
+   "candidate": false
+  },
+  "python:3.12-slim": {
+   "digest": "python@sha256:57cd7c3a7a273101a6485ba99423ee568157882804b1124b4dd04266317710de",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": false,
+   "ps_kind": "none",
+   "candidate": false
+  },
+  "redis:7-alpine": {
+   "digest": "redis@sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": true,
+   "ps_kind": "busybox_or_other",
+   "candidate": false
+  },
+  "nginx:stable-alpine": {
+   "digest": "nginx@sha256:97d490c12ba55b4946b01546d1c3ed324e8d41ab1c9fcb2a616aa470620e5b46",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": true,
+   "ps_kind": "busybox_or_other",
+   "candidate": false
+  },
+  "postgres:16-alpine": {
+   "digest": "postgres@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": true,
+   "ps_kind": "busybox_or_other",
+   "candidate": false
+  },
+  "node:22-slim": {
+   "digest": "node@sha256:6c74791e557ce11fc957704f6d4fe134a7bc8d6f5ca4403205b2966bd488f6b3",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": false,
+   "ps_kind": "none",
+   "candidate": false
+  },
+  "fedora:latest": {
+   "digest": "fedora@sha256:6c75d5bf57cb0fa5aa4b92c6a83c86c791644496d9ac230de7711f5b8ec3b898",
+   "split": "inner",
+   "arch": "arm64",
+   "has_ps": false,
+   "ps_kind": "none",
+   "candidate": false
+  },
+  "mariadb:latest": {
+   "digest": "mariadb@sha256:628f228f0fd5913a220438693576b29b6fe4dc1fa0a1298c0e98579fae28635f",
+   "split": "inner",
+   "arch": "arm64",
+   "has_ps": true,
+   "ps_kind": "procps",
+   "candidate": false
+  },
+  "rockylinux:9": {
+   "digest": "rockylinux@sha256:d7be1c094cc5845ee815d4632fe377514ee6ebcf8efaed6892889657e5ddaaa6",
+   "split": "final",
+   "arch": "arm64",
+   "has_ps": false,
+   "ps_kind": "none",
+   "candidate": false
+  },
+  "httpd:2.4": {
+   "digest": "httpd@sha256:305fd8326a27a137fedb8900f26375699ab233cc37793f35cf5d7c65671fb252",
+   "split": "final",
+   "arch": "arm64",
+   "has_ps": false,
+   "ps_kind": "none",
+   "candidate": false
+  },
+  "debian:stable": {
+   "digest": "debian@sha256:8e109a974a9659354791cab2c001e5c3e3153805c344ccec7c1ef98d814187e7",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": false,
+   "ps_kind": "none",
+   "candidate": true
+  },
+  "opensuse/leap": {
+   "digest": "opensuse/leap@sha256:f239b4819f4dd322d99509f1b5b14f2107bf23857f9ccd3c14333f0928a2bcc6",
+   "split": "train",
+   "arch": "arm64",
+   "has_ps": true,
+   "ps_kind": "procps",
+   "candidate": true
+  }
+ }
+}
