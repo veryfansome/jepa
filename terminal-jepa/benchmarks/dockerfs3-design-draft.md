@@ -23,6 +23,8 @@ dockerfs3 is the third mint of the Docker-filesystem world-model benchmark. The 
 ## 2. USER DECISIONS REQUIRED
 
 > **STATUS: ALL EIGHT DECIDED 2026-07-22** — UD-1 through UD-8 accepted as recommended (user sign-off). UD-1's v4 PTY spike is recorded in `BACKLOG.md` (inheriting the infra memo + its verdict's measured fixes per §15). The prereg may now be assembled.
+>
+> **AMENDMENT 2026-07-23 (UD-9, from the P0 audit)**: `ps` was found absent on 6/12 images incl. both final-test images. DECIDED: the §3.3 bootstrap additionally installs a sha-pinned static busybox and the ps arm's frozen template invokes it at `/usr/local/bin/tj3-ps` on ALL images (one canonical format; DG-5's dialect canonicalizer shrinks accordingly; the binary joins version identity beside the `after` helper). Authoritative wording: prereg Annex P0. Install-as-observable-action deferred to v4 (BACKLOG).
 
 Deviations from the original v3 ask, plus genuinely open choices. Each has a recommendation; none is buried in the body.
 
