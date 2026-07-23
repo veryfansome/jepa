@@ -861,8 +861,43 @@ V3_SEQ_MAX = 32
 V3_MAX_MUTATIONS = 8     # draft §4.2 caps
 V3_MAX_TIER_S = 4
 V3_MAX_JOBS = 3
-V3_INTERVENTIONS = (4, 8)   # 6 +/- 2 interventions/seq (pacer)
+V3_INTERVENTIONS = (4, 8)   # 6 +/- 2 interventions/seq (controller target, per-seq randint)
 V3_LEX_ARM = 0.05        # <=5% audited-lexicon payload arm (meta.payload_src="lexicon")
+
+# --- intervention-floor controller (P2 rate-tuning; the v2 `_p_link` twin) ---
+# The 5 role=="intervene" arms (mutation block + the REDIR_W redirect). The nominal .154
+# draw block realizes only ~2.4 interventions/seq (P2 measure) — a pure cap never reaches
+# the 6+/-2 floor. `_p_intervene` steers the REALIZED interventions/seq up to the per-seq
+# target, exactly mirroring `_p_link`'s proportional linkage steering.
+_V3_INTERVENE = _V3_MUTATION | {"m_redirect"}
+# The boost is funded ONLY from composition (pipe/cond) + time (after/ps/kill/uptime/sleep)
+# — NEVER from atomic — so the load-bearing >=.60 atomic mass is preserved by construction
+# (moving weight between the block and this pool leaves each atomic arm's weight untouched,
+# and the total is conserved, so the atomic draw FRACTION is invariant to the boost).
+_V3_INT_FUND = {"pipe", "cond"} | _V3_TIME
+_V3_INT_KP = 3.5         # proportional gain (mirrors _p_link's 2.5 family); pilot 1.5..3.5.
+#                          Controller is fund-limited (see below), so kp/draws_est barely move
+#                          the realized rate (sweep: 4.46..4.56 across kp 2.5..3.5, est 10..14).
+_V3_INT_DRAWS_EST = 11   # est. weight-draws/seq at target load (28 - 3 openers - ~14 revisit/
+#                          fire steps once interventions are boosted). tgt_frac = target/est.
+_V3_INT_PMAX = 0.60      # controller per-draw block-prob ceiling (like _p_link's 0.97 bound)
+_V3_INT_PMIN = 0.05
+_V3_INT_FUND_MAX = 1.0   # max fraction of the comp/time pool a single draw may borrow (the
+#                          fund>=0 clamp; the achievable-max bound when atomic is preserved)
+
+
+def _p_intervene(n_mut, draws, target, draws_est=_V3_INT_DRAWS_EST, kp=_V3_INT_KP):
+    """Proportional controller (the v2 `_p_link` twin) steering the REALIZED interventions/seq
+    to `target` (6+/-2). The nominal .154 intervene block realizes only ~2.4/seq; a pure cap
+    never reaches the floor. Returns the per-DRAW probability the intervene block should carry
+    this step; the caller funds any boost from composition/time and clamps the fund pool >= 0,
+    so the effective probability is min(this, the fund-availability cap). Deterministic
+    (per-seq state only); meta.mut_affected / n_mut always record ground truth."""
+    tgt_frac = target / max(1, draws_est)
+    if draws <= 0:
+        return min(_V3_INT_PMAX, max(_V3_INT_PMIN, tgt_frac))
+    realized = n_mut / draws
+    return min(_V3_INT_PMAX, max(_V3_INT_PMIN, tgt_frac + (tgt_frac - realized) * kp))
 
 _ARTIFACT_BUSYBOX = str(pathlib.Path(__file__).resolve().parent.parent
                         / "benchmarks" / "artifacts" / "busybox-arm64")
@@ -1155,6 +1190,7 @@ class _V3Session:
         self.cat_band_order = [b for b in ("s", "m", "l", "u") if b in self.cat_cycs]
         # world-mutation bookkeeping
         self.n_mut = self.n_tier_s = 0
+        self._n_draws = 0                    # per-seq weight-draw counter (P2 controller)
         self.next_j = 1
         self.real_of = {}                    # canonical cpid -> real pid (kill/ps xlate)
         self.ws_files = []                   # workspace files this trajectory created
@@ -1890,13 +1926,41 @@ class _V3Session:
         return self.steps
 
     def _draw_arm(self, vt, remaining, n_int_target):
+        self._n_draws += 1
         w = dict(self.weights)
-        # pacing (draft §4.2): no motif starts in the last 5 slots; cap mutations at the
-        # per-seq intervention target (6+/-2) and the hard <=8 ceiling.
-        if remaining <= 5 or self.n_mut >= min(n_int_target, V3_MAX_MUTATIONS):
+        # pacing (draft §4.2): no motif starts in the last 5 slots; cap interventions at the
+        # per-seq target (6+/-2) and the hard <=8 ceiling.
+        tail = remaining <= 5
+        capped = self.n_mut >= min(n_int_target, V3_MAX_MUTATIONS)
+        if tail or capped:                       # drop the intervene block late / once capped
             for k in list(w):
-                if k in _V3_MUTATION or k == "m_redirect" or k == "after":
+                if k in _V3_INTERVENE or k == "after":
                     w.pop(k, None)
+        else:
+            # P2 intervention-floor controller: steer REALIZED interventions/seq up to the
+            # target, borrowing the extra draw mass ONLY from composition/time (never atomic),
+            # so the >=.60 atomic mass is preserved by construction. The rescale sets the
+            # intervene block's per-draw probability to `p` while keeping intra-block and
+            # intra-fund SSOT ratios (a scalar multiply per group), and conserves the total —
+            # so atomic/pwd/echo draw shares are invariant to the boost.
+            block_arms = [k for k in w if k in _V3_INTERVENE]     # w-order => deterministic
+            fund_arms = [k for k in w if k in _V3_INT_FUND]
+            block = sum(w[k] for k in block_arms)
+            fund = sum(w[k] for k in fund_arms)
+            if block_arms and fund_arms and block > 0.0 and fund > 0.0:
+                tot0 = sum(w[k] for k in w)                       # conserved (~1.0)
+                p = _p_intervene(self.n_mut, self._n_draws - 1, n_int_target)
+                # never overdraw the fund pool (keep >= 1-_V3_INT_FUND_MAX of it): this bounds
+                # p to the fund-availability cap — the achievable max when atomic is preserved.
+                p = min(p, (block + fund * _V3_INT_FUND_MAX) / tot0)
+                want = p * tot0                                   # desired absolute block weight
+                if want > block:
+                    bscale = want / block                        # >1, preserves block ratios
+                    fscale = (fund - (want - block)) / fund       # <1, preserves fund ratios
+                    for k in block_arms:
+                        w[k] *= bscale
+                    for k in fund_arms:
+                        w[k] *= fscale
         if self.counters["jobs"] >= V3_MAX_JOBS:
             w.pop("after", None)
         if not w:

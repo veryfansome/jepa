@@ -349,7 +349,17 @@ def test_weight_realized_rates_within_5pct():
     motif's arm). FakeWorld exposes every verb / a non-empty head-tail + find pool / a
     writable /usr/local/bin, so there is NO skip-redistribution and the session weights equal
     V3_WEIGHTS — making the target the frozen table exactly. This is the pre-mint half of the
-    gate the P2 pilot + MINT re-measure at scale."""
+    gate the P2 pilot + MINT re-measure at scale.
+
+    P2 booking (prereg §7.2 amendment): the 5 intervene arms (_V3_INTERVENE) are now
+    CONTROLLER-STEERED (_p_intervene, the _p_link twin), funded ONLY from composition/time
+    (_V3_INT_FUND) so the >=.60 atomic mass is preserved — like _p_link's steered linkage,
+    they are gated on the REALIZED interventions/seq (6+/-2), not pinned to nominal. It turns
+    out the atomic-preserving fund cap keeps the boost small enough (intervene block ~.15->~.24
+    draw share) that EVERY arm still lands within ±5% here, so this ±5% assertion is kept
+    unrelaxed as a strictly-stronger guard; the realized-interventions/seq gate lives in
+    test_intervention_floor_controller. The >=.60 atomic-mass guard below is the load-bearing
+    invariant the P2 controller was designed to protect."""
     draws = []
     orig = C._V3Session._draw_arm
 
@@ -381,6 +391,68 @@ def test_weight_realized_rates_within_5pct():
     # the load-bearing >=60% atomic-verb mass survives the draw too (v2 floor, prereg §1)
     atomic = sum(freq.get(a, 0) for a in C._V3_ATOMIC) / tot
     assert abs(atomic - 0.610) <= 0.05, f"atomic draw mass {atomic:.3f} off the .610 target"
+    # P2: the controller borrows from composition/time, NEVER atomic, so atomic stays >=.60
+    assert atomic >= 0.60, f"P2 atomic-floor breach: draw mass {atomic:.3f} < .60"
+
+
+def test_intervention_floor_controller():
+    """P2 rate-tuning gate: the intervention-floor controller (_p_intervene, funded from
+    composition/time) steers realized interventions/seq into the 6+/-2 band while PRESERVING
+    the >=.60 atomic mass and per-seq determinism. Because the atomic floor is a hard
+    constraint and the boost is funded only from the (small) comp/time pool inside a 28-step
+    budget, the controller lands the realized rate at the LOWER half of the band (mean ~4.5,
+    not centered on 6) — that is the atomic-preserving achievable maximum, recorded here as the
+    gate. Reaching a 6-centered mean would need atomic borrowing (forbidden) or a longer
+    seq-len (a version-identity change). See realenv/collect_docker.py::_p_intervene."""
+    import collections as _c
+    ATOMIC_SIGS = {"cd", "ls", "cat", "head", "tail", "stat", "find", "grep", "uname"}
+    per_seq_int = []
+    atomic_all = atomic_draw = n_draw = n_steps = 0
+    intervene_draw = fund_draw = 0
+    ATOM_DRAW = {"cd", "ls", "cat", "config", "head", "tail", "stat", "find", "grep"}
+    for seed in range(200):
+        for length in (24, 28, 32):
+            _, a = _gen(seed=seed, length=length)
+            _, b = _gen(seed=seed, length=length)          # determinism twin
+            assert [s["cmd"] for s in a] == [s["cmd"] for s in b], (seed, length)
+            assert [json.dumps(s) for s in a] == [json.dumps(s) for s in b], (seed, length)
+            n_int = 0
+            for s in a:
+                m = s["meta"]
+                role, arm, sig = m.get("role", "?"), m.get("arm", "?"), m.get("sig", "")
+                n_steps += 1
+                if sig in ATOMIC_SIGS and not sig.startswith(("pipe:", "redir:", "cond:")):
+                    atomic_all += 1
+                if role == "intervene":
+                    n_int += 1
+                if role not in ("identify", "seed_pool") and role != "revisit":
+                    n_draw += 1
+                    aa = "config" if (arm == "cat" and m.get("query_src") == "config_lexicon") else arm
+                    if aa in ATOM_DRAW:
+                        atomic_draw += 1
+                    if aa in C._V3_INTERVENE:
+                        intervene_draw += 1
+                    if aa in C._V3_INT_FUND:
+                        fund_draw += 1
+            per_seq_int.append(n_int)
+    n = len(per_seq_int)
+    mean_int = sum(per_seq_int) / n
+    in_band = sum(1 for k in per_seq_int if 4 <= k <= 8) / n
+    atm_all = atomic_all / n_steps
+    atm_draw = atomic_draw / n_draw
+    intv_share = intervene_draw / n_draw
+    fund_share = fund_draw / n_draw
+    # (1) realized interventions/seq is in the 6+/-2 band (mean), most seqs in-band
+    assert 4.0 <= mean_int <= 8.0, f"mean interventions/seq {mean_int:.2f} outside 6+/-2 band"
+    assert in_band >= 0.75, f"only {in_band:.0%} of seqs in the 4..8 band"
+    # (2) the >=.60 atomic mass held (BOTH denominators) — the controller borrowed from
+    #     composition/time, never atomic
+    assert atm_all >= 0.60, f"atomic-over-all {atm_all:.3f} < .60"
+    assert atm_draw >= 0.60, f"atomic-over-draw {atm_draw:.3f} < .60"
+    # (3) the controller actually fired: intervene draw share is boosted above the .154 nominal
+    #     and the extra mass came out of the comp/time fund pool (nominal .195 -> shrunk)
+    assert intv_share > 0.18, f"controller inert: intervene draw share {intv_share:.3f} ~ nominal"
+    assert fund_share < 0.195, f"funding not drawn from comp/time: fund share {fund_share:.3f}"
 
 
 # ------------------------------------------------------------------ (f) collect() gate / seam
