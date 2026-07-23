@@ -6,8 +6,24 @@ v1 semantics are bit-identical to the historical harness (content ls+cat, no ok-
 no within-traj baseline) — every archived margin must reproduce exactly.
 """
 
+import hashlib
 import json
 import pathlib
+
+# The frozen v3 class table (prereg §1.1 "Classes-file authority"): sha-pinned; resolve()
+# loads it and asserts a v3 root's recorded classes_sha matches verbatim (fail-closed). ONE
+# global file; the harness consumes the set of content CELLS, not verbs.
+CLASSES_JSON = pathlib.Path(__file__).resolve().parent.parent / "benchmarks" / "dockerfs3-classes.json"
+
+# v3 fitness-role map (prereg §7 / design §8.5, §9.5): the six measured classes + under-floor.
+# ONLY "content" enters fitness; everything else is excluded from the content pool.
+V3_CONTENT_CLASSES = ("content",)
+V3_EXCLUDED_CLASSES = ("semi-echo", "ack", "echo/const", "sim", "noisy-excluded", "under-floor")
+
+# The seven baseline arms (prereg §4.4 / design §10.3), frozen. The first four are the ratified
+# v2-continuity arms; the last three are the v3 SST/wtm additions (precompute_baselines.py).
+V3_ARMS = ("retrieve_by_cmd", "no_history", "copy_prev", "within_traj",
+           "within_traj_mut", "sst", "sst_composite")
 
 VERSIONS = {
     "v1": {
@@ -22,7 +38,40 @@ VERSIONS = {
         "ok_masked_verbs": ("grep",),   # grep-MISS (exit!=0 or empty) excluded from fitness
         "within_traj_in_max": True,
     },
+    # dockerfs3-prereg.md §1.1 / design §9.5, §8.1, §4.4. STATIC parts only — the `content`
+    # SET (content CELLS, not verbs) is loaded per-root from CLASSES_JSON by resolve() and
+    # asserted against the root's classes_sha. `ok_masked_verbs` is EMPTY: v3 does per-STEP
+    # cell rewrite + the Finding-1 axis-2' echo purge (§4.6) in _data_tensors, not verb-mode
+    # masking. Cell pseudo-verb strings ("sig|mode|scope[|created-obs]") are ATOMIC keys.
+    "dockerfs3-v3.0": {
+        "content": None,                       # DYNAMIC — resolve() fills the content-cell set
+        "ok_masked_verbs": (),                 # cell rewrite + echo purge instead (§4.6/§9.5)
+        "within_traj_in_max": True,
+        "cell_based": True,                    # _data_tensors branches on this
+        "arms": V3_ARMS,                       # the seven-arm baseline max (§4.4)
+        "axis2p_purge_thresh": 0.96,           # Finding-1 per-step echo purge (§4.6, pinned)
+        "content_classes": V3_CONTENT_CLASSES,
+        "excluded_classes": V3_EXCLUDED_CLASSES,
+        "classes_file": str(CLASSES_JSON),
+    },
 }
+
+
+def _classes_bytes_and_sha():
+    """(raw bytes, sha256 hex) of the frozen class table file. The sha is over the file bytes
+    verbatim (the prereg pins THIS file); the mint stamps the same sha into summary.json."""
+    b = CLASSES_JSON.read_bytes()
+    return b, hashlib.sha256(b).hexdigest()
+
+
+def _content_cells(classes_js, content_classes):
+    """The set of content CELLS the harness pools/scores (design §9.5): every classes.json row
+    whose measured `class` is in content_classes. Cell keys are the ATOMIC 'cell' strings."""
+    cells = set()
+    for row in classes_js.get("rows", []):
+        if row.get("class") in content_classes:
+            cells.add(row["cell"])
+    return frozenset(cells)
 
 
 def resolve(data_root):
@@ -53,6 +102,8 @@ def resolve(data_root):
         raise ValueError(f"unknown bench_version '{ver}' in {s} — register it in bench_versions.py "
                          f"(a new version requires its own ratified prereg)")
     spec = VERSIONS[ver]
+    if str(ver).startswith("dockerfs3"):
+        return _resolve_v3(data_root, spec)
     if recorded is None and ver != "v1":
         raise ValueError(f"{data_root}: bench_version {ver} but summary.json records no "
                          f"verb_classes — malformed v2 root (constitution §4)")
@@ -74,6 +125,39 @@ def resolve(data_root):
             raise ValueError(f"class-table mismatch for {data_root}: prereg {want} vs recorded {got} "
                              f"— the prereg is authoritative (constitution §4)")
     return dict(spec, version=ver)
+
+
+def _resolve_v3(data_root, spec):
+    """v3 spec for a dockerfs3 root (prereg §1.1 / design §9.5). Loads the FROZEN class table
+    (CLASSES_JSON), builds the content-CELL set (fitness-role map: only `content` cells enter
+    fitness), and returns the resolved spec {content: <content-cell frozenset>, cell_based: True,
+    within_traj_in_max: True, arms: <7-arm list>, axis2p_purge_thresh, classes_sha, ...}.
+
+    FAIL-CLOSED (the mint-vs-scoring class-table match, §1.1): a v3 root whose summary.json
+    records no classes_sha, or whose classes_sha != the sha256 of CLASSES_JSON, RAISES — a v3
+    root scored against a class table different from the one it was minted under is impossible."""
+    root = pathlib.Path(data_root)
+    summ = root / "summary.json"
+    if not summ.exists():
+        raise ValueError(f"{data_root}: v3-policy root with no summary.json (fail-closed, §1.1)")
+    js = json.loads(summ.read_text())
+    recorded_sha = js.get("classes_sha")
+    if not recorded_sha:
+        raise ValueError(f"{data_root}: bench_version {js.get('bench_version')} but summary.json "
+                         f"records no classes_sha — a v3 root MUST pin the class table it was "
+                         f"minted under (fail-closed, §1.1)")
+    _, cur_sha = _classes_bytes_and_sha()
+    if recorded_sha != cur_sha:
+        raise ValueError(f"class-table sha mismatch for {data_root}: recorded classes_sha "
+                         f"{recorded_sha} != {CLASSES_JSON.name} sha {cur_sha} — the mint's class "
+                         f"table and the scoring class table must match verbatim (fail-closed, §1.1)")
+    classes_js = json.loads(CLASSES_JSON.read_text())
+    content = _content_cells(classes_js, spec["content_classes"])
+    if not content:
+        raise ValueError(f"{CLASSES_JSON.name}: no rows classified as content "
+                         f"{spec['content_classes']} — refusing an empty content pool (§9.5)")
+    return dict(spec, version=js.get("bench_version"), content=content,
+                classes_sha=cur_sha)
 
 
 # ---------------------------------------------------------------- v3-policy scoring-side infra

@@ -110,11 +110,94 @@ def _base_cache_key(data_root, split, seed, steps, spec, arms, val_root, stats_r
     return "|".join(parts)
 
 
-def _data_tensors(evalset, spec=None):
+def _v3_cell_verbs(evalset, raw_seqs, spec):
+    """v3 per-step cell pseudo-verb rewrite (§9.5) + the Finding-1 axis-2' echo purge (§4.6).
+
+    Returns (verbs, forced_foils, diag). `verbs[i]` is the ATOMIC cell key "sig|mode|scope[-obs]"
+    for step i (flatten order == _data_tensors' true/prev order), so `content_retrieval` and the
+    same-verb foil pools pool by CELL with no retrieval-code change (design §13.3). sig is
+    RE-DERIVED from cmd text via the frozen labeler and F8-ASSERTED against meta.sig; mode/scope/
+    ws_observed follow the frozen §9.5 rule. A content-cell step whose per-step history-containment
+    axis-2' >= the frozen purge threshold is rewritten to "<cell>-echo" (leaving the content pool) —
+    a per-STEP purge, zero command-echo in content by construction. forced_foils [N,8] long holds
+    the pre-mutation twin's FULL-array index in slot 0 (meta.pre_obs_step), -1 elsewhere (§8.1).
+
+    Reuses `class_measure.axis2p_seq` (through-mutation echo propagation) and `_canon_output`
+    verbatim (design: "reuse class_measure.axis2p_seq's logic"). Lazy imports keep v1/v2 untouched."""
+    from realenv import verbsig
+    from benchmarks import class_measure as CM
+    content = spec["content"]
+    thresh = spec["axis2p_purge_thresh"]
+    if len(raw_seqs) != len(evalset):
+        raise ValueError(f"v3 raw/eval seq count mismatch: {len(raw_seqs)} != {len(evalset)}")
+    verbs, forced_rows = [], []
+    n_total = purged = oou = 0
+    for sq, raw in zip(evalset, raw_seqs):
+        n = sq["z_obs"].shape[0]
+        steps = raw.get("steps", [])
+        if len(steps) != n:
+            raise ValueError(f"v3 raw/eval step count mismatch (image {sq.get('image')}): "
+                             f"{len(steps)} != {n}")
+        seq_start = n_total
+        cells, rows = [], []
+        for t, step in enumerate(steps):
+            cmd = step.get("cmd", "")
+            if cmd != sq["cmds"][t]:
+                raise ValueError(f"v3 raw/eval cmd misalignment (image {sq.get('image')} step {t}): "
+                                 f"{cmd!r} != {sq['cmds'][t]!r}")
+            meta = step.get("meta", {}) or {}
+            try:
+                sig = verbsig.sig(cmd)
+                if meta.get("sig") is not None and meta["sig"] != sig:
+                    raise ValueError(f"F8 sig mismatch: recomputed {sig!r} != meta.sig "
+                                     f"{meta['sig']!r} for {cmd!r} — data-integrity fault")
+                mode = verbsig.mode(sig, step.get("exit", 0), not step.get("output"))
+                scope = meta.get("state_scope", "native")
+                if scope not in verbsig.SCOPES:
+                    scope = "native"
+                ws_obs = bool(meta.get("ws_observed")) if scope == "created" else None
+                cell = verbsig.cell(sig, mode, scope, ws_observed=ws_obs)
+            except ValueError as e:
+                if "F8 sig mismatch" in str(e):
+                    raise
+                cell = "__oou__"      # out-of-universe -> excluded pseudo-verb (never content)
+                oou += 1
+            cells.append(cell)
+            # F2: an out-of-universe step contributes NO tokens to the axis-2' prior — mirror
+            # class_measure.cell_rows, which `continue`s on oou before the prior accumulates.
+            # (An oou step is never a content cell, so its own a2p is irrelevant; but its tokens
+            # must not shift a LATER content step's history-containment away from the frozen table.)
+            # At the mint the totality-asserted policy yields oou==0; this keeps eval==measurement
+            # bit-exact even off the mint path.
+            if cell == "__oou__":
+                rows.append({"cmd": "", "output_body": ""})
+            else:
+                rows.append({"cmd": cmd, "output_body": CM._canon_output(step)})
+        a2p = CM.axis2p_seq(rows)     # through-mutation history containment per step
+        for t in range(n):
+            cell = cells[t]
+            if cell in content and a2p[t] >= thresh:
+                cell = cell + "-echo"          # per-step echo purge (§4.6 Finding-1)
+                purged += 1
+            verbs.append(cell)
+            pos = (steps[t].get("meta", {}) or {}).get("pre_obs_step", -1)
+            row = [-1] * 8
+            if isinstance(pos, int) and 0 <= pos < n and pos != t:
+                row[0] = seq_start + pos       # pre-mutation twin, full-array position (§8.1)
+            forced_rows.append(row)
+        n_total += n
+    forced = torch.tensor(forced_rows, dtype=torch.long) if forced_rows else torch.zeros(0, 8, dtype=torch.long)
+    diag = {"purged": purged, "oou": oou, "n_forced": int((forced[:, 0] >= 0).sum()) if len(forced) else 0}
+    return verbs, forced, diag
+
+
+def _data_tensors(evalset, spec=None, raw_seqs=None):
     """Model-INDEPENDENT eval tensors (true/prev/verbs/cmd-embeddings) in flatten_predictions'
     step order — lets the objective-independent baselines be computed and cached once.
     spec (bench_versions.resolve): v2 roots mask ok_masked_verbs' failed steps out of the
-    content pool by rewriting their verb to the excluded pseudo-verb "<verb>-miss"."""
+    content pool by rewriting their verb to the excluded pseudo-verb "<verb>-miss".
+    v3 roots (spec['cell_based'], raw_seqs given) rewrite each step's verb to its cell pseudo-verb
+    and apply the per-step echo purge + build the counterfactual forced_foils tensor (§9.5/§4.6/§8.1)."""
     trues, prevs, cmds, oks = [], [], [], []
     for sq in evalset:
         ok = sq.get("ok")
@@ -123,10 +206,14 @@ def _data_tensors(evalset, spec=None):
             prevs.append(sq["z_obs"][t - 1] if t > 0 else torch.zeros(D))
             cmds.append(sq["cmds"][t])
             oks.append(True if ok is None else bool(ok[t]))
-    verbs = [M.verb_of(c) for c in cmds]
-    if spec and spec["ok_masked_verbs"]:
-        verbs = [f"{v}-miss" if (v in spec["ok_masked_verbs"] and not k) else v
-                 for v, k in zip(verbs, oks)]
+    forced, v3diag = None, None
+    if spec and spec.get("cell_based") and raw_seqs is not None:
+        verbs, forced, v3diag = _v3_cell_verbs(evalset, raw_seqs, spec)
+    else:
+        verbs = [M.verb_of(c) for c in cmds]
+        if spec and spec["ok_masked_verbs"]:
+            verbs = [f"{v}-miss" if (v in spec["ok_masked_verbs"] and not k) else v
+                     for v, k in zip(verbs, oks)]
     cmd_embs = torch.stack([sq["z_cmd"][t] for sq in evalset for t in range(sq["z_obs"].shape[0])])
     # within-traj baseline predictions (constitution §5): nearest earlier cmd BY EMBEDDING in
     # the same trajectory -> that step's obs; zeros (predict_mean) when no earlier step.
@@ -139,22 +226,74 @@ def _data_tensors(evalset, spec=None):
             else:
                 d = ((sq["z_cmd"][:t] - sq["z_cmd"][t]) ** 2).sum(-1)
                 wt.append(sq["z_obs"][int(d.argmin())])
-    return {"true": torch.stack(trues), "prev": torch.stack(prevs),
-            "verbs": verbs, "_cmd_embs": cmd_embs, "_within_traj": torch.stack(wt)}
+    out = {"true": torch.stack(trues), "prev": torch.stack(prevs),
+           "verbs": verbs, "_cmd_embs": cmd_embs, "_within_traj": torch.stack(wt)}
+    if forced is not None:               # v3 only; absent for v1/v2 (forced_foils stays None)
+        out["_forced_foils"] = forced
+        out["_v3diag"] = v3diag
+        # per-seq (image, length) manifest so the v3 arm loader can verify sst/wtm-val.pt align
+        # PER SEQUENCE, not just by total step count (review F1: a stale precompute with a
+        # coincidentally-matching total would silently corrupt every baseline arm otherwise).
+        out["_seq_manifest"] = [(sq.get("image", "?"), int(sq["z_obs"].shape[0])) for sq in evalset]
+    return out
+
+
+def _load_v3_arm_tensors(val_root, split, evaldata, stats):
+    """Load the precomputed SST/within_traj_mut arm embeddings (evolve.precompute_baselines) for a
+    v3 root, slice to this split via the SAME image filter split_val applies, and standardize with
+    the SAME obs stats (mo, so) the eval `true`/`prev` were standardized with. Returns
+    (sst_std, determined_mask, wtm_std), all aligned to evaldata['true'] step order (§10.4b).
+    ⊥ (undetermined) SST steps become ZEROS in standardized space (§10.3, sst arm = ⊥→zeros).
+    FAIL-CLOSED if the tensors are absent or misaligned (a v3 root is unscorable without them)."""
+    root = pathlib.Path(val_root)
+    sst_p, wtm_p = root / "sst-val.pt", root / "wtm-val.pt"
+    if not sst_p.exists() or not wtm_p.exists():
+        raise ValueError(f"{val_root}: v3 scoring needs sst-val.pt + wtm-val.pt — run "
+                         f"`python -m evolve.precompute_baselines --root {val_root}` (fail-closed, §10.4b)")
+    sst_seqs = split_val(torch.load(sst_p, weights_only=False), split)
+    wtm_seqs = split_val(torch.load(wtm_p, weights_only=False), split)
+    z_sst = torch.cat([s["z"] for s in sst_seqs]) if sst_seqs else torch.zeros(0, D)
+    det = torch.cat([s["determined"] for s in sst_seqs]) if sst_seqs else torch.zeros(0, dtype=torch.bool)
+    z_wtm = torch.cat([s["z"] for s in wtm_seqs]) if wtm_seqs else torch.zeros(0, D)
+    wdef = torch.cat([s["defined"] for s in wtm_seqs]) if wtm_seqs else torch.zeros(0, dtype=torch.bool)
+    n = evaldata["true"].shape[0]
+    if z_sst.shape[0] != n or z_wtm.shape[0] != n or det.shape[0] != n:
+        raise ValueError(f"v3 arm-tensor misalignment for {val_root} [{split}]: sst {z_sst.shape[0]} "
+                         f"wtm {z_wtm.shape[0]} det {det.shape[0]} != eval {n} — stale precompute "
+                         f"(re-run precompute_baselines after re-encoding)")
+    # F1: per-SEQ (image, length) identity — a matching TOTAL step count is not enough; a stale
+    # sst-val.pt from a re-encode that reordered/swapped sequences would corrupt every arm silently.
+    manifest = evaldata.get("_seq_manifest")
+    if manifest is not None:
+        arm_man = [(s.get("image", "?"), int(s["z"].shape[0])) for s in sst_seqs]
+        wtm_man = [(s.get("image", "?"), int(s["z"].shape[0])) for s in wtm_seqs]
+        if arm_man != manifest or wtm_man != manifest:
+            raise ValueError(f"v3 arm-tensor PER-SEQ misalignment for {val_root} [{split}]: sst/wtm "
+                             f"per-seq (image,len) != eval — stale precompute after a re-encode; "
+                             f"re-run precompute_baselines")
+    mo, so = stats
+    sst_std = (z_sst - mo) / so
+    sst_std[~det] = 0.0                                   # ⊥ -> zeros (chance) in std space (§10.3)
+    wtm_std = (z_wtm - mo) / so
+    wtm_std[~wdef] = 0.0                                  # undefined (t0, no earlier read) -> chance,
+    return sst_std, det, wtm_std                          #   matching within_traj's t=0=zeros rule
 
 
 def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerfs",
-              val_root=None, stats_root=None, train_desc="full"):
-    """max-baseline content-top1 (retrieve_by_cmd / no_history MLP / copy_prev) + predict-mean
-    calibration for a (data_root, split, seed, steps) — objective-independent, so computed once and
-    cached. Returns (base, predict_mean). Halves per-genome cost (skips retraining the baseline).
-    val_root/stats_root/train_desc feed the v3 base_cache key (§13.2); ignored in the v1/v2 key."""
+              val_root=None, stats_root=None, train_desc="full", stats=None):
+    """max-baseline content-top1 + predict-mean calibration for a (data_root, split, seed, steps) —
+    objective-independent, so computed once and cached. Returns (base, predict_mean).
+    v1/v2: the 3 (or 4 with within_traj) ratified arms. v3 (spec['cell_based']): the SEVEN-arm max
+    (§4.4) — adds sst / within_traj_mut / sst_composite from evolve.precompute_baselines, and the
+    same-verb foils carry the counterfactual forced_foils (§8.1) so every arm and the WM face the
+    IDENTICAL candidate set. `stats`=(mo, so) standardizes the precomputed arms (§10.4b signature
+    change). val_root/stats_root/train_desc feed the v3 base_cache key (§13.2)."""
     spec = evaldata.get("_spec") or {"content": ("ls", "cat"), "within_traj_in_max": False}
     arm_names = ["retrieve_by_cmd", "no_history", "copy_prev"]
     if spec.get("within_traj_in_max"):
         arm_names.append("within_traj")
-    # (the v3 SST arms — within_traj_mut/sst/sst_composite — join arm_names when precompute_baselines
-    #  lands; the key builder already threads the arm set so no key change is needed then.)
+    if spec.get("cell_based"):
+        arm_names += ["within_traj_mut", "sst", "sst_composite"]   # the 7-arm max (§4.4)
     key = _base_cache_key(data_root, split, seed, steps, spec, arm_names, val_root, stats_root, train_desc)
     cache = json.loads(BASE_CACHE.read_text()) if BASE_CACHE.exists() else {}
     if key in cache:
@@ -162,13 +301,22 @@ def _base_for(split, seed, steps, fit, evaldata, device, data_root="data/dockerf
     mlp = M.train_cmd_only(fit, device, steps=steps, seed=seed)
     with torch.no_grad():
         nohist = mlp(evaldata["_cmd_embs"].to(device)).cpu()
+    ff = evaldata.get("_forced_foils")   # None for v1/v2 -> historical byte-identical retrieval
     ct = lambda p: M.content_retrieval(p, evaldata["true"], evaldata["verbs"],
-                                       content=spec["content"], seed=seed)["top1_sameverb"]
+                                       content=spec["content"], seed=seed,
+                                       forced_foils=ff)["top1_sameverb"]
     rbc, noh = ct(M.retrieve_by_cmd_baseline(fit, evaldata)), ct(nohist)
     cpy, mean = ct(evaldata["prev"]), ct(torch.zeros_like(evaldata["true"]))
     arms = {"retrieve_by_cmd": rbc, "no_history": noh, "copy_prev": cpy}
     if spec.get("within_traj_in_max"):
         arms["within_traj"] = ct(evaldata["_within_traj"])   # constitution §5 (v2+)
+    if spec.get("cell_based"):
+        sst_std, det, wtm_std = _load_v3_arm_tensors(val_root or data_root, split, evaldata, stats)
+        comp = wtm_std.clone()
+        comp[det] = sst_std[det]                             # SST-where-determined else wtm
+        arms["within_traj_mut"] = ct(wtm_std)
+        arms["sst"] = ct(sst_std)
+        arms["sst_composite"] = ct(comp)
     entry = {"base": max(arms.values()), "predict_mean": mean, **arms}
     cache[key] = entry
     BASE_CACHE.parent.mkdir(parents=True, exist_ok=True)
@@ -272,6 +420,13 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
     M.apply_stats(val_seqs, mo, so, mc, sc)
     inner = split_val(val_seqs, split)
     spec = BV.resolve(val_root)   # eval-side classes/content track the VAL root (== data by default)
+    # v3: the cell rewrite + echo purge + forced_foils need the raw meta/output, which the encoded
+    # cache does NOT carry (§13.1). Re-read val.jsonl and apply the SAME split image filter so the
+    # raw seqs align 1:1 with `inner` (score-time recompute defines the cell, §8.2).
+    raw_seqs = None
+    if spec.get("cell_based"):
+        raw_all = [json.loads(l) for l in open(pathlib.Path(val_root) / "val.jsonl")]
+        raw_seqs = split_val(raw_all, split)
 
     loss_fn = G.load_objective(genome)
     target_mod = G.load_target(genome)
@@ -282,7 +437,7 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
                      [0] if mode == "proxy" else [0, 1, 2], 0, split, [])
     seeds = [0] if mode == "proxy" else [0, 1, 2]
     steps = proxy_steps if mode == "proxy" else genome["chunks"]["optim"].get("steps", 4000)
-    evaldata = _data_tensors(inner, spec)  # model-independent; base + wm score against it
+    evaldata = _data_tensors(inner, spec, raw_seqs=raw_seqs)  # model-independent; base + wm score against it
     evaldata["_spec"] = spec
 
     per_seed = []
@@ -295,7 +450,8 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
             if not stream.leakage_ok(net, device):
                 return _fail("leakage_fail (cmd_t prediction moved when obs_t corrupted)", mode, seeds, steps, split, per_seed)
             base, mean = _base_for(split, s, steps, fit, evaldata, device, data_root=data,
-                                   val_root=val_root, stats_root=stats_root, train_desc=train_desc)
+                                   val_root=val_root, stats_root=stats_root, train_desc=train_desc,
+                                   stats=(mo, so))
             flat = stream.flatten_predictions(net, _strip_target_only(inner), device)
             tmod = getattr(net, "target_module", None)
             with torch.no_grad():  # learned to_obs runs on cpu tensors from flatten
@@ -304,7 +460,8 @@ def score_genome(genome, mode="proxy", data="data/dockerfs",
                 else:
                     pred_obs = target_mod.to_obs(flat["pred"], flat["prev"])  # reconstruct next-obs for retrieval
             wm = M.content_retrieval(pred_obs, evaldata["true"], evaldata["verbs"],
-                                     content=spec["content"], seed=s)["top1_sameverb"]
+                                     content=spec["content"], seed=s,
+                                     forced_foils=evaldata.get("_forced_foils"))["top1_sameverb"]
             per_seed.append({"seed": s, "wm": round(wm, 4), "base": round(base, 4),
                              "margin": round(wm - base, 4), "predict_mean": round(mean, 4)})
             if save_dir:
