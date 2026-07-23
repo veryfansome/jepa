@@ -1,0 +1,197 @@
+{
+ "gate": "DG-7 reference constant (v2 cross-split near-dup base rate)",
+ "measured_on": "data/dockerfs2 (bench dockerfs2-v2.0; train=8 images/115073 steps, val=4 held-out images/57630 steps)",
+ "draft_quotes": {
+  "s2_open": "DG-7 reference constant (v2 cross-split near-dup base rate \u2014 MUST be measured on dockerfs2 BEFORE v3 work starts)",
+  "s11_2": "DG-7 cross-split contamination (val mutation-slice obs vs ALL train renders, cos>0.995 or exact \u2264 the v2-measured reference constant ...)",
+  "s14_row": "DG-7 | cross-split contamination (val mutation slice vs train) | near-dup rate \u2264 v2 reference constant (measure FIRST) | pilot P3 + MINT | eval-integrity"
+ },
+ "protocol": {
+  "unit": "one val observation step (occurrence-weighted); unique-render rate also reported",
+  "surface": "realenv.seq_worldmodel.render_obs: 'cwd={cwd} exit={exit}\\n{output[:1600] (+trunc marker)}' (champion enc_e5_base adds only a constant 'passage: ' prefix \u2014 exact-match classes identical)",
+  "pairs": "each val obs render vs ALL train observation renders (train cmd renders excluded: different surface \u2014 see ambiguities)",
+  "reading_exact": "val render string in set(train render strings)",
+  "reading_cos": "max cosine vs all train obs embeddings > 0.995 (strict), v2 champion eval space: e5-base-v2 caches data/dockerfs2-e5/emb-seq-*.pt (jsonl verified byte-identical to data/dockerfs2); exact => cos~1, so this IS the union reading 'cos>0.995 or exact'"
+ },
+ "readings": {
+  "exact": {
+   "overall": {
+    "n": 57630,
+    "dup": 17008,
+    "rate": 0.29512406732604546
+   },
+   "per_verb": {
+    "cat": {
+     "n": 11714,
+     "dup": 2900,
+     "rate": 0.2475670138296056
+    },
+    "cd": {
+     "n": 7905,
+     "dup": 5181,
+     "rate": 0.6554079696394687
+    },
+    "find": {
+     "n": 3734,
+     "dup": 1154,
+     "rate": 0.3090519550080343
+    },
+    "grep": {
+     "n": 4606,
+     "dup": 1587,
+     "rate": 0.3445505861919236
+    },
+    "head": {
+     "n": 3648,
+     "dup": 485,
+     "rate": 0.13294956140350878
+    },
+    "ls": {
+     "n": 17090,
+     "dup": 2857,
+     "rate": 0.16717378583967232
+    },
+    "stat": {
+     "n": 3297,
+     "dup": 507,
+     "rate": 0.1537761601455869
+    },
+    "tail": {
+     "n": 3236,
+     "dup": 418,
+     "rate": 0.1291718170580964
+    },
+    "uname": {
+     "n": 2400,
+     "dup": 1919,
+     "rate": 0.7995833333333333
+    }
+   },
+   "content_slice_v2_mode_rule": {
+    "n": 42527,
+    "dup": 8315,
+    "rate": 0.1955228443106732
+   },
+   "inner_val_images": {
+    "n": 28734,
+    "dup": 7269,
+    "rate": 0.2529755690123199
+   },
+   "final_test_images": {
+    "n": 28896,
+    "dup": 9739,
+    "rate": 0.33703626799557035
+   },
+   "unique_val_renders": {
+    "n": 28073,
+    "dup": 2794,
+    "rate": 0.09952623517258576
+   }
+  },
+  "cos_gt_0.995": {
+   "overall": {
+    "n": 57630,
+    "dup": 21363,
+    "rate": 0.3706923477355544
+   },
+   "per_verb": {
+    "cat": {
+     "n": 11714,
+     "dup": 4020,
+     "rate": 0.34317910192931533
+    },
+    "cd": {
+     "n": 7905,
+     "dup": 5375,
+     "rate": 0.6799493991144845
+    },
+    "find": {
+     "n": 3734,
+     "dup": 1369,
+     "rate": 0.36663095875736473
+    },
+    "grep": {
+     "n": 4606,
+     "dup": 1717,
+     "rate": 0.37277464177160224
+    },
+    "head": {
+     "n": 3648,
+     "dup": 716,
+     "rate": 0.1962719298245614
+    },
+    "ls": {
+     "n": 17090,
+     "dup": 5047,
+     "rate": 0.29531889994148625
+    },
+    "stat": {
+     "n": 3297,
+     "dup": 670,
+     "rate": 0.20321504397937518
+    },
+    "tail": {
+     "n": 3236,
+     "dup": 530,
+     "rate": 0.16378244746600742
+    },
+    "uname": {
+     "n": 2400,
+     "dup": 1919,
+     "rate": 0.7995833333333333
+    }
+   },
+   "content_slice_v2_mode_rule": {
+    "n": 42527,
+    "dup": 12286,
+    "rate": 0.2888988172220001
+   },
+   "inner_val_images": {
+    "n": 28734,
+    "dup": 9205,
+    "rate": 0.3203521960047331
+   },
+   "final_test_images": {
+    "n": 28896,
+    "dup": 12158,
+    "rate": 0.420750276854928
+   },
+   "max_cos_percentiles": {
+    "0.05": 0.92003,
+    "0.25": 0.964067,
+    "0.5": 0.985902,
+    "0.75": 1.0,
+    "0.9": 1.0,
+    "0.95": 1.0,
+    "0.99": 1.000001
+   },
+   "agreement": {
+    "exact_and_cos": 17008,
+    "exact_total": 17008,
+    "exact_without_cos": 0,
+    "cos_without_exact": 4355
+   }
+  }
+ },
+ "reference_constant_candidates": {
+  "exact_overall": 0.29512406732604546,
+  "exact_content_slice": 0.1955228443106732,
+  "union_cos_or_exact_overall": 0.3706923477355544,
+  "union_cos_or_exact_content_slice": 0.2888988172220001,
+  "note": "the frozen constant MUST be metric-matched to the v3 LHS: exact-LHS ~ exact ref; (cos>0.995 or exact)-LHS ~ union ref. Conservative (stricter ceiling) = the smaller, i.e. the exact reading; \u00a711.2's wording favors the union."
+ },
+ "ambiguities_for_amendment": [
+  "metric: \u00a711.2 says 'cos>0.995 or exact' but not which defines the frozen constant \u2014 both measured; freeze the metric AND its matched constant together",
+  "val-side slice: v3 gates the val MUTATION slice; v2 has no mutations \u2014 overall, per-verb, content-slice (v2 mode rule: grep-miss excluded), and inner/final image slices all reported; the amendment picks the matched slice (content-slice is the nearest v2 ancestor of the v3 mutation slice)",
+  "'ALL train renders' read as all train OBSERVATION renders (all verbs/steps); train cmd renders excluded (different text surface \u2014 obs renders carry the cwd=/exit= header, so obs-vs-cmd exact match is structurally impossible)",
+  "cos space: v2's own e5-base-v2 champion space; v3 will recompute in its own encoder space \u2014 the constant is a base RATE, not a distance, so it transfers as a rate",
+  "e5 encoding truncates at 256 tokens, so renders differing only beyond ~256 tokens are cosine-identical \u2014 the union reading catches these (e.g. long binary cat outputs); the exact reading does not"
+ ],
+ "runtime_sec": {
+  "load_jsonl": 0.9,
+  "exact": 0.0,
+  "cosine": 2.9,
+  "device": "mps"
+ },
+ "reproduce": "cd /Users/fanzhu/PyCharmProjects/jepa/terminal-jepa && uv run python /private/tmp/claude-501/-Users-fanzhu-PyCharmProjects-jepa/d198d7af-d892-4db5-b49e-72d82a05b137/scratchpad/v3/p0/dg7_measure.py"
+}

@@ -22,6 +22,8 @@ dockerfs3 is the third mint of the Docker-filesystem world-model benchmark. The 
 
 ## 2. USER DECISIONS REQUIRED
 
+> **STATUS: ALL EIGHT DECIDED 2026-07-22** — UD-1 through UD-8 accepted as recommended (user sign-off). UD-1's v4 PTY spike is recorded in `BACKLOG.md` (inheriting the infra memo + its verdict's measured fixes per §15). The prereg may now be assembled.
+
 Deviations from the original v3 ask, plus genuinely open choices. Each has a recommendation; none is buried in the body.
 
 **UD-1. Jobs/fg/bg + ctrl+c/ctrl+z are DEFERRED to a v4 PTY spike; v3 delivers the process automaton by signals.** The charter asked for `jobs`, `&` job control, and literal control keys. The infra memo's PTY design was empirically attacked: background-job "Done" notification placement is wall-clock-nondeterministic across replays (measured spread >200 steps on identical seeds — verdict:infra B1), and the timeout-recovery ladder was demonstrated unreachable (verdict:infra S1). The time memo shows the learnable content — a process automaton with suspend/resume/kill — is deliverable race-free on plain `docker exec` via `kill -STOP/-CONT/-TERM` on `after`-launched jobs. The integration verdict ruled exec wins (verdict:cross-lens D-B1). Consequences the user must sign off (verdict:cross-lens M12): `jobs`, `fg`, `bg`, `%n` jobspecs, `wait`, literal `^C`/`^Z`, and bare `sleep N &` are OUT of v3; `kill -INT` is also dropped (empirically a silent no-op on background children of a non-interactive shell — verdict:time B1); `<<<` herestrings are out (non-POSIX; dash/ash reject them — lens:infra, verdict:baselines S3). *Recommendation: accept; the v4 PTY spike charter inherits the infra memo + its verdict's measured fixes.*
