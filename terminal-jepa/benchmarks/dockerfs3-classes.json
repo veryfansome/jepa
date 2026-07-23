@@ -1,45 +1,153 @@
 {
- "status": "DRAFT",
- "_draft_note": "PILOT DRAFT \u2014 NOT the frozen class table. The real dockerfs3-classes.json freeze is a dated amendment to dockerfs3-prereg.md appended AFTER reviews A/B/C (freeze-order step 7), on full-scale P3 data (60 seqs/image x 12 images), with every OPEN threshold (axis-1 theta1, axis-2/2' prior 0.656, axis-3 sim 0.90, ack) frozen by amendment on that data. This file was produced by benchmarks/class_measure.py over a 4-image / 40-seq/image class pilot to (a) prove the four-axis protocol runs end-to-end on real v3-collected data and (b) surface the honesty structure and threshold-calibration inputs. bench_versions.resolve() must NOT consume this file.",
- "_pilot_provenance": {
-  "date": "2026-07-23",
-  "protocol": "benchmarks/class_measure.py (v3-4axis-1), freeze-order step 6 (P3 class+honesty)",
-  "images": [
-   "alpine:latest",
-   "debian:stable-slim",
-   "redis:7-alpine",
-   "fedora:latest"
-  ],
-  "seqs_per_image": 40,
-  "seq_len_band": [
-   24,
-   32
-  ],
-  "arm": "full",
-  "mint_seed": 0,
-  "n_seqs": 160,
-  "n_steps": 4512,
-  "image_digests": {
-   "alpine:latest": "alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b",
-   "debian:stable-slim": "debian@sha256:328d16499860ae6cb9b345e2e4cebca08c2a36e4f7278482c7bd1f39d71e5bfd",
-   "redis:7-alpine": "redis@sha256:6ab0b6e7381779332f97b8ca76193e45b0756f38d4c0dcda72dbb3c32061ab99",
-   "fedora:latest": "fedora@sha256:6c75d5bf57cb0fa5aa4b92c6a83c86c791644496d9ac230de7711f5b8ec3b898"
+ "status": "FROZEN",
+ "frozen_at": "2026-07-23",
+ "bench_version": "dockerfs3-v3.0",
+ "_freeze": {
+  "amendment": "dockerfs3-prereg.md §4.7 (CLASS-FREEZE AMENDMENT, dated 2026-07-23)",
+  "freeze_order_step": 7,
+  "provenance": "Measured on the class-freeze pilot: 60 seqs/image × 6 images (4 train: alpine:latest busybox-ash, debian:stable-slim dash, node:22-slim dash, redis:7-alpine busybox-ash; 1 inner-val: fedora:latest bash; 1 final-test: rockylinux:9 bash) = 360 seqs / 10083 steps, arm=full, seed 0, --pin-digests (subset of dockerfs3-digests.json, 0 drift). benchmarks/class_measure.py (v3-4axis-1) @ axis2p_thresh=0.96, encoder enc_e5_base (the JSON 'encoder' field reads 'custom' — lazy-embedder label quirk, the axis-1 numbers are e5). out_of_universe=0, bad_state_scope=0 (whole corpus in the frozen universe). No twin mint → axis-4 ceiling ≡ 1.0 (deterministic-by-construction; rule-5 noisy-excluded cannot fire, covered by DG-3a/b). The 12-image mint (dockerfs3-digests.json) STAMPS this file's sha and RE-CONFIRMS G-COV/DG-9 post-purge at 600/900 seqs/image; it does NOT re-derive this table.",
+  "recalibration": "axis-2' (axis2p_thresh) recalibrated 0.656 → 0.96 (prereg §2 item 3 / §4.6 calibration 1): at 0.96 linked-grep hits return to content (grep|hit|native a2'=0.839, grep|hit|mutated a2'=0.827) while genuine workspace echo-loop readbacks stay excluded (cat|hit|created-obs, readlink|hit|* = a2'=1.000 → semi-echo). All other thresholds unchanged from the v2 priors.",
+  "frozen_thresholds": {
+   "axis2p_thresh": 0.96,
+   "axis2_thresh": 0.656,
+   "axis1_theta1": 0.59,
+   "axis3_sim": 0.9,
+   "coverage_floor_pairs_per_cell": 30,
+   "min_images": 2,
+   "gcov_steps_per_content_verb_split": 500,
+   "ack_dup": 0.95,
+   "ack_maxchars": 5,
+   "axis4_content": 0.8,
+   "axis4_report": 0.5,
+   "_note": "these are exactly classes-measured.json thresholds{}; the sha over this whole file pins them."
   },
-  "train_artifact_sha256": {
-   "train.jsonl": "e36050aedbdfc2ed0d229dadc4081398759617e1e839f915b38308f59802a800",
-   "val.jsonl": "5985910f980245ea920d138906ef28d9cfb71232474e1e1fbe7e73c89df563d3"
+  "theta1_note": "The §4.6 'θ1 ≥ ~0.46' calibration is REFUTED at P3 scale: the content cells nearest the echo/const gate are cat|hit|native a1=0.473, tail|hit|native a1=0.488, stat|hit|native a1=0.473, head|hit|native a1=0.506 — a θ1 of 0.46 would EJECT them and gut content mass. θ1 is FROZEN at the v2 midpoint 0.59 (nearest content cell head|hit|native a1=0.506 → 0.084 headroom; uname|hit|native at 0.811 is correctly echo/const). MINT-CONFIRMED: axis-1 is scale-sensitive (top-1 rose cat 0.450→0.473, tail 0.424→0.488 from the 40-seq draft to this 60-seq pilot); the θ1 ejection-safety invariant (NO frozen content cell's mint axis-1 top-1 ≥ 0.59) is re-asserted at the 12-image mint. A content verb crossing 0.59 at mint is an echo/const finding requiring a dated re-freeze amendment.",
+  "content_cell_set": {
+   "count": 15,
+   "cells": [
+    "cat|hit|created",
+    "cat|hit|mutated",
+    "cat|hit|native",
+    "find|hit|mutated",
+    "find|hit|native",
+    "grep|hit|mutated",
+    "grep|hit|native",
+    "head|hit|native",
+    "ls|hit|mutated",
+    "ls|hit|native",
+    "pipe:cat|tail|ok|native",
+    "pipe:ls|head|ok|native",
+    "pipe:ls|tail|ok|native",
+    "stat|hit|native",
+    "tail|hit|native"
+   ],
+   "solid": {
+    "count": 8,
+    "cells": [
+     "ls|hit|native",
+     "cat|hit|native",
+     "ls|hit|mutated",
+     "head|hit|native",
+     "stat|hit|native",
+     "cat|hit|mutated",
+     "tail|hit|native",
+     "find|hit|native"
+    ],
+    "note": "6 simple content verbs (cat, find, head, ls, stat, tail) on native/mutated scope; post-purge G-COV ≥500 in EVERY split at mint scale (×20). Resolve cleanly."
+   },
+   "provisional_coverage": {
+    "count": 7,
+    "cells": [
+     "grep|hit|native",
+     "grep|hit|mutated",
+     "find|hit|mutated",
+     "cat|hit|created",
+     "pipe:ls|head|ok|native",
+     "pipe:ls|tail|ok|native",
+     "pipe:cat|tail|ok|native"
+    ],
+    "note": "content at pilot scale (≥30-pair coverage floor met pre-purge, all axes content-shaped at a2'=0.96) but post-purge G-COV is MARGINAL — confirmed at the mint 600/900 seqs/image. grep|hit|native (post-purge 33) and grep|hit|mutated (post-purge 16): the grep verb clears ≥500/split in TRAIN only at mint (train 520, inner 180, final 280 @600) — 77% of grep hits are obs-derivable linked-grep readbacks the a2'≥0.96 purge removes; grep held-out content falls to the §9.3 G-COV cross-image battery or is reported under-floor on inner/final. The 3 composed pipe families (pipe:ls|head 35, pipe:ls|tail 33, pipe:cat|tail 28 post-purge) MISS ≥500/split in ALL splits at mint (≤440 @600) — intrinsically low-mass, resolved via the §9.3 battery not the per-verb floor. find|hit|mutated (post-purge 35) and cat|hit|created (blind, harness-faithful post-purge 22) only just cleared coverage into content at this pilot; re-confirmed at mint."
+   }
   },
-  "shell_dialects_covered": "busybox-ash (alpine, redis:7-alpine), dash (debian:stable-slim), bash (fedora)",
-  "ps_mix": "native-ps images (alpine,redis) + ps-less images (debian,fedora) \u2014 all via vendored tj3-ps (UD-9)",
-  "subset_of": "the 12-image mint (dockerfs3-digests.json); NOT the full battery",
-  "encoder_actual": "e5 (evolve.chunks.perception.enc_e5_base, the frozen production encoder, invoked via --encoder e5). NOTE: class_measure records encoder='custom' whenever it lazily instantiates its own e5 embedder \u2014 a metadata-label quirk, not a different encoder; axis-1 top1 columns are the real e5 numbers.",
-  "twin_root": null,
-  "axis4_note": "no twin mint collected in this pilot -> axis-4 ceiling defaults to 1.0 (deterministic-by-construction); rule-5 noisy-excluded cannot fire here. Twin determinism is separately covered by DG-3a/b (P1 amendment, twin byte-identity)."
+  "excluded_cells_frozen": {
+   "note": "measured (≥30-pair) cells classified out of the content pool by the §9.2 ordered precedence; frozen so. under-floor cells are fail-closed (excluded + reported, never guessed).",
+   "semi-echo": [
+    "cat|hit|created-obs",
+    "cd|ok|native",
+    "echo|hit|native",
+    "readlink|hit|created",
+    "readlink|hit|created-obs",
+    "readlink|hit|mutated",
+    "readlink|hit|native"
+   ],
+   "ack": [
+    "find|miss|native",
+    "grep|miss|native",
+    "ln|ok|native",
+    "ls|hit|created",
+    "ls|miss|native",
+    "mkdir|ok|native",
+    "mv|ok|created",
+    "mv|ok|native",
+    "pipe:ls|grep|miss|native",
+    "redir:echo>|ok|created-obs",
+    "redir:echo>|ok|native",
+    "redir:prod>|ok|native",
+    "rm|ok|created",
+    "rm|ok|created-obs",
+    "rm|ok|native",
+    "touch|ok|native"
+   ],
+   "sim": [
+    "cat|miss|mutated",
+    "ps|hit|native",
+    "pwd|hit|native",
+    "uptime|hit|native"
+   ],
+   "echo/const": [
+    "uname|hit|native"
+   ],
+   "noisy-excluded": [],
+   "under_floor_count": 28,
+   "notable": {
+    "cat|miss|mutated": "sim (axis-3 exact 0.945, deterministic dialect error surface, 421 steps)",
+    "uname|hit|native": "echo/const (axis-1 top-1 0.811)",
+    "cd|ok|native": "semi-echo (axis-2 prefix containment 0.720, cwd echo)",
+    "pwd|hit|native / ps|hit|native": "sim (axis-3 exact 1.0)",
+    "cat|hit|created-obs / readlink|hit|created[-obs]": "semi-echo (axis-2' history containment 1.0)"
+   }
+  },
+  "mint_confirmed_gates": {
+   "note": "gates that CANNOT resolve at pilot scale; measured at the mint (P5/mint). Per prereg §11 GO criterion 4 these do NOT block the class freeze — they are asserted at the mint and, if breached, the referenced fork applies.",
+   "G-COV": {
+    "requirement": "≥500 post-purge content steps per content verb per split (train/inner/final).",
+    "pilot_projection_at_mint_x20": "PASS all splits: ls, cat, head, stat, tail, find (the 6 simple verbs). PARTIAL: grep clears TRAIN only (train 520, inner 180, final 280 @600) → §9.3 cross-image battery or under-floor on inner/final. MISS all splits: the 3 composed pipe families (≤440 @600) → §9.3 battery. Post-purge footprint is 909 steps = 16.2% of pre-purge content / 9.0% of all steps (NOT the 0.36% command-echo estimate — the a2'≥0.96 purge also removes obs-derivable within-trajectory revisit re-reads; symmetric across WM and every baseline).",
+    "action_if_breached": "the affected held-out content verbs report under the §9.3 G-COV cross-image battery rather than the per-verb/split floor (prereg §9.3 as designed)."
+   },
+   "DG-9_composed": {
+    "requirement": "composed content ≥ 6% of post-purge content steps (per prereg DG-9; per-image ≥ half).",
+    "pilot_measurement": "2.05% post-purge (96 / 4693 steps: pipe:ls|head 35 + pipe:ls|tail 33 + pipe:cat|tail 28) — now MEASURED (not the 0% draft artifact), but BELOW the 6% floor. Composed-content mass is policy-weight-driven and ~scale-invariant, so more seqs alone will not lift 2%→6% (generous projection with content-shaped families that clear coverage at mint ≈ 3%).",
+    "status": "STANDING BREACH RISK — re-measured at the full mint.",
+    "action_if_breached": "prereg §4.3 pre-registered fallback fork (the separately-embedded delta channel, a v3.0-BLOCKING redesign) OR the G3 composition weights are lifted before GO. The mint stays blocked until DG-9 passes or the fork is ratified by dated amendment."
+   },
+   "DG-9_mut_affected": {
+    "requirement": "mut-affected content ≥ 10% of post-purge content steps.",
+    "pilot_measurement": "13.2% post-purge (621 / 4693; per-image 12.0–15.2%) — PASS. Resolves at pilot; DG-9 re-measures it at the mint by design."
+   }
+  },
+  "ws_observed_subsumption": "The collector leaves meta.ws_observed ABSENT on readback steps. class_measure recomputes it from the SST and splits created → created-obs (semi-echo, a2'=1.0) + created (content, blind); the harness _v3_cell_verbs reads meta.get('ws_observed') (absent → False) and labels ALL created as blind 'cat|hit|created' (content), then the per-step a2'≥0.96 purge removes every created-obs step (a2'=1.0). Consistent BY SUBSUMPTION not by label: the harness content pool is consistent-or-stricter than this table (cat-created 22 ≤ 30). The '...|created-obs' rows here are informational — the harness never emits that cell key. No leak; post-purge command-echo in content = 0.",
+  "frozen_eval_path_artifacts": {
+   "note": "sha-pinned at this freeze step alongside the class table (prereg §6 step 7 / §11 criterion 3). Any post-freeze edit = dated amendment + re-baseline.",
+   "render_canon.py": "385115f503358b3372508aff50566489d19d78f58f2dd197ccb9db7acd4d3fcd",
+   "shell_state.py (SST)": "7909c9e54b416c36486255cfdec322e83ee915ae2a131e1d8f54c2e73a11589f",
+   "verbsig.py": "fc4fed0f39890fd29af2aa23faaa7a39bfedc343dc8798207a0135dd90ce3dea",
+   "class_measure.py (measurement tool)": "847ba8381e9eef956fc7af4f76f1b720a26d560ac97aa0a25458e7ff0ca1ff4e"
+  },
+  "reproduce": "`uv run python -m benchmarks.class_measure --root <class-freeze collect-root> --axis2p-thresh 0.96 --encoder e5` reproduces the tool fields + all 71 rows + class assignments + class_counts of this file BIT-FOR-BIT (deterministic, seed-free; foil sampling pinned to seed 0). The status/frozen_at/_freeze wrapper keys and the _freeze_measure post-purge block are freeze metadata that bench_versions.resolve() ignores (it reads only `rows`)."
  },
- "_thresholds_are_priors": true,
  "tool": "class_measure",
  "version": "v3-4axis-1",
- "root": "/private/tmp/claude-501/-Users-fanzhu-PyCharmProjects-jepa/d198d7af-d892-4db5-b49e-72d82a05b137/scratchpad/v3/p3/pilot-root",
+ "root": "/private/tmp/claude-501/-Users-fanzhu-PyCharmProjects-jepa/d198d7af-d892-4db5-b49e-72d82a05b137/scratchpad/v3/freeze/collect-root",
  "splits": [
   "train",
   "val"
@@ -51,23 +159,23 @@
   "min_images": 2,
   "axis1_theta1": 0.59,
   "axis2_thresh": 0.656,
-  "axis2p_thresh": 0.656,
+  "axis2p_thresh": 0.96,
   "axis3_sim": 0.9,
   "axis4_content": 0.8,
   "axis4_report": 0.5,
   "ack_dup": 0.95,
   "ack_maxchars": 5
  },
- "n_cells_total": 69,
- "n_cells_measured": 26,
- "n_cells_under_floor": 43,
- "n_steps": 4512,
+ "n_cells_total": 71,
+ "n_cells_measured": 43,
+ "n_cells_under_floor": 28,
+ "n_steps": 10083,
  "class_counts": {
-  "under-floor": 43,
-  "semi-echo": 6,
-  "content": 8,
-  "sim": 3,
-  "ack": 8,
+  "under-floor": 28,
+  "content": 15,
+  "semi-echo": 7,
+  "sim": 4,
+  "ack": 16,
   "echo/const": 1
  },
  "rows": [
@@ -77,9 +185,9 @@
    "mode": "ok",
    "state_scope": "created",
    "ws_observed": false,
-   "n": 2,
-   "n_images": 2,
-   "coverage_pairs": 2,
+   "n": 7,
+   "n_images": 4,
+   "coverage_pairs": 7,
    "under_floor": true,
    "axis2": {
     "output_containment": 0.0,
@@ -94,7 +202,7 @@
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 2
+    "n_determined": 7
    },
    "axis4": {
     "ceiling": 1.0,
@@ -108,7 +216,7 @@
    },
    "axis1": {
     "top1": null,
-    "n": 2
+    "n": 7
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -120,24 +228,24 @@
    "mode": "hit",
    "state_scope": "created",
    "ws_observed": false,
-   "n": 13,
-   "n_images": 4,
-   "coverage_pairs": 13,
-   "under_floor": true,
+   "n": 30,
+   "n_images": 6,
+   "coverage_pairs": 30,
+   "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.4872,
-    "stat": 0.4872
+    "history_containment": 0.369,
+    "stat": 0.369
    },
    "axis3": {
-    "exact_match": 0.1538,
-    "determined_coverage": 0.1538,
+    "exact_match": 0.1,
+    "determined_coverage": 0.1,
     "accuracy_on_determined": 1.0,
-    "n_determined": 2
+    "n_determined": 3
    },
    "axis4": {
     "ceiling": 1.0,
@@ -146,16 +254,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.1538,
-    "median_output_chars": 21
+    "success_dup": 0.0667,
+    "median_output_chars": 34
    },
    "axis1": {
-    "top1": null,
-    "n": 13
+    "top1": 0.0,
+    "n": 30
    },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.1
   },
   {
    "cell": "cat|hit|created-obs",
@@ -163,9 +271,9 @@
    "mode": "hit",
    "state_scope": "created",
    "ws_observed": true,
-   "n": 106,
-   "n_images": 4,
-   "coverage_pairs": 106,
+   "n": 263,
+   "n_images": 6,
+   "coverage_pairs": 263,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -180,7 +288,7 @@
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 106
+    "n_determined": 263
    },
    "axis4": {
     "ceiling": 1.0,
@@ -189,12 +297,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0377,
+    "success_dup": 0.0228,
     "median_output_chars": 7
    },
    "axis1": {
-    "top1": 0.0259,
-    "n": 106
+    "top1": 0.0285,
+    "n": 263
    },
    "class": "semi-echo",
    "precedence_rule": 1,
@@ -206,9 +314,9 @@
    "mode": "hit",
    "state_scope": "mutated",
    "ws_observed": null,
-   "n": 152,
-   "n_images": 4,
-   "coverage_pairs": 152,
+   "n": 320,
+   "n_images": 6,
+   "coverage_pairs": 320,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -216,14 +324,14 @@
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.3721,
-    "stat": 0.3721
+    "history_containment": 0.3829,
+    "stat": 0.3829
    },
    "axis3": {
-    "exact_match": 0.0658,
-    "determined_coverage": 0.0658,
+    "exact_match": 0.0719,
+    "determined_coverage": 0.0719,
     "accuracy_on_determined": 1.0,
-    "n_determined": 10
+    "n_determined": 23
    },
    "axis4": {
     "ceiling": 1.0,
@@ -232,16 +340,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0197,
-    "median_output_chars": 439
+    "success_dup": 0.0094,
+    "median_output_chars": 562
    },
    "axis1": {
-    "top1": 0.2582,
-    "n": 152
+    "top1": 0.3031,
+    "n": 320
    },
    "class": "content",
    "precedence_rule": 6,
-   "tracker_top1": 0.0658
+   "tracker_top1": 0.0719
   },
   {
    "cell": "cat|hit|native",
@@ -249,24 +357,24 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 595,
-   "n_images": 4,
-   "coverage_pairs": 595,
+   "n": 1331,
+   "n_images": 6,
+   "coverage_pairs": 1331,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.0004,
+    "output_containment": 0.0006,
     "prefix_containment": 0.0,
-    "stat": 0.0004
+    "stat": 0.0006
    },
    "axis2p": {
-    "history_containment": 0.1188,
-    "stat": 0.1188
+    "history_containment": 0.1102,
+    "stat": 0.1102
    },
    "axis3": {
-    "exact_match": 0.0168,
-    "determined_coverage": 0.0168,
+    "exact_match": 0.0128,
+    "determined_coverage": 0.0128,
     "accuracy_on_determined": 1.0,
-    "n_determined": 10
+    "n_determined": 17
    },
    "axis4": {
     "ceiling": 1.0,
@@ -275,16 +383,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0487,
-    "median_output_chars": 523
+    "success_dup": 0.0533,
+    "median_output_chars": 546
    },
    "axis1": {
-    "top1": 0.4504,
-    "n": 595
+    "top1": 0.4728,
+    "n": 1331
    },
    "class": "content",
    "precedence_rule": 6,
-   "tracker_top1": 0.0168
+   "tracker_top1": 0.0128
   },
   {
    "cell": "cat|miss|created",
@@ -292,9 +400,9 @@
    "mode": "miss",
    "state_scope": "created",
    "ws_observed": false,
-   "n": 8,
-   "n_images": 4,
-   "coverage_pairs": 8,
+   "n": 21,
+   "n_images": 6,
+   "coverage_pairs": 21,
    "under_floor": true,
    "axis2": {
     "output_containment": 0.0,
@@ -306,10 +414,10 @@
     "stat": 0.0
    },
    "axis3": {
-    "exact_match": 0.375,
-    "determined_coverage": 0.375,
+    "exact_match": 0.619,
+    "determined_coverage": 0.619,
     "accuracy_on_determined": 1.0,
-    "n_determined": 3
+    "n_determined": 13
    },
    "axis4": {
     "ceiling": 1.0,
@@ -323,7 +431,7 @@
    },
    "axis1": {
     "top1": null,
-    "n": 8
+    "n": 21
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -335,24 +443,24 @@
    "mode": "miss",
    "state_scope": "mutated",
    "ws_observed": null,
-   "n": 186,
-   "n_images": 4,
-   "coverage_pairs": 186,
+   "n": 421,
+   "n_images": 6,
+   "coverage_pairs": 421,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.0434,
+    "output_containment": 0.0303,
     "prefix_containment": 0.0,
-    "stat": 0.0434
+    "stat": 0.0303
    },
    "axis2p": {
-    "history_containment": 0.4422,
-    "stat": 0.4422
+    "history_containment": 0.445,
+    "stat": 0.445
    },
    "axis3": {
-    "exact_match": 0.9355,
-    "determined_coverage": 0.9355,
+    "exact_match": 0.9454,
+    "determined_coverage": 0.9454,
     "accuracy_on_determined": 1.0,
-    "n_determined": 174
+    "n_determined": 398
    },
    "axis4": {
     "ceiling": 1.0,
@@ -361,12 +469,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.043,
-    "median_output_chars": 65
+    "success_dup": 0.0333,
+    "median_output_chars": 63
    },
    "axis1": {
-    "top1": 0.2406,
-    "n": 186
+    "top1": 0.2904,
+    "n": 421
    },
    "class": "sim",
    "precedence_rule": 4,
@@ -378,22 +486,22 @@
    "mode": "miss",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 7,
-   "n_images": 2,
-   "coverage_pairs": 7,
+   "n": 21,
+   "n_images": 5,
+   "coverage_pairs": 21,
    "under_floor": true,
    "axis2": {
-    "output_containment": 0.013,
+    "output_containment": 0.0087,
     "prefix_containment": 0.0,
-    "stat": 0.013
+    "stat": 0.0087
    },
    "axis2p": {
-    "history_containment": 0.0519,
-    "stat": 0.0519
+    "history_containment": 0.0433,
+    "stat": 0.0433
    },
    "axis3": {
-    "exact_match": 0.1429,
-    "determined_coverage": 0.1429,
+    "exact_match": 0.0476,
+    "determined_coverage": 0.0476,
     "accuracy_on_determined": 1.0,
     "n_determined": 1
    },
@@ -404,12 +512,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.8571,
+    "success_dup": 0.9048,
     "median_output_chars": 0
    },
    "axis1": {
     "top1": null,
-    "n": 7
+    "n": 21
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -421,24 +529,24 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 349,
-   "n_images": 4,
-   "coverage_pairs": 349,
+   "n": 774,
+   "n_images": 6,
+   "coverage_pairs": 774,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
-    "prefix_containment": 0.7106,
-    "stat": 0.7106
+    "prefix_containment": 0.7196,
+    "stat": 0.7196
    },
    "axis2p": {
     "history_containment": 0.0,
     "stat": 0.0
    },
    "axis3": {
-    "exact_match": 0.3868,
-    "determined_coverage": 0.3868,
+    "exact_match": 0.3992,
+    "determined_coverage": 0.3992,
     "accuracy_on_determined": 1.0,
-    "n_determined": 135
+    "n_determined": 309
    },
    "axis4": {
     "ceiling": 1.0,
@@ -451,8 +559,8 @@
     "median_output_chars": 0
    },
    "axis1": {
-    "top1": 0.538,
-    "n": 349
+    "top1": 0.6282,
+    "n": 774
    },
    "class": "semi-echo",
    "precedence_rule": 1,
@@ -464,18 +572,18 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 4,
-   "n_images": 3,
-   "coverage_pairs": 4,
+   "n": 12,
+   "n_images": 5,
+   "coverage_pairs": 12,
    "under_floor": true,
    "axis2": {
-    "output_containment": 0.0,
+    "output_containment": 0.0034,
     "prefix_containment": 0.0,
-    "stat": 0.0
+    "stat": 0.0034
    },
    "axis2p": {
-    "history_containment": 0.145,
-    "stat": 0.145
+    "history_containment": 0.1575,
+    "stat": 0.1575
    },
    "axis3": {
     "exact_match": 0.0,
@@ -490,12 +598,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.25,
-    "median_output_chars": 307
+    "success_dup": 0.0833,
+    "median_output_chars": 998
    },
    "axis1": {
     "top1": null,
-    "n": 4
+    "n": 12
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -507,18 +615,18 @@
    "mode": "miss",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 4,
-   "n_images": 2,
-   "coverage_pairs": 4,
+   "n": 7,
+   "n_images": 4,
+   "coverage_pairs": 7,
    "under_floor": true,
    "axis2": {
     "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
+    "prefix_containment": 0.1429,
+    "stat": 0.1429
    },
    "axis2p": {
-    "history_containment": 0.45,
-    "stat": 0.45
+    "history_containment": 0.4143,
+    "stat": 0.4143
    },
    "axis3": {
     "exact_match": 0.0,
@@ -533,12 +641,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.25,
-    "median_output_chars": 35
+    "success_dup": 0.2857,
+    "median_output_chars": 31
    },
    "axis1": {
     "top1": null,
-    "n": 4
+    "n": 7
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -593,18 +701,18 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 6,
-   "n_images": 3,
-   "coverage_pairs": 6,
+   "n": 15,
+   "n_images": 5,
+   "coverage_pairs": 15,
    "under_floor": true,
    "axis2": {
-    "output_containment": 0.0556,
+    "output_containment": 0.023,
     "prefix_containment": 0.0,
-    "stat": 0.0556
+    "stat": 0.023
    },
    "axis2p": {
-    "history_containment": 0.3573,
-    "stat": 0.3573
+    "history_containment": 0.358,
+    "stat": 0.358
    },
    "axis3": {
     "exact_match": 0.0,
@@ -619,12 +727,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.1667,
-    "median_output_chars": 184
+    "success_dup": 0.0667,
+    "median_output_chars": 116
    },
    "axis1": {
     "top1": null,
-    "n": 6
+    "n": 15
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -636,9 +744,9 @@
    "mode": "miss",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 2,
-   "n_images": 2,
-   "coverage_pairs": 2,
+   "n": 8,
+   "n_images": 5,
+   "coverage_pairs": 8,
    "under_floor": true,
    "axis2": {
     "output_containment": 0.0625,
@@ -646,8 +754,8 @@
     "stat": 0.0625
    },
    "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
+    "history_containment": 0.0938,
+    "stat": 0.0938
    },
    "axis3": {
     "exact_match": 0.0,
@@ -662,12 +770,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.5,
+    "success_dup": 0.25,
     "median_output_chars": 41
    },
    "axis1": {
     "top1": null,
-    "n": 2
+    "n": 8
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -679,18 +787,18 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 10,
-   "n_images": 4,
-   "coverage_pairs": 10,
+   "n": 17,
+   "n_images": 6,
+   "coverage_pairs": 17,
    "under_floor": true,
    "axis2": {
-    "output_containment": 0.6,
+    "output_containment": 0.6471,
     "prefix_containment": 0.0,
-    "stat": 0.6
+    "stat": 0.6471
    },
    "axis2p": {
-    "history_containment": 0.1063,
-    "stat": 0.1063
+    "history_containment": 0.1695,
+    "stat": 0.1695
    },
    "axis3": {
     "exact_match": 0.0,
@@ -705,12 +813,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.1,
-    "median_output_chars": 33
+    "success_dup": 0.0588,
+    "median_output_chars": 32
    },
    "axis1": {
     "top1": null,
-    "n": 10
+    "n": 17
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -722,180 +830,8 @@
    "mode": "miss",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 2,
-   "n_images": 2,
-   "coverage_pairs": 2,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.0,
-    "determined_coverage": 0.0,
-    "accuracy_on_determined": null,
-    "n_determined": 0
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 2
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "echo|hit|native",
-   "sig": "echo",
-   "mode": "hit",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 30,
-   "n_images": 4,
-   "coverage_pairs": 30,
-   "under_floor": false,
-   "axis2": {
-    "output_containment": 1.0,
-    "prefix_containment": 0.0,
-    "stat": 1.0
-   },
-   "axis2p": {
-    "history_containment": 0.4333,
-    "stat": 0.4333
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 30
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 0.0333,
-    "median_output_chars": 6
-   },
-   "axis1": {
-    "top1": 0.0333,
-    "n": 30
-   },
-   "class": "semi-echo",
-   "precedence_rule": 1,
-   "tracker_top1": null
-  },
-  {
-   "cell": "find|hit|mutated",
-   "sig": "find",
-   "mode": "hit",
-   "state_scope": "mutated",
-   "ws_observed": null,
-   "n": 15,
-   "n_images": 4,
-   "coverage_pairs": 15,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0667,
-    "prefix_containment": 0.0667,
-    "stat": 0.1333
-   },
-   "axis2p": {
-    "history_containment": 0.1381,
-    "stat": 0.1381
-   },
-   "axis3": {
-    "exact_match": 0.0,
-    "determined_coverage": 0.0,
-    "accuracy_on_determined": null,
-    "n_determined": 0
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 0.1333,
-    "median_output_chars": 67
-   },
-   "axis1": {
-    "top1": null,
-    "n": 15
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "find|hit|native",
-   "sig": "find",
-   "mode": "hit",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 115,
-   "n_images": 4,
-   "coverage_pairs": 115,
-   "under_floor": false,
-   "axis2": {
-    "output_containment": 0.0293,
-    "prefix_containment": 0.0348,
-    "stat": 0.0641
-   },
-   "axis2p": {
-    "history_containment": 0.0602,
-    "stat": 0.0602
-   },
-   "axis3": {
-    "exact_match": 0.0087,
-    "determined_coverage": 0.0087,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 1
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 0.0609,
-    "median_output_chars": 45
-   },
-   "axis1": {
-    "top1": 0.2717,
-    "n": 115
-   },
-   "class": "content",
-   "precedence_rule": 6,
-   "tracker_top1": 0.0087
-  },
-  {
-   "cell": "find|miss|mutated",
-   "sig": "find",
-   "mode": "miss",
-   "state_scope": "mutated",
-   "ws_observed": null,
    "n": 6,
-   "n_images": 3,
+   "n_images": 4,
    "coverage_pairs": 6,
    "under_floor": true,
    "axis2": {
@@ -932,14 +868,143 @@
    "tracker_top1": null
   },
   {
-   "cell": "find|miss|native",
-   "sig": "find",
-   "mode": "miss",
+   "cell": "echo|hit|native",
+   "sig": "echo",
+   "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 22,
-   "n_images": 4,
-   "coverage_pairs": 22,
+   "n": 63,
+   "n_images": 6,
+   "coverage_pairs": 63,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 1.0,
+    "prefix_containment": 0.0,
+    "stat": 1.0
+   },
+   "axis2p": {
+    "history_containment": 0.4603,
+    "stat": 0.4603
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 63
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0317,
+    "median_output_chars": 6
+   },
+   "axis1": {
+    "top1": 0.1706,
+    "n": 63
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "find|hit|mutated",
+   "sig": "find",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 38,
+   "n_images": 6,
+   "coverage_pairs": 38,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0263,
+    "prefix_containment": 0.0526,
+    "stat": 0.0789
+   },
+   "axis2p": {
+    "history_containment": 0.1003,
+    "stat": 0.1003
+   },
+   "axis3": {
+    "exact_match": 0.0263,
+    "determined_coverage": 0.0263,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0789,
+    "median_output_chars": 107
+   },
+   "axis1": {
+    "top1": 0.375,
+    "n": 38
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0263
+  },
+  {
+   "cell": "find|hit|native",
+   "sig": "find",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 238,
+   "n_images": 6,
+   "coverage_pairs": 238,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0323,
+    "prefix_containment": 0.0252,
+    "stat": 0.0575
+   },
+   "axis2p": {
+    "history_containment": 0.0407,
+    "stat": 0.0407
+   },
+   "axis3": {
+    "exact_match": 0.0084,
+    "determined_coverage": 0.0084,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 2
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0462,
+    "median_output_chars": 65
+   },
+   "axis1": {
+    "top1": 0.3792,
+    "n": 238
+   },
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0084
+  },
+  {
+   "cell": "find|miss|mutated",
+   "sig": "find",
+   "mode": "miss",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 8,
+   "n_images": 5,
+   "coverage_pairs": 8,
    "under_floor": true,
    "axis2": {
     "output_containment": 0.0,
@@ -968,10 +1033,53 @@
    },
    "axis1": {
     "top1": null,
-    "n": 22
+    "n": 8
    },
    "class": "under-floor",
    "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "find|miss|native",
+   "sig": "find",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 63,
+   "n_images": 6,
+   "coverage_pairs": 63,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0159,
+    "stat": 0.0159
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.3571,
+    "n": 63
+   },
+   "class": "ack",
+   "precedence_rule": 2,
    "tracker_top1": null
   },
   {
@@ -980,9 +1088,9 @@
    "mode": "hit",
    "state_scope": "created",
    "ws_observed": true,
-   "n": 3,
-   "n_images": 2,
-   "coverage_pairs": 3,
+   "n": 14,
+   "n_images": 6,
+   "coverage_pairs": 14,
    "under_floor": true,
    "axis2": {
     "output_containment": 1.0,
@@ -997,7 +1105,7 @@
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 3
+    "n_determined": 14
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1006,12 +1114,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.3333,
-    "median_output_chars": 6
+    "success_dup": 0.1429,
+    "median_output_chars": 4
    },
    "axis1": {
     "top1": null,
-    "n": 3
+    "n": 14
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -1023,24 +1131,24 @@
    "mode": "hit",
    "state_scope": "mutated",
    "ws_observed": null,
-   "n": 33,
-   "n_images": 4,
-   "coverage_pairs": 33,
+   "n": 70,
+   "n_images": 6,
+   "coverage_pairs": 70,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.2524,
+    "output_containment": 0.215,
     "prefix_containment": 0.0,
-    "stat": 0.2524
+    "stat": 0.215
    },
    "axis2p": {
-    "history_containment": 0.9273,
-    "stat": 0.9273
+    "history_containment": 0.8265,
+    "stat": 0.8265
    },
    "axis3": {
-    "exact_match": 0.0303,
-    "determined_coverage": 0.0303,
+    "exact_match": 0.0429,
+    "determined_coverage": 0.0429,
     "accuracy_on_determined": 1.0,
-    "n_determined": 1
+    "n_determined": 3
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1049,16 +1157,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0909,
-    "median_output_chars": 28
+    "success_dup": 0.0429,
+    "median_output_chars": 38
    },
    "axis1": {
-    "top1": 0.1818,
-    "n": 33
+    "top1": 0.2821,
+    "n": 70
    },
-   "class": "semi-echo",
-   "precedence_rule": 1,
-   "tracker_top1": null
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0429
   },
   {
    "cell": "grep|hit|native",
@@ -1066,24 +1174,24 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 49,
-   "n_images": 4,
-   "coverage_pairs": 49,
+   "n": 147,
+   "n_images": 6,
+   "coverage_pairs": 147,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.181,
+    "output_containment": 0.2121,
     "prefix_containment": 0.0,
-    "stat": 0.181
+    "stat": 0.2121
    },
    "axis2p": {
-    "history_containment": 0.8469,
-    "stat": 0.8469
+    "history_containment": 0.8391,
+    "stat": 0.8391
    },
    "axis3": {
-    "exact_match": 0.3878,
-    "determined_coverage": 0.3878,
+    "exact_match": 0.4626,
+    "determined_coverage": 0.4626,
     "accuracy_on_determined": 1.0,
-    "n_determined": 19
+    "n_determined": 68
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1092,16 +1200,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0612,
-    "median_output_chars": 32
+    "success_dup": 0.034,
+    "median_output_chars": 43
    },
    "axis1": {
-    "top1": 0.25,
-    "n": 49
+    "top1": 0.352,
+    "n": 147
    },
-   "class": "semi-echo",
-   "precedence_rule": 1,
-   "tracker_top1": null
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.4626
   },
   {
    "cell": "grep|miss|native",
@@ -1109,9 +1217,9 @@
    "mode": "miss",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 84,
-   "n_images": 4,
-   "coverage_pairs": 84,
+   "n": 175,
+   "n_images": 6,
+   "coverage_pairs": 175,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -1123,8 +1231,8 @@
     "stat": 0.0
    },
    "axis3": {
-    "exact_match": 0.0119,
-    "determined_coverage": 0.0119,
+    "exact_match": 0.0057,
+    "determined_coverage": 0.0057,
     "accuracy_on_determined": 1.0,
     "n_determined": 1
    },
@@ -1139,8 +1247,8 @@
     "median_output_chars": 0
    },
    "axis1": {
-    "top1": 0.1429,
-    "n": 84
+    "top1": 0.1743,
+    "n": 175
    },
    "class": "ack",
    "precedence_rule": 2,
@@ -1195,22 +1303,22 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 167,
-   "n_images": 4,
-   "coverage_pairs": 167,
+   "n": 352,
+   "n_images": 6,
+   "coverage_pairs": 352,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.0048,
+    "output_containment": 0.006,
     "prefix_containment": 0.0,
-    "stat": 0.0048
+    "stat": 0.006
    },
    "axis2p": {
-    "history_containment": 0.2354,
-    "stat": 0.2354
+    "history_containment": 0.2333,
+    "stat": 0.2333
    },
    "axis3": {
-    "exact_match": 0.006,
-    "determined_coverage": 0.006,
+    "exact_match": 0.0028,
+    "determined_coverage": 0.0028,
     "accuracy_on_determined": 1.0,
     "n_determined": 1
    },
@@ -1221,16 +1329,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0539,
+    "success_dup": 0.0455,
     "median_output_chars": 156
    },
    "axis1": {
-    "top1": 0.3937,
-    "n": 167
+    "top1": 0.5057,
+    "n": 352
    },
    "class": "content",
    "precedence_rule": 6,
-   "tracker_top1": 0.006
+   "tracker_top1": 0.0028
   },
   {
    "cell": "kill|miss|native",
@@ -1281,9 +1389,9 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 93,
-   "n_images": 4,
-   "coverage_pairs": 93,
+   "n": 215,
+   "n_images": 6,
+   "coverage_pairs": 215,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -1295,10 +1403,10 @@
     "stat": 0.0
    },
    "axis3": {
-    "exact_match": 0.2688,
-    "determined_coverage": 0.2688,
+    "exact_match": 0.2233,
+    "determined_coverage": 0.2233,
     "accuracy_on_determined": 1.0,
-    "n_determined": 25
+    "n_determined": 48
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1311,8 +1419,8 @@
     "median_output_chars": 0
    },
    "axis1": {
-    "top1": 0.328,
-    "n": 93
+    "top1": 0.3419,
+    "n": 215
    },
    "class": "ack",
    "precedence_rule": 2,
@@ -1324,9 +1432,9 @@
    "mode": "hit",
    "state_scope": "created",
    "ws_observed": false,
-   "n": 30,
-   "n_images": 4,
-   "coverage_pairs": 30,
+   "n": 77,
+   "n_images": 6,
+   "coverage_pairs": 77,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -1334,14 +1442,14 @@
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.5833,
-    "stat": 0.5833
+    "history_containment": 0.6623,
+    "stat": 0.6623
    },
    "axis3": {
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 30
+    "n_determined": 77
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1354,8 +1462,8 @@
     "median_output_chars": 4
    },
    "axis1": {
-    "top1": 0.3,
-    "n": 30
+    "top1": 0.3214,
+    "n": 77
    },
    "class": "ack",
    "precedence_rule": 2,
@@ -1367,24 +1475,24 @@
    "mode": "hit",
    "state_scope": "mutated",
    "ws_observed": null,
-   "n": 200,
-   "n_images": 4,
-   "coverage_pairs": 200,
+   "n": 413,
+   "n_images": 6,
+   "coverage_pairs": 413,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
+    "prefix_containment": 0.0024,
+    "stat": 0.0024
    },
    "axis2p": {
-    "history_containment": 0.4389,
-    "stat": 0.4389
+    "history_containment": 0.4379,
+    "stat": 0.4379
    },
    "axis3": {
-    "exact_match": 0.235,
-    "determined_coverage": 0.235,
+    "exact_match": 0.2421,
+    "determined_coverage": 0.2421,
     "accuracy_on_determined": 1.0,
-    "n_determined": 47
+    "n_determined": 100
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1393,16 +1501,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.025,
-    "median_output_chars": 79
+    "success_dup": 0.0242,
+    "median_output_chars": 65
    },
    "axis1": {
-    "top1": 0.1,
-    "n": 200
+    "top1": 0.1168,
+    "n": 413
    },
    "class": "content",
    "precedence_rule": 6,
-   "tracker_top1": 0.235
+   "tracker_top1": 0.2421
   },
   {
    "cell": "ls|hit|native",
@@ -1410,24 +1518,24 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 740,
-   "n_images": 4,
-   "coverage_pairs": 740,
+   "n": 1672,
+   "n_images": 6,
+   "coverage_pairs": 1672,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.0047,
+    "output_containment": 0.0039,
     "prefix_containment": 0.0,
-    "stat": 0.0047
+    "stat": 0.0039
    },
    "axis2p": {
-    "history_containment": 0.2235,
-    "stat": 0.2235
+    "history_containment": 0.2381,
+    "stat": 0.2381
    },
    "axis3": {
-    "exact_match": 0.0284,
-    "determined_coverage": 0.0284,
+    "exact_match": 0.0353,
+    "determined_coverage": 0.0353,
     "accuracy_on_determined": 1.0,
-    "n_determined": 21
+    "n_determined": 59
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1436,16 +1544,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0554,
-    "median_output_chars": 120
+    "success_dup": 0.0538,
+    "median_output_chars": 124
    },
    "axis1": {
-    "top1": 0.3561,
-    "n": 740
+    "top1": 0.3478,
+    "n": 1672
    },
    "class": "content",
    "precedence_rule": 6,
-   "tracker_top1": 0.0284
+   "tracker_top1": 0.0353
   },
   {
    "cell": "ls|miss|created",
@@ -1453,9 +1561,9 @@
    "mode": "miss",
    "state_scope": "created",
    "ws_observed": false,
-   "n": 12,
-   "n_images": 4,
-   "coverage_pairs": 12,
+   "n": 27,
+   "n_images": 6,
+   "coverage_pairs": 27,
    "under_floor": true,
    "axis2": {
     "output_containment": 0.0,
@@ -1470,179 +1578,7 @@
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 12
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 12
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "ls|miss|native",
-   "sig": "ls",
-   "mode": "miss",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 24,
-   "n_images": 4,
-   "coverage_pairs": 24,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.0417,
-    "determined_coverage": 0.0417,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 1
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 24
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "mkdir|ok|native",
-   "sig": "mkdir",
-   "mode": "ok",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 42,
-   "n_images": 4,
-   "coverage_pairs": 42,
-   "under_floor": false,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.1667,
-    "determined_coverage": 0.1667,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 7
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": 0.4524,
-    "n": 42
-   },
-   "class": "ack",
-   "precedence_rule": 2,
-   "tracker_top1": null
-  },
-  {
-   "cell": "mv|miss|native",
-   "sig": "mv",
-   "mode": "miss",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 1,
-   "n_images": 1,
-   "coverage_pairs": 0,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.125,
-    "prefix_containment": 0.0,
-    "stat": 0.125
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.0,
-    "determined_coverage": 0.0,
-    "accuracy_on_determined": null,
-    "n_determined": 0
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 50
-   },
-   "axis1": {
-    "top1": null,
-    "n": 1
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "mv|ok|created",
-   "sig": "mv",
-   "mode": "ok",
-   "state_scope": "created",
-   "ws_observed": false,
-   "n": 27,
-   "n_images": 4,
-   "coverage_pairs": 27,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.2963,
-    "determined_coverage": 0.2963,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 8
+    "n_determined": 27
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1663,15 +1599,58 @@
    "tracker_top1": null
   },
   {
-   "cell": "mv|ok|mutated",
-   "sig": "mv",
-   "mode": "ok",
+   "cell": "ls|miss|mutated",
+   "sig": "ls",
+   "mode": "miss",
    "state_scope": "mutated",
    "ws_observed": null,
-   "n": 8,
-   "n_images": 4,
-   "coverage_pairs": 8,
+   "n": 1,
+   "n_images": 1,
+   "coverage_pairs": 0,
    "under_floor": true,
+   "axis2": {
+    "output_containment": 0.1,
+    "prefix_containment": 0.0,
+    "stat": 0.1
+   },
+   "axis2p": {
+    "history_containment": 0.2,
+    "stat": 0.2
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 56
+   },
+   "axis1": {
+    "top1": null,
+    "n": 1
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "ls|miss|native",
+   "sig": "ls",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 51,
+   "n_images": 6,
+   "coverage_pairs": 51,
+   "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
@@ -1680,6 +1659,92 @@
    "axis2p": {
     "history_containment": 0.0,
     "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0196,
+    "determined_coverage": 0.0196,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.0931,
+    "n": 51
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mkdir|ok|native",
+   "sig": "mkdir",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 105,
+   "n_images": 6,
+   "coverage_pairs": 105,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.1905,
+    "determined_coverage": 0.1905,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 20
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.4,
+    "n": 105
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mv|miss|native",
+   "sig": "mv",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 2,
+   "n_images": 2,
+   "coverage_pairs": 2,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.125,
+    "prefix_containment": 0.0,
+    "stat": 0.125
+   },
+   "axis2p": {
+    "history_containment": 0.0625,
+    "stat": 0.0625
    },
    "axis3": {
     "exact_match": 0.0,
@@ -1695,11 +1760,97 @@
    },
    "ack": {
     "success_dup": 1.0,
+    "median_output_chars": 50
+   },
+   "axis1": {
+    "top1": null,
+    "n": 2
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mv|ok|created",
+   "sig": "mv",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 58,
+   "n_images": 6,
+   "coverage_pairs": 58,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.3276,
+    "determined_coverage": 0.3276,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 19
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.1897,
+    "n": 58
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "mv|ok|mutated",
+   "sig": "mv",
+   "mode": "ok",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 19,
+   "n_images": 6,
+   "coverage_pairs": 19,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.1579,
+    "determined_coverage": 0.1579,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 3
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
     "median_output_chars": 0
    },
    "axis1": {
     "top1": null,
-    "n": 8
+    "n": 19
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -1711,9 +1862,9 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 100,
-   "n_images": 4,
-   "coverage_pairs": 100,
+   "n": 206,
+   "n_images": 6,
+   "coverage_pairs": 206,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -1725,10 +1876,10 @@
     "stat": 0.0
    },
    "axis3": {
-    "exact_match": 0.09,
-    "determined_coverage": 0.09,
+    "exact_match": 0.0583,
+    "determined_coverage": 0.0583,
     "accuracy_on_determined": 1.0,
-    "n_determined": 9
+    "n_determined": 12
    },
    "axis4": {
     "ceiling": 1.0,
@@ -1741,31 +1892,31 @@
     "median_output_chars": 0
    },
    "axis1": {
-    "top1": 0.355,
-    "n": 100
+    "top1": 0.2998,
+    "n": 206
    },
    "class": "ack",
    "precedence_rule": 2,
    "tracker_top1": null
   },
   {
-   "cell": "pipe:cat|grep|miss|native",
+   "cell": "pipe:cat|grep|hit|native",
    "sig": "pipe:cat|grep",
-   "mode": "miss",
+   "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 8,
-   "n_images": 3,
-   "coverage_pairs": 8,
+   "n": 2,
+   "n_images": 2,
+   "coverage_pairs": 2,
    "under_floor": true,
    "axis2": {
-    "output_containment": 0.0,
+    "output_containment": 0.5294,
     "prefix_containment": 0.0,
-    "stat": 0.0
+    "stat": 0.5294
    },
    "axis2p": {
-    "history_containment": 0.0875,
-    "stat": 0.0875
+    "history_containment": 1.0,
+    "stat": 1.0
    },
    "axis3": {
     "exact_match": 0.0,
@@ -1780,12 +1931,55 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.625,
+    "success_dup": 0.5,
+    "median_output_chars": 92
+   },
+   "axis1": {
+    "top1": null,
+    "n": 2
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "pipe:cat|grep|miss|native",
+   "sig": "pipe:cat|grep",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 29,
+   "n_images": 6,
+   "coverage_pairs": 29,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0057,
+    "prefix_containment": 0.0,
+    "stat": 0.0057
+   },
+   "axis2p": {
+    "history_containment": 0.1667,
+    "stat": 0.1667
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.5862,
     "median_output_chars": 0
    },
    "axis1": {
     "top1": null,
-    "n": 8
+    "n": 29
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -1797,18 +1991,18 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 13,
-   "n_images": 4,
-   "coverage_pairs": 13,
+   "n": 26,
+   "n_images": 6,
+   "coverage_pairs": 26,
    "under_floor": true,
    "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0769,
-    "stat": 0.0769
+    "output_containment": 0.0021,
+    "prefix_containment": 0.0385,
+    "stat": 0.0406
    },
    "axis2p": {
-    "history_containment": 0.3141,
-    "stat": 0.3141
+    "history_containment": 0.3158,
+    "stat": 0.3158
    },
    "axis3": {
     "exact_match": 0.0,
@@ -1823,12 +2017,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.3077,
-    "median_output_chars": 58
+    "success_dup": 0.1538,
+    "median_output_chars": 102
    },
    "axis1": {
     "top1": null,
-    "n": 13
+    "n": 26
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -1840,18 +2034,18 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 15,
-   "n_images": 4,
-   "coverage_pairs": 15,
-   "under_floor": true,
+   "n": 30,
+   "n_images": 6,
+   "coverage_pairs": 30,
+   "under_floor": false,
    "axis2": {
-    "output_containment": 0.0013,
+    "output_containment": 0.0038,
     "prefix_containment": 0.0,
-    "stat": 0.0013
+    "stat": 0.0038
    },
    "axis2p": {
-    "history_containment": 0.3999,
-    "stat": 0.3999
+    "history_containment": 0.3483,
+    "stat": 0.3483
    },
    "axis3": {
     "exact_match": 0.0,
@@ -1866,16 +2060,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.2667,
-    "median_output_chars": 129
+    "success_dup": 0.2,
+    "median_output_chars": 90
    },
    "axis1": {
-    "top1": null,
-    "n": 15
+    "top1": 0.2083,
+    "n": 30
    },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0
   },
   {
    "cell": "pipe:ls|grep|miss|native",
@@ -1883,10 +2077,10 @@
    "mode": "miss",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 14,
-   "n_images": 4,
-   "coverage_pairs": 14,
-   "under_floor": true,
+   "n": 35,
+   "n_images": 6,
+   "coverage_pairs": 35,
+   "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
@@ -1913,11 +2107,11 @@
     "median_output_chars": 0
    },
    "axis1": {
-    "top1": null,
-    "n": 14
+    "top1": 0.0857,
+    "n": 35
    },
-   "class": "under-floor",
-   "precedence_rule": null,
+   "class": "ack",
+   "precedence_rule": 2,
    "tracker_top1": null
   },
   {
@@ -1926,22 +2120,22 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 18,
-   "n_images": 4,
-   "coverage_pairs": 18,
-   "under_floor": true,
+   "n": 38,
+   "n_images": 6,
+   "coverage_pairs": 38,
+   "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.1222,
-    "stat": 0.1222
+    "history_containment": 0.093,
+    "stat": 0.093
    },
    "axis3": {
-    "exact_match": 0.0556,
-    "determined_coverage": 0.0556,
+    "exact_match": 0.0263,
+    "determined_coverage": 0.0263,
     "accuracy_on_determined": 1.0,
     "n_determined": 1
    },
@@ -1953,15 +2147,15 @@
    },
    "ack": {
     "success_dup": 0.5,
-    "median_output_chars": 2
+    "median_output_chars": 1
    },
    "axis1": {
-    "top1": null,
-    "n": 18
+    "top1": 0.2434,
+    "n": 38
    },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0263
   },
   {
    "cell": "pipe:ls|tail|ok|native",
@@ -1969,22 +2163,22 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 18,
-   "n_images": 4,
-   "coverage_pairs": 18,
-   "under_floor": true,
+   "n": 36,
+   "n_images": 6,
+   "coverage_pairs": 36,
+   "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.1296,
-    "stat": 0.1296
+    "history_containment": 0.1111,
+    "stat": 0.1111
    },
    "axis3": {
-    "exact_match": 0.0556,
-    "determined_coverage": 0.0556,
+    "exact_match": 0.0278,
+    "determined_coverage": 0.0278,
     "accuracy_on_determined": 1.0,
     "n_determined": 1
    },
@@ -1995,16 +2189,16 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.4444,
-    "median_output_chars": 5
+    "success_dup": 0.2778,
+    "median_output_chars": 18
    },
    "axis1": {
-    "top1": null,
-    "n": 18
+    "top1": 0.1389,
+    "n": 36
    },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
+   "class": "content",
+   "precedence_rule": 6,
+   "tracker_top1": 0.0278
   },
   {
    "cell": "ps|hit|native",
@@ -2012,9 +2206,9 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 54,
-   "n_images": 4,
-   "coverage_pairs": 54,
+   "n": 133,
+   "n_images": 6,
+   "coverage_pairs": 133,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -2022,14 +2216,14 @@
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.3848,
-    "stat": 0.3848
+    "history_containment": 0.3709,
+    "stat": 0.3709
    },
    "axis3": {
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 54
+    "n_determined": 133
    },
    "axis4": {
     "ceiling": 1.0,
@@ -2042,8 +2236,8 @@
     "median_output_chars": 54
    },
    "axis1": {
-    "top1": 0.0556,
-    "n": 54
+    "top1": 0.0263,
+    "n": 133
    },
    "class": "sim",
    "precedence_rule": 4,
@@ -2055,9 +2249,9 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 112,
-   "n_images": 4,
-   "coverage_pairs": 112,
+   "n": 227,
+   "n_images": 6,
+   "coverage_pairs": 227,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -2065,14 +2259,14 @@
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.5536,
-    "stat": 0.5536
+    "history_containment": 0.6211,
+    "stat": 0.6211
    },
    "axis3": {
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 112
+    "n_determined": 227
    },
    "axis4": {
     "ceiling": 1.0,
@@ -2081,12 +2275,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.5536,
-    "median_output_chars": 1
+    "success_dup": 0.4978,
+    "median_output_chars": 4
    },
    "axis1": {
-    "top1": 0.5536,
-    "n": 112
+    "top1": 0.4978,
+    "n": 227
    },
    "class": "sim",
    "precedence_rule": 4,
@@ -2098,138 +2292,9 @@
    "mode": "hit",
    "state_scope": "created",
    "ws_observed": false,
-   "n": 14,
-   "n_images": 4,
-   "coverage_pairs": 14,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 1.0,
-    "stat": 1.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 14
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 0.1429,
-    "median_output_chars": 16
-   },
-   "axis1": {
-    "top1": null,
-    "n": 14
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "readlink|hit|created-obs",
-   "sig": "readlink",
-   "mode": "hit",
-   "state_scope": "created",
-   "ws_observed": true,
-   "n": 12,
-   "n_images": 4,
-   "coverage_pairs": 12,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 1.0,
-    "stat": 1.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 12
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 0.1667,
-    "median_output_chars": 16
-   },
-   "axis1": {
-    "top1": null,
-    "n": 12
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "readlink|hit|mutated",
-   "sig": "readlink",
-   "mode": "hit",
-   "state_scope": "mutated",
-   "ws_observed": null,
-   "n": 15,
-   "n_images": 4,
-   "coverage_pairs": 15,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 1.0,
-    "stat": 1.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 15
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 0.3333,
-    "median_output_chars": 12
-   },
-   "axis1": {
-    "top1": null,
-    "n": 15
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "readlink|hit|native",
-   "sig": "readlink",
-   "mode": "hit",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 40,
-   "n_images": 4,
-   "coverage_pairs": 40,
+   "n": 36,
+   "n_images": 6,
+   "coverage_pairs": 36,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -2244,7 +2309,7 @@
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 40
+    "n_determined": 36
    },
    "axis4": {
     "ceiling": 1.0,
@@ -2253,12 +2318,141 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.05,
-    "median_output_chars": 36
+    "success_dup": 0.1111,
+    "median_output_chars": 16
    },
    "axis1": {
-    "top1": 0.0562,
-    "n": 40
+    "top1": 0.0,
+    "n": 36
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|hit|created-obs",
+   "sig": "readlink",
+   "mode": "hit",
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 34,
+   "n_images": 6,
+   "coverage_pairs": 34,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 34
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0882,
+    "median_output_chars": 17
+   },
+   "axis1": {
+    "top1": 0.0588,
+    "n": 34
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|hit|mutated",
+   "sig": "readlink",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 36,
+   "n_images": 6,
+   "coverage_pairs": 36,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 36
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.3889,
+    "median_output_chars": 12
+   },
+   "axis1": {
+    "top1": 0.125,
+    "n": 36
+   },
+   "class": "semi-echo",
+   "precedence_rule": 1,
+   "tracker_top1": null
+  },
+  {
+   "cell": "readlink|hit|native",
+   "sig": "readlink",
+   "mode": "hit",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 81,
+   "n_images": 6,
+   "coverage_pairs": 81,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 1.0,
+    "stat": 1.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 81
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.0247,
+    "median_output_chars": 37
+   },
+   "axis1": {
+    "top1": 0.0278,
+    "n": 81
    },
    "class": "semi-echo",
    "precedence_rule": 1,
@@ -2270,352 +2464,8 @@
    "mode": "miss",
    "state_scope": "mutated",
    "ws_observed": null,
-   "n": 5,
-   "n_images": 3,
-   "coverage_pairs": 5,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 5
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 5
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "redir:echo>|ok|created-obs",
-   "sig": "redir:echo>",
-   "mode": "ok",
-   "state_scope": "created",
-   "ws_observed": true,
-   "n": 17,
-   "n_images": 4,
-   "coverage_pairs": 17,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 17
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 17
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "redir:echo>|ok|mutated",
-   "sig": "redir:echo>",
-   "mode": "ok",
-   "state_scope": "mutated",
-   "ws_observed": null,
-   "n": 1,
-   "n_images": 1,
-   "coverage_pairs": 0,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.0,
-    "determined_coverage": 0.0,
-    "accuracy_on_determined": null,
-    "n_determined": 0
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 1
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "redir:echo>|ok|native",
-   "sig": "redir:echo>",
-   "mode": "ok",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 117,
-   "n_images": 4,
-   "coverage_pairs": 117,
-   "under_floor": false,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 117
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": 0.3526,
-    "n": 117
-   },
-   "class": "ack",
-   "precedence_rule": 2,
-   "tracker_top1": null
-  },
-  {
-   "cell": "redir:prod>|ok|native",
-   "sig": "redir:prod>",
-   "mode": "ok",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 125,
-   "n_images": 4,
-   "coverage_pairs": 125,
-   "under_floor": false,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.0,
-    "determined_coverage": 0.0,
-    "accuracy_on_determined": null,
-    "n_determined": 0
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": 0.328,
-    "n": 125
-   },
-   "class": "ack",
-   "precedence_rule": 2,
-   "tracker_top1": null
-  },
-  {
-   "cell": "rm|miss|native",
-   "sig": "rm",
-   "mode": "miss",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 2,
-   "n_images": 1,
-   "coverage_pairs": 0,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.125,
-    "prefix_containment": 0.0,
-    "stat": 0.125
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.0,
-    "determined_coverage": 0.0,
-    "accuracy_on_determined": null,
-    "n_determined": 0
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 0.5,
-    "median_output_chars": 47
-   },
-   "axis1": {
-    "top1": null,
-    "n": 2
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "rm|ok|created",
-   "sig": "rm",
-   "mode": "ok",
-   "state_scope": "created",
-   "ws_observed": false,
-   "n": 26,
-   "n_images": 4,
-   "coverage_pairs": 26,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 26
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 26
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "rm|ok|created-obs",
-   "sig": "rm",
-   "mode": "ok",
-   "state_scope": "created",
-   "ws_observed": true,
-   "n": 18,
-   "n_images": 4,
-   "coverage_pairs": 18,
-   "under_floor": true,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 1.0,
-    "determined_coverage": 1.0,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 18
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": null,
-    "n": 18
-   },
-   "class": "under-floor",
-   "precedence_rule": null,
-   "tracker_top1": null
-  },
-  {
-   "cell": "rm|ok|mutated",
-   "sig": "rm",
-   "mode": "ok",
-   "state_scope": "mutated",
-   "ws_observed": null,
    "n": 13,
-   "n_images": 4,
+   "n_images": 5,
    "coverage_pairs": 13,
    "under_floor": true,
    "axis2": {
@@ -2652,58 +2502,15 @@
    "tracker_top1": null
   },
   {
-   "cell": "rm|ok|native",
-   "sig": "rm",
+   "cell": "redir:echo>|ok|created-obs",
+   "sig": "redir:echo>",
    "mode": "ok",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 107,
-   "n_images": 4,
-   "coverage_pairs": 107,
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 42,
+   "n_images": 6,
+   "coverage_pairs": 42,
    "under_floor": false,
-   "axis2": {
-    "output_containment": 0.0,
-    "prefix_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis2p": {
-    "history_containment": 0.0,
-    "stat": 0.0
-   },
-   "axis3": {
-    "exact_match": 0.0187,
-    "determined_coverage": 0.0187,
-    "accuracy_on_determined": 1.0,
-    "n_determined": 2
-   },
-   "axis4": {
-    "ceiling": 1.0,
-    "flip_rate": null,
-    "n_aligned": 0,
-    "measured": false
-   },
-   "ack": {
-    "success_dup": 1.0,
-    "median_output_chars": 0
-   },
-   "axis1": {
-    "top1": 0.1542,
-    "n": 107
-   },
-   "class": "ack",
-   "precedence_rule": 2,
-   "tracker_top1": null
-  },
-  {
-   "cell": "sleep|ok|native",
-   "sig": "sleep",
-   "mode": "ok",
-   "state_scope": "native",
-   "ws_observed": null,
-   "n": 7,
-   "n_images": 4,
-   "coverage_pairs": 7,
-   "under_floor": true,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
@@ -2717,7 +2524,50 @@
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 7
+    "n_determined": 42
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.2857,
+    "n": 42
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "redir:echo>|ok|mutated",
+   "sig": "redir:echo>",
+   "mode": "ok",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 7,
+   "n_images": 2,
+   "coverage_pairs": 7,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.2857,
+    "determined_coverage": 0.2857,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 2
    },
    "axis4": {
     "ceiling": 1.0,
@@ -2738,23 +2588,109 @@
    "tracker_top1": null
   },
   {
-   "cell": "stat|hit|mutated",
-   "sig": "stat",
-   "mode": "hit",
-   "state_scope": "mutated",
+   "cell": "redir:echo>|ok|native",
+   "sig": "redir:echo>",
+   "mode": "ok",
+   "state_scope": "native",
    "ws_observed": null,
-   "n": 2,
-   "n_images": 2,
-   "coverage_pairs": 2,
-   "under_floor": true,
+   "n": 263,
+   "n_images": 6,
+   "coverage_pairs": 263,
+   "under_floor": false,
    "axis2": {
-    "output_containment": 0.225,
+    "output_containment": 0.0,
     "prefix_containment": 0.0,
-    "stat": 0.225
+    "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.35,
-    "stat": 0.35
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 263
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.3916,
+    "n": 263
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "redir:prod>|ok|native",
+   "sig": "redir:prod>",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 250,
+   "n_images": 6,
+   "coverage_pairs": 250,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.004,
+    "determined_coverage": 0.004,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 1
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.312,
+    "n": 250
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|miss|native",
+   "sig": "rm",
+   "mode": "miss",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 3,
+   "n_images": 2,
+   "coverage_pairs": 3,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.1204,
+    "prefix_containment": 0.0,
+    "stat": 0.1204
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
    },
    "axis3": {
     "exact_match": 0.0,
@@ -2769,12 +2705,270 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.5,
+    "success_dup": 0.3333,
+    "median_output_chars": 50
+   },
+   "axis1": {
+    "top1": null,
+    "n": 3
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|created",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": false,
+   "n": 63,
+   "n_images": 6,
+   "coverage_pairs": 63,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 63
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.246,
+    "n": 63
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|created-obs",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "created",
+   "ws_observed": true,
+   "n": 45,
+   "n_images": 6,
+   "coverage_pairs": 45,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 45
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.3222,
+    "n": 45
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|mutated",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 29,
+   "n_images": 6,
+   "coverage_pairs": 29,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.8966,
+    "determined_coverage": 0.8966,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 26
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 29
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "rm|ok|native",
+   "sig": "rm",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 229,
+   "n_images": 6,
+   "coverage_pairs": 229,
+   "under_floor": false,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 0.0175,
+    "determined_coverage": 0.0175,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 4
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": 0.1932,
+    "n": 229
+   },
+   "class": "ack",
+   "precedence_rule": 2,
+   "tracker_top1": null
+  },
+  {
+   "cell": "sleep|ok|native",
+   "sig": "sleep",
+   "mode": "ok",
+   "state_scope": "native",
+   "ws_observed": null,
+   "n": 16,
+   "n_images": 6,
+   "coverage_pairs": 16,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.0,
+    "prefix_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis2p": {
+    "history_containment": 0.0,
+    "stat": 0.0
+   },
+   "axis3": {
+    "exact_match": 1.0,
+    "determined_coverage": 1.0,
+    "accuracy_on_determined": 1.0,
+    "n_determined": 16
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 1.0,
+    "median_output_chars": 0
+   },
+   "axis1": {
+    "top1": null,
+    "n": 16
+   },
+   "class": "under-floor",
+   "precedence_rule": null,
+   "tracker_top1": null
+  },
+  {
+   "cell": "stat|hit|mutated",
+   "sig": "stat",
+   "mode": "hit",
+   "state_scope": "mutated",
+   "ws_observed": null,
+   "n": 3,
+   "n_images": 3,
+   "coverage_pairs": 3,
+   "under_floor": true,
+   "axis2": {
+    "output_containment": 0.2167,
+    "prefix_containment": 0.0,
+    "stat": 0.2167
+   },
+   "axis2p": {
+    "history_containment": 0.3667,
+    "stat": 0.3667
+   },
+   "axis3": {
+    "exact_match": 0.0,
+    "determined_coverage": 0.0,
+    "accuracy_on_determined": null,
+    "n_determined": 0
+   },
+   "axis4": {
+    "ceiling": 1.0,
+    "flip_rate": null,
+    "n_aligned": 0,
+    "measured": false
+   },
+   "ack": {
+    "success_dup": 0.3333,
     "median_output_chars": 30
    },
    "axis1": {
     "top1": null,
-    "n": 2
+    "n": 3
    },
    "class": "under-floor",
    "precedence_rule": null,
@@ -2786,18 +2980,18 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 136,
-   "n_images": 4,
-   "coverage_pairs": 136,
+   "n": 323,
+   "n_images": 6,
+   "coverage_pairs": 323,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.2183,
-    "prefix_containment": 0.0074,
-    "stat": 0.2238
+    "output_containment": 0.2208,
+    "prefix_containment": 0.0031,
+    "stat": 0.2232
    },
    "axis2p": {
-    "history_containment": 0.2675,
-    "stat": 0.2675
+    "history_containment": 0.2867,
+    "stat": 0.2867
    },
    "axis3": {
     "exact_match": 0.0,
@@ -2812,12 +3006,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0294,
-    "median_output_chars": 38
+    "success_dup": 0.0155,
+    "median_output_chars": 36
    },
    "axis1": {
-    "top1": 0.3235,
-    "n": 136
+    "top1": 0.4729,
+    "n": 323
    },
    "class": "content",
    "precedence_rule": 6,
@@ -2872,18 +3066,18 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 139,
-   "n_images": 4,
-   "coverage_pairs": 139,
+   "n": 301,
+   "n_images": 6,
+   "coverage_pairs": 301,
    "under_floor": false,
    "axis2": {
-    "output_containment": 0.0068,
+    "output_containment": 0.0058,
     "prefix_containment": 0.0,
-    "stat": 0.0068
+    "stat": 0.0058
    },
    "axis2p": {
-    "history_containment": 0.1673,
-    "stat": 0.1673
+    "history_containment": 0.1688,
+    "stat": 0.1688
    },
    "axis3": {
     "exact_match": 0.0,
@@ -2898,12 +3092,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0576,
-    "median_output_chars": 166
+    "success_dup": 0.0365,
+    "median_output_chars": 152
    },
    "axis1": {
-    "top1": 0.4245,
-    "n": 139
+    "top1": 0.4884,
+    "n": 301
    },
    "class": "content",
    "precedence_rule": 6,
@@ -2915,10 +3109,10 @@
    "mode": "ok",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 29,
-   "n_images": 4,
-   "coverage_pairs": 29,
-   "under_floor": true,
+   "n": 80,
+   "n_images": 6,
+   "coverage_pairs": 80,
+   "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
@@ -2932,7 +3126,7 @@
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 29
+    "n_determined": 80
    },
    "axis4": {
     "ceiling": 1.0,
@@ -2945,11 +3139,11 @@
     "median_output_chars": 0
    },
    "axis1": {
-    "top1": null,
-    "n": 29
+    "top1": 0.5438,
+    "n": 80
    },
-   "class": "under-floor",
-   "precedence_rule": null,
+   "class": "ack",
+   "precedence_rule": 2,
    "tracker_top1": null
   },
   {
@@ -2958,9 +3152,9 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 160,
-   "n_images": 4,
-   "coverage_pairs": 160,
+   "n": 360,
+   "n_images": 6,
+   "coverage_pairs": 360,
    "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
@@ -2984,12 +3178,12 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.2812,
+    "success_dup": 0.2722,
     "median_output_chars": 13
    },
    "axis1": {
-    "top1": 0.7891,
-    "n": 160
+    "top1": 0.8111,
+    "n": 360
    },
    "class": "echo/const",
    "precedence_rule": 3,
@@ -3001,24 +3195,24 @@
    "mode": "hit",
    "state_scope": "native",
    "ws_observed": null,
-   "n": 21,
-   "n_images": 4,
-   "coverage_pairs": 21,
-   "under_floor": true,
+   "n": 39,
+   "n_images": 6,
+   "coverage_pairs": 39,
+   "under_floor": false,
    "axis2": {
     "output_containment": 0.0,
     "prefix_containment": 0.0,
     "stat": 0.0
    },
    "axis2p": {
-    "history_containment": 0.127,
-    "stat": 0.127
+    "history_containment": 0.1368,
+    "stat": 0.1368
    },
    "axis3": {
     "exact_match": 1.0,
     "determined_coverage": 1.0,
     "accuracy_on_determined": 1.0,
-    "n_determined": 21
+    "n_determined": 39
    },
    "axis4": {
     "ceiling": 1.0,
@@ -3027,15 +3221,15 @@
     "measured": false
    },
    "ack": {
-    "success_dup": 0.0952,
+    "success_dup": 0.1282,
     "median_output_chars": 55
    },
    "axis1": {
-    "top1": null,
-    "n": 21
+    "top1": 0.0064,
+    "n": 39
    },
-   "class": "under-floor",
-   "precedence_rule": null,
+   "class": "sim",
+   "precedence_rule": 4,
    "tracker_top1": null
   }
  ],
@@ -3043,5 +3237,228 @@
   "out_of_universe": 0,
   "out_of_universe_ex": [],
   "bad_state_scope": 0
+ },
+ "_freeze_measure": {
+  "step": "v3 CLASS-FREEZE MEASUREMENT (freeze-order step 7)",
+  "scale": "60 seqs/image x 6 images (P3 prereg scale), arm=full, digest-pinned, seed 0",
+  "images": {
+   "alpine:latest": "train (busybox-ash)",
+   "debian:stable-slim": "train (dash)",
+   "node:22-slim": "train (dash)",
+   "redis:7-alpine": "train (busybox-ash, service)",
+   "fedora:latest": "inner-val (bash)",
+   "rockylinux:9": "final-test (bash)"
+  },
+  "axis2p_thresh_applied": 0.96,
+  "encoder": "e5 (enc_e5_base) — JSON 'encoder' field reads 'custom' (lazy-embedder label quirk)",
+  "content_cells_at_0.96": [
+   "cat|hit|created",
+   "cat|hit|mutated",
+   "cat|hit|native",
+   "find|hit|mutated",
+   "find|hit|native",
+   "grep|hit|mutated",
+   "grep|hit|native",
+   "head|hit|native",
+   "ls|hit|mutated",
+   "ls|hit|native",
+   "pipe:cat|tail|ok|native",
+   "pipe:ls|head|ok|native",
+   "pipe:ls|tail|ok|native",
+   "stat|hit|native",
+   "tail|hit|native"
+  ],
+  "post_purge": {
+   "note": "harness _v3_cell_verbs per-step a2p>=0.96 purge applied to content cells",
+   "content_pre_purge": 5602,
+   "purged": 909,
+   "content_post_purge": 4693,
+   "purge_frac_of_pre_content": 0.1623,
+   "purge_frac_of_all_steps": 0.0902,
+   "dg9": {
+    "content_steps_post": 4693,
+    "mut_affected_post": 621,
+    "mut_affected_frac": 0.13232473897293842,
+    "composed_post": 96,
+    "composed_frac": 0.020455998295333476
+   },
+   "gcov_per_verb_split": {
+    "cat": {
+     "train": {
+      "post": 1044,
+      "pre": 1318
+     },
+     "inner": {
+      "post": 246,
+      "pre": 315
+     },
+     "final": {
+      "post": 251,
+      "pre": 311
+     },
+     "total_post": 1541,
+     "total_pre": 1944
+    },
+    "find": {
+     "train": {
+      "post": 172,
+      "pre": 181
+     },
+     "inner": {
+      "post": 42,
+      "pre": 43
+     },
+     "final": {
+      "post": 51,
+      "pre": 52
+     },
+     "total_post": 265,
+     "total_pre": 276
+    },
+    "grep": {
+     "train": {
+      "post": 26,
+      "pre": 139
+     },
+     "inner": {
+      "post": 9,
+      "pre": 34
+     },
+     "final": {
+      "post": 14,
+      "pre": 44
+     },
+     "total_post": 49,
+     "total_pre": 217
+    },
+    "head": {
+     "train": {
+      "post": 227,
+      "pre": 246
+     },
+     "inner": {
+      "post": 54,
+      "pre": 58
+     },
+     "final": {
+      "post": 46,
+      "pre": 48
+     },
+     "total_post": 327,
+     "total_pre": 352
+    },
+    "ls": {
+     "train": {
+      "post": 1230,
+      "pre": 1427
+     },
+     "inner": {
+      "post": 297,
+      "pre": 328
+     },
+     "final": {
+      "post": 295,
+      "pre": 330
+     },
+     "total_post": 1822,
+     "total_pre": 2085
+    },
+    "pipe:cat|tail": {
+     "train": {
+      "post": 19,
+      "pre": 21
+     },
+     "inner": {
+      "post": 4,
+      "pre": 4
+     },
+     "final": {
+      "post": 5,
+      "pre": 5
+     },
+     "total_post": 28,
+     "total_pre": 30
+    },
+    "pipe:ls|head": {
+     "train": {
+      "post": 22,
+      "pre": 25
+     },
+     "inner": {
+      "post": 8,
+      "pre": 8
+     },
+     "final": {
+      "post": 5,
+      "pre": 5
+     },
+     "total_post": 35,
+     "total_pre": 38
+    },
+    "pipe:ls|tail": {
+     "train": {
+      "post": 19,
+      "pre": 22
+     },
+     "inner": {
+      "post": 7,
+      "pre": 7
+     },
+     "final": {
+      "post": 7,
+      "pre": 7
+     },
+     "total_post": 33,
+     "total_pre": 36
+    },
+    "stat": {
+     "train": {
+      "post": 198,
+      "pre": 209
+     },
+     "inner": {
+      "post": 55,
+      "pre": 55
+     },
+     "final": {
+      "post": 59,
+      "pre": 59
+     },
+     "total_post": 312,
+     "total_pre": 323
+    },
+    "tail": {
+     "train": {
+      "post": 188,
+      "pre": 196
+     },
+     "inner": {
+      "post": 47,
+      "pre": 55
+     },
+     "final": {
+      "post": 46,
+      "pre": 50
+     },
+     "total_post": 281,
+     "total_pre": 301
+    }
+   },
+   "cmd_echo_check": {
+    "pre_content_cmd_echo_ge_thresh": 317,
+    "pre_content_cmd_echo_by_cell": {
+     "cat|hit|created": 265,
+     "cat|hit|mutated": 40,
+     "find|hit|native": 5,
+     "grep|hit|mutated": 1,
+     "find|hit|mutated": 1,
+     "grep|hit|native": 3,
+     "cat|hit|native": 2
+    },
+    "post_content_cmd_echo_ge_thresh": 0,
+    "post_content_a2p_ge_thresh": 0
+   }
+  },
+  "consistency_note": "collector does NOT write meta.ws_observed on readback steps (key absent); class_measure recomputes it from the SST (splits created->created-obs), the harness reads meta (absent->blind 'created'). Consistent by subsumption: every created-obs step has a2p=1.0>=0.96 so the harness per-step purge excludes it; harness content pool is consistent-or-stricter than the class table."
  }
 }
