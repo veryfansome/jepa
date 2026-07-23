@@ -145,9 +145,10 @@ class TestFoldLevelPorts(unittest.TestCase):
                      "echo 'x' > /tmp/w/d/../f"):
             M.parse_command(good)
 
-    def test_v16_parent_listing_masks_touched_child_row(self):
-        """F14 (render_canon): a touched dir's own mtime row inside its PARENT's
-        -l listing is masked; untouched sibling rows keep their dates."""
+    def test_v16_parent_listing_masks_every_row(self):
+        """render_canon (§5.5 amendment): the -l mask is UNCONDITIONAL — every row
+        of a parent listing masks (a touched child AND its untouched siblings), so
+        no container-creation mtime survives regardless of the touched set."""
         st = ShellState(mode="collection")
         st.fold(step("mkdir /tmp/w/d"))                      # touches /tmp/w too
         s = step("ls -l /tmp",
@@ -157,7 +158,7 @@ class TestFoldLevelPorts(unittest.TestCase):
         self.assertIsNot(got, s)
         self.assertEqual(got["output"],
                          "drwxr-xr-x 3 root root 4096 Jan  1 00:00 w\n"
-                         "-rw-r--r-- 1 root root   10 Feb  3  2023 other")
+                         "-rw-r--r-- 1 root root   10 Jan  1 00:00 other")
         # a touched FILE's row via the parent listing masks likewise
         st2 = ShellState(mode="collection")
         st2.fold(step("echo 'x_tok' > /tmp/w/f"))

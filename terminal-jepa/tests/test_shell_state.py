@@ -1241,8 +1241,10 @@ def _touched_ws_state():
 
 
 class TestRenderCanon(unittest.TestCase):
-    """Exactly the three render-canon rows of the prereg §3.2 table (draft §5.5),
-    conservative and total; everything else passes through byte-for-byte."""
+    """The render-canon rows of the prereg §3.2 table (draft §5.5 AS AMENDED
+    2026-07-23): uptime/ps fixed-token masks + the UNCONDITIONAL -l date+time mask
+    (moved to store-time in the collector; here it is the defense-in-depth backstop).
+    Total, state-independent; non-ls/uptime/ps steps pass through byte-for-byte."""
 
     def test_uptime_row_masks(self):
         """Row 2 (uptime): wall clock / users / load -> fixed tokens; the
@@ -1292,18 +1294,21 @@ class TestRenderCanon(unittest.TestCase):
                             cwd="/tmp/w"), st)
         self.assertEqual(rel["output"], "drwxr-xr-x 2 root root 4096 Jan  1 00:00 d")
 
-    def test_untouched_mtimes_pass_through(self):
-        """The 'leave raw' row: mtimes of untouched shipped files are image-constant
-        facts — byte-for-byte, same object back."""
+    def test_shipped_file_mtime_masked_unconditionally(self):
+        """§5.5 amendment: after the store-time move the -l mask is UNCONDITIONAL —
+        an untouched shipped-file row is masked too (the collector already produced
+        LS_TIME_TOKEN store-time; canon is a fixed point on that byte-stream)."""
         st = _touched_ws_state()
-        keep = step("ls -l /usr/lib",
-                    "total 24\n-rw-r--r-- 1 root root 1234 Feb  3  2023 libfoo.so")
-        self.assertIs(RC.canon(keep, st), keep)
+        got = RC.canon(step("ls -l /usr/lib",
+                            "total 24\n-rw-r--r-- 1 root root 1234 Feb  3  2023 libfoo.so"),
+                       st)
+        self.assertEqual(got["output"],
+                         "total 24\n-rw-r--r-- 1 root root 1234 Jan  1 00:00 libfoo.so")
 
     def test_runtime_mount_rows(self):
-        """Row 1: the three runtime-mount rows mask inside an untouched /etc
-        listing (other rows keep their dates); a direct -l of a mount masks; a
-        touched /etc masks the whole render instead."""
+        """Every -l row of an /etc listing masks (runtime mounts AND shipped files
+        alike); a direct -l of a mount masks; a symlink ' -> target' row keeps its
+        target, only its time triplet masks."""
         st = _touched_ws_state()
         got = RC.canon(step(
             "ls -la /etc",
@@ -1319,8 +1324,8 @@ class TestRenderCanon(unittest.TestCase):
             "-rw-r--r--. 1 root root  158 Jan  1 00:00 hosts\n"
             "-rw-r--r--  1 root root   13 Jan  1 00:00 hostname\n"
             "-rw-r--r--  1 root root  100 Jan  1 00:00 resolv.conf\n"
-            "-rw-r--r--  1 root root 1234 Jan  5  2024 os-release\n"
-            "lrwxrwxrwx  1 root root   12 Feb  3  2023 mtab -> /proc/mounts")
+            "-rw-r--r--  1 root root 1234 Jan  1 00:00 os-release\n"
+            "lrwxrwxrwx  1 root root   12 Jan  1 00:00 mtab -> /proc/mounts")
         direct = RC.canon(step(
             "ls -l /etc/resolv.conf",
             "-rw-r--r-- 1 root root 100 Jul 20 09:12 /etc/resolv.conf"), st)
@@ -1331,7 +1336,6 @@ class TestRenderCanon(unittest.TestCase):
                             cwd="/etc"), st)
         self.assertEqual(rel["output"],
                          "-rw-r--r-- 1 root root 158 Jan  1 00:00 hosts")
-        # a mutation under /etc beats the names filter: whole render masked
         st_etc = M.ShellState(mode="collection")
         st_etc.fold(step("rm /etc/foo.conf"))
         got = RC.canon(step(
@@ -1340,22 +1344,24 @@ class TestRenderCanon(unittest.TestCase):
         self.assertEqual(got["output"],
                          "-rw-r--r-- 1 root root 1234 Jan  1 00:00 os-release")
 
-    def test_prologue_fire_touched_view(self):
-        """A job due at THIS step fires in its prologue, so its dst counts as
-        touched for the -l mask; a not-yet-due job establishes nothing."""
+    def test_mask_is_state_independent(self):
+        """The -l mask fires the same regardless of the job table / touched set:
+        a due fire and a not-yet-due job both mask the render identically (the
+        store-time move made the render mask independent of tracker state)."""
         st_due = M.ShellState(mode="collection")
         st_due.fold(step("after 1 2 'echo x_tok >> /tmp/w/task1.log' & echo $!", "110"))
         st_due.fold(step("pwd", "/"))
-        self.assertEqual(st_due.vt, 2)                       # fire due exactly now
-        self.assertEqual(st_due.touched, {})                 # ...but not yet folded
+        self.assertEqual(st_due.vt, 2)
         got = RC.canon(step("ls -l /tmp/w",
                             "-rw-r--r-- 1 root root 6 Jul 20 12:02 task1.log"), st_due)
         self.assertEqual(got["output"],
                          "-rw-r--r-- 1 root root 6 Jan  1 00:00 task1.log")
         st_wait = M.ShellState(mode="collection")
         st_wait.fold(step("after 1 2 'echo x_tok >> /tmp/w/task1.log' & echo $!", "110"))
-        keep = step("ls -l /tmp/w", "-rw-r--r-- 1 root root 6 Jul 20 12:02 task1.log")
-        self.assertIs(RC.canon(keep, st_wait), keep)
+        got = RC.canon(step("ls -l /tmp/w",
+                            "-rw-r--r-- 1 root root 6 Jul 20 12:02 task1.log"), st_wait)
+        self.assertEqual(got["output"],
+                         "-rw-r--r-- 1 root root 6 Jan  1 00:00 task1.log")
 
     def test_adversarial_marker_content_not_masked(self):
         """Masking keys on the PARSED COMMAND, never on output content: file content
@@ -1373,9 +1379,9 @@ class TestRenderCanon(unittest.TestCase):
             self.assertIs(RC.canon(keep, st), keep, f"masked through {cmd!r}")
 
     def test_conservative_when_unknown_and_total(self):
-        """TOTAL and conservative: out-of-universe / malformed steps pass through
-        unmasked (never raise); with state=None the state-independent masks still
-        fire but the touched -l mask does not."""
+        """TOTAL: out-of-universe / malformed steps pass through unmasked (never
+        raise); with state=None every mask still fires (the -l mask is now
+        unconditional, so it no longer depends on any tracker state)."""
         st = _touched_ws_state()
         evil = "-rw-r--r-- 1 root root 42 Jul 20 12:00 x"
         for s in (step("curl -s http://x", evil),
@@ -1390,8 +1396,11 @@ class TestRenderCanon(unittest.TestCase):
             None)
         self.assertEqual(got["output"],
                          "00:00:00 up 9,  0 users,  load average: 0.00, 0.00, 0.00")
-        keep = step("ls -l /tmp/w/d", "-rw-r--r-- 1 root root 10 Jul 20 12:01 notes.txt")
-        self.assertIs(RC.canon(keep, None), keep)
+        # the -l mask is unconditional now — it fires even with state=None
+        got = RC.canon(step("ls -l /tmp/w/d",
+                            "-rw-r--r-- 1 root root 10 Jul 20 12:01 notes.txt"), None)
+        self.assertEqual(got["output"],
+                         "-rw-r--r-- 1 root root 10 Jan  1 00:00 notes.txt")
 
     def test_idempotence_and_non_mutation(self):
         """canon(canon(s)) == canon(s) on every masked form; the input step is never

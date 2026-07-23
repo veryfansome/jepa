@@ -2,50 +2,50 @@
 
 Ratified by benchmarks/dockerfs3-design-draft.md §5.5 (mask-placement ruling) and
 frozen against benchmarks/dockerfs3-prereg.md §3.2 (the per-field nondeterminism
-table). This module owns EXACTLY the three render-canon rows of that table:
+table), AS AMENDED by the dated §5.5 amendment (2026-07-23): the `-l`-family
+dir/file mtime mask MOVED from encode-time (here, conditionally) to STORE-time
+(the collector's _V3Session.do). DG-3a diffs the RAW recorded jsonl BEFORE any
+encode, so a conditional render-side mask could not make the stored bytes
+deterministic — and its touched-set scoping missed the dirs (/, /etc, /tmp)
+whose mtimes are set at CONTAINER-CREATION time by unrecorded bootstrap / docker
+bind-mounts. This module owns the render-canon rows of that table:
 
-  1. runtime-mount mtimes (resolv.conf, hostname, hosts) — fresh per container
-     start, so their time fields are masked wherever an `ls -l`-family render
-     shows them (a listing of /etc, or a direct -l render of one of the three);
-  2. wall clock / load / users / cpu TIME — masked to the fixed tokens the draft
+  1. wall clock / load / users / cpu TIME — masked to the fixed tokens the draft
      names (§5.1 uptime: clock -> 00:00:00, users -> 0, load -> 0.00 0.00 0.00;
      §5.4 ps: TIME -> 0:00). In the frozen command universe these fields surface
      only on `uptime` and `tj3-ps` renders;
-  3. parent-dir mtimes of mutated dirs — time fields masked on `-l`-family ls
-     renders whose TARGET is tracker-touched (the whole render: the table row's
-     unit is the render, not the entry).
+  2. `-l`-family ls date+time triplets — masked to LS_TIME_TOKEN on EVERY
+     long-listing row (runtime mounts, mutated dirs, AND image-constant shipped
+     files alike). The collector applies the SAME mask (canon_ls_l_text) store-
+     time; canon() re-applies it here as DEFENSE IN DEPTH — on collector-
+     canonical data it is a fixed point.
 
-Everything else is left byte-for-byte — in particular mtimes/dates of untouched
-shipped files (image-constant facts, the "leave raw" row). Store-time
-virtualization (canonical PIDs, uptime elapsed -> vt, mutated-path mtimes ->
-T+<vt>, the ps dialect canonicalizer) is the COLLECTOR's job (raw is never
-stored un-virtualized); this layer re-masks only the measured render-side
-residue, so it is a fixed point on collector-canonical renders.
+Store-time virtualization (canonical PIDs, uptime elapsed -> vt, the ps dialect
+canonicalizer, and now the -l time mask) is the COLLECTOR's job (raw is never
+stored un-virtualized); this layer re-masks the render-side residue, so it is a
+fixed point on collector-canonical renders.
 
 CONTRACT
   canon(step, state) -> step'
-  `step` is a raw step record {cmd, output, exit, cwd, ...}; `state` is the
-  COLLECTION-MODE realenv.shell_state.ShellState at that step (pre-fold: predict/
-  canon before fold, per the tracker's fold-order discipline). reencode.py /
-  mv_encode.py / precompute_baselines re-fold shell_state over the raw jsonl per
-  sequence and call canon on each step BEFORE any perception render — the
-  touched-set is recomputed from the stored records themselves; no meta flag is
-  trusted (F8). Only `output` is ever rewritten; when nothing masks, the SAME
-  step object is returned (byte-for-byte trivially).
+  `step` is a raw step record {cmd, output, exit, cwd, ...}. `state` (the
+  COLLECTION-MODE ShellState at that step) is accepted for API compatibility but
+  no longer consulted: after the store-time move the `-l` mask is UNCONDITIONAL
+  (state-independent), so canon is a pure function of the step. reencode.py /
+  mv_encode.py / precompute_baselines call canon on each raw step BEFORE any
+  perception render; no meta flag is trusted (F8). Only `output` is ever
+  rewritten; when nothing masks, the SAME step object is returned.
 
 INVARIANTS (unit-tested in __main__)
   - TOTAL: never raises — a command outside the frozen universe (or a malformed
     step) passes through unmasked.
-  - DETERMINISTIC + IDEMPOTENT: canon(canon(s, st), st) == canon(s, st); every
-    mask token is a fixed point of its own pattern.
-  - CONSERVATIVE: when `state` cannot establish touched-ness (state=None, no
-    touched view), the -l mask does NOT fire; the state-independent masks
-    (uptime / ps / runtime mounts) still apply.
+  - DETERMINISTIC + IDEMPOTENT: canon(canon(s), s) == canon(s); every mask token
+    is a fixed point of its own pattern.
+  - STATE-INDEPENDENT: the `-l` mask fires on every long-listing row regardless
+    of `state` (state=None is fine); this is what the store-time move buys —
+    the render mask no longer depends on a touched-set the tracker could miss.
   - ADVERSARIAL-MARKER SAFE: masking keys on the PARSED COMMAND form, never on
     output content — file content that merely looks like an `ls -l` line, a ps
     table, or an uptime render (e.g. under cat/grep/head) is never touched.
-  - Fires due at this step land in its prologue before the recorded command
-    (draft §3.2), so the touched view unions the speculative-fire paths.
 
 Sha-pinned, version identity (prereg §1): any change to this module requires a
 dated prereg amendment + re-baseline. Never a genome chunk; a genome-selected
@@ -54,7 +54,7 @@ perception impl cannot skip these masks. Deterministic, stdlib only.
 
 import re
 
-from realenv.shell_state import basename_of, normpath, parent_of, parse_command
+from realenv.shell_state import parse_command
 
 # ------------------------------------------------------------- frozen tokens
 
@@ -63,10 +63,6 @@ USERS_TOKEN = "0 users"           # users     (draft §5.1)
 LOAD_TOKEN = "0.00, 0.00, 0.00"   # load      (draft §5.1)
 CPU_TIME_TOKEN = "0:00"           # ps TIME   (draft §5.4)
 LS_TIME_TOKEN = "Jan  1 00:00"    # -l-family date+time triplet mask
-
-ETC = "/etc"
-RUNTIME_MOUNT_PATHS = frozenset({"/etc/resolv.conf", "/etc/hostname", "/etc/hosts"})
-RUNTIME_MOUNT_NAMES = frozenset({"resolv.conf", "hostname", "hosts"})
 
 # ------------------------------------------------------------- field patterns
 
@@ -98,31 +94,6 @@ def _parse(cmd):
         return None
 
 
-def _safe_resolve(state, path):
-    """state's symlink resolution, conservatively total (identity on failure)."""
-    try:
-        return state._resolve(path)
-    except Exception:
-        return path
-
-
-def _touched_view(state):
-    """The tracker's touched-set at this step, unioned with the paths (and their
-    parents) of fires due in THIS step's prologue (draft §3.2: due delayed
-    effects commit before the recorded command runs — state.vt is this step's
-    index, pre-fold). Empty when state cannot establish touched-ness."""
-    if state is None:
-        return frozenset()
-    touched = set(getattr(state, "touched", None) or ())
-    try:
-        for q in state._spec_fires(state.vt)["fs"]:
-            touched.add(q)
-            touched.add(parent_of(q))
-    except Exception:
-        pass
-    return touched
-
-
 # ------------------------------------------------------------- per-form masks
 
 def _mask_uptime(out):
@@ -146,61 +117,50 @@ def _mask_ps(out):
                         for ln in lines[1:]])
 
 
-def _entry_name(line):
-    """The name field of a listing row (last token, symlink ' -> target' shorn).
-    Names with spaces don't match — conservative: such a row stays unmasked."""
-    body = line.split(" -> ")[0].split()
-    return body[-1] if body else ""
-
-
-def _mask_listing_times(out, names=None):
-    """Mask the date+time triplet on long-listing rows; `names` (basenames)
-    restricts which rows — None masks every structurally-listing row."""
+def _mask_listing_times(out):
+    """Mask the date+time triplet on EVERY structurally-listing row (the row's
+    unit is the render, per prereg §3.2). Non-listing lines ('total N', error
+    text, content that doesn't open with a mode string) are never rewritten."""
     masked = []
     for ln in out.split("\n"):
-        if _LONG_LINE_RE.match(ln) and \
-                (names is None or basename_of(_entry_name(ln)) in names):
+        if _LONG_LINE_RE.match(ln):
             ln = _LS_TIME_RE.sub(LS_TIME_TOKEN, ln, count=1)
         masked.append(ln)
     return "\n".join(masked)
 
 
-def _mask_ls(p, out, step, state):
-    """The -l-family rows: whole-render time mask when the ls TARGET (given or
-    symlink-resolved) is tracker-touched or is a runtime mount; the three
-    runtime-mount rows only, on a listing of untouched /etc."""
+def canon_ls_l_text(output):
+    """Shared `-l`-family time-mask — importable by the collector's STORE-time path
+    (_V3Session.do) and re-called by canon() at encode-time (defense in depth).
+    Replaces the date/time triplet on EVERY long-listing row with LS_TIME_TOKEN.
+    Total, deterministic, idempotent (LS_TIME_TOKEN is a fixed point of the pattern);
+    the 3-token triplet -> 3-token token substitution preserves the 9-field row shape,
+    so the SST's -l child splice (shell_state._fold_ls) reads the same name field."""
+    return _mask_listing_times(output)
+
+
+def _mask_ls(p, out):
+    """The -l-family rows: unconditional whole-render date+time mask. Letter ell —
+    '-1'/'-a' names-only forms carry no time field and pass through. State-independent:
+    the collector already masked this store-time, so on canonical data it is a fixed
+    point; the unconditional pass is the defense-in-depth backstop the old touched-set
+    scoping lacked (it missed /, /etc, /tmp — the SEVERE-1 leak)."""
     opts = p.get("opts") or []
     opt = opts[0] if opts else ""
     if "l" not in opt:                       # letter ell — '-1' is names-only
         return out
-    cwd = step.get("cwd") or getattr(state, "cwd", "/") or "/"
-    given = normpath(p["path"], cwd) if p.get("path") else normpath(cwd)
-    targets = {given, _safe_resolve(state, given)}
-    touched = _touched_view(state)
-    if targets & touched:
-        return _mask_listing_times(out)                       # row 3 (touched dir)
-    if targets & RUNTIME_MOUNT_PATHS:
-        return _mask_listing_times(out)                       # row 1 (mount itself)
-    names = set()
-    if ETC in targets:
-        names |= RUNTIME_MOUNT_NAMES                          # row 1 (in /etc)
-    # F14 (round-3 review) — row 3 covers a touched entry rendered via its
-    # PARENT's listing too: a mkdir'd/mutated dir (or touched file) shows a fresh
-    # mtime on its own row in the parent's -l render; mask those rows by name.
-    names |= {basename_of(q) for q in touched if parent_of(q) in targets}
-    if names:
-        return _mask_listing_times(out, names=names)
-    return out
+    return canon_ls_l_text(out)
 
 
 # ------------------------------------------------------------- the contract
 
-def canon(step, state):
+def canon(step, state=None):
     """The render-canon mask: step -> step' (prereg §3.2, render-canon rows only).
 
-    Total, deterministic, idempotent, conservative. Returns the SAME object when
-    nothing masks (byte-for-byte), else a shallow copy with only `output`
-    rewritten. Never mutates `step`; never reads meta (F8)."""
+    Total, deterministic, idempotent. Returns the SAME object when nothing masks
+    (byte-for-byte), else a shallow copy with only `output` rewritten. Never mutates
+    `step`; never reads meta (F8). `state` is accepted for API compatibility but no
+    longer consulted — the -l mask is unconditional after the store-time move."""
     out = step.get("output") if isinstance(step, dict) else None
     if not isinstance(out, str) or not out:
         return step
@@ -213,7 +173,7 @@ def canon(step, state):
     elif form == "ps":
         new = _mask_ps(out)
     elif form == "ls":
-        new = _mask_ls(p, out, step, state)
+        new = _mask_ls(p, out)
     else:
         return step
     if new == out:
@@ -282,12 +242,16 @@ def _demo():
           "-rw-r--r--    1 root     root            10 Jan  1 00:00 notes.txt")
     check(S("ls -ld d", "drwxr-xr-x 2 root root 4096 Jul 20 12:01 d", cwd="/tmp/w"),
           st, "drwxr-xr-x 2 root root 4096 Jan  1 00:00 d")
-    # untouched shipped dir: byte-for-byte (the 'leave raw' row)
-    keep = S("ls -l /usr/lib",
-             "total 24\n-rw-r--r-- 1 root root 1234 Feb  3  2023 libfoo.so")
-    assert canon(keep, st) is keep
+    # unconditional (§5.5 amendment): a shipped-file -l row is now masked too — the
+    # store-time move dropped the 'leave image-constant mtimes raw' row, so canon is a
+    # fixed point on the collector-canonical bytes (which already carry LS_TIME_TOKEN)
+    check(S("ls -l /usr/lib",
+            "total 24\n-rw-r--r-- 1 root root 1234 Feb  3  2023 libfoo.so"),
+          st,
+          "total 24\n-rw-r--r-- 1 root root 1234 Jan  1 00:00 libfoo.so")
 
-    # row 1: runtime-mount rows masked inside an UNTOUCHED /etc listing only
+    # every -l row of an /etc listing is masked (runtime mounts AND shipped files);
+    # symlink ' -> target' rows keep their target text, only the time triplet masks
     check(S("ls -la /etc",
             "total 24\n"
             "-rw-r--r--. 1 root root  158 Jun 23  2024 hosts\n"
@@ -300,8 +264,8 @@ def _demo():
           "-rw-r--r--. 1 root root  158 Jan  1 00:00 hosts\n"
           "-rw-r--r--  1 root root   13 Jan  1 00:00 hostname\n"
           "-rw-r--r--  1 root root  100 Jan  1 00:00 resolv.conf\n"
-          "-rw-r--r--  1 root root 1234 Jan  5  2024 os-release\n"
-          "lrwxrwxrwx  1 root root   12 Feb  3  2023 mtab -> /proc/mounts")
+          "-rw-r--r--  1 root root 1234 Jan  1 00:00 os-release\n"
+          "lrwxrwxrwx  1 root root   12 Jan  1 00:00 mtab -> /proc/mounts")
     check(S("ls -l /etc/resolv.conf",
             "-rw-r--r-- 1 root root 100 Jul 20 09:12 /etc/resolv.conf"),
           st, "-rw-r--r-- 1 root root 100 Jan  1 00:00 /etc/resolv.conf")
@@ -319,21 +283,20 @@ def _demo():
           "-rw-r--r-- 1 root root 1234 Jan  1 00:00 os-release\n"
           "-rw-r--r-- 1 root root  158 Jan  1 00:00 hosts")
 
-    # prologue fires: a job due AT this step touches its dst before the command
+    # state-independent: the -l mask fires regardless of the job table / touched set —
+    # a due fire, a not-yet-due job, or no state at all, the render masks the same way
     st_due = ShellState(mode="collection")
     for cmd, out in (("after 1 2 'echo x_tok >> /tmp/w/task1.log' & echo $!", "110"),
                      ("pwd", "/")):
         st_due.fold({"cmd": cmd, "output": out, "exit": 0, "cwd": "/"})
-    assert st_due.vt == 2 and not st_due.touched      # fire due exactly now
     check(S("ls -l /tmp/w",
             "-rw-r--r-- 1 root root 6 Jul 20 12:02 task1.log"),
           st_due, "-rw-r--r-- 1 root root 6 Jan  1 00:00 task1.log")
-    # ...but NOT-yet-due job establishes nothing (conservative)
     st_wait = ShellState(mode="collection")
     st_wait.fold({"cmd": "after 1 2 'echo x_tok >> /tmp/w/task1.log' & echo $!",
                   "output": "110", "exit": 0, "cwd": "/"})
-    keep = S("ls -l /tmp/w", "-rw-r--r-- 1 root root 6 Jul 20 12:02 task1.log")
-    assert canon(keep, st_wait) is keep
+    check(S("ls -l /tmp/w", "-rw-r--r-- 1 root root 6 Jul 20 12:02 task1.log"),
+          st_wait, "-rw-r--r-- 1 root root 6 Jan  1 00:00 task1.log")
 
     # adversarial markers: content that LOOKS like ls -l / ps / uptime under a
     # read verb is never touched (mask keys on the parsed command, not content)
@@ -353,17 +316,17 @@ def _demo():
                  S("", "x"), {"cmd": None, "output": "x", "exit": 0, "cwd": "/"},
                  S("uptime", ""), {"cmd": "uptime", "output": None, "exit": 0}):
         assert canon(step, st) is step
-    # state=None: state-independent masks fire, touched mask conservatively off
+    # state=None: every mask still fires (the -l mask is unconditional after the move)
     got = canon(S("uptime", "12:34:56 up 9,  3 users,  load average: 0.50, 0.40, 0.30"),
                 None)
     assert got["output"] == "00:00:00 up 9,  0 users,  load average: 0.00, 0.00, 0.00"
-    keep = S("ls -l /tmp/w/d", "-rw-r--r-- 1 root root 10 Jul 20 12:01 notes.txt")
-    assert canon(keep, None) is keep
+    got = canon(S("ls -l /tmp/w/d", "-rw-r--r-- 1 root root 10 Jul 20 12:01 notes.txt"),
+                None)
+    assert got["output"] == "-rw-r--r-- 1 root root 10 Jan  1 00:00 notes.txt"
 
-    print("render_canon smoke OK: uptime/ps fixed-token masks, touched-dir and "
-          "runtime-mount -l masks, prologue-fire touched view, conservative "
-          "refusals (untouched dir, not-due job, state=None), adversarial-marker "
-          "safety, totality, idempotence, non-mutation all green.")
+    print("render_canon smoke OK: uptime/ps fixed-token masks, unconditional -l "
+          "date+time mask (defense in depth for the store-time canon), adversarial-"
+          "marker safety, totality, idempotence, state-independence all green.")
 
 
 if __name__ == "__main__":
