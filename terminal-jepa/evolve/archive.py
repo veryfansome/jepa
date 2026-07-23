@@ -13,11 +13,15 @@ NEG = float("-inf")
 # Margins are only comparable within one bench version (the fitness classes and baseline max
 # changed at the dockerfs2-v2.0 mint), so selection surfaces default to the active bench.
 # Records are assigned by their data root; pre-field records are all v1-era.
+# ACTIVE_BENCH flips to "v3" only at the dockerfs3 re-baseline commit (prereg §6 step 14).
 ACTIVE_BENCH = "v2"
 
 
 def _bench_of(rec):
-    return "v2" if "dockerfs2" in str(rec.get("data", "")) else "v1"
+    root = str(rec.get("data", ""))
+    if "dockerfs3" in root:
+        return "v3"
+    return "v2" if "dockerfs2" in root else "v1"
 
 
 def append(record):

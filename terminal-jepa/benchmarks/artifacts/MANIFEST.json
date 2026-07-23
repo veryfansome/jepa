@@ -1,0 +1,13 @@
+{
+ "busybox-arm64": {
+  "sha256": "5cedfa78664f5f3dc5e0bb41d95b48aeda0f4583b46447783e5361f5b091e0cc",
+  "source_image": "busybox@sha256:3c6ae8008e2c2eedd141725c30b20d9c36b026eb796688f88205845ef17aa213",
+  "source_tag": "busybox:stable-musl",
+  "extracted": "2026-07-23",
+  "linkage": "static-pie (musl)",
+  "arch": "aarch64",
+  "role": "UD-9 Route B: installed by the unrecorded container bootstrap at /usr/local/bin/tj3-ps (busybox ps applet); version-identity artifact (prereg Annex P0)",
+  "verified": "ps -o pid,stat,args runs on rockylinux:9 and httpd:2.4 (glibc, ps-less) with the canonical busybox format",
+  "note": "collection-side only (the mint runs on the local arm64 Docker host); a different collection arch requires re-extraction + re-pin by amendment"
+ }
+}

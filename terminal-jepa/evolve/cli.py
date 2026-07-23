@@ -102,7 +102,7 @@ def main(argv=None):
     s.add_argument("--result", required=True)
     s.add_argument("--env", default=None, help="environment tag recorded on the entry (e.g. 'runpod-4090')")
     s.set_defaults(fn=cmd_ingest)
-    bench_kw = dict(default=A.ACTIVE_BENCH, choices=["v1", "v2", "all"],
+    bench_kw = dict(default=A.ACTIVE_BENCH, choices=["v1", "v2", "v3", "all"],
                     help="bench version to rank within (margins aren't cross-comparable); 'all' mixes")
     s = sub.add_parser("leaderboard"); s.add_argument("--top", type=int, default=10)
     s.add_argument("--bench", **bench_kw); s.set_defaults(fn=cmd_leaderboard)
