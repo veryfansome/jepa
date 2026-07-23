@@ -642,6 +642,22 @@ class TestPredictSoundnessFixes(unittest.TestCase):
         st2.fold(step("echo 'y_tok' > /tmp/w/u.txt"))
         self.assertTrue(st2.ws["/tmp/w/u.txt"]["observed"])
 
+    def test_quotearg_special_char_path_error_is_bot(self):
+        """P1-review DG-4b: GNU coreutils single-quote an error-message filename ONLY
+        when it holds a shell-special char (quotearg), busybox always-quotes — so a
+        determined error prediction for such a path is dialect-divergent -> BOT. The
+        exact pilot case was debian `cat /var/lib/dpkg/info/libsystemd0:arm64.shlibs`."""
+        gnu = {"cat": {"text": "cat: {path}: No such file or directory", "exit": 1}}
+        st = M.ShellState(error_templates=gnu)
+        # a plain-path dead read stays determined
+        self.assertEqual(st._tmpl("cat", path="/etc/hosts"),
+                         {"output": "cat: /etc/hosts: No such file or directory",
+                          "exit": 1, "cwd": "/"})
+        # colon / space / quote / paren paths -> BOT (GNU would quote them, busybox differs)
+        for p in ("/var/lib/dpkg/info/libsystemd0:arm64.shlibs", "/tmp/a b",
+                  "/tmp/it's", "/tmp/(x)"):
+            self.assertIsNone(st._tmpl("cat", path=p), p)
+
 
 class TestMvIntoExistingDir(unittest.TestCase):
     """Round-2 F1: POSIX `mv SRC DST` with DST an existing directory moves SRC

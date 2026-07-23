@@ -159,6 +159,10 @@ _LS_OPT_SET = frozenset(LS_OPTS) | (TIME_FREE_LS - {""})   # + v3 TIME_FREE revi
 JOB_STATES = ("waiting", "stopped", "stopped_pending_term", "fired", "killed")
 TESTOPS = ("-e", "-f", "-d", "-s")
 BOT = None   # predict() bottom: not determined
+# Chars that make GNU quotearg shell-escape (single-quote) an error-message filename while
+# busybox always-quotes — a determined error-template prediction for such a path is
+# dialect-divergent, so the SST BOTs it (P1-review DG-4b).
+_QUOTEARG_SPECIAL = frozenset(" \t\n:'\"()[]{}|&;<>*?$`\\!#~")
 # Round-4 class 5 (writability): docker bind-mounts (render_canon.RUNTIME_MOUNT_PATHS
 # is the canonical copy; duplicated here like OBS_CAP — shell_state can't import
 # render_canon back) and the read-only pseudo-filesystems. Mutations predicted on
@@ -2146,10 +2150,21 @@ class ShellState:
     def _tmpl(self, key, **kw):
         """Predicted error step via the probe-harvested template table; BOT if the
         image's table lacks the key or the entry is not a well-formed {text|template,
-        exit} pair (F3: never guess a dialect text OR its exit code)."""
+        exit} pair (F3: never guess a dialect text OR its exit code).
+
+        P1-review (DG-4b): GNU coreutils quote an error-message filename ONLY when it
+        contains a shell-special char (quotearg 'shell-escape-if-needed'), while busybox
+        always-quotes — so a determined error prediction for a special-char path is
+        dialect-divergent and unknowable from the template alone. BOT any path kwarg
+        carrying such a char (rare: ~1/56 recorded errors; the determined/BOT trade always
+        favors soundness)."""
         text, code = self._tmpl_entry(key)
         if text is None:
             return BOT
+        for pk in ("path", "p", "p2", "dst", "src"):
+            v = kw.get(pk)
+            if isinstance(v, str) and any(c in _QUOTEARG_SPECIAL for c in v):
+                return BOT
         try:
             out = text.format(**kw)
         except (KeyError, IndexError, ValueError):
