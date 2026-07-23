@@ -1,0 +1,702 @@
+{
+ "alpine:latest": {
+  "cat_missing": {
+   "template": "cat: can't open '{p}': No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: {p}: No such file or directory",
+   "exit": 1
+  },
+  "head_missing": {
+   "template": "head: {p}: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: can't open '{p}': No such file or directory\ntail: no files",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: can't stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: cd: line 0: can't cd to {p}: No such file or directory",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: can't remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: can't rename '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: '{p}' is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: can't kill pid 99999: No such process",
+   "exit": 1
+  }
+ },
+ "ubuntu:latest": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot stat '{p}': No such file or directory (os error 2)",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: 1: cd: can't cd to {p}",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: 1: kill: No such process",
+   "exit": 1
+  }
+ },
+ "debian:stable-slim": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: 1: cd: can't cd to {p}",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: 1: kill: No such process",
+   "exit": 1
+  }
+ },
+ "python:3.12-slim": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: 1: cd: can't cd to {p}",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: 1: kill: No such process",
+   "exit": 1
+  }
+ },
+ "redis:7-alpine": {
+  "cat_missing": {
+   "template": "cat: can't open '{p}': No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: {p}: No such file or directory",
+   "exit": 1
+  },
+  "head_missing": {
+   "template": "head: {p}: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: can't open '{p}': No such file or directory\ntail: no files",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: can't stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: cd: line 0: can't cd to {p}: No such file or directory",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: can't remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: can't rename '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: '{p}' is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: can't kill pid 99999: No such process",
+   "exit": 1
+  }
+ },
+ "nginx:stable-alpine": {
+  "cat_missing": {
+   "template": "cat: can't open '{p}': No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: {p}: No such file or directory",
+   "exit": 1
+  },
+  "head_missing": {
+   "template": "head: {p}: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: can't open '{p}': No such file or directory\ntail: no files",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: can't stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: cd: line 0: can't cd to {p}: No such file or directory",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: can't remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: can't rename '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: '{p}' is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: can't kill pid 99999: No such process",
+   "exit": 1
+  }
+ },
+ "postgres:16-alpine": {
+  "cat_missing": {
+   "template": "cat: can't open '{p}': No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: {p}: No such file or directory",
+   "exit": 1
+  },
+  "head_missing": {
+   "template": "head: {p}: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: can't open '{p}': No such file or directory\ntail: no files",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: can't stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: cd: line 0: can't cd to {p}: No such file or directory",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: can't remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: can't rename '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: '{p}' is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: can't kill pid 99999: No such process",
+   "exit": 1
+  }
+ },
+ "node:22-slim": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: 1: cd: can't cd to {p}",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: 1: kill: No such process",
+   "exit": 1
+  }
+ },
+ "fedora:latest": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: line 1: cd: {p}: No such file or directory",
+   "exit": 1
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: line 1: kill: (99999) - No such process",
+   "exit": 1
+  }
+ },
+ "rockylinux:9": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: line 1: cd: {p}: No such file or directory",
+   "exit": 1
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: line 1: kill: (99999) - No such process",
+   "exit": 1
+  }
+ },
+ "mariadb:latest": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: 1: cd: can't cd to {p}",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: 1: kill: No such process",
+   "exit": 1
+  }
+ },
+ "httpd:2.4": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: 1: cd: can't cd to {p}",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: 1: kill: No such process",
+   "exit": 1
+  }
+ },
+ "debian:stable": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: 1: cd: can't cd to {p}",
+   "exit": 2
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: 1: kill: No such process",
+   "exit": 1
+  }
+ },
+ "opensuse/leap": {
+  "cat_missing": {
+   "template": "cat: {p}: No such file or directory",
+   "exit": 1
+  },
+  "ls_missing": {
+   "template": "ls: cannot access '{p}': No such file or directory",
+   "exit": 2
+  },
+  "head_missing": {
+   "template": "head: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "tail_missing": {
+   "template": "tail: cannot open '{p}' for reading: No such file or directory",
+   "exit": 1
+  },
+  "stat_missing": {
+   "template": "stat: cannot statx '{p}': No such file or directory",
+   "exit": 1
+  },
+  "grep_missing": {
+   "template": "grep: {p}: No such file or directory",
+   "exit": 2
+  },
+  "readlink_missing": {
+   "template": "",
+   "exit": 1
+  },
+  "cd_missing": {
+   "template": "sh: line 1: cd: {p}: No such file or directory",
+   "exit": 1
+  },
+  "rm_missing": {
+   "template": "rm: cannot remove '{p}': No such file or directory",
+   "exit": 1
+  },
+  "mv_missing": {
+   "template": "mv: cannot stat '{p}': No such file or directory",
+   "exit": 1
+  },
+  "rm_isdir": {
+   "template": "rm: cannot remove '{p}': Is a directory",
+   "exit": 1
+  },
+  "kill_missing": {
+   "template": "sh: line 1: kill: (99999) - No such process",
+   "exit": 1
+  }
+ }
+}
