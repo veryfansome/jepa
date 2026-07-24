@@ -30,8 +30,20 @@ PATTERNS = [
 ]
 
 
+# Known-public example credentials shipped as SOURCE/DOC content in the images — NOT leaked
+# secrets (distributed verbatim in every copy of the public image, same rationale as the
+# CERTIFICATE exemption above). A `secret-assignment` hit whose line matches one of these is
+# suppressed. `geheim$parole`/`klem` = the canonical CPython Lib/urllib/request.py ProxyHandler
+# docstring example (present in every python image's stdlib for 20+ years).
+ALLOWLIST = [
+    re.compile(r"geheim\$parole"),
+]
+
+
 def scan_file(path, findings, max_ctx=120):
     for ln, line in enumerate(open(path, errors="replace"), 1):
+        if any(a.search(line) for a in ALLOWLIST):
+            continue
         for name, rx in PATTERNS:
             m = rx.search(line)
             if m:
