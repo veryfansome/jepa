@@ -30,3 +30,6 @@ terminal-jepa/cloud/jobs.tsv
 !terminal-jepa/data/plangoals-v1/*.jsonl
 # path-battery encode caches (regenerable per root/recipe; repo was history-purged once for size)
 terminal-jepa/data/**/pbenc-*.pt
+# v3 precompute baseline-arm caches (derived, published to HF; keep them out of git like emb-*.pt)
+terminal-jepa/data/**/sst-*.pt
+terminal-jepa/data/**/wtm-*.pt

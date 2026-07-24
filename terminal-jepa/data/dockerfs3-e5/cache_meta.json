@@ -1,0 +1,7 @@
+{
+ "cache_format": 3,
+ "bench_version": "dockerfs3-v3.0",
+ "policy_sha": "75e80886e60a1cb079a4b1bd72a91840067faf7ae27139439928b469c5748d8e",
+ "classes_sha": "08b31deeb16269c2a9d2df338c35d6a6a2f6e733c36d34c7ee5e1c853a2c24e4",
+ "built_summary_sha": "84123f5566ae5c24e42053755ba66abf60037e58c79bd6f5d34952281b7f9aad"
+}
