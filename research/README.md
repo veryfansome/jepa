@@ -43,11 +43,12 @@ standard for any large write-up). Each reviewer attacked four surfaces: **citati
 existence & attribution** (web-verify every reference), **claim–source support** (do the
 cited sources actually say what's claimed), **fidelity to the project's own recorded
 numbers** (cross-check against `README.md` / `evolve/CLAUDE.md`), and **reasoning
-quality**. The findings live in [`reviews/`](reviews/), one file per report.
+quality**.
 
 Result: **141/141 citations verified real and correctly attributed; zero misrepresented
 project numbers on the substantive claims.** The pass surfaced 1 Critical + 4 Major +
-~26 Minor defects, all in prose rather than in the reference lists:
+~26 Minor defects, all in prose rather than in the reference lists, and the corrections
+below are reflected in the reports:
 
 - **Critical (fixed):** `08-head` ref [18] (arXiv:2406.17718) was attributed to the wrong
   authors — corrected to Voelcker, Kastner, Gilitschenski, Farahmand.
@@ -57,7 +58,7 @@ project numbers on the substantive claims.** The pass surfaced 1 Critical + 4 Ma
   `to_obs(zeros)`; `05-perception` mis-pinned an anisotropy "≈0.99" figure on the wrong
   paper. All corrected.
 - **Minor:** the substantive/factual minors were applied; a handful of purely editorial
-  hedging/paraphrase notes are left recorded in `reviews/` but not actioned.
+  hedging/paraphrase notes were judged not worth actioning.
 
 ## Caveats
 
