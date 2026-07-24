@@ -239,6 +239,17 @@ The GO-gate convergence adjudication returned GO-WITH-FIXES (1 blocker + 5 serio
 
 - **S3 (doc, authored).** `benchmarks/dockerfs3-runbook.md` now exists (the full mint → reencode(full+ablate) → precompute_baselines(full root) → scan_publish sequence, code-asserted vs manual steps, the automatic classes_sha stamp per B1, the ablate train-only tolerance, and the round-trip gate as the pre-mint precondition).
 
+
+### 4.9 MINT GO AMENDMENT (2026-07-23) — θ1 ejection at mint scale; the honest v3.0 fitness surface
+
+The one mint (data/dockerfs3, 201,160 steps / 12 images, classes_sha 08b31dee stamped + verified) was collected, encoded, and validated: twin-mint determinism (DG-3a) clean, collector↔SST golden-rule parity 0 wrong at mint scale (1157 determined / 0 wrong on a 150-seq sample), 22.6% mutation-affected content. The MINT-CONFIRMED gates were re-measured on the full root:
+
+- **θ1 ejection-safety FAILS as frozen (the decisive finding).** The class table froze `head/tail/stat|hit|native` as content on PILOT axis-1 (0.506/0.488/0.473 < θ1=0.59). The 12-image mint re-measurement reveals their TRUE no-history predictability crosses θ1: **head 0.717, tail 0.710, stat 0.786**. A fixed read of a fixed file on a fixed image is a CONSTANT that retrieve-by-command banks via image-memorization, not cross-image world knowledge — the θ1 gate excludes them (echo/const). DISPOSITION: scoring-layer θ1-demotion (`harness._demote_theta1`, mirrors the S2 coverage demotion; frozen classes.json UNTOUCHED). Not a re-freeze — the frozen table is the candidate set; the mint-measured θ1 gate excludes at scoring time, exactly as G-COV does.
+- **The honest v3.0 fitness surface = 5 content cells**: `ls|hit|native`, `ls|hit|mutated`, `cat|hit|native`, `cat|hit|mutated`, `find|hit|native` — every one below θ1 (axis-1 0.112–0.556) and above G-COV. The 7 provisional cells (grep, 3 composed pipes, find-mutated, cat-created) demote via G-COV (coverage-starved on the held-out splits). **The v3 value-add is the MUTATED-scope cells** (`ls|mutated` axis-1 0.112, `cat|mutated` 0.464 — the lowest-retrievability, highest-world-knowledge cells): predicting reads of mutation-altered paths requires tracking the dynamical world — the R14–16 plateau's identified binding lever.
+- **DG-9 mut-affected content 22.6% PASS** (the mutated cells dominate the new signal). DG-9 composed → v3.1 (composition report-only, coverage-starved). Process arm (ps/kill/after) → v3.1 (pacer-starved, fitness-excluded, §4.8 S5).
+
+NET: v3.0 scores a MORE CONSERVATIVE but strictly HONEST surface than the pilot projected — the read-verb/composition/process expansions largely wash out (image-memorizable or coverage-starved), and the mutation-expanded dynamical content is the genuine fitness-bearing gain over v2. The θ1 gate doing its job (catching what the pilot missed) is the honesty machinery working as designed.
+
 ## 5. Scope: v3.0 vs v3.1 vs v4 (draft §15)
 
 **v3.0 (ships now)**: everything in draft §3–§13. Exec substrate; mutation + revisit world; kill-signal automaton + ps + after-jobs; G3 composition; 7-arm baseline max; fused-render pooled fitness + counterfactual foils per UD-4(b) (DECIDED); exit/delta data channels (target-only); EXIT/DELTA probes + ROLL@{2,4} as instruments; ablate arm; the full §3 gate battery.

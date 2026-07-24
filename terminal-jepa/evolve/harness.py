@@ -34,6 +34,27 @@ _ARTIFACT_SHA_CACHE = {}
 # scoring-time floor; the frozen class table is never touched.
 _V3_GCOV_FLOOR = 500
 
+# MINT-CONFIRMED θ1 ejection (prereg §4.9, dated 2026-07-23): the class table froze head/tail/stat
+# native as content on PILOT axis-1 (< θ1=0.59); the 12-image mint re-measurement revealed their
+# true no-history predictability crosses θ1 (head 0.717 / tail 0.710 / stat 0.786) — a fixed read
+# of a fixed file on a fixed image is a CONSTANT that retrieve-by-command banks via image-
+# memorization, not cross-image world knowledge. The θ1 gate excludes them (echo/const). Scoring-
+# layer demotion (mirrors _demote_lowcov); the frozen classes.json is untouched. The v3.0 fitness
+# surface is the 5 cells whose mint axis-1 < 0.59 (ls/cat native+mutated, find native) — the
+# mutated-scope cells being the v3 value-add (lowest retrievability, highest world knowledge).
+_V3_THETA1_DEMOTED = frozenset({"head|hit|native", "tail|hit|native", "stat|hit|native"})
+
+
+def _demote_theta1(verbs, content, demoted=_V3_THETA1_DEMOTED):
+    """§4.9 mint-confirmed θ1 echo/const demotion. Rewrite every step of a pinned mint-demoted
+    content cell to the excluded "<cell>-echoconst" pseudo-verb — the cell is command-retrievable
+    (image-memorization) at mint scale, so it leaves the pooled margin for the report battery.
+    Frozen classes.json untouched. Returns (new_verbs, hit) where hit = the demoted cells present."""
+    hit = {c for c in content if c in demoted}
+    if hit:
+        verbs = [(v + "-echoconst") if v in hit else v for v in verbs]
+    return verbs, sorted(hit)
+
 
 def _demote_lowcov(verbs, content, floor=_V3_GCOV_FLOOR):
     """S2/G-COV per-split coverage-demotion (prereg §4.3). Given the per-step cell pseudo-verbs
@@ -213,8 +234,11 @@ def _v3_cell_verbs(evalset, raw_seqs, spec):
     # the pooled margin, into the report battery). At mint scale this demotes the held-out grep|hit
     # cells + any composed-pipe family that misses the floor. Frozen classes.json untouched.
     verbs, lowcov = _demote_lowcov(verbs, content)
+    # §4.9 mint-confirmed θ1 echo/const demotion — head/tail/stat native are image-memorizable at
+    # mint scale (axis-1 ≥ 0.59); exclude from the pooled margin (report-only). Frozen classes untouched.
+    verbs, theta1 = _demote_theta1(verbs, content)
     forced = torch.tensor(forced_rows, dtype=torch.long) if forced_rows else torch.zeros(0, 8, dtype=torch.long)
-    diag = {"purged": purged, "oou": oou, "lowcov": lowcov,
+    diag = {"purged": purged, "oou": oou, "lowcov": lowcov, "theta1_demoted": theta1,
             "n_forced": int((forced[:, 0] >= 0).sum()) if len(forced) else 0}
     return verbs, forced, diag
 
