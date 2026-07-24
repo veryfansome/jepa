@@ -36,6 +36,29 @@ One report per chunk, eight in all — ~23.5k words and **147 references** total
   citations (Muon, DeltaProduct, minGRU, Gated DeltaNet, ColPali, LeJEPA, ModernBERT)
   confirmed titles, authors, and IDs resolve to the real papers.
 
+## Adversarial review
+
+Every report was put through a one-skeptic-per-report adversarial pass (the project's
+standard for any large write-up). Each reviewer attacked four surfaces: **citation
+existence & attribution** (web-verify every reference), **claim–source support** (do the
+cited sources actually say what's claimed), **fidelity to the project's own recorded
+numbers** (cross-check against `README.md` / `evolve/CLAUDE.md`), and **reasoning
+quality**. The findings live in [`reviews/`](reviews/), one file per report.
+
+Result: **141/141 citations verified real and correctly attributed; zero misrepresented
+project numbers on the substantive claims.** The pass surfaced 1 Critical + 4 Major +
+~26 Minor defects, all in prose rather than in the reference lists:
+
+- **Critical (fixed):** `08-head` ref [18] (arXiv:2406.17718) was attributed to the wrong
+  authors — corrected to Voelcker, Kastner, Gilitschenski, Farahmand.
+- **Major (fixed):** `08-head` mis-benchmarked UNREAL's 87% (Labyrinth, not Atari);
+  `03-optim` mis-stated the champion's inherited schedule hyperparameters (it is β₂=0.95 +
+  uniform decay, not β₂=0.98 + ndim-split); `04-target` made a false universal claim about
+  `to_obs(zeros)`; `05-perception` mis-pinned an anisotropy "≈0.99" figure on the wrong
+  paper. All corrected.
+- **Minor:** the substantive/factual minors were applied; a handful of purely editorial
+  hedging/paraphrase notes are left recorded in `reviews/` but not actioned.
+
 ## Caveats
 
 - These are **design surveys**, not empirical additions to the project. Where a report
